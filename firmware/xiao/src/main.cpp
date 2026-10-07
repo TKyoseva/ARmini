@@ -1,0 +1,6 @@
+// AR-Mini firmware — скелет. core 0: perception, core 1: control.
+#include <Arduino.h>
+enum State { SEARCH, APPROACH, DEPLOY, LIFT, STOW, SHORE, SAFE };
+State state = SEARCH;
+void setup() { Serial.begin(115200); }
+void loop() { delay(10); }

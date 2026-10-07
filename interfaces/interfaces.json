@@ -1,0 +1,22 @@
+{
+  "_note": "Shared numbers between CAD (OpenSCAD) and PCB (KiCad). mm. Fill only measured or datasheet values; null = still to measure.",
+  "power_box": {
+    "outer": [152, 135, 66],
+    "wall": null,
+    "z_on_beams": 141
+  },
+  "carrier_pcb": {
+    "outline": [null, null],
+    "thickness": 1.6,
+    "mount_holes": [],
+    "mount_hole_d": 3.2
+  },
+  "devkit_lipo": {
+    "board": [null, null],
+    "usb_c_edge": "to measure"
+  },
+  "bts7960": {
+    "board": [null, null],
+    "mount_holes": []
+  }
+}

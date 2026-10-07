@@ -1,0 +1,79 @@
+** Drc report for AR mini.kicad_pcb **
+** Created on 2026-10-05T09:57:54 **
+** Report includes: Errors, Warnings **
+
+** Found 19 DRC violations **
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(117.3800 mm, 62.5000 mm): Footprint J1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(132.6200 mm, 62.5000 mm): Footprint J2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(103.5000 mm, 62.5000 mm): Footprint J3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(103.5000 mm, 75.5000 mm): Footprint J4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(146.5000 mm, 62.5000 mm): Footprint J5
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(146.5000 mm, 75.5000 mm): Footprint J6
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(111.0000 mm, 57.5000 mm): Footprint J7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(106.5000 mm, 61.5000 mm): Footprint R1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(106.5000 mm, 65.0000 mm): Footprint R2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(138.0000 mm, 80.5000 mm): Footprint R7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(138.0000 mm, 91.0000 mm): Footprint LED1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(103.0000 mm, 57.5000 mm): Footprint H1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(147.0000 mm, 57.5000 mm): Footprint H2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(103.0000 mm, 91.5000 mm): Footprint H3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(147.0000 mm, 91.5000 mm): Footprint H4
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(108.2000 mm, 66.2500 mm): PCB text '3V3 GND SDA0 SCL0' on F.Silkscreen
+    @(108.0000 mm, 61.5000 mm): Segment of R1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(108.0000 mm, 65.0000 mm): Segment of R2 on F.Silkscreen
+    @(108.2000 mm, 66.2500 mm): PCB text '3V3 GND SDA0 SCL0' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(103.5000 mm, 60.1000 mm): Reference field of J3
+    @(103.0000 mm, 60.4000 mm): Reference field of H1
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(147.0000 mm, 60.4000 mm): Reference field of H2
+    @(146.5000 mm, 60.1000 mm): Reference field of J5
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

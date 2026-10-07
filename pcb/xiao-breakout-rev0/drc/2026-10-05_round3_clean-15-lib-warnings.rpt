@@ -1,0 +1,63 @@
+** Drc report for AR mini.kicad_pcb **
+** Created on 2026-10-05T10:01:29 **
+** Report includes: Errors, Warnings **
+
+** Found 15 DRC violations **
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(166.3800 mm, 60.5000 mm): Footprint J1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(181.6200 mm, 60.5000 mm): Footprint J2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(152.5000 mm, 60.5000 mm): Footprint J3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(152.5000 mm, 73.5000 mm): Footprint J4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(195.5000 mm, 60.5000 mm): Footprint J5
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(195.5000 mm, 73.5000 mm): Footprint J6
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(160.0000 mm, 55.5000 mm): Footprint J7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(156.5000 mm, 59.5000 mm): Footprint R1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(156.5000 mm, 63.0000 mm): Footprint R2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(187.0000 mm, 78.5000 mm): Footprint R7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(187.0000 mm, 89.0000 mm): Footprint LED1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(152.0000 mm, 55.5000 mm): Footprint H1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(196.0000 mm, 55.5000 mm): Footprint H2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(152.0000 mm, 89.5000 mm): Footprint H3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(196.0000 mm, 89.5000 mm): Footprint H4
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

@@ -1,0 +1,22 @@
+.pio/
+build/
+*.bin
+*.elf
+include/secrets.h
+firmware/xiao/include/secrets.h
+.DS_Store
+Thumbs.db
+.vscode/
+*.bak
+*.swp
+*-backups/
+fp-info-cache
+__pycache__/
+*.pyc
+# raw phone photos and videos live in iCloud Drive (AR-Mini/), not in git
+*.HEIC
+*.heic
+*.MOV
+*.mov
+*.mp4
+interfaces.scad.bak

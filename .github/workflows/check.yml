@@ -1,0 +1,38 @@
+name: check
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OpenSCAD and KiCad 9
+        run: |
+          sudo add-apt-repository -y ppa:kicad/kicad-9.0-releases
+          sudo apt-get update
+          sudo apt-get install -y openscad kicad
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Install PlatformIO
+        run: pip install platformio
+      - name: Run checks
+        run: bash scripts/check.sh
+      - name: Export fabrication files
+        if: always()
+        run: |
+          mkdir -p build/fab
+          for pcb in pcb/*/*.kicad_pcb; do [ -e "$pcb" ] || continue
+            n=$(basename "$pcb" .kicad_pcb)
+            kicad-cli pcb export gerbers -o "build/fab/$n/" "$pcb"
+            kicad-cli pcb export drill   -o "build/fab/$n/" "$pcb"
+            kicad-cli pcb export step    -o "build/fab/$n.step" "$pcb"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-${{ github.sha }}
+          path: build/

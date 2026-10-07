@@ -1,0 +1,37 @@
+---
+description: AR-Mini rules for the Cursor agent (CAD, EDA, firmware, git)
+alwaysApply: true
+---
+
+# AR-Mini · human in the loop
+
+Teddy is the only person who touches the robot and the only one who merges to `main`.
+
+## Where things live
+- `cad/openscad/AR-Mini_v1.scad` — OpenSCAD, parametric. Change parameters, not hard-coded numbers.
+- `pcb/<board>/` — KiCad 9 projects (`.kicad_sch`, `.kicad_pcb`).
+- `interfaces/interfaces.json` — the ONLY source for numbers shared by CAD and PCB
+  (board outline, mounting holes, connector positions, box inner size).
+  After editing it, run `python3 scripts/sync_interfaces.py` to regenerate `cad/openscad/interfaces.scad`.
+- `firmware/xiao/` and `firmware/devkit/` — PlatformIO; `firmware/mega/` — Arduino IDE sketches. Secrets only in `include/secrets.h` (gitignored); copy from `secrets.example.h`.
+
+## Every change
+1. State HYPOTHESIS (number + tolerance), TEST (what Teddy does, < 30 min), PASS criterion.
+2. Never invent sizes, pins or specs. If unknown, write a measuring task instead.
+3. Run `bash scripts/check.sh` before committing. Do not commit if it fails.
+
+## Git
+- Work only on branch `dev` (create it if missing). Never push to `main`.
+- Commit after each change that passes `scripts/check.sh`, one logical change per commit.
+- Message format: `<area>: <what> (<old> → <new>)` + a line `Hypothesis: …`
+  areas: cad, pcb, iface, fw, bom, docs. Example: `cad: arm length (110 → 115 mm)`.
+- Never rewrite history, never change commit dates, never commit `secrets.h`,
+  `.env`, or anything under `private/`.
+- After committing, `git push origin dev`.
+- Teddy opens the PR `dev → main` and merges only after the physical test is logged in the AR-Mini Loop tracker.
+
+## Other places
+- `docs/FAILS_AND_FIXES.md` — add an entry for every fail (next number = last + 1).
+- `docs/LOG.md` — one short block per day. `docs/timeline/TIMELINE.md` — real dates only.
+- `docs/bom/` — the BOM spreadsheet is edited by Teddy; do not rewrite it from code.
+- `media/LINKS.md` — loop ID → iCloud folder link. Photos/videos stay in iCloud, never in git.

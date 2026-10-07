@@ -1,0 +1,11 @@
+# Line endings: keep text files as LF in the repo
+* text=auto eol=lf
+*.png  binary
+*.jpg  binary
+*.pdf  binary
+*.xlsx binary
+*.stl  binary
+*.f3d  binary
+*.step binary
+# Git LFS is NOT used for now: every file is under 5 MB and the whole repo is ~25 MB.
+# Switch to LFS only if the repo grows past ~500 MB (STL archives, many photos).
