@@ -21,7 +21,8 @@ Teddy is the only person who touches the robot and the only one who merges to `m
 3. Run `bash scripts/check.sh` before committing. Do not commit if it fails.
 
 ## Git
-- Work only on branch `dev` (create it if missing). Never push to `main`.
+- Daytime work: branch `dev`. Never push to `main`.
+- Night tasks (a file in `tasks/night/`): branch `night/<task-name>` from `dev`, finish with a PR to `dev`, never merge it yourself. Stop after 3 failed attempts at one step and write what blocked you in the PR.
 - Commit after each change that passes `scripts/check.sh`, one logical change per commit.
 - Message format: `<area>: <what> (<old> → <new>)` + a line `Hypothesis: …`
   areas: cad, pcb, iface, fw, bom, docs. Example: `cad: arm length (110 → 115 mm)`.
@@ -29,6 +30,9 @@ Teddy is the only person who touches the robot and the only one who merges to `m
   `.env`, or anything under `private/`.
 - After committing, `git push origin dev`.
 - Teddy opens the PR `dev → main` and merges only after the physical test is logged in the AR-Mini Loop tracker.
+
+## Night tasks
+- `tasks/night/README.md` has the rules; `_template.md` the format. One task = one branch = one PR.
 
 ## Other places
 - `docs/FAILS_AND_FIXES.md` — add an entry for every fail (next number = last + 1).
