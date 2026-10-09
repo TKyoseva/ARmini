@@ -29,7 +29,7 @@ Teddy is the only person who touches the robot and the only one who merges to `m
 - Never rewrite history, never change commit dates, never commit `secrets.h`,
   `.env`, or anything under `private/`.
 - After committing, `git push origin dev`.
-- Teddy opens the PR `dev → main` and merges only after the physical test is logged in the AR-Mini Loop tracker.
+- Teddy opens the PR `dev → main` and merges only after the physical test is logged on the AR-Mini Board (card C###).
 
 ## Night tasks
 - `tasks/night/README.md` has the rules; `_template.md` the format. One task = one branch = one PR.
@@ -44,3 +44,10 @@ Teddy is the only person who touches the robot and the only one who merges to `m
 - When Teddy says `inbox`: read `tasks/inbox/COMMIT.md`, move each listed file to its target path, delete it from the inbox,
   run `bash scripts/check.sh`, commit on `dev` with the message from COMMIT.md, push. Nothing else.
 - Files already placed at their final paths by the workshop chat are committed the same way when Teddy says `commit: <message>`.
+
+## Parts (procurement)
+- `parts/needs.yaml` is the only input of the parts agent (`tools/parts/`, spec in `tasks/night/2026-10-09_T4_parts-agent.md`). Releases there mirror the AR-Mini Board; never invent a date.
+- `add need: <what>, <qty>, for <release id>` → append one need (next free `N###`), fill `spec` from the words given, write search queries for comet, vikiwat, tme (Bulgarian for comet/vikiwat, English for tme), `status: need`, then `commit: parts: add N### <what>`. Ask one question if the release id or qty is missing; do not guess.
+- `ordered N###, eta <date>` → set `status: ordered`, `ordered: today`, `eta`; commit `parts: N### ordered`.
+- `received N###` → `status: received`; commit `parts: N### received`.
+- `parts report` → run `python tools/parts/agent.py --dry-run` and show the table. Never change `tools/parts/` outside a night task.

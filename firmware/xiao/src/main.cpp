@@ -1,4 +1,4 @@
-// AR-Mini firmware — скелет. core 0: perception, core 1: control.
+// AR-Mini firmware — skeleton. core 0: perception, core 1: control.
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>

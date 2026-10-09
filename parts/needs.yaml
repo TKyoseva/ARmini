@@ -1,0 +1,45 @@
+# AR-Mini · parts needs
+# The only file the parts agent reads. Edit in Cursor or any editor; commit to dev.
+# Releases: copy id + date from the AR-Mini Board. The agent never invents a date.
+# Statuses: need → ordered → received. `skip` = ignore for now.
+# Prices: EUR incl. VAT. Lead days = calendar days to Sofia.
+
+safety_days: 2            # VERIFY: Teddy. Order this many days before the latest possible day.
+
+releases:
+  - { id: r2a, date: 2026-10-16, goal: "thruster spins in bucket; coupon fits" }
+  - { id: r2b, date: 2026-10-19, goal: "4 sections + chassis float" }
+  - { id: r2c, date: 2026-10-22, goal: "swims on remote" }
+  - { id: r3a, date: 2026-10-26, goal: "thermal camera finds Pesho" }
+  - { id: r3b, date: 2026-10-29, goal: "full cycle" }
+  - { id: r4,  date: 2026-10-31, goal: "video + portfolio" }
+  # after 1 November: add the next releases here, nothing else changes
+
+suppliers:
+  prefer: [comet, vikiwat, tme, mouser, amazon_de, bauhaus, 3dcolour]
+  default_lead_days:      # VERIFY: Teddy, from real deliveries
+    comet: 1
+    vikiwat: 2
+    tme: 3
+    mouser: 4
+    amazon_de: 5
+    bauhaus: 0            # pick up in person
+    3dcolour: 1
+
+needs:
+  # Example line. Replace with a real need or set status: skip.
+  - id: N001
+    what: "M4 x 16 socket head screws, stainless A2 (thruster frame to pad)"
+    qty: 8
+    for: r2a
+    spec: { thread: M4, length_mm: 16, head: "DIN 912", material: A2 }
+    queries:
+      comet: "винт M4x16 DIN 912 неръждаем"
+      vikiwat: "M4x16 DIN 912"
+      tme: "M4x16 DIN 912 A2"
+    links: []
+    offers: []            # manual offers: {supplier, title, url, price_eur, in_stock, lead_days}
+    status: need
+    ordered: null
+    eta: null
+    note: "length VERIFY: pad 5 + frame 9.68 → 16 or 20 (decision 0004)"

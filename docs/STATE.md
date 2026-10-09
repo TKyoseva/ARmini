@@ -1,40 +1,45 @@
 # AR-Mini · STATE
 
-Една страница с текущото състояние. Обновява се в workshop чата след всяко решение; качва се в Knowledge на Mechanical / Electrical / Software, когато се промени. Истината е в repo-то; това е резюмето.
+The current state on one page. Updated in the workshop chat after every decision. The truth is in the repository; this is the summary.
 
-**Дата:** 2026-10-09 · **CAD:** v2.0 · **Релийзи:** R1 13.10 · R2 22.10 · R3 29.10 · подаване 01.11
-**Къде какво:** решения и файлове → workshop чат (Claude) · код и commit-и → Cursor (клон `dev`, нощни задачи `night/*`) · дневник на циклите → AR-Mini Loop тракер · снимки/видео → iCloud `AR-Mini/01_Loops/L###_…`
+**Date:** 2026-10-09 · **CAD:** v2.0 · **Next releases:** r1a 11.10 · r2a 16.10 · r2c 22.10 · r3b 29.10 · submit 01.11
+**Where things are:** decisions and files → workshop chat (Claude) · code and commits → Cursor (branch `dev`, night tasks `night/*`) · test cards → AR-Mini Board (export in `data/board/board.json`) · photos and video → iCloud `AR-Mini-Media/01_Loops/C###_…` · missing parts → `parts/needs.yaml`
 
-## Затворени цикли
-| Цикъл | Резултат | Какво промени |
+## Closed cards
+| Card | Result | What it changed |
 |---|---|---|
-| L001 трастер измерен (08.10) | дюза Ø72.27 × 112, лице 47.10 над оста, M4 на ~35 × 15.6, 206 g, 4 кабела | CAD v2.0: kick-up монтаж, нищо под водолинията (решение 0004) |
-| L002 кабели на трастера (08.10) | без къси; червен +, черен −; жълт вероятно сигнал, бял вероятно сигнална маса; ESC е вътре (по листинга: 50 Hz, 1500 µs стоп) | следващ тест с 9 V и лимит 0.10 A (L006) |
-| L003 плоча ROB0154 (08.10) | 151.82 × 134.8; прорези на 11.3 / 26.4 от ръбовете (≈114 между тях); шаси 1175 g → газене 41.8 | CAD v2.0: ch_x 300, слотове 3.4 × 7 в кутията |
+| C001 thruster measured (08.10) · Partial | duct Ø72.27 × 112 (box says 77), mounting face 47.10 above the axis, M4 at ~35 × 15.6, 206 g, 4 wires | CAD v2.0: kick-up mount, nothing below the waterline (decision 0004) |
+| C002 thruster wires (08.10) · Pass | no shorts; red +, black −; yellow probably signal, white probably signal ground; ESC inside (listing: 50 Hz, 1500 µs stop) | next: test at 9 V with a 0.10 A limit (C006) |
+| C003 ROB0154 plate (09.10) · Fail | 151.82 × 134.8; slots 11.3 / 26.4 from the edges (≈114 apart); chassis 1175 g → draft 41.8 | CAD v2.0: ch_x 300, 3.4 × 7 slots in the power box |
 
-## Взети решения (виж docs/decisions/)
-- 0003 · power box стъпва на гредите (v1.9).
-- 0004 · kick-up монтаж на трастера на транеца, щифт Ø5 на z 75, без отвори под водолинията; M3 lock pin за заден ход / суша.
-- L003 · осмоъгълният отвор на плочата напред; гредите се пробиват по прорезите при сглобяване; `pb_beam_y` 30 остава.
+## Decisions (see docs/decisions/)
+- 0001 · licence: MIT for code, CC BY 4.0 for CAD, PCB, docs and images.
+- 0003 · the power box sits on the beams (v1.9).
+- 0004 · kick-up thruster mount on the transom, Ø5 pin at z 75, no holes below the waterline; M3 lock pin for reverse thrust and land.
+- C003 · the octagonal hole of the plate faces forward; the beams are drilled through the slots at assembly; `pb_beam_y` 30 stays.
 
-## Отворено (VERIFY / MEASURE)
-- Шарка на трастера 35.0 × 15.6 → купон L005 (`thruster_coupon`, PLA).
-- Позиция на рамката по дюзата (`th_frame_dx`) и дължина на M4 винтовете спрямо плоча 5 + рамка 9.68.
-- Плочата центрирана ли е на гъсениците (CAD: 74.1 от предния ръб)? → L004.
-- Дължина на прорезите в плочата (нарисувани 100).
-- ESC: логическо ниво и arming → L006 (9 V, 0.10 A, в кофа).
-- Потапяне 10 mm на дюзата при вълни → басейн, R2.
+## Open (VERIFY / MEASURE)
+- Thruster bolt pattern 35.0 × 15.6 → coupon C005 (`thruster_coupon`, PLA).
+- Position of the frame along the duct (`th_frame_dx`) and M4 screw length for pad 5 + frame 9.68.
+- Is the plate centred on the tracks (CAD: 74.1 from the front edge)? → C004.
+- Length of the plate slots (drawn as 100).
+- ESC: logic level and arming → C006 (9 V, 0.10 A, in a bucket).
+- 10 mm submergence of the duct in waves → pool, r2c.
 
-## Следващи цикли
-| # | Какво | Project / агент |
+## Next cards
+| Card | What | Release |
 |---|---|---|
-| L004 | сглобено шаси: гъсеница → ръб на плочата (отпред/отзад), M3 през прорезите | Mechanical |
-| L005 | купон 50 × 30 × 5, 4 × Ø4.5 на 35 × 15.6: влизат ли M4 на ръка | Mechanical |
-| L006 | ESC: 9 V / 0.10 A в кофа, V жълт→черен, бял→черен, после с 10 kΩ към маса | Electrical |
-| L007 | `hull_fore` във водата: плава, газене, теч (суха хартия) | Mechanical · R1 |
+| C004 | assembled chassis: track → plate edge (front / back), M3 through the slots | r2b |
+| C005 | coupon 50 × 30 × 5, 4 × Ø4.5 at 35 × 15.6: do the M4 screws go in by hand? | r2a |
+| C006 | ESC: 9 V / 0.10 A in a bucket, V yellow→black, white→black, then with 10 kΩ to ground | r2a |
+| C007 | `hull_fore` in water: floats, draft, leak (dry paper) | r1a |
+| C008 | print `hull_fore` | r1a |
+| C010 | review the T1 pull request (state machine) | — |
+| C011 | print the thruster coupon | r2a |
+| C012 | start night tasks T2 (safety) and T3 (bench sketches) | — |
 
-## Нощни задачи (Cursor)
-T1 state machine · T2 safety · T3 bench скечове → `tasks/night/`. Статус: виж PR-овете в GitHub.
+## Agents (Cursor background agents and tools)
+T1 state machine (PR open) · T2 safety · T3 bench sketches · T4 parts agent · T5 release video agent → `tasks/night/`. Status: the pull requests on GitHub.
 
-## Числа, които не се менят без мярка
-Корпус 610 × 100 × 120, разстояние 250, газене 42 при 4.7 kg (8.9 mm/kg) · греди x 385 / 500 · рамо 110, deploy 215°, stow 45° · ROB0154: 300 × 230 × 124.6, плоча 151.82 × 134.8, ос на мотора 62 · кутия 152 × 135 × 66 на z 141 · предпазители 30 A inline → 50 A ключ → 20/15/10/5/5 A.
+## Numbers that do not change without a measurement
+Hull 610 × 100 × 120, gap 250, draft 42 at 4.7 kg (8.9 mm/kg) · beams x 385 / 500 · arm 110, deploy 215°, stow 45° · ROB0154: 300 × 230 × 124.6, plate 151.82 × 134.8, motor axis 62 · box 152 × 135 × 66 at z 141 · fuses 30 A inline → 50 A switch → 20/15/10/5/5 A.

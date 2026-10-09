@@ -12,9 +12,9 @@ Work that Cursor background agents do while Teddy sleeps. Only work that **verif
 
 ## Rules for Teddy (morning, 20 min)
 1. GitHub → Pull requests. CI green or red?
-2. Read the PR description first, then the diff. Questions → paste the diff into the Software Project.
+2. Read the PR description first, then the diff. Questions → paste the diff into the workshop chat (Claude).
 3. Merge into `dev` only what you understand. Otherwise comment what to change and re-run the agent on the same branch.
-4. Anything that touches hardware is still a loop (L###) for you, with the tracker and a photo.
+4. Anything that touches hardware is still a card (C###) for you, on the board and with a photo.
 
 ## File format
 See `_template.md`. Task id: `YYYY-MM-DD_Tn_short-name`.

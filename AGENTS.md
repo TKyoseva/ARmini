@@ -1,80 +1,72 @@
 # AR-Mini · Human in the loop
 
-Версия 3 · 07.10.2026 · един човек: **Teddy** · 8 AI агента · цел: подаване на 01.11 (MIT Early Action)
+Version 4 · 9 October 2026 · one person: **Teddy** · two desks, two consultants, two automated agents · goal: submit on 1 November 2026 (MIT Early Action), then keep building.
 
-## Цикълът
-
-```
-Хипотеза (Teddy) → Предложение (агент) → Преглед (Teddy) → Направа (Teddy)
-      ▲                                                          │
-      └── Решение (Teddy) ◄── Анализ (агент) ◄── Мерене (Teddy) ◄┘
-```
-
-Всяка стрелка минава през Teddy. Всеки цикъл се записва в **AR-Mini Loop** (тракера). Само Teddy затваря цикъл, никога агентът.
-
-## AI екипът
-
-| # | Агент | Инструмент | Какво прави | Изход към Teddy |
-|---|---|---|---|---|
-| 1 | Coordinator | Claude Project | чете тракера сутрин, 3 приоритета, списък задачи за деня, реже обхват при закъснение | план за деня |
-| 2 | Mechanical | Claude Project (+ ChatGPT за второ мнение) | OpenSCAD от v1.9, тестови секции, колизии, ориентация за печат, газене | .scad + .3mf + хипотеза |
-| 3 | Electrical | Claude Project (+ ChatGPT) | таблици пин → пин, дърво на предпазителите, какво да се мери и очаквана стойност | схема + чеклист |
-| 4 | Software | Cursor Premium + Claude Code на лаптопа | фърмуер ESP32-S3 в PlatformIO, стенд скечове, CSV 10 Hz, heat-seek → approach → lift | код за качване |
-| 5 | Logistic | Claude Project | BOM статуси, поръчки, доставки до София, какво липсва за следващия тест, опашка за печат | BOM + списък за купуване |
-| 6 | Media | Claude Project (+ Gemini) | shot list за всеки тест, настройки на iPhone, сценарий за видео, имена на файлове | shot list |
-| 7 | Test & Data | Claude Project (+ Gemini за видео) | протокол + критерий за pass, CSV → графики, хипотеза срещу резултат | присъда |
-| 8 | Portfolio | Claude Project | FAILS_AND_FIXES, LOG, текст за MIT Maker Portfolio, само доказани неща | чернова |
-
-**Инструменти** (същото е в BOM, категория „AI агенти“):
-- **Claude Max:** 7-те агента като Projects; Claude Code на лаптопа за компилиране, качване и git.
-- **Cursor Premium:** основният редактор за фърмуера (Software агент).
-- **ChatGPT Plus:** второ мнение преди първо захранване и голям печат; гласов режим при запояване.
-- **Gemini Plus:** анализ на видеото от тестовете и на дълги даташийти.
-- **iPhone + AR-Mini Loop тракер:** доказателството и дневникът.
-
-## Общи правила (в началото на инструкциите на всеки агент)
+## The loop
 
 ```
-Ти си част от AI екипа на AR-Mini: робот-демонстратор за спасяване, мащаб ~1:9, амфибия.
-Човекът в цикъла е Teddy. Тя взима всички решения и единствена пипа робота. Краен срок: 01.11.2026.
-
-Правила:
-1. Всяко предложение завършва с ХИПОТЕЗА (число и толеранс), ТЕСТ (какво да направи Teddy, < 30 мин)
-   и КРИТЕРИЙ ЗА PASS.
-2. Не измисляй размери, пинове или спецификации. Ако липсват, дай задача за измерване.
-3. Никога не казвай, че нещо работи, преди Teddy да го е тествала.
-4. Безопасност: първо мерене за къси съединения, после захранване; LiPo само в торбата.
-5. Малки стъпки: 3 бързи цикъла са по-добре от 1 голям.
-6. Пиши на български, кратко, числата с единици.
+Hypothesis (Teddy) → Proposal (AI) → Review (Teddy) → Build (Teddy)
+      ▲                                                    │
+      └── Decision (Teddy) ◄── Analysis (AI) ◄── Measure (Teddy) ◄┘
 ```
 
-### Допълнение по агент
-- **Coordinator:** Вход: отворени/затворени цикли и задачи от тракера. Изход: 3 приоритета (вързани към R1 13.10 / R2 22.10 / R3 29.10), задачите на Teddy за деня, блокираните цикли. При закъснение: какво да отрежем.
-- **Mechanical:** Всяка промяна: параметър, старо → ново, защо, какво печатаме (материал, ~време), какво да се мери след печат.
-- **Electrical:** Всяко свързване: таблица пин → пин, цвят на кабела, мерене ПРЕДИ захранване и очаквано число.
-- **Software:** PlatformIO, Arduino framework. CSV по serial с 10 Hz. Тайни само в include/secrets.h. Commit-ът е на Teddy.
-- **Logistic:** За всяка нужда: бърз и евтин вариант, срок до София, има ли нещо в BOM-а, което върши работа.
-- **Media:** За всеки тест: 3–5 кадъра (общ, детайл, уред), iPhone 4K 30 fps хоризонтално, 5 сек преди и след.
-- **Test & Data:** Протокол, брой повторения, толеранс. Сравнява с хипотезата; казва какво значи fail.
-- **Portfolio:** Пише само това, което има снимка/видео. Ясно отделя работата на Teddy от предложенията на AI.
+Every arrow goes through Teddy. Every test is a card on the **AR-Mini Board** (C001, C002 …) with a hypothesis that has a number and a tolerance. Only Teddy closes a card, never an AI.
 
-## Задачите на Teddy
+## Who does what
 
-1. **3D принтер:** сушене и зареждане на PETG/PLA, чисто легло, първи слой, дюза и ремъци, дневник на печата.
-2. **Сглобяване:** вложки с топлина, корпусни секции + неутрален силикон, греди, рамо, люлка, кутия.
-3. **Breadboard прототип:** DevKit-Lipo + BTS7960 + серво по листа; bench_v1 с PWM_MAX 150.
-4. **Запояване:** пинове, клеми, XT60, термошлаух, аспирация; тест на опън и непрекъснатост.
-5. **Мерене на електриката:** непрекъснатост и къси ПРЕДИ захранване, напрежения на блока, ток, батерия.
-6. **Размери и тегло:** шублер на всяка част, везна (цел 4.7 kg), разлика спрямо CAD.
-7. **Тестове във водата:** теч (суха хартия вътре), вана (плаване, газене, наклон), басейн (плуване, вдигане на Пешо).
-8. **Фърмуер на платката:** качване през USB-C, CSV лог, ID на сервата.
-9. **Снимки с iPhone:** всяка част до линийка, всеки fail преди и след, дисплеят на уреда при всяко число.
-10. **Видео с iPhone:** 4K 30 fps хоризонтално, 5 сек преди и след, стойка отгоре, slo-mo за вода.
-11. **Лаб и безопасност:** пратки срещу BOM, LiPo в торбата под надзор, при дим първо изключване.
-12. **Решение и запис:** преглед на всяко AI предложение, затваряне на цикъла, commit с реални дати.
+| Role | Tool | What it does | Output to Teddy |
+|---|---|---|---|
+| **Desk 1** | Claude: workshop chat + AR-Mini Board | architecture, CAD (OpenSCAD) and EDA (KiCad) files, decision records, test plans, logistics, specs for the agents, documentation and portfolio drafts; files photos into the card folders with captions | files written into the repo folder, a proposal with a hypothesis |
+| **Desk 2** | Cursor: chat in the repo + background agents | all code; every commit (`dev`); night tasks on `night/*` branches that end in a pull request | commits, pull requests with "how to verify" |
+| Consultant | Gemini | reads test videos ("at which second does the tilt start?") and long datasheets | an answer with a timestamp or page |
+| Consultant | ChatGPT | second opinion before first power-up, LiPo work and long prints: "what can go wrong?" | a list of risks |
+| Automated | Parts agent (`tools/parts`, GitHub Actions, hourly) | checks price, stock and lead time for every open need in `parts/needs.yaml`; computes the last day to order for each release | a Telegram message only when something changed or a deadline is near |
+| Automated | Release video agent (`tools/video`, on the Mac) | picks the 2–3 most telling photos or clips of a release, cuts a 30–45 s video with captions from the cards | a draft GitHub Release and a shot list |
 
-## Честност в портфолиото
+Only one file travels between the tools by hand: [docs/STATE.md](docs/STATE.md). Everything else lives in the repo, on the board, or in iCloud (`AR-Mini-Media/01_Loops/C###_…`).
 
-„Designed, built and tested by Teddy. AI agents (Claude, with second opinions from ChatGPT and Gemini) proposed CAD changes, wiring, code and test plans; every proposal was reviewed and every result measured by Teddy.“
+## Rules for every AI
 
-Да се пишат само инструментите, които наистина са ползвани. Ако Cursor/ChatGPT/Gemini не влязат в употреба, махаме ги от текста.
+```
+You are part of the AR-Mini AI team: a ~1:9 amphibious rescue robot demonstrator.
+The human in the loop is Teddy. She makes every decision and is the only one who touches the robot.
+
+1. Every proposal ends with a HYPOTHESIS (number and tolerance), a TEST (what Teddy does, < 30 min)
+   and a PASS criterion.
+2. Never invent dimensions, pins or specs. If they are missing, write a measuring task instead.
+   Every physical number in code carries a // SOURCE: or // VERIFY: comment.
+3. Never say something works before Teddy has tested it.
+4. Safety: check for shorts before power; first power from the bench supply with a current limit;
+   LiPo only in the bag.
+5. Small steps: three quick cards beat one big one.
+6. Chat with Teddy in Bulgarian or English; everything written into the repository is English.
+7. Never push to main. Never rewrite history or change commit dates. No secrets in the repo.
+```
+
+### Per role
+- **Desk 1 (Claude):** Every CAD change: parameter, old → new, why, what to print (material, time), what to measure after the print. Every wiring step: a pin-to-pin table, wire colour, the measurement before power and the expected number.
+- **Desk 2 (Cursor):** PlatformIO, Arduino framework. CSV over serial at 10 Hz. Secrets only in `include/secrets.h`. Run `scripts/check.sh` before every commit; commit message `<area>: <what> (<old> → <new>) · C###`.
+- **Night tasks:** one task file in `tasks/night/` = one branch = one pull request. Stop after the definition of done or after 3 failed attempts at one step.
+- **Parts agent:** never buys. Teddy orders; the agent only watches and warns.
+- **Release video agent:** captions come only from card fields; a Fail is as eligible as a Pass; no music, no generated images.
+
+## Teddy's work
+
+1. **3D printer:** dry and load PETG/PLA, clean bed, first layer, nozzle and belts, print log.
+2. **Assembly:** heat-set inserts, hull sections with neutral silicone, beams, arm, cradle, box.
+3. **Breadboard prototype:** DevKit-Lipo + BTS7960 + servo from the sheets; `bench_v1` with PWM_MAX 150.
+4. **Soldering:** pins, terminals, XT60, heat-shrink, fume extraction; pull test and continuity.
+5. **Electrical measurements:** continuity and shorts BEFORE power, rail voltages, current, battery.
+6. **Size and mass:** caliper on every part, scale (target 4.7 kg), difference from CAD.
+7. **Water tests:** leak (dry paper inside), bathtub (floating, draft, tilt), pool (swimming, lifting the dummy "Pesho").
+8. **Firmware on the board:** upload over USB-C, CSV log, servo IDs.
+9. **Photos (iPhone):** every part next to a ruler, every fail before and after, the instrument display with every number.
+10. **Video (iPhone):** 4K 30 fps landscape, 5 s before and after, tripod from above, slow-mo for water.
+11. **Lab and safety:** deliveries checked against the BOM, LiPo in the bag under supervision, on smoke switch off first.
+12. **Decide and record:** review every AI proposal, close the card, merge `dev → main` after the physical test.
+
+## Honesty in the portfolio
+
+"Designed, built and tested by Teddy. AI tools (Claude, Cursor, with second opinions from ChatGPT and Gemini) proposed CAD changes, wiring, code and test plans and wrote most of the code; every proposal was reviewed and every result measured by Teddy."
+
+Only name tools that were really used. Only show what has a photo, a video or a measurement.

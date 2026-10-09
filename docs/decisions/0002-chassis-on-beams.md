@@ -1,5 +1,5 @@
-# 0002 · Шасито виси от гредите, веригите на нивото на дъното (2026-10-02)
+# 0002 · The chassis hangs from the beams, tracks level with the hull bottom (2026-10-02)
 
-Контекст: ROB0154 е плоча отгоре + странични плочи; задвижващите колела са отпред горе, оста на мотора е на 62 mm над веригите (измерено). Водолинията е ~42 mm.
-Решение: плочата се болтва директно под двете греди (385/500 mm), веригите са на нивото на дъното на корпуса, без закачалки и без вдигане.
-Последствия: моторите са 20 mm над водата; излизането на брега е на широка рампа заедно с корпусите; v2 може да вдигне шасито с 10 mm, ако веригите спират лодката във водата.
+Context: the ROB0154 is a top plate plus side plates; the drive wheels are at the front top, and the motor axis is 62 mm above the tracks (measured). The waterline is ~42 mm.
+Decision: the plate is bolted directly under the two beams (385 / 500 mm); the tracks are level with the bottom of the hulls, with no hangers and no lift.
+Consequences: the motors are 20 mm above the water; the robot leaves the water on a wide ramp together with the hulls; v2 can raise the chassis by 10 mm if the tracks slow the boat down in the water.
