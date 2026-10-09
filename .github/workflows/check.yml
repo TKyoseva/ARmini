@@ -3,7 +3,7 @@ on:
   push:
     branches: [dev, main]
   pull_request:
-    branches: [main]
+    branches: [dev, main]   # night/* PRs into dev get a green/red check before merge
 
 jobs:
   check:
