@@ -33,18 +33,19 @@ bool parseFloat(const char* s, float& out) {
 
 }  // namespace
 
-DevkitDryRunHal::DevkitDryRunHal(const Config& cfg)
-    : cfg_(cfg), fake_(), v_bat_(kSimVbatFullV), reset_requested_(false), line_(), line_len_(0) {
+DevkitDryRunHal::DevkitDryRunHal(const Config& cfg, const SafetyConfig& scfg)
+    : cfg_(cfg), scfg_(scfg), fake_(), fake_safety_(), reset_requested_(false), line_(), line_len_(0) {
   fake_.target_range_m = 100.0f;  // "far away" until a `see` command arrives
   fake_.arm_deg = cfg_.arm_stow_deg;  // assume the arm starts stowed; use `armdeg` to override
-  fake_.battery_low = v_bat_ < cfg_.v_bat_low_v;
+  fake_safety_.v_bat = kSimVbatFullV;  // full pack; use `vbat` to override
+  // leak/kill false, heartbeat_ok true, ladder_v -1 (not fitted) from the defaults
 }
 
 void DevkitDryRunHal::begin() {
   Serial.begin(115200);
   const uint32_t t0 = millis();
   while (!Serial && (millis() - t0) < kUsbWaitMs) delay(10);
-  Serial.println("# AR-Mini dry run · state machine only · no hardware is driven");
+  Serial.println("# AR-Mini dry run · state machine + safety layer · no hardware is driven");
   Serial.println("# type ? for the command list");
   Serial.println("t_ms,state,reason,thrust_l,thrust_r,track_l,track_r,arm_deg,pan_deg,buzzer,flags");
 }
@@ -65,6 +66,10 @@ void DevkitDryRunHal::note(const char* msg) {
 void DevkitDryRunHal::readInputs(Inputs& in) {
   pollSerial();
   in = fake_;
+}
+
+void DevkitDryRunHal::readSafety(SafetyInputs& s) {
+  s = fake_safety_;  // serial already polled in readInputs() this tick
 }
 
 void DevkitDryRunHal::writeOutputs(const Outputs& out) {
@@ -140,12 +145,15 @@ void DevkitDryRunHal::handleLine(char* line) {
   } else if (strcmp(cmd, "heading") == 0) {
     ok = parseFloat(a1, fake_.heading_deg);
   } else if (strcmp(cmd, "leak") == 0) {
-    ok = parseBool(a1, fake_.leak);
+    ok = parseBool(a1, fake_safety_.leak_raw);
   } else if (strcmp(cmd, "kill") == 0) {
-    ok = parseBool(a1, fake_.kill);
+    ok = parseBool(a1, fake_safety_.kill_raw);
   } else if (strcmp(cmd, "vbat") == 0) {
-    ok = parseFloat(a1, v_bat_);
-    if (ok) fake_.battery_low = v_bat_ < cfg_.v_bat_low_v;
+    ok = parseFloat(a1, fake_safety_.v_bat);
+  } else if (strcmp(cmd, "hb") == 0) {
+    ok = parseBool(a1, fake_safety_.heartbeat_ok);
+  } else if (strcmp(cmd, "ladder") == 0) {
+    ok = parseFloat(a1, fake_safety_.ladder_v);
   }
 
   if (ok) {
@@ -166,20 +174,28 @@ void DevkitDryRunHal::printHelp() {
   Serial.println("#   load 0|1             load detected in cradle");
   Serial.println("#   tilt <deg>           IMU pitch, bow up +");
   Serial.println("#   heading <deg>        IMU yaw 0..360");
-  Serial.println("#   leak 0|1  kill 0|1   safety inputs");
-  Serial.println("#   vbat <V>             battery voltage (battery_low below cfg.v_bat_low_v)");
-  Serial.println("#   reset                leave SAFE -> IDLE (refused while a cause is active)");
+  Serial.println("#   leak 0|1  kill 0|1   raw safety inputs (leak debounced, kill immediate)");
+  Serial.println("#   vbat <V>             pack voltage (trip < v_trip for batt_debounce_ms, reset > v_reset)");
+  Serial.println("#   hb 0|1               heartbeat ok (trip after heartbeat_timeout_ms of 0)");
+  Serial.println("#   ladder <V>           A1 ladder voltage, -1 = not fitted (<0.6 KILL, 0.6-2.0 LEAK, >2.0 OK)");
+  Serial.println("#   reset                clear the safety latch and leave SAFE -> IDLE (refused while a cause is active)");
   Serial.println("#   ?                    this help + current fake inputs");
 }
 
 void DevkitDryRunHal::printInputs() {
-  Serial.printf("# inputs: arm=%d see=%d bearing=%.1f range=%.2f cradle=%d armdeg=%.1f load=%d tilt=%.1f heading=%.1f leak=%d kill=%d vbat=%.2f battery_low=%d (low<%.2f V)\n",
+  Serial.printf("# inputs: arm=%d see=%d bearing=%.1f range=%.2f cradle=%d armdeg=%.1f load=%d tilt=%.1f heading=%.1f\n",
                 fake_.armed ? 1 : 0, fake_.target_seen ? 1 : 0, static_cast<double>(fake_.bearing_deg),
                 static_cast<double>(fake_.target_range_m), fake_.cradle_confirmed ? 1 : 0,
                 static_cast<double>(fake_.arm_deg), fake_.load_detected ? 1 : 0,
-                static_cast<double>(fake_.tilt_deg), static_cast<double>(fake_.heading_deg),
-                fake_.leak ? 1 : 0, fake_.kill ? 1 : 0, static_cast<double>(v_bat_),
-                fake_.battery_low ? 1 : 0, static_cast<double>(cfg_.v_bat_low_v));
+                static_cast<double>(fake_.tilt_deg), static_cast<double>(fake_.heading_deg));
+  Serial.printf("# safety: leak=%d kill=%d vbat=%.2f hb=%d ladder=%.2f (%s) | leak %lu ms, batt %lu ms trip<%.2f reset>%.2f V, hb %lu ms\n",
+                fake_safety_.leak_raw ? 1 : 0, fake_safety_.kill_raw ? 1 : 0,
+                static_cast<double>(fake_safety_.v_bat), fake_safety_.heartbeat_ok ? 1 : 0,
+                static_cast<double>(fake_safety_.ladder_v),
+                ladderPresent(fake_safety_.ladder_v) ? ladderName(decodeLadder(fake_safety_.ladder_v)) : "none",
+                static_cast<unsigned long>(scfg_.leak_debounce_ms), static_cast<unsigned long>(scfg_.batt_debounce_ms),
+                static_cast<double>(scfg_.v_trip), static_cast<double>(scfg_.v_reset),
+                static_cast<unsigned long>(scfg_.heartbeat_timeout_ms));
 }
 
 }  // namespace armini
