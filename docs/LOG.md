@@ -1,26 +1,36 @@
-# Дневник на строежа
+# Build log
 
-Формат: дата · кой · какво пробвах · какво стана · какво променям. Три реда стигат. Снимка = линк към media/.
+Format: date · who · what I tried · what happened · what I change. Three lines are enough. Photos: card ID → iCloud folder (media/LINKS.md).
 
-## 2026-10-04 (нед) · Дими
-- Bauhaus: профили, прът, силикон, Sikadur, инструменти. BOM v04.10.
-- Repo създадено.
-- Утре: печат на рамена + куплунги (PLA), измерване на TD-8120MG (дъно → уши).
+## 2026-10-04 (Sun) · Dimi
+- Bauhaus: profiles, rod, silicone, Sikadur, tools. BOM v04.10.
+- Repository created.
+- Tomorrow: print the arms and couplers (PLA), measure the TD-8120MG (bottom → ears).
 
-## 2026-10-05 (пон) · Дими
-- Измерих TD-8120MG: дъно → уши 28.0, дупки 10 mm, Ø4.34, вал на 10.4 от предния ръб → CAD v1.8.
-- XIAO breakout rev 0: DRC 32 → 19 → 15 (само library warnings) за три кръга. Готова за AISLER.
-- 7 ролки PLA → цветен код. Утре: печат на рамената и куплунгите.
+## 2026-10-05 (Mon) · Dimi
+- Measured the TD-8120MG: bottom → ears 28.0, holes 10 mm, Ø4.34, shaft 10.4 from the front edge → CAD v1.8.
+- XIAO breakout rev 0: DRC 32 → 19 → 15 (library warnings only) in three rounds. Ready for AISLER.
+- 7 rolls of PLA → colour code. Tomorrow: print the arms and couplers.
 
-## 2026-10-06 (вт) · Дими
-- Поръчах 3 × ESP32-S3-DevKit-Lipo + 3 × WROOM-1 N16R8 (Comet) и неща за прототипиране и запояване (Amazon).
-- BOM в една таблица (120 позиции със снимки), визуален BOM, архитектурна схема v1.
-- 3D модел на целия робот → видях, че двете греди минават през power box-а → CAD v1.9: кутията стъпва на гредите.
-- Пристигнаха thruster-ът и 2 × Bus Servo Adapter (A). Thruster-ът е 112 mm дълъг, 77 mm висок и се монтира отгоре — CAD-ът е за друг монтаж. Утре: измервания + мултиметър (ESC вътре или само мотор?).
-- Създадох repo-то.
+## 2026-10-06 (Tue) · Dimi
+- Ordered 3 × ESP32-S3-DevKit-Lipo + 3 × WROOM-1 N16R8 (Comet) and prototyping and soldering supplies (Amazon).
+- BOM in one spreadsheet (120 items with photos), visual BOM, architecture diagram v1.
+- 3D model of the whole robot → saw that the two beams pass through the power box → CAD v1.9: the box sits on the beams.
+- The thruster and 2 × Bus Servo Adapter (A) arrived. The thruster is 112 mm long, 77 mm high (box) and mounts from the top — the CAD is for a different mount. Tomorrow: measurements + multimeter (ESC inside or bare motor?).
+- Created the repository.
 
-## 2026-10-07 (ср) · Teddy
-- Пристигнаха: DevKit-Lipo + WROOM-1 (Comet), UT61E+, шублер, PETG 4 kg, servo driver, светлина и стойки за снимане. BOM v4 (133 реда).
-- Breadboard листове: стенд мотор/серво, XIAO контролер, DevKit-Lipo. R10 на carrier → 2.2 k pull-up (OE).
-- Нов план: строя сама, с AI агенти; human in the loop. Краен срок: портфолио на 01.11. Тракер на циклите (L###), repo правила за Cursor, проверки в GitHub Actions.
-- Утре: L001 мерки на thruster-а, L002 тест на кабелите (без 12 V), L003 прорези на плочата.
+## 2026-10-07 (Wed) · Teddy
+- Arrived: DevKit-Lipo + WROOM-1 (Comet), UT61E+, caliper, PETG 4 kg, servo driver, light and stands for filming. BOM v4 (133 rows).
+- Breadboard sheets: motor/servo bench, XIAO controller, DevKit-Lipo. R10 on the carrier → 2.2 k pull-up (OE).
+- New plan: I build alone, with AI agents; human in the loop. Deadline: portfolio on 01.11. Test tracker, repo rules for Cursor, checks in GitHub Actions.
+- Tomorrow: measure the thruster, test its wires (no 12 V), measure the plate slots.
+
+## 2026-10-08 (Thu) · Teddy
+- C001 thruster measured: duct Ø72.27 (box says 77) × 112, mounting face 47.10 above the axis, M4 at ~35 × 15.6, 201 g. Partial: the listing dimensions are not real.
+- C002 thruster wires: 4 wires, no shorts, asymmetric resistances → ESC inside. Pass.
+- First night task (T1, mission state machine) given to a Cursor background agent.
+
+## 2026-10-09 (Fri) · Teddy
+- C003 ROB0154 plate: 151.82 × 134.8, slots land 10 mm off the beams with ch_x 290. Fail → CAD v2.0: ch_x 300.
+- CAD v2.0: kick-up thruster mount on the transom from the C001 numbers (decision 0004). The tracker became a kanban board with cards C###.
+- Specs for the parts agent (T4) and the release video agent (T5). Photos renamed to card IDs, captions written.

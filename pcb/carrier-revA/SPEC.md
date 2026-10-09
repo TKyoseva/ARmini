@@ -1,90 +1,90 @@
-# AR-Mini carrier board — rev A spec (за KiCad + Aisler)
+# AR-Mini carrier board — rev A spec (for KiCad + Aisler)
 
-Цел: една 2-слойна THT платка 100 × 80 mm, в която модулите се забождат на женски хедъри. През платката минават **само сигнали и 5 V / 3V3**. 12 V за thruster-и, серво шина и BTS7960 идва директно от бушонния блок.
+Goal: one 2-layer THT board, 100 × 80 mm, with the modules plugged into female headers. **Only signals and 5 V / 3V3** go through the board. 12 V for the thrusters, the servo bus and the BTS7960s comes directly from the fuse block.
 
-## 1. Платка
-- Размер 100 × 80 mm, ъгли R3, 4 × Ø3.2 монтажни отвора на 3.5 mm от ръбовете (растер 93 × 73).
-- 2 слоя, 1.6 mm FR-4, 35 µm мед, HASL lead-free (или ENIG, ако "Beautiful Boards").
-- Писти: сигнал 0.3 mm, 5 V 0.8 mm, GND — пълна зона (pour) на долния слой.
-- Сервизен печат: име на всеки конектор + пин 1 маркер; "AR-Mini carrier rev A · <дата>".
-- Тест точки (голи падчета Ø1.5): TP1 12V_IN, TP2 5V, TP3 3V3, TP4 SDA0, TP5 SCL0, TP6 GND.
+## 1. Board
+- Size 100 × 80 mm, R3 corners, 4 × Ø3.2 mounting holes 3.5 mm from the edges (grid 93 × 73).
+- 2 layers, 1.6 mm FR-4, 35 µm copper, lead-free HASL (or ENIG with "Beautiful Boards").
+- Tracks: signal 0.3 mm, 5 V 0.8 mm, GND as a full pour on the bottom layer.
+- Silkscreen: the name of every connector + pin 1 marker; "AR-Mini carrier rev A · <date>".
+- Test points (bare Ø1.5 pads): TP1 12V_IN, TP2 5V, TP3 3V3, TP4 SDA0, TP5 SCL0, TP6 GND.
 
-## 2. Модули на хедъри (всичко женско 2.54 mm, измери с шублера преди да фиксираш footprint-а)
+## 2. Modules on headers (all female 2.54 mm; measure with the caliper before fixing the footprint)
 
-| Реф | Модул | Footprint | Бележка |
+| Ref | Module | Footprint | Note |
 |---|---|---|---|
-| U1 | XIAO ESP32S3 Sense | 2 × 1×7 женски хедъра, разстояние между редовете 15.24 mm (6 × 2.54) | камерата сочи нагоре, USB-C към ръба на платката |
-| U2 | PCA9685 модул (Ardboard) | 2 × 1×6 хедъра в краищата + поле 16×3 (щифтове 2.54) | **измери**: дължина на платката, разстояние между 6-пиновите редове, позиция на 16×3 полето |
-| U3 | BNO055 breakout | 1 × 1×N хедър (N = 6 или 8 според борда) | **измери след 9.10** |
-| U4 | Buck 12→5 V 3 A (MZHOU) | 2-пин винтова клема вход + 2-пин изход (или 4 падчета) | модулът е с кабели — ако е така, клеми вместо хедър |
-| U5 | Serial Bus Servo Driver (Waveshare) | не е на платката — JST-XH 4-пин (J8) | идва 9.10 |
+| U1 | XIAO ESP32S3 Sense | 2 × 1×7 female headers, 15.24 mm between the rows (6 × 2.54) | camera faces up, USB-C towards the board edge |
+| U2 | PCA9685 module (Ardboard) | 2 × 1×6 headers at the ends + a 16×3 field (2.54 pins) | **measure**: board length, distance between the 6-pin rows, position of the 16×3 field |
+| U3 | BNO055 breakout | 1 × 1×N header (N = 6 or 8 depending on the board) | **measure after 9.10** |
+| U4 | Buck 12→5 V 3 A (MZHOU) | 2-pin screw terminal input + 2-pin output (or 4 pads) | if the module comes with wires, terminals instead of a header |
+| U5 | Serial Bus Servo Driver (Waveshare) | not on the board — JST-XH 4-pin (J8) | arrives 9.10 |
 
-## 3. XIAO ESP32S3 — пинове
+## 3. XIAO ESP32S3 — pins
 
-| XIAO пин | GPIO | Функция | Net |
+| XIAO pin | GPIO | Function | Net |
 |---|---|---|---|
-| D0 / A0 | GPIO1 | ADC батерия (делител 100k/33k, Vmax 12.6 V → 3.13 V) | VBAT_SENSE |
-| D1 / A1 | GPIO2 | ADC стълбица: LEAK + KILL (виж §5) | LADDER |
-| D2 | GPIO3 | I2C-1 SCL (Wire1) → термокамера 110° | SCL1 |
+| D0 / A0 | GPIO1 | ADC battery (divider 100k/33k, Vmax 12.6 V → 3.13 V) | VBAT_SENSE |
+| D1 / A1 | GPIO2 | ADC ladder: LEAK + KILL (see §5) | LADDER |
+| D2 | GPIO3 | I2C-1 SCL (Wire1) → thermal camera 110° | SCL1 |
 | D3 | GPIO4 | I2C-1 SDA | SDA1 |
-
-> Wire1.begin(/*SDA*/4, /*SCL*/3) — SDA/SCL на I2C-1 са разменени спрямо "естествения" ред, за да се трасира без пресичане (същото е и на rev 0 breakout-а).
 | D4 | GPIO5 | I2C-0 SDA (Wire) → D45, BNO055, PCA9685 | SDA0 |
 | D5 | GPIO6 | I2C-0 SCL | SCL0 |
 | D6 | GPIO43 | UART1 TX → servo driver RX | SRV_TX |
 | D7 | GPIO44 | UART1 RX ← servo driver TX | SRV_RX |
-| D8–D10 | GPIO7/8/9 | SPI → вградена microSD (не се извежда) | — |
-| 5V | — | вход 5 V от U4 | +5V |
-| 3V3 | — | изход 3.3 V (до ~600 mA) → сензори, PCA9685 VCC, pull-up-и | +3V3 |
-| USB-C | — | към Pi 5 (serial) — не е на платката | — |
+| D8–D10 | GPIO7/8/9 | SPI → built-in microSD (not broken out) | — |
+| 5V | — | 5 V input from U4 | +5V |
+| 3V3 | — | 3.3 V output (up to ~600 mA) → sensors, PCA9685 VCC, pull-ups | +3V3 |
+| USB-C | — | to the Pi 5 (serial) — not on the board | — |
 
-## 4. Конектори (JST-XH 2.5 mm, вертикални; пин 1 = квадратно падче)
+> `Wire1.begin(/*SDA*/4, /*SCL*/3)` — SDA and SCL of I2C-1 are swapped against the "natural" order so the tracks do not cross (the same as on the rev 0 breakout).
 
-| Реф | Име | Пинове | Към |
+## 4. Connectors (JST-XH 2.5 mm, vertical; pin 1 = square pad)
+
+| Ref | Name | Pins | To |
 |---|---|---|---|
-| J1 | 12V_IN | 1: +12V, 2: GND (винтова клема 5.08 mm) | бушон "5 A logic" |
-| J2 | ESC_L | 1: GND, 2: NC, 3: CH0 | ESC ляв (сигнал + маса; ESC-то се храни от бушон 20 A) |
-| J3 | ESC_R | 1: GND, 2: NC, 3: CH1 | ESC десен |
-| J4 | BTS_L | 1: RPWM=CH2, 2: LPWM=CH3, 3: +5V (R_EN+L_EN+VCC), 4: GND | BTS7960 ляв |
-| J5 | BTS_R | 1: CH4, 2: CH5, 3: +5V, 4: GND | BTS7960 десен |
+| J1 | 12V_IN | 1: +12V, 2: GND (screw terminal 5.08 mm) | fuse "5 A logic" |
+| J2 | ESC_L | 1: GND, 2: NC, 3: CH0 | left ESC (signal + ground; the ESC is powered from the 20 A fuse) |
+| J3 | ESC_R | 1: GND, 2: NC, 3: CH1 | right ESC |
+| J4 | BTS_L | 1: RPWM=CH2, 2: LPWM=CH3, 3: +5V (R_EN+L_EN+VCC), 4: GND | left BTS7960 |
+| J5 | BTS_R | 1: CH4, 2: CH5, 3: +5V, 4: GND | right BTS7960 |
 | J6 | THERM_FWD | 1: +3V3, 2: GND, 3: SDA0, 4: SCL0 | MLX90642-D45 |
 | J7 | THERM_POD | 1: +3V3, 2: GND, 3: SDA1, 4: SCL1 | MLX90640-110° |
-| J8 | SERVO_BUS | 1: SRV_TX, 2: SRV_RX, 3: GND, 4: NC | Waveshare driver (12 V към него е отделно от бушон 15 A) |
-| J9 | LEAK | 1: LADDER_LEAK, 2: GND | два голи проводника |
-| J10 | KILL | 1: LADDER_KILL, 2: GND | логически kill (rocker 20 A) |
-| J11 | IMU_EXT | 1: +3V3, 2: GND, 3: SDA0, 4: SCL0 | резервен I2C-0 |
-| J12 | BUZZ_LED | не е нужен — бъзер и LED са на платката | — |
+| J8 | SERVO_BUS | 1: SRV_TX, 2: SRV_RX, 3: GND, 4: NC | Waveshare driver (its 12 V comes separately from the 15 A fuse) |
+| J9 | LEAK | 1: LADDER_LEAK, 2: GND | two bare wires |
+| J10 | KILL | 1: LADDER_KILL, 2: GND | logic kill (20 A rocker) |
+| J11 | IMU_EXT | 1: +3V3, 2: GND, 3: SDA0, 4: SCL0 | spare I2C-0 |
+| J12 | BUZZ_LED | not needed — the buzzer and LEDs are on the board | — |
 
-## 5. Дискретни компоненти
+## 5. Discrete parts
 
-| Реф | Част | Стойност / тип | За какво |
+| Ref | Part | Value / type | Purpose |
 |---|---|---|---|
-| Q1 | P-MOSFET | IRF4905 (TO-220) или AO3401 (ако SMD) | защита от обратна полярност на J1 |
-| D1 | TVS | SMBJ15A | пикове на 12 V |
-| C1 | електролит | 470 µF / 25 V | 12 V вход |
-| C2, C3 | керамика | 100 nF | 5 V и 3V3 до U1 |
-| C4 | електролит | 100 µF / 10 V | 5 V шина |
-| R1, R2 | резистори | 100 kΩ / 33 kΩ, 1 % | делител VBAT (+ C5 100 nF към GND) |
-| R3–R6 | резистори | 4.7 kΩ | pull-up SDA0/SCL0/SDA1/SCL1 към 3V3 |
-| R7, R8, R9 | резистори | 10 kΩ / 4.7 kΩ / 1 kΩ | ADC стълбица: A1 през R7 към 3V3; LEAK дърпа през R8 към GND; KILL дърпа през R9 към GND → три различни нива |
-| R10 | резистор | **2.2 kΩ към 3V3** (промяна 07.10, беше 10 k към GND) | pull-up на OE: в RUN rocker-ът дърпа OE към GND (изходи активни); в KILL или при паднал кабел OE остава високо → всички PWM изходи off. 2.2 k, защото модулът има 10 k pull-down на OE (10 k/10 k би дало 1.65 V — неопределено) |
-| Q2 | NPN | BC337 + R11 1 kΩ в базата | бъзер |
-| BZ1 | бъзер | активен 5 V, Ø12 | аларма теч / батерия |
-| LED1–3 | LED 5 mm | зелен / жълт / червен + 330 Ω | състояние / arm / fault |
-| F1 | polyfuse | 1.1 A | 5 V шина към логиката |
-| TP1–6 | тест точки | падчета Ø1.5 | мултиметър / логически анализатор |
+| Q1 | P-MOSFET | IRF4905 (TO-220) or AO3401 (if SMD) | reverse-polarity protection on J1 |
+| D1 | TVS | SMBJ15A | spikes on 12 V |
+| C1 | electrolytic | 470 µF / 25 V | 12 V input |
+| C2, C3 | ceramic | 100 nF | 5 V and 3V3 at U1 |
+| C4 | electrolytic | 100 µF / 10 V | 5 V rail |
+| R1, R2 | resistors | 100 kΩ / 33 kΩ, 1 % | VBAT divider (+ C5 100 nF to GND) |
+| R3–R6 | resistors | 4.7 kΩ | pull-ups SDA0/SCL0/SDA1/SCL1 to 3V3 |
+| R7, R8, R9 | resistors | 10 kΩ / 4.7 kΩ / 1 kΩ | ADC ladder: A1 through R7 to 3V3; LEAK pulls through R8 to GND; KILL pulls through R9 to GND → three different levels |
+| R10 | resistor | **2.2 kΩ to 3V3** (changed 07.10, was 10 k to GND) | OE pull-up: in RUN the rocker pulls OE to GND (outputs active); in KILL or with a broken wire OE stays high → all PWM outputs off. 2.2 k because the module has a 10 k pull-down on OE (10 k / 10 k would give 1.65 V — undefined) |
+| Q2 | NPN | BC337 + R11 1 kΩ in the base | buzzer |
+| BZ1 | buzzer | active 5 V, Ø12 | leak / battery alarm |
+| LED1–3 | LED 5 mm | green / yellow / red + 330 Ω | status / arm / fault |
+| F1 | polyfuse | 1.1 A | 5 V rail to the logic |
+| TP1–6 | test points | Ø1.5 pads | multimeter / logic analyser |
 
-PCA9685 канали: CH0 ESC_L, CH1 ESC_R, CH2/3 BTS_L, CH4/5 BTS_R, CH6 бъзер (през Q2), CH7–9 LED1–3. OE (07.10): R10 2.2 k pull-up към 3V3; rocker-ът (SPDT): C → GND, RUN → OE, KILL → R9 1 k → A1. Така един ON-ON rocker прави и двете: в RUN OE е на GND, в KILL OE остава високо (изходи off) и A1 пада на 0.3 V. Виж breadboard/AR-Mini_breadboard_2.
+PCA9685 channels: CH0 ESC_L, CH1 ESC_R, CH2/3 BTS_L, CH4/5 BTS_R, CH6 buzzer (through Q2), CH7–9 LED1–3. OE (07.10): R10 2.2 k pull-up to 3V3; the rocker (SPDT): C → GND, RUN → OE, KILL → R9 1 k → A1. So one ON-ON rocker does both: in RUN OE is at GND, in KILL OE stays high (outputs off) and A1 drops to 0.3 V. See breadboard/AR-Mini_breadboard_2.
 
-## 6. Преди да натиснеш "Push to AISLER"
+## 6. Before pressing "Push to AISLER"
 
-1. **DRC** чист в KiCad (clearance 0.2 mm, via 0.6/0.3).
-2. **1:1 печат** на хартия: сложи XIAO, PCA9685, BTS конектори, BNO055 върху листа — всеки щифт в дупката си.
-3. **Pin 1** на всеки JST е там, където е и в постера; GND винаги на пин 1 или 2, никога по средата.
-4. USB-C на XIAO сочи към ръба и има 15 mm свободно за кабела.
-5. Монтажните отвори съвпадат с растера в CAD-а на IP65 кутията (93 × 73).
-6. Качи Gerber-ите в **Eurocircuits PCB Visualizer** (безплатно) — ако даде червено, оправи преди Aisler.
-7. Aisler: 2 layers · 1.6 mm · 3 pcs · HASL (или "Beautiful Boards" черна) · доставка България. Очаквана цена 30–40 €.
+1. **DRC** clean in KiCad (clearance 0.2 mm, via 0.6/0.3).
+2. **1:1 print** on paper: put the XIAO, PCA9685, BTS connectors and BNO055 on the sheet — every pin in its hole.
+3. **Pin 1** of every JST is where it is on the poster; GND always on pin 1 or 2, never in the middle.
+4. The XIAO USB-C faces the edge and has 15 mm free for the cable.
+5. The mounting holes match the grid in the CAD of the IP65 box (93 × 73).
+6. Upload the Gerbers to the **Eurocircuits PCB Visualizer** (free) — if it shows red, fix it before Aisler.
+7. Aisler: 2 layers · 1.6 mm · 3 pcs · HASL (or black "Beautiful Boards") · delivery to Bulgaria. Expected price 30–40 €.
 
-## 7. Какво НЕ е на платката (умишлено)
-12 V към ESC/BTS/servo driver; самите модули BTS7960 (на отделна плоча до моторите); Pi 5 и неговият 5 A buck; thruster ESC-тата (залети, в корпуса).
+## 7. What is NOT on the board (on purpose)
+12 V to the ESCs / BTS / servo driver; the BTS7960 modules themselves (on a separate plate next to the motors); the Pi 5 and its 5 A buck; the thruster ESCs (potted, inside the thrusters).

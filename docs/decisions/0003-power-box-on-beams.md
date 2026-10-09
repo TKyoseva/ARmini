@@ -1,7 +1,7 @@
-# 0003 · Power box-ът стъпва на гредите (2026-10-06)
+# 0003 · The power box sits on the beams (2026-10-06)
 
-Контекст: от v1.5 до v1.8 кутията стоеше на плочата на ROB0154 (z 124.6–193.6), а двете напречни греди 15 × 15 (x 385 и 500, z 126–141) минаваха през нея. В 2D и в проверката за сблъсъци това не се виждаше — проверката гледаше само движещите се части. Видях го в първия 3D изглед.
+Context: from v1.5 to v1.8 the box stood on the ROB0154 plate (z 124.6–193.6), and the two 15 × 15 cross-beams (x 385 and 500, z 126–141) passed through it. This did not show in 2D or in the collision check, because the check only looked at moving parts. I saw it in the first 3D view.
 
-Решение (CAD v1.9): дъното на кутията е върху гредите (z 141, капак 210). Релси под дъното от двете страни на всяка греда я държат по x. 4 × M3×30 с шайби минават дъно → тръба → слот на плочата → гайка, така един болт държи и трите части. Стойките за BTS7960 и бушонния блок са печатани бобини с месингови вложки, защото гредите вече са под старите дупки.
+Decision (CAD v1.9): the bottom of the box rests on the beams (z 141, lid 210). Rails under the bottom on both sides of each beam hold it in x. 4 × M3×30 with washers go bottom → tube → plate slot → nut, so one bolt holds all three parts. The mounts for the BTS7960 and the fuse block are printed bobbins with brass inserts, because the beams are now under the old holes.
 
-Последствия: +16.4 mm височина, нищо друго не се мести (люлката в прибрано положение свършва на x 286, кутията започва от 364). Да се измери: `pb_beam_y` (слотовете на плочата под гредите) и `pb_fuse_x` (крачетата на бушонния блок). Синята PLA кутия от 03.10 остава за проба; PETG кутията — от v1.9.
+Consequences: +16.4 mm height, nothing else moves (the stowed cradle ends at x 286, the box starts at 364). To measure: `pb_beam_y` (the plate slots under the beams) and `pb_fuse_x` (the feet of the fuse block). The blue PLA box from 03.10 stays as a test piece; the PETG box is from v1.9.

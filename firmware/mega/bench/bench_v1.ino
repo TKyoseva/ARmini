@@ -1,12 +1,12 @@
 // AR-Mini · Breadboard 1 · bench_v1.ino  (Arduino Mega 2560)
-// Потенциометър на A0 → скорост/посока на един ROB0154 мотор през BTS7960 (D5 = RPWM, D6 = LPWM)
-// и ъгъл на TD-8120MG на D9. Serial 115200 печата CSV: ms,pot,pwm,angle  (10 пъти в секунда).
-// Enable на BTS7960 (R_EN + L_EN) е на rocker-а, не на Mega-та → KILL спира мотора хардуерно.
+// Potentiometer on A0 → speed/direction of one ROB0154 motor through a BTS7960 (D5 = RPWM, D6 = LPWM)
+// and the angle of a TD-8120MG on D9. Serial 115200 prints CSV: ms,pot,pwm,angle  (10 times per second).
+// BTS7960 enable (R_EN + L_EN) is on the rocker, not on the Mega → KILL stops the motor in hardware.
 #include <Servo.h>
 
 const int PIN_POT = A0, PIN_RPWM = 5, PIN_LPWM = 6, PIN_SERVO = 9;
-const int DEAD = 25;          // ±25 около 512 = стоп
-const int PWM_MAX = 150;      // първи тест: ~60 % от 255; вдигни до 255, когато всичко е наред
+const int DEAD = 25;          // ±25 around 512 = stop
+const int PWM_MAX = 150;      // first test: ~60 % of 255; raise to 255 when everything is fine
 Servo servo;
 unsigned long lastPrint = 0;
 
@@ -21,16 +21,16 @@ void setup() {
 void loop() {
   int pot = analogRead(PIN_POT);            // 0..1023
   int pwm = 0;
-  if (pot > 512 + DEAD) {                   // напред
+  if (pot > 512 + DEAD) {                   // forward
     pwm = map(pot, 512 + DEAD, 1023, 0, PWM_MAX);
     analogWrite(PIN_LPWM, 0); analogWrite(PIN_RPWM, pwm);
-  } else if (pot < 512 - DEAD) {            // назад
+  } else if (pot < 512 - DEAD) {            // reverse
     pwm = -map(pot, 512 - DEAD, 0, 0, PWM_MAX);
     analogWrite(PIN_RPWM, 0); analogWrite(PIN_LPWM, -pwm);
-  } else {                                  // стоп
+  } else {                                  // stop
     analogWrite(PIN_RPWM, 0); analogWrite(PIN_LPWM, 0);
   }
-  int angle = map(pot, 0, 1023, 20, 160);   // пази крайните 20° — не натискай упорите на сервото
+  int angle = map(pot, 0, 1023, 20, 160);   // keep 20° away from the ends — do not push the servo against its stops
   servo.write(angle);
 
   if (millis() - lastPrint >= 100) {

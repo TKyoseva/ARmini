@@ -164,7 +164,7 @@ wire([Rp["CH6"],hto(Rp["CH6"],164.6),(164.6,87.2),(135,87.2),(135,76)],C["SIG"],
 wire([Rp["CH7–9"],hto(Rp["CH7–9"],163.8),(163.8,86.6),(150,86.6),(150,76)],C["SIG"],1.2)
 # kill -> OE
 wire([(162,76),(162,87.4),(138,87.4),(138,Lp["OE"][1]),Lp["OE"]],C["12V"],1.2)
-ax.text(147,89.2,"KILL → OE: всички PWM изходи off, хардуерно",fontsize=5.4,color=C["12V"],ha="center",va="bottom")
+ax.text(147,89.2,"KILL → OE: all PWM outputs off, in hardware",fontsize=5.4,color=C["12V"],ha="center",va="bottom")
 # 12 V distribution (red), routed below boxes then up the x=125 corridor and the right edge
 f=Fo["20 A  thrusters"]; wire([f,hto(f,61),(61,19),(125,19),(125,122.5),(191.5,122.5),(191.5,110.5),(187,110.5)],C["12V"],1.6)
 wire([(191.5,110.5),(191.5,101.5),(187,101.5)],C["12V"],1.6); dot((191.5,110.5),C["12V"])
@@ -187,7 +187,7 @@ for x0 in (176,182):
     wire([(x0,108),(x0,106.2)],C["MOT"],2.2); wire([(x0,99),(x0,97.3)],C["MOT"],2.2)
 ax.text(188.6,74.3,"M+ M−",fontsize=5,ha="left",va="center",color="#7a6400")
 ax.text(188.6,106.6,"→ prop",fontsize=5,ha="left",va="center",color="#7a6400")
-ax.text(100,1.6,"Силовите вериги (thruster-и, серво шина, вериги) идват директно от бушонния блок; през XIAO и PCA9685 минават само сигнали. Обща маса за всички модули. Kill: 50 A ключ на батерията (hardware) + OE на PCA9685 (логика) + ADC стълбица към A1.",
+ax.text(100,1.6,"Power circuits (thrusters, servo bus, tracks) come directly from the fuse block; only signals pass through the XIAO and the PCA9685. Common ground for all modules. Kill: 50 A battery switch (hardware) + PCA9685 OE (logic) + ADC ladder to A1.",
         ha="center",fontsize=6.4,color="#333")
 plt.savefig("/mnt/user-data/outputs/AR-Mini_hardware_diagram.png",dpi=150,facecolor="white")
 print("saved")

@@ -13,10 +13,12 @@ Thumbs.db
 fp-info-cache
 __pycache__/
 *.pyc
-# raw phone photos and videos live in iCloud Drive (AR-Mini/), not in git
+# raw phone photos and videos live in iCloud Drive (AR-Mini-Media/), not in git
 *.HEIC
 *.heic
 *.MOV
 *.mov
 *.mp4
 interfaces.scad.bak
+# KiCad local project settings (per user)
+*.kicad_prl

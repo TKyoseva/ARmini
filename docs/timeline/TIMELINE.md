@@ -1,17 +1,19 @@
-# Хронология (реални дати)
+# Timeline (real dates)
 
-Repo-то е създадено на 2026-10-06. Всичко преди тази дата е **импортирано** със запазени оригинални файлове; датите по-долу са истинските (EXIF на снимките, документи, имейли), а не датите на commit-ите.
+The repository was created on 2026-10-06. Everything before that date was **imported** with the original files kept; the dates below are the real ones (photo EXIF, documents, emails), not the commit dates.
 
-| Дата | Какво | Доказателство в repo-то |
+| Date | What | Evidence in the repo |
 |---|---|---|
-| 2025-09 | Старт на AmphiReach с Horizon Academic (ментор John Hood) | — |
-| 2025-… | Симулационна среда, 64 мисии | sim/ |
-| 2026-… | Статия, приета в NHSJS; ревизия готова 30.09.2026 | (ръкописът не е в repo-то) |
-| 2026-… | Представяне в БАН / УчИМИ | docs/ |
-| 2026-09-28 | Решение за физически прототип AR-Mini за MIT Maker Portfolio | docs/decisions/ |
-| 2026-10-02 | Първи измервания на ROB0154, TD-8120MG, XIAO; CAD v1.4–1.6 | cad/openscad |
-| 2026-10-03 | Power box (печатан, син PLA, проба); rev 0 breakout платка генерирана | pcb/xiao-breakout-rev0 |
-| 2026-10-04 | LABS оборудване (Bauhaus); BOM v04.10; структура на repo-то | docs/bom |
-| 2026-10-05 | TD-8120MG измерен → CAD v1.8; rev 0 DRC в три кръга → чиста | pcb/xiao-breakout-rev0/drc |
-| 2026-10-06 | 3D модел → сблъсък греди/power box → CAD v1.9; архитектура v1; визуален BOM; първият thruster пристигна; repo създадено | cad/3d, docs/diagrams, media/photos |
-| 2026-10-07 | DevKit-Lipo и измервателни уреди пристигат; breadboard листове; нов план: сама + AI агенти, цел 01.11; loop tracker, AGENTS.md, CI проверки | AGENTS.md, docs/process, hardware/breadboard, .github |
+| 2025-09 | Start of AmphiReach with Horizon Academic (mentor John Hood) | — |
+| 2025-… | Simulation environment, 64 missions | sim/ |
+| 2026-… | Paper accepted by NHSJS; revision ready 30.09.2026 | (the manuscript is not in the repo) |
+| 2026-… | Presented at the Bulgarian Academy of Sciences (IMI) and UchIMI | docs/ |
+| 2026-09-28 | Decision to build the physical prototype AR-Mini for the MIT Maker Portfolio | docs/decisions/ |
+| 2026-10-02 | First measurements of the ROB0154, TD-8120MG, XIAO; CAD v1.4–1.6 | cad/openscad |
+| 2026-10-03 | Power box (printed, blue PLA, test piece); rev 0 breakout board generated | pcb/xiao-breakout-rev0 |
+| 2026-10-04 | Lab equipment (Bauhaus); BOM v04.10; repository structure | docs/bom |
+| 2026-10-05 | TD-8120MG measured → CAD v1.8; rev 0 DRC in three rounds → clean | pcb/xiao-breakout-rev0/drc |
+| 2026-10-06 | 3D model → beams collide with the power box → CAD v1.9; architecture v1; visual BOM; first thruster arrived; repository created | cad/3d, docs/diagrams, media/photos |
+| 2026-10-07 | DevKit-Lipo and measuring tools arrive; breadboard sheets; new plan: alone + AI agents, goal 01.11; test tracker, AGENTS.md, CI checks | AGENTS.md, docs/process, hardware/breadboard, .github |
+| 2026-10-08 | C001 thruster measured, C002 thruster wires tested; first night task (T1) | data/board, docs/decisions/0004 |
+| 2026-10-09 | C003 plate measured (Fail) → CAD v2.0 with the kick-up thruster mount; kanban board; specs for the parts and video agents | cad/openscad, tasks/night, parts/ |

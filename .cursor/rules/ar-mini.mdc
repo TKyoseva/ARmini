@@ -21,17 +21,33 @@ Teddy is the only person who touches the robot and the only one who merges to `m
 3. Run `bash scripts/check.sh` before committing. Do not commit if it fails.
 
 ## Git
-- Work only on branch `dev` (create it if missing). Never push to `main`.
+- Daytime work: branch `dev`. Never push to `main`.
+- Night tasks (a file in `tasks/night/`): branch `night/<task-name>` from `dev`, finish with a PR to `dev`, never merge it yourself. Stop after 3 failed attempts at one step and write what blocked you in the PR.
 - Commit after each change that passes `scripts/check.sh`, one logical change per commit.
 - Message format: `<area>: <what> (<old> → <new>)` + a line `Hypothesis: …`
   areas: cad, pcb, iface, fw, bom, docs. Example: `cad: arm length (110 → 115 mm)`.
 - Never rewrite history, never change commit dates, never commit `secrets.h`,
   `.env`, or anything under `private/`.
 - After committing, `git push origin dev`.
-- Teddy opens the PR `dev → main` and merges only after the physical test is logged in the AR-Mini Loop tracker.
+- Teddy opens the PR `dev → main` and merges only after the physical test is logged on the AR-Mini Board (card C###).
+
+## Night tasks
+- `tasks/night/README.md` has the rules; `_template.md` the format. One task = one branch = one PR.
 
 ## Other places
 - `docs/FAILS_AND_FIXES.md` — add an entry for every fail (next number = last + 1).
 - `docs/LOG.md` — one short block per day. `docs/timeline/TIMELINE.md` — real dates only.
 - `docs/bom/` — the BOM spreadsheet is edited by Teddy; do not rewrite it from code.
 - `media/LINKS.md` — loop ID → iCloud folder link. Photos/videos stay in iCloud, never in git.
+
+## Inbox (files handed over from the workshop chat)
+- When Teddy says `inbox`: read `tasks/inbox/COMMIT.md`, move each listed file to its target path, delete it from the inbox,
+  run `bash scripts/check.sh`, commit on `dev` with the message from COMMIT.md, push. Nothing else.
+- Files already placed at their final paths by the workshop chat are committed the same way when Teddy says `commit: <message>`.
+
+## Parts (procurement)
+- `parts/needs.yaml` is the only input of the parts agent (`tools/parts/`, spec in `tasks/night/2026-10-09_T4_parts-agent.md`). Releases there mirror the AR-Mini Board; never invent a date.
+- `add need: <what>, <qty>, for <release id>` → append one need (next free `N###`), fill `spec` from the words given, write search queries for comet, vikiwat, tme (Bulgarian for comet/vikiwat, English for tme), `status: need`, then `commit: parts: add N### <what>`. Ask one question if the release id or qty is missing; do not guess.
+- `ordered N###, eta <date>` → set `status: ordered`, `ordered: today`, `eta`; commit `parts: N### ordered`.
+- `received N###` → `status: received`; commit `parts: N### received`.
+- `parts report` → run `python tools/parts/agent.py --dry-run` and show the table. Never change `tools/parts/` outside a night task.

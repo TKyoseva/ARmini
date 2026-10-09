@@ -3,16 +3,16 @@ on:
   push:
     branches: [dev, main]
   pull_request:
-    branches: [main]
+    branches: [dev, main]   # night/* PRs into dev get a green/red check before merge
 
 jobs:
   check:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Install OpenSCAD and KiCad 9
+      - name: Install OpenSCAD and KiCad 10
         run: |
-          sudo add-apt-repository -y ppa:kicad/kicad-9.0-releases
+          sudo add-apt-repository -y ppa:kicad/kicad-10.0-releases
           sudo apt-get update
           sudo apt-get install -y openscad kicad
       - uses: actions/setup-python@v5
