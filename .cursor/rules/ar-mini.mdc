@@ -39,3 +39,8 @@ Teddy is the only person who touches the robot and the only one who merges to `m
 - `docs/LOG.md` — one short block per day. `docs/timeline/TIMELINE.md` — real dates only.
 - `docs/bom/` — the BOM spreadsheet is edited by Teddy; do not rewrite it from code.
 - `media/LINKS.md` — loop ID → iCloud folder link. Photos/videos stay in iCloud, never in git.
+
+## Inbox (files handed over from the workshop chat)
+- When Teddy says `inbox`: read `tasks/inbox/COMMIT.md`, move each listed file to its target path, delete it from the inbox,
+  run `bash scripts/check.sh`, commit on `dev` with the message from COMMIT.md, push. Nothing else.
+- Files already placed at their final paths by the workshop chat are committed the same way when Teddy says `commit: <message>`.

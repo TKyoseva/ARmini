@@ -1,5 +1,5 @@
 // ============================================================
-//  AmphiReach  AR-Mini  v1.9  (power box seated on the cross-beams, 6.10)  —  parametric CAD (OpenSCAD)
+//  AmphiReach  AR-Mini  v2.0  (kick-up thruster mount + measured ROB0154 plate, 9.10)  —  parametric CAD (OpenSCAD)
 //  Scale demonstrator: catamaran hull + ROB0154 tracks + cradle lift
 //  Units: mm.   Printer: Creality K2 Pro (300 x 300 x 300).
 //
@@ -26,10 +26,19 @@
 //   cam_plate x1                  flat, tab prints at 75 deg without supports
 //   dummy_head x1, dummy_lid x1   PLA; "Pesho" — hollow head with hand-warmer pocket and air vents
 //   power_box x1, power_lid x1    PETG, 4 perimeters; sits ON the two cross-beams (v1.9), holds fuse block + 2x BTS7960 + bus bars
-//                                 4 x M3x30 + washers: box floor -> beam tube -> ROB0154 plate slot -> nut (one bolt stack per hole)
+//                                 4 x M3x30 + washers: box floor slot -> beam tube (match-drilled on assembly) -> ROB0154 plate slot -> nut
+//   thruster_bracket x2           PETG; bolts to the transom pad above the waterline (4 x M3), carries the hinge pin
+//   thruster_arm x2               PETG, 6 perimeters; 4 x M4 into the thruster's brass inserts, swings on a 5 mm rod
+//   thruster_coupon x1            PLA, 20 min; L005: do all 4 M4 screws go in by hand at 35.0 x 15.6?
+//
+//  v2.0 (9.10, from L001 + L003): ROB0154 plate measured 151.82 x 134.8, its two transverse slots are 11.3 / 26.4 mm from the
+//   plate edges (octagonal hole forward) -> ch_x 290 -> 300 puts the slots under the beams (385 / 500). Power-box beam holes became
+//   3.4 x 7 slots along x. Thruster measured: duct 72.27 OD x 112, face 47.10 above the axis, M4 at 35 x 15.6 -> a 72 mm duct cannot sit
+//   under a 42 mm waterline on a flat stern pad, so the pad below the waterline is gone: kick-up hinge on the transom, pin 33 mm above the
+//   waterline, thruster folds up on shore. No holes below the waterline.
 // ============================================================
 
-part = "assembly";   // assembly | hull_fore | hull_aft | plate_check | beam_bracket | arch_post | pivot_bracket | arm_drive | arm_idler | coupler | cam_pan_mount | cam_plate | dummy_head | dummy_lid | power_box | power_lid
+part = "assembly";   // assembly | hull_fore | hull_aft | plate_check | beam_bracket | arch_post | pivot_bracket | arm_drive | arm_idler | coupler | cam_pan_mount | cam_plate | dummy_head | dummy_lid | power_box | power_lid | thruster_bracket | thruster_arm | thruster_coupon
 side = 1;            // 1 = left (port), -1 = right (mirrored)
 pose = "deployed";   // deployed | stowed   (assembly only)
 
@@ -48,7 +57,7 @@ bulk_t  = 3;          // bulkhead at the joint, one per section
 rib_t   = 3;
 rib_x   = [100, 200, 420, 520];   // full-height ribs -> watertight compartments
 rim_h   = 10;                     // ribs stop this far below the rim (cable notch)
-draft   = 42;                     // predicted waterline at ~4.7 kg total mass
+draft   = 42;                     // predicted waterline at ~4.7 kg total mass (L003: 8.9 mm/kg; chassis kit alone 1175 g measured -> 41.8)
 
 // joint bolts through both bulkheads: ABOVE the waterline only
 joint_bolt_z = [75, 105];
@@ -69,24 +78,47 @@ boss_pitch = 16;      // insert spacing along x
 // ---------------- ROB0154 chassis (MEASURED 2.10) ----------------
 // Tank-style: flat TOP plate, side plates hang down, DRIVE SPROCKETS AT THE FRONT TOP -> motors sit high (~85 mm), dry.
 ch_L = 300;  ch_W = 230;  ch_H = 124.6;        // footprint over tracks (MEASURE width: needs gap >= ch_W + 10), track bottom -> top of plate
-plate_L = 152.2; plate_W = 134.8; plate_t = 2;  // the aluminium top plate (slots for M3/M4)
-ch_x = 290;                                     // front of the track footprint; keeps the cradle sweep clear
-plate_x = ch_x + (ch_L - plate_L)/2;            // plate centred on the footprint -> 364..516
+plate_L = 151.82; plate_W = 134.8; plate_t = 2; // the aluminium top plate, MEASURED 8.10 (L003); CAD v1.9 had 152.2
+plate_slot = [11.3, plate_L - 26.4];            // MEASURED L003: the two transverse M3 slots, centres from the plate's FORWARD edge (octagonal hole forward)
+plate_slot_w = 3.2;                             // slot width (M3 passes); length not measured -> drawn 100
+plate_slot_len = 100;                           // VERIFY (L004)
+ch_x = 300;                                     // front of the track footprint. v2.0: 290 -> 300 so the plate slots land under the beams (decision L003)
+plate_x = ch_x + (ch_L - plate_L)/2;            // plate centred on the footprint -> 374.1..525.9 (ASSUMED centred: measure track front -> plate edge, L004)
 beam_bot = hull_H + 6;                          // tube underside when sitting in the rim brackets (126)
 chassis_raise = 0;                              // 0 = tracks flush with the hull bottom (beach together). Raise if drag is a problem.
 plate_gap = beam_bot - (chassis_raise + ch_H);  // plate hangs this far under the beams -> washers (1.4 mm)
 motor_axis = 62;                                // MEASURED 2.10: track bottom -> drive sprocket axis
 echo(str("Track bottom z=", chassis_raise, "; plate hangs ", plate_gap, " mm under the beams; motor axis z=", chassis_raise + motor_axis, " vs waterline ", draft, " (margin ", chassis_raise + motor_axis - draft, " mm)"));
+echo(str("Plate slots at x=", plate_x + plate_slot[0], " / ", plate_x + plate_slot[1], " vs beams ", beam_x[0], " / ", beam_x[1], " (offsets ", plate_x + plate_slot[0] - beam_x[0], " / ", plate_x + plate_slot[1] - beam_x[1], " mm; box slots allow +/-1.8)"));
+echo(str("Tracks x ", ch_x, "..", ch_x + ch_L, " (hull ends at ", hull_L, "); stowed cradle ends at x=", pivot_x + arm_len*cos(stow_a), " -> ", ch_x - (pivot_x + arm_len*cos(stow_a)), " mm clear"));
 
 // ---------------- bow arch (mast for the thermal camera) ----------------
 arch_x = 165;         // on the straight part of the hull, just ahead of the pivot boss
 arch_z = 235;         // underside of the arch tube; clears the cradle sweep (min 19 mm)
 post_w = 20;
 
-// ---------------- thruster pad (stern, below waterline) ----------------
-tp_w = 44; tp_h = 44; tp_t = 6;
-tp_z = 25;            // pad centre above the bottom
-tp_pitch = 20;        // MEASURE: your thruster's bolt pattern
+// ---------------- thruster: Cuifati 12 V, kick-up mount on the transom (v2.0, MEASURED 8.10 / L001) ----------------
+th_duct_d   = 72.27;  // duct OD (box drawing said 77)
+th_duct_L   = 112;
+th_face_z   = 47.10;  // thruster mounting face above the prop axis
+th_frame_t  = 9.68;   // frame thickness (brass inserts in it)
+th_pitch    = [35.0, 15.6];   // M4 inserts c-c [along the duct, across]; four readings 34.8-35.3 x 15.2-16.0 -> VERIFY on the coupon (L005)
+th_screw_d  = 4.5;    // clearance holes for the M4 screws (thread 3.93 measured; screw length 28.4 -> VERIFY vs 5 mm plate + 9.68 frame)
+th_mass     = 206;    // g each with cable and screws (the other one 201)
+th_frame_dx = 0;      // frame centre along the duct, from the duct centre.  MEASURE (L005)
+th_submerge = 10;     // duct top this far under the waterline when deployed
+th_axis_z   = draft - th_submerge - th_duct_d/2;   // prop axis -> -4.1: duct bottom 40 mm BELOW the hull. On shore the kick-up folds it away.
+th_pivot_z  = 75;     // hinge pin above the hull bottom = 33 mm above the waterline. Nothing is drilled below the waterline.
+th_pin_dx   = 14;     // pin aft of the transom pad face
+th_aft      = 47;     // duct centre aft of the pin (deployed): duct nose 5 mm aft of the pad and clears it through the whole swing
+th_kick     = 0;      // assembly only: 0 = deployed, 100 = kicked up on shore
+th_pin_d    = 5.3;    // the hinge pin is the same 5 mm aluminium rod as the cradle, 60 mm, R-clips in 1.5 mm cross holes
+th_lock_d   = 3.3;    // M3 lock pin: 2 holes in the lug (deployed / stowed), 1 in the arm cheek. Deployed lock = reverse thrust allowed.
+th_lock_r   = 10;     // lock-pin radius from the hinge
+tp_w = 56; tp_h = 70; tp_t = 6;   // transom pad: printed with the hull, 4 x M3 blind inserts, ALL above the waterline
+tp_z = 79;            // pad centre -> z 44..114
+tp_pitch = 40;        // insert pattern (y +/-20, z 59 / 99)
+th_plate = [50, 30, 5];               // arm plate on the thruster face (same as the coupon)
 
 
 // ---------------- power box (printed, on the ROB0154 top plate) ----------------
@@ -140,10 +172,14 @@ alpha     = (pose == "deployed") ? deploy_a : stow_a;
 cx        = pivot_x + arm_len * cos(alpha);       // coupler upper pivot
 cz        = shaft_z + arm_len * sin(alpha);
 rod_z     = cz - arm_gap - 12;
+th_plate_dz = th_axis_z + th_face_z + th_plate[2]/2 - th_pivot_z;   // arm plate centre below the pin (-29.5)
+th_lock_a   = atan2(th_plate_dz, th_aft);                           // direction pin -> plate centre, deployed (-32 deg)
 
 echo(str("Beam tube length: ", 2*(boss_y + 13), " mm"));
 echo(str("Power box (v1.9): floor on the beams at z=", pb_z, ", lid top z=", pb_z + pb_H + pb_lid_t, "; beam centres in box coords x=", beam_x[0] - (plate_x + plate_L/2), " / ", beam_x[1] - (plate_x + plate_L/2)));
 echo(str("Cradle width (rod centres): ", 2*coupler_y, " mm   [servo preset: ", servo_sel, "]"));
+echo(str("Thruster deployed: axis z=", th_axis_z, ", duct bottom z=", th_axis_z - th_duct_d/2, ", duct top ", draft - (th_axis_z + th_duct_d/2), " mm under the waterline; arm plate z=", th_axis_z + th_face_z, "; overall length ", hull_L + tp_t + th_pin_dx + th_aft + th_duct_L/2, " mm"));
+echo(str("Thruster hinge: pin z=", th_pivot_z, " (", th_pivot_z - draft, " above the waterline); lock angles deployed ", th_lock_a, " / stowed ", th_lock_a + 100, " deg"));
 echo(str("Pose ", pose, ": cradle rod at z=", rod_z, " (", rod_z - draft, " mm vs waterline), x from ", cx - cradle_L, " to ", cx));
 
 // ============================================================
@@ -196,7 +232,7 @@ module hull_full() {
             translate([hull_L, -tp_w/2, tp_z - tp_h/2]) cube([tp_t, tp_w, tp_h]);   // thruster pad
         }
         hull_cavity();
-        for (dy = [-tp_pitch/2, tp_pitch/2], dz = [-tp_pitch/2, tp_pitch/2])       // blind insert holes
+        for (dy = [-tp_pitch/2, tp_pitch/2], dz = [-tp_pitch/2, tp_pitch/2])       // blind insert holes, z 59 / 99: above the waterline
             translate([hull_L + tp_t - 5, dy, tp_z + dz]) rotate([0, 90, 0]) cylinder(d = insert_d, h = 6);
     }
     for (x = rib_x)  rib(x);
@@ -402,8 +438,8 @@ module power_box() {
         for (i = [0:pb_gland_n - 1]) translate([pb_L/2 - pb_wall - 1, -pb_W/2 + pb_W*(i + 1)/(pb_gland_n + 1), pb_H*0.55]) rotate([0, 90, 0]) cylinder(d = pb_gland, h = pb_wall + 2);
         // 50 A toggle on the front wall (-x)
         translate([-pb_L/2 - 1, 0, pb_H*0.6]) rotate([0, 90, 0]) cylinder(d = pb_toggle, h = pb_wall + 2);
-        // beam bolts: floor -> 15x15 tube -> ROB0154 plate slot (M3x30 + washers, nyloc under the plate)
-        for (bx = bx_rel, sy = [-1, 1]) translate([bx, sy*pb_beam_y, -pb_rail - 1]) cylinder(d = bolt_d, h = pb_floor + pb_rail + 2);
+        // beam bolts: floor SLOT 3.4 x 7 along x (v2.0) -> 15x15 tube (match-drilled through the plate slots on assembly) -> ROB0154 plate slot -> nyloc
+        for (bx = bx_rel, sy = [-1, 1]) hull() for (dx = [-1.8, 1.8]) translate([bx + dx, sy*pb_beam_y, -pb_rail - 1]) cylinder(d = bolt_d, h = pb_floor + pb_rail + 2);
     }
 }
 module power_lid() {
@@ -420,6 +456,59 @@ module power_lid() {
 }
 
 // ============================================================
+//  THRUSTER KICK-UP MOUNT (v2.0)   origin = transom pad face, hull centreline, hull bottom
+// ============================================================
+// Transom side: plate on the pad (4 x M3) + two lugs carrying the 5 mm pin. Nothing below the waterline.
+module thruster_bracket() {
+    lug_y = [19, 25];                     // lug faces |y|; the arm cheeks run inside them at 12.5..18.5
+    difference() {
+        union() {
+            translate([0, -25, tp_z - 32]) cube([6, 50, 64]);                                   // plate z 47..111
+            for (s = [-1, 1]) hull() {                                                           // lugs, aft to the pin
+                translate([0, s*lug_y[0] - (s < 0 ? 6 : 0), th_pivot_z - 14]) cube([1, 6, 28]);
+                translate([th_pin_dx, s*(lug_y[0] + 3), th_pivot_z]) rotate([90, 0, 0]) cylinder(r = 14, h = 6, center = true);
+            }
+        }
+        for (dy = [-tp_pitch/2, tp_pitch/2], dz = [-tp_pitch/2, tp_pitch/2]) translate([-1, dy, tp_z + dz]) rotate([0, 90, 0]) { cylinder(d = bolt_d, h = 8); translate([0, 0, 4]) cylinder(d = 6.2, h = 4); }
+        translate([th_pin_dx, 0, th_pivot_z]) rotate([90, 0, 0]) cylinder(d = th_pin_d, h = 80, center = true);           // hinge pin
+        for (a = [th_lock_a, th_lock_a + 100])                                                                              // lock pin: deployed / stowed
+            translate([th_pin_dx + th_lock_r*cos(a), 0, th_pivot_z + th_lock_r*sin(a)]) rotate([90, 0, 0]) cylinder(d = th_lock_d, h = 80, center = true);
+    }
+}
+// Swing arm: origin = hinge pin. Plate on the thruster face aft and below; cheeks between the lugs; forward tab = stop on the bracket plate.
+module thruster_arm() {
+    pz = th_plate_dz;                     // plate centre below the pin
+    difference() {
+        union() {
+            translate([th_aft - th_plate[0]/2, -th_plate[1]/2, pz - th_plate[2]/2]) cube(th_plate);
+            for (s = [-1, 1]) translate([0, s*15.5, 0]) rotate([90, 0, 0]) linear_extrude(6, center = true) hull() {   // cheeks |y| 12.5..18.5
+                circle(r = 12);
+                translate([-8, -6]) square([8, 12]);                                                                    // stop tab against the bracket plate (x = -8)
+                translate([th_aft - th_plate[0]/2, pz - th_plate[2]/2]) square([th_plate[0], th_plate[2]]);
+            }
+        }
+        rotate([90, 0, 0]) cylinder(d = th_pin_d, h = 60, center = true);
+        translate([th_lock_r*cos(th_lock_a), 0, th_lock_r*sin(th_lock_a)]) rotate([90, 0, 0]) cylinder(d = th_lock_d, h = 60, center = true);
+        for (dx = [-1, 1], dy = [-1, 1]) translate([th_aft + dx*th_pitch[0]/2, dy*th_pitch[1]/2, pz - 10]) cylinder(d = th_screw_d, h = 20);   // M4 to the thruster inserts
+    }
+}
+// Ghost of the real thruster, arm coordinates (deployed)
+module thruster_ref() {
+    ax = th_axis_z - th_pivot_z;
+    %translate([th_aft - th_frame_dx, 0, ax]) rotate([0, 90, 0]) cylinder(d = th_duct_d, h = th_duct_L, center = true);       // duct
+    %translate([th_aft - 25, -15, ax + th_duct_d/2 - 2]) cube([50, 30, th_face_z - th_duct_d/2 + 2]);                     // frame up to the mounting face
+}
+// L005 coupon: does the measured pattern fit the real screws?
+module thruster_coupon() difference() {
+    translate([-25, -15, 0]) cube([50, 30, 5]);
+    for (dx = [-1, 1], dy = [-1, 1]) translate([dx*th_pitch[0]/2, dy*th_pitch[1]/2, -1]) cylinder(d = th_screw_d, h = 7);
+}
+module thruster_mount() {                // placed at the transom pad face of one hull
+    color("dimgray") thruster_bracket();
+    translate([th_pin_dx, 0, th_pivot_z]) rotate([0, -th_kick, 0]) { color("gray") thruster_arm(); thruster_ref(); }
+}
+
+// ============================================================
 //  ASSEMBLY
 // ============================================================
 module left_side() {
@@ -430,6 +519,7 @@ module left_side() {
     translate([pivot_x, arm_y, shaft_z])            rotate([0, -alpha, 0]) rotate([90, 0, 0]) color("goldenrod") arm(true);
     translate([pivot_x, idler_y, shaft_z - arm_gap]) rotate([0, -alpha, 0]) rotate([90, 0, 0]) color("goldenrod") arm(false);
     translate([cx, coupler_y, cz]) color("darkgoldenrod") coupler();
+    translate([hull_L + tp_t, gap/2 + hull_W/2, 0]) thruster_mount();
 }
 
 module assembly() {
@@ -447,7 +537,10 @@ module assembly() {
     }
     // references
     %translate([ch_x, -ch_W/2, chassis_raise]) cube([ch_L, ch_W, ch_H]);                           // ROB0154 track envelope
-    color("gray") translate([plate_x, -plate_W/2, chassis_raise + ch_H - plate_t]) cube([plate_L, plate_W, plate_t]);   // top plate, bolted under the beams
+    color("gray") translate([plate_x, -plate_W/2, chassis_raise + ch_H - plate_t]) difference() {                      // top plate (measured), its two transverse slots shown
+        cube([plate_L, plate_W, plate_t]);
+        for (sx = plate_slot) translate([sx - plate_slot_w/2, (plate_W - plate_slot_len)/2, -1]) cube([plate_slot_w, plate_slot_len, plate_t + 2]);
+    }
     translate([plate_x + plate_L/2, 0, pb_z]) { color("slategray") power_box(); color("lightslategray") translate([0, 0, pb_H + pb_lid_t]) mirror([0, 0, 1]) power_lid(); }   // v1.9: on the beams
     %translate([plate_x + plate_L/2, 0, pb_z + pb_H + pb_lid_t]) scale([1.3, 1, 0.45]) sphere(r = 100);   // pod dome (v2) on the lid
     %color("lightblue", 0.3) translate([-300, -260, draft - 0.5]) cube([hull_L + 600, 520, 1]);   // water
@@ -481,3 +574,6 @@ else if (part == "dummy_head")     dummy_head();
 else if (part == "dummy_lid")      dummy_lid();
 else if (part == "power_box")      power_box();
 else if (part == "power_lid")      power_lid();
+else if (part == "thruster_bracket") thruster_bracket();
+else if (part == "thruster_arm")   thruster_arm();
+else if (part == "thruster_coupon") thruster_coupon();
