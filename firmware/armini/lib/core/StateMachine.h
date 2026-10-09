@@ -17,7 +17,8 @@ class StateMachine {
   Outputs tick(const Inputs& in, uint32_t dt_ms);
 
   // Leave SAFE -> IDLE. Only allowed while no hard cause (leak, kill,
-  // battery_low) was active in the most recent tick. Returns true if it acted.
+  // battery_low, heartbeat_lost) was active in the most recent tick. Returns
+  // true if it acted.
   // Disarm is not a blocking cause here: IDLE is itself the "not armed" state.
   bool reset();
 

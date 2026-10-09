@@ -43,6 +43,7 @@ SafeReason StateMachine::hardCause(const Inputs& in) {
   if (in.kill) return SafeReason::KILL;
   if (in.leak) return SafeReason::LEAK;
   if (in.battery_low) return SafeReason::BATTERY;
+  if (in.heartbeat_lost) return SafeReason::HEARTBEAT;
   return SafeReason::NONE;
 }
 

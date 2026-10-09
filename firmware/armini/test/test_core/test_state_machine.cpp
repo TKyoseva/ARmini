@@ -1,4 +1,5 @@
 // AR-Mini · host tests for lib/core/StateMachine (Unity, `pio test -e native`).
+// Entry points (called from test_main.cpp): stateMachineSetUp(), runStateMachineTests().
 #include <unity.h>
 #include <stdint.h>
 #include "StateMachine.h"
@@ -11,8 +12,7 @@ using namespace armini;
 static const uint32_t DT = 100;  // ms per tick (10 Hz, same as main.cpp)
 static Config cfg;               // default Config, fresh for every test
 
-void setUp() { cfg = Config(); }
-void tearDown() {}
+void stateMachineSetUp() { cfg = Config(); }
 
 // Nominal inputs: armed, arm stowed, no target, no faults.
 static Inputs base() {
@@ -351,6 +351,15 @@ void test_safe_reasons() {
   }
   {
     StateMachine sm(cfg);
+    driveTo(sm, State::LIFT);
+    Inputs in = base();
+    in.heartbeat_lost = true;  // T2: fed from the Safety verdict
+    sm.tick(in, DT);
+    TEST_ASSERT_EQUAL(State::SAFE, sm.state());
+    TEST_ASSERT_EQUAL(SafeReason::HEARTBEAT, sm.reason());
+  }
+  {
+    StateMachine sm(cfg);
     driveTo(sm, State::STOW);
     Inputs in = base();
     in.armed = false;
@@ -359,14 +368,23 @@ void test_safe_reasons() {
     TEST_ASSERT_EQUAL(SafeReason::DISARM, sm.reason());
   }
   {
-    // priority when several trip at once: KILL > LEAK > BATTERY > DISARM
+    // priority when several trip at once: KILL > LEAK > BATTERY > HEARTBEAT > DISARM
     StateMachine sm(cfg);
     driveTo(sm, State::SEARCH);
     Inputs in = base();
-    in.kill = in.leak = in.battery_low = true;
+    in.kill = in.leak = in.battery_low = in.heartbeat_lost = true;
     in.armed = false;
     sm.tick(in, DT);
     TEST_ASSERT_EQUAL(SafeReason::KILL, sm.reason());
+  }
+  {
+    StateMachine sm(cfg);
+    driveTo(sm, State::SEARCH);
+    Inputs in = base();
+    in.heartbeat_lost = true;
+    in.armed = false;
+    sm.tick(in, DT);
+    TEST_ASSERT_EQUAL(SafeReason::HEARTBEAT, sm.reason());  // HEARTBEAT beats DISARM
   }
   {
     // IDLE is the not-armed state: !armed alone does not trip SAFE there
@@ -501,6 +519,7 @@ void test_determinism() {
     in.leak = ((lcg >> 23) % 97) == 0;
     in.kill = ((lcg >> 25) % 131) == 0;
     in.battery_low = ((lcg >> 27) % 113) == 0;
+    in.heartbeat_lost = ((lcg >> 29) % 7) == 0;
     const uint32_t dt = 50 + ((lcg >> 2) % 100);
 
     Outputs oa = a.tick(in, dt);
@@ -517,8 +536,7 @@ void test_determinism() {
 
 // ---------------------------------------------------------------------------
 
-int main(int, char**) {
-  UNITY_BEGIN();
+void runStateMachineTests() {
   RUN_TEST(test_starts_idle_and_arms_to_search);
   RUN_TEST(test_search_needs_n_consecutive_sightings);
   RUN_TEST(test_search_exactly_n_sightings);
@@ -534,5 +552,4 @@ int main(int, char**) {
   RUN_TEST(test_reset_latch);
   RUN_TEST(test_clamping_absurd_gains);
   RUN_TEST(test_determinism);
-  return UNITY_END();
 }
