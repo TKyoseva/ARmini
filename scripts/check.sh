@@ -21,13 +21,19 @@ if command -v openscad >/dev/null; then
   openscad -o build/AR-Mini_v1.stl cad/openscad/AR-Mini_v1.scad 2> build/openscad.log || { echo "OpenSCAD FAILED (build/openscad.log)"; fail=1; }
 else echo "skip: openscad not installed"; fi
 
-# 4. PCB rules
-if command -v kicad-cli >/dev/null; then
+# 4. PCB rules (KiCad 10: kicad-cli from PATH, or the macOS app bundle)
+#    --severity-error: library warnings ("footprint library 'AR-Mini' not configured") are cosmetic,
+#    the footprints are embedded in the board. --refill-zones: DRC on the filled GND pour even if
+#    the board was saved unfilled (otherwise every GND pad reports "unconnected").
+KICAD_CLI="$(command -v kicad-cli || true)"
+[ -z "$KICAD_CLI" ] && [ -x /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli ] && KICAD_CLI=/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli
+if [ -n "$KICAD_CLI" ]; then
+  mkdir -p build
   for sch in pcb/*/*.kicad_sch; do [ -e "$sch" ] || continue
-    kicad-cli sch erc --exit-code-violations -o "build/$(basename "$sch" .kicad_sch)_erc.rpt" "$sch" || { echo "ERC FAILED: $sch"; fail=1; }
+    "$KICAD_CLI" sch erc --severity-error --exit-code-violations -o "build/$(basename "$sch" .kicad_sch)_erc.rpt" "$sch" || { echo "ERC FAILED: $sch"; fail=1; }
   done
   for pcb in pcb/*/*.kicad_pcb; do [ -e "$pcb" ] || continue
-    kicad-cli pcb drc --exit-code-violations -o "build/$(basename "$pcb" .kicad_pcb)_drc.rpt" "$pcb" || { echo "DRC FAILED: $pcb"; fail=1; }
+    "$KICAD_CLI" pcb drc --refill-zones --severity-error --exit-code-violations -o "build/$(basename "$pcb" .kicad_pcb)_drc.rpt" "$pcb" || { echo "DRC FAILED: $pcb"; fail=1; }
   done
 else echo "skip: kicad-cli not installed"; fi
 
