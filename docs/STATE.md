@@ -19,7 +19,7 @@ The current state on one page. Updated in the workshop chat after every decision
 - C003 · the octagonal hole of the plate faces forward; the beams are drilled through the slots at assembly; `pb_beam_y` 30 stays.
 
 ## Open (VERIFY / MEASURE)
-- Thruster bolt pattern 35.0 × 15.6 → coupon C005 (`thruster_coupon`, PLA).
+- Thruster bolt pattern **35.0 × 15.9** (measured 10.10 with inner/outer edges; 8.10 guess was 15.6) → coupon C005 (`thruster_coupon`, PLA) confirms.
 - Position of the frame along the duct (`th_frame_dx`) and M4 screw length for pad 5 + frame 9.68.
 - Is the plate centred on the tracks (CAD: 74.1 from the front edge)? → C004.
 - Length of the plate slots (drawn as 100).
@@ -30,7 +30,7 @@ The current state on one page. Updated in the workshop chat after every decision
 | Card | What | Release |
 |---|---|---|
 | C004 | assembled chassis: track → plate edge (front / back), M3 through the slots | r2b |
-| C005 | coupon 50 × 30 × 5, 4 × Ø4.5 at 35 × 15.6: do the M4 screws go in by hand? | r2a |
+| C005 | coupon 50 × 30 × 5, 4 × Ø4.5 at 35 × 15.9: do the M4 screws go in by hand? | r2a |
 | C006 | ESC: 9 V / 0.10 A in a bucket, V yellow→black, white→black, then with 10 kΩ to ground | r2a |
 | C007 | `hull_fore` in water: floats, draft, leak (dry paper) | r1a |
 | C008 | print `hull_fore` | r1a |

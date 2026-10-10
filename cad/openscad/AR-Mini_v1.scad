@@ -29,7 +29,7 @@
 //                                 4 x M3x30 + washers: box floor slot -> beam tube (match-drilled on assembly) -> ROB0154 plate slot -> nut
 //   thruster_bracket x2           PETG; bolts to the transom pad above the waterline (4 x M3), carries the hinge pin
 //   thruster_arm x2               PETG, 6 perimeters; 4 x M4 into the thruster's brass inserts, swings on a 5 mm rod
-//   thruster_coupon x1            PLA, 20 min; L005: do all 4 M4 screws go in by hand at 35.0 x 15.6?
+//   thruster_coupon x1            PLA, 20 min; L005: do all 4 M4 screws go in by hand at 35.0 x 15.9?
 //
 //  v2.0 (9.10, from L001 + L003): ROB0154 plate measured 151.82 x 134.8, its two transverse slots are 11.3 / 26.4 mm from the
 //   plate edges (octagonal hole forward) -> ch_x 290 -> 300 puts the slots under the beams (385 / 500). Power-box beam holes became
@@ -102,7 +102,7 @@ th_duct_d   = 72.27;  // duct OD (box drawing said 77)
 th_duct_L   = 112;
 th_face_z   = 47.10;  // thruster mounting face above the prop axis
 th_frame_t  = 9.68;   // frame thickness (brass inserts in it)
-th_pitch    = [35.0, 15.6];   // M4 inserts c-c [along the duct, across]; four readings 34.8-35.3 x 15.2-16.0 -> VERIFY on the coupon (L005)
+th_pitch    = [35.0, 15.9];   // M4 inserts c-c [along the duct, across]. MEASURED 10.10 (inner/outer edges): along 31.17/38.86 -> 35.02, across 12.25/19.50 -> 15.88 (8.10 guess 15.6). Coupon C005 confirms
 th_screw_d  = 4.5;    // clearance holes for the M4 screws (thread 3.93 measured; screw length 28.4 -> VERIFY vs 5 mm plate + 9.68 frame)
 th_mass     = 206;    // g each with cable and screws (the other one 201)
 th_frame_dx = 0;      // frame centre along the duct, from the duct centre.  MEASURE (L005)
