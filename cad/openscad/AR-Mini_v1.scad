@@ -150,12 +150,12 @@ stow_a   = 45;        // stowed (aft & 45 deg up)
 cradle_L = 220;
 // Servo preset: "TD8120" = the TD-8120MG you have now (bathtub test), "ST3215" = final (arrives 9.10 — MEASURE then)
 servo_sel       = "TD8120";
-servo           = servo_sel == "TD8120" ? [40.5, 20.4, 28.0] : [45.5, 25.5, 35.5];   // L (x), W (z, shaft face), depth bottom→ear plane (y). TD MEASURED 5.10: 40.3 x 20.14, ear plane 28.0
+servo           = servo_sel == "TD8120" ? [40.7, 20.4, 28.8] : [45.5, 25.5, 35.5];   // POCKET L (x), W (z, shaft face), depth bottom→ear plane (y). TD MEASURED 10.10 (C017): body 40.40 x 20.17 x 40.85, bottom→ear plane 28.51 (5.10 said 40.3 x 20.14, 28.0)
 servo_shaft_off = servo_sel == "TD8120" ? 10.4 : 11;      // shaft centre from the servo's forward end (TD MEASURED 10.4)
-servo_ear_dx    = servo_sel == "TD8120" ? 4.85 : 5;       // ear holes beyond the body end (TD: 50 mm hole span measured)
-servo_ear_dz    = servo_sel == "TD8120" ? 5    : 8;       // ear holes +/- from the shaft axis (TD MEASURED: 10 mm apart, hole 4.34)
-servo_top       = servo_sel == "TD8120" ? 12.7 : 0;       // shaft face past the ear plane (TD total 40.7 measured - 28 ear plane)
-disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle.              MEASURE
+servo_ear_dx    = servo_sel == "TD8120" ? 3.78 : 5;       // ear holes beyond the pocket end: span = servo[0] + 2*dx. TD MEASURED 10.10: hole c-c 48.26 along the body (inner edges 44.35, outer 52.16; the 5.10 "50" was wrong)
+servo_ear_dz    = servo_sel == "TD8120" ? 4.825 : 8;      // ear holes +/- from the shaft axis (TD MEASURED 10.10: 9.65 apart, hole d4.05 -> M3)
+servo_top       = servo_sel == "TD8120" ? 12.34 : 0;      // case top past the ear plane (TD MEASURED 10.10: 40.85 - 28.51)
+disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle. TD FITTED 10.10 (C017): black plastic 25T disc from the bag, ring c-c ~16 (inner edges 13.75); the bag screws bite in the disc
 
 // ---------------- thermal camera pan (4th servo, on top of the arch tube) ----------------
 cam_tilt    = 15;     // camera looks this far below horizontal
