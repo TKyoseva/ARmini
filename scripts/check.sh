@@ -39,12 +39,16 @@ else echo "skip: kicad-cli not installed"; fi
 
 # 5. firmware builds (every PlatformIO project under firmware/)
 #    firmware/armini: target build + host unit tests (native env, Unity).
+#    firmware/bench:  all module envs (default_envs) + host unit tests of lib/benchcore.
 if command -v pio >/dev/null; then
   for ini in firmware/*/platformio.ini; do [ -e "$ini" ] || continue
     dir="$(dirname "$ini")"
     if [ "$dir" = "firmware/armini" ]; then
       (cd "$dir" && pio run -e devkit_lipo) || { echo "FIRMWARE BUILD FAILED: $ini (devkit_lipo)"; fail=1; }
       (cd "$dir" && pio test -e native)     || { echo "FIRMWARE TESTS FAILED: $ini (native)"; fail=1; }
+    elif [ "$dir" = "firmware/bench" ]; then
+      (cd "$dir" && pio run)            || { echo "FIRMWARE BUILD FAILED: $ini (all module envs)"; fail=1; }
+      (cd "$dir" && pio test -e native) || { echo "FIRMWARE TESTS FAILED: $ini (native)"; fail=1; }
     else
       (cd "$dir" && pio run) || { echo "FIRMWARE BUILD FAILED: $ini"; fail=1; }
     fi
