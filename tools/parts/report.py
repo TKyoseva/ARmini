@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 
 from model import Config, Offer, PlanLine
 from plan import Alert
+from watch import WatchView
 
 STATUS_ICON = {"need": "need", "ordered": "ordered", "received": "received", "skip": "skip"}
 
@@ -39,8 +40,61 @@ def _best_cell(line: PlanLine) -> str:
     return f"{o.supplier} · {_price(o)} · stock {_stock(o)} · {o.lead_days} d ({o.lead_source}) · {link}"
 
 
+def render_watch(view: Optional[WatchView], error: str = "") -> str:
+    """The Watch section. `error` is already prefixed `watch.yaml invalid:`."""
+    if error:
+        return "## Watch\n\n" + error
+    if view is None:
+        return ""
+    out: List[str] = []
+    for i, lst in enumerate(view.lists):
+        out.append(f"## Watch · {lst.title}")
+        out.append("")
+        if i == 0:
+            if view.adapter_line:
+                out.append(view.adapter_line)
+                out.append("")
+            if view.request_line:
+                out.append(view.request_line)
+                out.append("")
+        out.append("Ranked by wow, then thrust per gram at 12 V (null last), then lowest price in EUR (unknown last).")
+        out.append("")
+        out.append("| Rank | ID | Name | Wow (features) | Thrust @12 V | Current @12 V | Mass | Size | "
+                   "Best price (orig → EUR) | Stock | Checked | Fit |")
+        out.append("|---:|---|---|---|---|---|---|---|---|---|---|---|")
+        for row in lst.rows:
+            name = f"[{_md(row.name)}]({row.url})" if row.url else _md(row.name)
+            out.append(f"| {row.rank} | {row.item_id} | {name} | {_md(row.wow)} | {_md(row.thrust)} | "
+                       f"{_md(row.current)} | {_md(row.mass)} | {_md(row.size)} | {_md(row.price)} | "
+                       f"{row.stock} | {_md(row.checked)} | {_md(row.fit)} |")
+        if not lst.rows:
+            out.append("| — | — | — | — | — | — | — | — | — | — | — | no rated items |")
+        out.append("")
+        out.append("### Unrated (found by the agent)")
+        out.append("")
+        if lst.unrated:
+            out.append("| ID | Name | Guessed features | Price | URL |")
+            out.append("|---|---|---|---|---|")
+            for row in lst.unrated:
+                link = f"[{_md(row.name)}]({row.url})" if row.url else _md(row.name)
+                out.append(f"| {row.item_id} | {link} | {_md(row.guessed)} | {_md(row.price)} | {row.url} |")
+        else:
+            out.append("none")
+        out.append("")
+        out.append("### Rejected")
+        out.append("")
+        if lst.rejected:
+            for rej in lst.rejected:
+                link = f" ([{_md(rej.url)}]({rej.url}))" if rej.url else ""
+                out.append(f"- {_md(rej.name)}{link} — {_md(rej.why)}")
+        else:
+            out.append("none")
+        out.append("")
+    return "\n".join(out).rstrip()
+
+
 def render_markdown(cfg: Config, lines: List[PlanLine], adapters: Dict[str, Dict[str, Any]],
-                    alerts: List[Alert], today: dt.date, run_at: str) -> str:
+                    alerts: List[Alert], today: dt.date, run_at: str, watch_md: str = "") -> str:
     out: List[str] = []
     out.append("# AR-Mini · parts report")
     out.append("")
@@ -99,20 +153,31 @@ def render_markdown(cfg: Config, lines: List[PlanLine], adapters: Dict[str, Dict
             out.append(f"- **{a.kind}** · {_md(a.text)}")
     else:
         out.append("none")
+    if watch_md:
+        out.append("")
+        out.append(watch_md.rstrip())
     out.append("")
     return "\n".join(out)
 
 
 def render_telegram(lines: List[PlanLine], adapters: Dict[str, Dict[str, Any]], alerts: List[Alert],
-                    today: dt.date, digest: bool, report_url: str = "") -> str:
-    """Plain-text message. Empty string means: nothing to send."""
-    if not alerts and not digest:
+                    today: dt.date, digest: bool, report_url: str = "", watch_error: str = "") -> str:
+    """Plain-text message. Empty string means: nothing to send.
+
+    WATCH_* alerts and a broken watch.yaml are digest-only (task T6): they are omitted
+    from the hourly message.
+    """
+    visible = [a for a in alerts if digest or not str(a.kind).startswith("WATCH_")]
+    if not visible and not digest:
         return ""
     out: List[str] = [f"AR-Mini parts · {today.isoformat()}"]
-    if alerts:
+    if visible:
         out.append("")
-        for a in alerts:
+        for a in visible:
             out.append(f"• {a.kind}: {a.text}")
+    if digest and watch_error:
+        out.append("")
+        out.append(watch_error)
     if digest:
         out.append("")
         out.append("Next to order:")

@@ -9,9 +9,13 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from adapters.base import Adapter, BudgetExceeded, Http, now_iso
+from adapters.bluerobotics import BlueRoboticsAdapter
 from adapters.comet import CometAdapter
+from adapters.hydromea import HydromeaAdapter
 from adapters.linkonly import LinkOnlyAdapter, supplier_for_url
 from adapters.mouser import MouserAdapter
+from adapters.rc_terminal import RcTerminalAdapter
+from adapters.robotshop_eu import RobotshopEuAdapter
 from adapters.tme import TmeAdapter
 from model import Config, Need, Offer
 
@@ -119,4 +123,21 @@ def collect(cfg: Config, adapters: Dict[str, Adapter], prev_adapters: Dict[str, 
     return offers, status
 
 
-__all__ = ["Adapter", "Http", "build_adapters", "collect", "manual_offers", "LINK_ONLY"]
+def build_watch_adapters(http: Optional[Http]) -> Dict[str, Adapter]:
+    """Shops named by parts/watch.yaml. Not used for needs.yaml."""
+    ebay = LinkOnlyAdapter(0, name="ebay_de", http=http)
+    ebay.link_reason = "stored price; eBay is not scraped"  # type: ignore[attr-defined]
+    vxb = LinkOnlyAdapter(0, name="vxb", http=http)
+    vxb.link_reason = "stored price; link-only"  # type: ignore[attr-defined]
+    return {
+        "robotshop_eu": RobotshopEuAdapter(0, http=http),
+        "bluerobotics": BlueRoboticsAdapter(0, http=http),
+        "hydromea": HydromeaAdapter(0, http=http),
+        "rc_terminal": RcTerminalAdapter(0, http=http),
+        "ebay_de": ebay,
+        "vxb": vxb,
+    }
+
+
+__all__ = ["Adapter", "Http", "build_adapters", "build_watch_adapters", "collect",
+           "manual_offers", "LINK_ONLY"]

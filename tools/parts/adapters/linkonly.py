@@ -1,4 +1,4 @@
-"""Link-only suppliers: amazon_de, bauhaus, 3dcolour.
+"""Link-only suppliers: amazon_de, bauhaus, 3dcolour, and (watch lists) ebay_de, vxb.
 
 Amazon.de blocks scrapers (task T4: "do not fight it"); Bauhaus and 3D Colour are pick-up /
 manual shops. These adapters never touch the network: fetch(url) returns the stored link with
@@ -18,6 +18,8 @@ HOSTS = {
     "bauhaus.": "bauhaus",
     "3dcolour": "3dcolour",
     "3dcolor": "3dcolour",
+    "ebay.de": "ebay_de",
+    "vxb.com": "vxb",
 }
 
 
