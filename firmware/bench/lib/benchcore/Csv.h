@@ -57,7 +57,7 @@ class CsvRow {
     if (neg) r = -r;
     const long long ip = r / scale;
     const long long fp = r % scale;
-    char tmp[40];
+    char tmp[48];
     if (decimals == 0) {
       snprintf(tmp, sizeof tmp, "%s%lld", neg ? "-" : "", ip);
     } else {
