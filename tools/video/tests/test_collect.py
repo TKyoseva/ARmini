@@ -59,6 +59,54 @@ def test_cloud_only_file_is_skipped_with_a_warning(tmp_path):
     assert any("C009_02.HEIC" in w and "iCloud" in w for w in warnings)
 
 
+# Same shape as the real files in iCloud 01_Loops/C###_…/captions.md (media/LINKS.md): a header line,
+# free text, one table `| File | What it shows | Reading |`, ★ in the first cell = Teddy's portfolio pick.
+CAPTIONS = """# C001 · Cuifati thruster: dimensions, bolt pattern, mass
+2026-10-08 · outcome: Partial · ★ = portfolio pick
+
+Card result: duct Ø72.27 × 112 (box says 77).
+
+| File | What it shows | Reading |
+|---|---|---|
+| ★ C001_01 | Box drawing: what the seller claims | 112 × 77 mm (claim) |
+| C001_02 | Box label | — |
+| ★ C001_07.HEIC | Duct outer diameter, caliper across the duct | **72.27 mm** (box said 77) |
+
+Story in two photos: C001_01 next to C001_07.
+"""
+
+
+def test_parse_captions_reads_star_what_and_reading():
+    rows = collect.parse_captions(CAPTIONS)
+    assert set(rows) == {"c001_01", "c001_02", "c001_07"}        # header, separator and prose are skipped
+    assert rows["c001_01"].starred and rows["c001_07"].starred and not rows["c001_02"].starred
+    assert rows["c001_01"].what == "Box drawing: what the seller claims"
+    assert rows["c001_01"].reading == "112 × 77 mm (claim)"
+    assert rows["c001_07"].name == "C001_07.HEIC"                 # with or without extension, same key
+    assert collect.caption_key("C001_07") == collect.caption_key("c001_07.heic") == "c001_07"
+
+
+def test_list_media_marks_starred_items_from_captions(tmp_path):
+    folder = tmp_path / "C001_2026-10-08_thruster-measure"
+    folder.mkdir()
+    for name in ("C001_01.PNG", "C001_02.PNG", "C001_07.PNG", "C001_09.PNG"):
+        (folder / name).write_bytes(b"png")
+    (folder / "captions.md").write_text(CAPTIONS, encoding="utf-8")
+    warnings: list = []
+    items = {i.file: i for i in collect.list_media(folder, "C001", warnings)}
+    assert warnings == []
+    assert "captions.md" not in items                              # the table is metadata, not media
+    assert [f for f, i in items.items() if i.starred] == ["C001_01.PNG", "C001_07.PNG"]
+    assert items["C001_07.PNG"].reading == "**72.27 mm** (box said 77)"
+    assert items["C001_09.PNG"].starred is False and items["C001_09.PNG"].what == ""   # not in the table
+
+
+def test_folder_without_captions_has_no_stars(media_root, cards_r1a):
+    warnings: list = []
+    media = collect.collect(cards_r1a, media_root, warnings)
+    assert not any(i.starred for items in media.values() for i in items)
+
+
 def test_kind_of_extensions():
     assert collect.kind_of(Path("a.HEIC")) == "photo"
     assert collect.kind_of(Path("a.MOV")) == "video"

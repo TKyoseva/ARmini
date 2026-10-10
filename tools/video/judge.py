@@ -1,8 +1,11 @@
 """Score media items of a release and pick the 2–3 that best show what was tested and what happened.
 
 Two paths, one output schema (Pick):
-- rules_pick(): deterministic, no network. Videos before photos; latest video per card; middle 8 s.
-- gemini_pick(): Gemini (google-genai) with the rubric; any error → rules_pick() and the shot list says so.
+- rules_pick(): deterministic, no network. ★ files from captions.md first; then videos before photos;
+  latest video per card; middle 8 s.
+- gemini_pick(): Gemini (google-genai) with the rubric and the captions.md rows; photos go inline at
+  ≤ FRAME_MAX_SIDE under the GEMINI_INLINE_MAX_BYTES cap (★ first), videos through the File API and are
+  deleted again afterwards; any error → rules_pick() and the shot list says so.
 
 Captions are built here from card fields only (label, title, outcome, result ≤ 60 chars).
 """
@@ -31,7 +34,9 @@ RUBRIC = """1. Shows the measured result: a ruler, a scale, a meter reading, wat
 
 RULES_SCORE_VIDEO = 7  # rules path cannot see content; videos rank above photos (SOURCE: task T5)
 RULES_SCORE_PHOTO = 5
+RULES_SCORE_STAR = 9   # ★ in captions.md: Teddy already judged it (Desk 1 review)
 SWAP_SCORE = 10
+STAR_WHY = "★ Teddy's pick (captions.md)"
 
 
 @dataclass
@@ -125,8 +130,25 @@ def pick_limit(n_cards_with_media: int) -> int:
 
 
 def _ordered(items: List[MediaItem]) -> List[MediaItem]:
-    """Videos first; within a kind the latest first (mtime, then the number in the file name)."""
-    return sorted(items, key=lambda i: (i.kind != "video", -i.mtime, _name_key(i.file)))
+    """★ (captions.md) first; then videos before photos; within a kind the latest first
+    (mtime, then the number in the file name)."""
+    return sorted(items, key=lambda i: (not i.starred, i.kind != "video", -i.mtime, _name_key(i.file)))
+
+
+def _score_why(item: MediaItem, default_why: str) -> Tuple[float, str]:
+    if item.starred:
+        return RULES_SCORE_STAR, STAR_WHY
+    return (RULES_SCORE_VIDEO if item.kind == "video" else RULES_SCORE_PHOTO), default_why
+
+
+def _reject_why(item: MediaItem, best: MediaItem) -> str:
+    if best.starred and not item.starred:
+        return f"not starred in captions.md; ★ {best.file} picked"
+    if item.kind == "photo" and best.kind == "video":
+        return f"photo; card has a video ({best.file})"
+    if item.kind == "video":
+        return f"older video than {best.file}"
+    return f"older photo than {best.file}"
 
 
 def _name_key(name: str) -> tuple:
@@ -153,7 +175,8 @@ def rules_pick(cards: List[Card], media: Dict[str, List[MediaItem]]) -> Judgemen
             if len(picks) < limit:
                 why = ("only card in this cut; " + ("video" if item.kind == "video" else "photo")
                        + f" #{len(picks) + 1} by date")
-                picks.append(_pick_from(item, card, RULES_SCORE_VIDEO if item.kind == "video" else RULES_SCORE_PHOTO, why))
+                score, why = _score_why(item, why)
+                picks.append(_pick_from(item, card, score, why))
             else:
                 rejected.append(Rejected(card.label, item.file, f"release limit {limit} reached"))
         return Judgement(picks, rejected, "rules")
@@ -168,14 +191,10 @@ def rules_pick(cards: List[Card], media: Dict[str, List[MediaItem]]) -> Judgemen
             continue
         best = items[0]
         why = "latest video of the card (videos beat photos)" if best.kind == "video" else "latest photo; card has no video"
-        picks.append(_pick_from(best, card, RULES_SCORE_VIDEO if best.kind == "video" else RULES_SCORE_PHOTO, why))
+        score, why = _score_why(best, why)
+        picks.append(_pick_from(best, card, score, why))
         for item in items[1:]:
-            if item.kind == "photo" and best.kind == "video":
-                rejected.append(Rejected(card.label, item.file, f"photo; card has a video ({best.file})"))
-            elif item.kind == "video":
-                rejected.append(Rejected(card.label, item.file, f"older video than {best.file}"))
-            else:
-                rejected.append(Rejected(card.label, item.file, f"older photo than {best.file}"))
+            rejected.append(Rejected(card.label, item.file, _reject_why(item, best)))
     return Judgement(picks, rejected, "rules")
 
 
@@ -362,11 +381,15 @@ def _prompt(release: Optional[Release], cards: List[Card], media: Dict[str, List
             lines.append(f"  hypothesis: {c.hyp}")
         if c.result:
             lines.append(f"  result: {c.result}")
-    lines += ["", "Media (file names are the only valid ids):"]
+    lines += ["", "Media (file names are the only valid ids). Columns from each card's captions.md, written by Teddy: "
+              "what it shows / the reading on the instrument. ★ = Teddy's own portfolio pick: prefer it unless "
+              "another file shows the measured result better."]
     for label, items in media.items():
         for i in items:
             dur = f", {i.duration_s:.1f} s" if i.kind == "video" and i.duration_s else ""
-            lines.append(f"- {label} / {i.file} ({i.kind}{dur})")
+            star = " ★" if i.starred else ""
+            desc = "".join(f" · {k}: {v}" for k, v in (("shows", i.what), ("reading", i.reading)) if v)
+            lines.append(f"- {label} / {i.file} ({i.kind}{dur}){star}{desc}")
     lines += ["", "Scoring rubric (highest first):", RUBRIC, "",
               f"Pick at most {limit} items, at most one per card"
               + (" (one card only: up to 3 from it)" if len([c for c in cards if media.get(c.label)]) == 1 else "")
@@ -391,6 +414,50 @@ def _sample_frames(video: Path, n: int = config.FRAME_SAMPLES) -> List[Tuple[flo
                             str(frame)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out.append((t, frame.read_bytes()))
     return out
+
+
+def _photo_bytes(path: Path, max_side: int = config.FRAME_MAX_SIDE) -> bytes:
+    """JPEG of a cached photo with the long side ≤ max_side (Pillow; without it the cached file as is)."""
+    try:
+        from PIL import Image  # type: ignore
+    except ImportError:
+        return Path(path).read_bytes()
+    import io
+    with Image.open(path) as im:
+        im = im.convert("RGB")
+        im.thumbnail((max_side, max_side))  # no upscaling
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=85)
+    return buf.getvalue()
+
+
+def _b64_len(n_bytes: int) -> int:
+    """Length of the base64 text for n raw bytes (what actually travels in the request)."""
+    return 4 * ((n_bytes + 2) // 3)
+
+
+def inline_order(cards: List[Card], media: Dict[str, List[MediaItem]]) -> List[MediaItem]:
+    """The order media is added to a request: every ★ file first, then card order with the rules order
+    inside a card — so when the size cap cuts the request, Teddy's picks are the ones that stay in."""
+    per_card = [i for c in cards for i in _ordered(media.get(c.label, []))]
+    return sorted(per_card, key=lambda i: not i.starred)
+
+
+class _InlineBudget:
+    """Keeps the request under GEMINI_INLINE_MAX_BYTES (text + base64 images). Videos go through the
+    File API and do not count."""
+
+    def __init__(self, used: int, cap: Optional[int] = None):
+        self.used = used
+        self.cap = config.GEMINI_INLINE_MAX_BYTES if cap is None else cap
+
+    def take(self, raw: bytes) -> Optional[str]:
+        """base64 text for `raw` if it fits, else None (and the budget is unchanged)."""
+        if self.used + _b64_len(len(raw)) > self.cap:
+            return None
+        text = base64.b64encode(raw).decode("ascii")
+        self.used += len(text)
+        return text
 
 
 def _upload_video(client, path: Path) -> object:
@@ -427,29 +494,44 @@ def gemini_pick(release: Optional[Release], cards: List[Card], media: Dict[str, 
 
     cards_with_media = [c for c in cards if media.get(c.label)]
     limit = pick_limit(len(cards_with_media))
-    notes: List[str] = []
+    notes: List[str] = []           # the Judgement keeps this very list, so the finally block can add to it
+    uploaded: List[object] = []     # File API objects to delete afterwards, whatever happens
+    client = None
     try:
         client = genai.Client(api_key=api_key)
-        parts: List[dict] = [{"type": "text", "text": _prompt(release, cards, media, limit)}]
-        for label, items in media.items():
-            for item in items:
-                if item.cached is None:
+        prompt = _prompt(release, cards, media, limit)
+        parts: List[dict] = [{"type": "text", "text": prompt}]
+        budget = _InlineBudget(used=len(prompt.encode("utf-8")))
+        for item in inline_order(cards, media):
+            label = item.card_label
+            if item.cached is None:
+                continue
+            if item.kind == "photo":
+                data = budget.take(_photo_bytes(item.cached))
+                if data is None:
+                    notes.append(f"{label}/{item.file}: not sent to the model — request would pass "
+                                 f"{config.GEMINI_INLINE_MAX_BYTES // 1024 ** 2} MB")
                     continue
-                if item.kind == "photo":
-                    parts.append({"type": "text", "text": f"{label} / {item.file}:"})
-                    parts.append({"type": "image", "mime_type": "image/jpeg",
-                                  "data": base64.b64encode(item.cached.read_bytes()).decode("ascii")})
-                else:
-                    try:
-                        f = _upload_video(client, item.cached)
-                        parts.append({"type": "text", "text": f"{label} / {item.file} (video):"})
-                        parts.append({"type": "video", "uri": f.uri, "mime_type": f.mime_type or "video/mp4"})
-                    except Exception as exc:  # noqa: BLE001 — fall back to frames for this file
-                        notes.append(f"{label}/{item.file}: video upload failed ({exc}); sent {config.FRAME_SAMPLES} frames instead")
-                        for t, jpg in _sample_frames(item.cached):
-                            parts.append({"type": "text", "text": f"{label} / {item.file} frame at {t:.1f} s:"})
-                            parts.append({"type": "image", "mime_type": "image/jpeg",
-                                          "data": base64.b64encode(jpg).decode("ascii")})
+                parts.append({"type": "text", "text": f"{label} / {item.file}:"})
+                parts.append({"type": "image", "mime_type": "image/jpeg", "data": data})
+            else:
+                try:
+                    f = _upload_video(client, item.cached)
+                    uploaded.append(f)
+                    parts.append({"type": "text", "text": f"{label} / {item.file} (video):"})
+                    parts.append({"type": "video", "uri": f.uri, "mime_type": getattr(f, "mime_type", None) or "video/mp4"})
+                except Exception as exc:  # noqa: BLE001 — fall back to frames for this file
+                    frames = _sample_frames(item.cached)
+                    sent = 0
+                    for t, jpg in frames:
+                        data = budget.take(jpg)
+                        if data is None:
+                            break
+                        parts.append({"type": "text", "text": f"{label} / {item.file} frame at {t:.1f} s:"})
+                        parts.append({"type": "image", "mime_type": "image/jpeg", "data": data})
+                        sent += 1
+                    notes.append(f"{label}/{item.file}: video upload failed ({exc}); sent {sent} of "
+                                 f"{len(frames)} frames instead" + ("" if sent == len(frames) else " (size cap)"))
         # SOURCE: https://ai.google.dev/gemini-api/docs/structured-output (Interactions API, JSON schema)
         interaction = client.interactions.create(
             model=model,
@@ -458,8 +540,22 @@ def gemini_pick(release: Optional[Release], cards: List[Card], media: Dict[str, 
         )
         text = getattr(interaction, "output_text", None) or str(interaction)
         picks, rejected, parse_notes = parse_llm_response(text, cards, media, limit)
-        return Judgement(picks, rejected, f"gemini:{model}", notes + parse_notes)
+        notes.extend(parse_notes)
+        return Judgement(picks, rejected, f"gemini:{model}", notes)
     except Exception as exc:  # noqa: BLE001 — the rules result is always a valid answer
         fallback.path = f"gemini:{model} failed: {str(exc)[:160]} → rules"
         fallback.notes = notes
         return fallback
+    finally:
+        _delete_uploads(client, uploaded, notes)
+
+
+def _delete_uploads(client, uploaded: List[object], notes: List[str]) -> None:
+    """Delete every File API upload right away instead of leaving it for Google's 48 h expiry
+    (SOURCE: https://ai.google.dev/gemini-api/docs/files). A failed delete is a note, not an error."""
+    for f in uploaded:
+        name = getattr(f, "name", None)
+        try:
+            client.files.delete(name=name)
+        except Exception as exc:  # noqa: BLE001
+            notes.append(f"could not delete upload {name} ({exc}); Google removes it after 48 h")

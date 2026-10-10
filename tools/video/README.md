@@ -51,14 +51,21 @@ logged in (the exact `gh release create …` command is printed so you can run i
    HEIC → JPG (`sips`, then Pillow fixes the orientation) and MOV → H.264 MP4 (ffmpeg) into
    `build/video/cache/`. A file that is in iCloud but not downloaded is skipped with a warning that names it;
    nothing is force-downloaded.
+   The card folder's `captions.md` (see `media/LINKS.md`) is read too: a table row whose first cell starts
+   with `★` (`| ★ C001_07 | what it shows | reading |`) marks Teddy's portfolio pick; the other two columns
+   travel with the file as its description.
 2. **Judge** (`judge.py`): scores every item and keeps max 1 per card, 3 per release (2 if the release has
    2 cards; a single card may give up to 3). Two paths, same output:
-   - **rules** (`--no-llm`, or no `GEMINI_API_KEY`, or any Gemini error): videos before photos, the latest
-     video of each card, clip = the middle 8 s (whole file if shorter), photos 3 s.
-   - **Gemini** (`gemini-3.8-flash`, config constant with its source URL): gets the cards, the rubric below
-     and the media (photos inline, videos through the File API; if an upload fails, 6 frames of that video are
-     sent as photos instead). Its JSON is validated against the real file names and durations; anything
-     malformed falls back to rules. The shot list always says which path ran.
+   - **rules** (`--no-llm`, or no `GEMINI_API_KEY`, or any Gemini error): `★` files first (why:
+     `★ Teddy's pick (captions.md)`), then videos before photos, the latest video of each card, clip = the
+     middle 8 s (whole file if shorter), photos 3 s.
+   - **Gemini** (`gemini-3.8-flash`, config constant with its source URL): gets the cards, the rubric below,
+     the `captions.md` rows (★ = Teddy's own pick, prefer it unless another file shows the measured result
+     better) and the media. Photos go inline, downscaled to 1024 px; the request stops adding images before it
+     passes 20 MB (`GEMINI_INLINE_MAX_BYTES`), ★ files first, and the shot list names every file that was left
+     out. Videos go through the File API and are **deleted again right after the answer**; if an upload
+     fails, 6 frames of that video are sent as photos instead. Its JSON is validated against the real file
+     names and durations; anything malformed falls back to rules. The shot list always says which path ran.
 3. **Cut** (`cut.py`): title card 2.5 s (`AR-Mini · <release>` / goal / cut-or-target date), each pick scaled
    and padded to 1920×1080 (no crop) with a lower-third `<label> · <title> · <Outcome>` and the card's
    `result` trimmed to 60 chars, end card 2.5 s (`next: <goal of the next uncut release>` or
@@ -103,7 +110,9 @@ quota — do not rely on that. Rules for this repo:
   portfolio). Media is taken only from `01_Loops/<card folder>/`; never from `00_Inbox` or anything else.
 - When in doubt, use `--no-llm`. The rules path never sends anything anywhere; without `--publish`
   nothing leaves the Mac at all.
-- Uploaded files are deleted by Google after 48 h (Files API docs). The tool does not store anything
+- Every video uploaded through the File API is deleted by the tool as soon as the answer is in (also when
+  the request fails); if a delete fails, the shot list says so and Google removes the file after 48 h
+  (Files API docs). Photos are sent inline at 1024 px, never stored. The tool does not store anything
   outside `build/video/`.
 
 ## Tests
@@ -113,7 +122,8 @@ python -m pytest -q tools/video      # no network, no API key; the 6 s test clip
 ```
 
 Fixtures: `tests/fixtures/board.json` (the export shape) and two PNGs under `tests/fixtures/media/`.
-The Gemini path is covered by its parser tests and a fake `google.genai` that fails (→ rules fallback).
+The Gemini path is covered by its parser tests and a fake `google.genai` (★ stays in under the size cap,
+uploads are deleted even when the request fails, any error → rules fallback).
 
 ## Files
 

@@ -33,7 +33,8 @@ def make_clip(path: Path, seconds: float, size: str = "640x360") -> None:
 
 @pytest.fixture(scope="session")
 def media_root(tmp_path_factory) -> Path:
-    """C001: 2 PNGs · C002: 2 clips (6 s latest, 3 s older) + 1 newer PNG · C004: 1 PNG · C003: no folder."""
+    """C001: 2 PNGs · C002: 2 clips (6 s latest, 3 s older) + 1 newer PNG · C004: 1 PNG · C003: no folder.
+    No captions.md anywhere: the ★ tests build their own folder (test_collect) or set `starred` (test_judge)."""
     root = tmp_path_factory.mktemp("media")
     shutil.copytree(PNG_DIR, root / PNG_DIR.name)
     c002 = root / "C002_2026-10-08_thruster-wires"

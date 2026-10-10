@@ -161,6 +161,71 @@ class MediaItem:
     size: int
     duration_s: Optional[float] = None  # videos, after prepare()
     cached: Optional[Path] = None       # converted copy in the cache, after prepare()
+    starred: bool = False               # ★ in captions.md = Teddy's portfolio pick
+    what: str = ""                      # captions.md "What it shows"
+    reading: str = ""                   # captions.md "Reading"
+
+
+@dataclass
+class CaptionRow:
+    name: str          # file stem or name as written, without the ★
+    what: str
+    reading: str
+    starred: bool
+
+
+CAPTIONS_FILE = "captions.md"  # SOURCE: media/LINKS.md — one per card folder
+STAR = "★"
+
+
+def parse_captions(text: str) -> Dict[str, CaptionRow]:
+    """Markdown table rows `| ★ C001_07 | what | reading |` → stem (lower) → row.
+    The first cell is the file (stem or full name); a leading ★ marks Teddy's portfolio pick.
+    Header and separator rows are skipped; anything that is not a table row is ignored."""
+    rows: Dict[str, CaptionRow] = {}
+    for line in text.splitlines():
+        line = line.strip()
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if not cells or not cells[0]:
+            continue
+        first = cells[0]
+        if set(first) <= set("-: ") or first.lower() == "file":
+            continue
+        starred = first.startswith(STAR)
+        name = first[len(STAR):].strip() if starred else first
+        name = name.strip("`* ")
+        if not name:
+            continue
+        rows[caption_key(name)] = CaptionRow(name=name, what=cells[1] if len(cells) > 1 else "",
+                                             reading=cells[2] if len(cells) > 2 else "", starred=starred)
+    return rows
+
+
+def caption_key(name: str) -> str:
+    """`C001_07`, `C001_07.HEIC` and `c001_07.heic` all mean the same file."""
+    return Path(name).stem.lower()
+
+
+def read_captions(folder: Path) -> Dict[str, CaptionRow]:
+    path = Path(folder) / CAPTIONS_FILE
+    if not path.is_file():
+        return {}
+    try:
+        return parse_captions(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError):
+        return {}
+
+
+def apply_captions(items: List[MediaItem], rows: Dict[str, CaptionRow]) -> None:
+    for item in items:
+        row = rows.get(caption_key(item.file))
+        if row is None:
+            continue
+        item.starred = row.starred
+        item.what = row.what
+        item.reading = row.reading
 
 
 def kind_of(path: Path) -> Optional[str]:
@@ -213,6 +278,7 @@ def list_media(folder: Path, label: str, warnings: List[str]) -> List[MediaItem]
         st = entry.stat()
         items.append(MediaItem(card_label=label, file=entry.name, path=entry, kind=kind,
                                mtime=st.st_mtime, size=st.st_size))
+    apply_captions(items, read_captions(folder))
     return items
 
 
