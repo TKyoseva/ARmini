@@ -162,7 +162,9 @@ void handleCommand(uint32_t now) {
     } else if (v < minDeg || v > maxDeg) {
       bench::msg("WARN %.1f deg outside the soft window %.0f-%.0f — send `limit <min> <max>` first", v, minDeg, maxDeg);
     } else {
-      if (!fbOk && readFeedback()) ramp.stop(posDeg);  // start the ramp from where the servo really is
+      // Not mid-ramp → resync the ramp to the real horn position first (it may have been moved by hand
+      // after `torque 0`, halted by KILL/dead-man, or never read if the servo was silent at boot).
+      if (!moving && readFeedback()) ramp.stop(posDeg);
       cmdDeg = v;
       ramp.setTarget(v);
       moving = true;

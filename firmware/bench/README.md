@@ -18,6 +18,11 @@ pio device monitor                 # 115200; `?` help, `0` stop
 python3 scripts/bench_log.py --port /dev/tty.usbmodem* --card C005 --name bts-bench   # from the repo root: save the CSV
 ```
 
+**Rocker in KILL whenever you flash or press reset; switch to RUN only after the banner.** GPIO39 (L RPWM) may be
+pulled up during ESP32-S3 boot, so RPWM can be high until `setup()` runs. The hardware kill (R_EN/L_EN or OE through
+the rocker) is what covers that window — the sketch cannot. Measurement to settle it: meter on GPIO39, rocker in KILL,
+hold RST → `expected: record` ([bts7960 protocol §3](src/bts7960/PROTOCOL.md), PINOUT.md VERIFY item 4).
+
 ## Env → module → protocol
 
 | env | module (bom.csv row) | bus / pins | CSV columns | protocol |

@@ -31,15 +31,19 @@ DevKit on USB only → banner `# WARN id 1 does not answer` is normal without 12
 
 | # | Command | Watch | Expected |
 |---|---|---|---|
+| 0 | `dm 10000` | `# OK dead-man 10000 ms` | steps are human-paced: 10 s between commands before `# DEADMAN`; the 2 s default comes back in step 7 |
 | 1 | `scan` | `# OK found id 1` | if nothing: swap TX/RX, check 12 V, `baud 115200` is **not** the default |
 | 2 | `read` | `pos`, `load`, `temp`, `volt` | `volt_V` = supply ± 0.3 V; `temp_C` room ± 5; `pos` anything 0–360 |
 | 3 | `pos 180` | `cmd_deg` 180, `pos_deg` ramps at 60 °/s | after settling `pos_deg` within **± 2°** of `cmd_deg` (task T3) |
 | 4 | `pos 100` | ramp down over ≈ 1.3 s | no overshoot > 2° in the log |
 | 5 | `pos 20` | `# WARN 20.0 deg outside the soft window 72-288` | refused |
 | 6 | `limit 0 360`, `pos 20` | `# WARN window widened …`; moves | **check nothing is attached to the horn** |
-| 7 | `pos 300`, stop typing | `# DEADMAN` → ramp halts in place, torque stays | `pos_deg` stops changing, servo holds |
-| 8 | hold the horn gently while `pos 180` | `load_permille` rises (sign = direction) | `expected: record` the value at which you feel it; temp rises `expected: record` |
-| 9 | `torque 0` | horn turns by hand, `pos_deg` follows | then `torque 1` |
+| 7 | `dm 2000` | `# OK dead-man 2000 ms` | (the servo is holding at 20°, nothing moves) |
+| 8 | `pos 300`, stop typing | ramp 20 → 300 at 60 °/s would take ≈ 4.7 s; after 2 s `# DEADMAN` → ramp halts in place, torque stays | `pos_deg` stops changing (somewhere near 140°), servo holds |
+| 9 | hold the horn gently while `pos 180` | `load_permille` rises (sign = direction) | `expected: record` the value at which you feel it; temp rises `expected: record` |
+| 10 | `torque 0` | horn turns by hand, `pos_deg` follows | then `torque 1` |
+
+From step 8 on the dead-man is back at 2 s: type the next command within 2 s of the previous one, or expect `# DEADMAN` in between (harmless — it only halts the ramp in place).
 
 ## 5. Pass
 ID answers, `pos_deg` settles within ± 2° of `cmd_deg` for steps 3–4, out-of-window command refused, dead-man halts the ramp, `volt_V` matches the supply.

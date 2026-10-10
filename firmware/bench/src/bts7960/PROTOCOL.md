@@ -18,6 +18,8 @@ Wire colours follow the legend of breadboard sheet 2b (red = power, black = GND,
 | GPIO14 `PIN_KILL` | rocker C | purple | rocker KILL → GND; 10 k pull-up to 3V3 (sheet 2b) — optional on this bench |
 | GPIO10 / GPIO11 `PIN_BTS_IS_R/L` | IS_R / IS_L | yellow | **optional, VERIFY first** — see step 2; enable with `is 1` |
 
+**VERIFY (logic level):** the DevKit drives RPWM/LPWM with 3.3 V PWM into the module's 5 V input buffer. If the motor stutters, misses pulses or the module LEDs flicker, record it on the card (which `cmd`, which direction, supply voltage) — the module's input threshold is not in the repo, so the measurement decides whether a level shifter is needed.
+
 ## 2. Before power (multimeter, everything off)
 
 | Check | Probes | Expected |
@@ -32,18 +34,28 @@ Wire colours follow the legend of breadboard sheet 2b (red = power, black = GND,
 
 Bench supply (Jesverty) 12.0 V, current limit **1.0 A** to start; rocker in KILL (R_EN/L_EN low), DevKit on USB only. Watch: supply current < 50 mA with the motor stopped (`expected: record`), module LEDs, no warm parts.
 
+**Rocker in KILL whenever you flash or press reset; switch to RUN only after the banner.** GPIO39 (L RPWM) may be pulled up during ESP32-S3 boot, so RPWM can be high until `setup()` runs — with R_EN/L_EN high that would be full forward for a fraction of a second. The rocker (R_EN/L_EN through the RUN pole) is what makes this safe; do not bypass it.
+
+| Measurement | Probes | Expected |
+|---|---|---|
+| GPIO39 level during boot | meter (DC V) on GPIO39 ↔ GND, rocker in KILL, hold RST pressed (board held in reset, then release and watch until the banner) | `expected: record` — in reset and before `setup()`; ~0 V once the banner is out. If it reads ≈ 3.3 V: the boot pull-up is real → PINOUT.md VERIFY item 4 (10 k pull-downs on GPIO39–42) |
+
 ## 4. Steps
 
 | # | Command | Watch (CSV / instrument) | Expected |
 |---|---|---|---|
+| 0 | `dm 10000` | `# OK dead-man 10000 ms` | steps are human-paced: 10 s between commands before `# DEADMAN`; the 2 s default comes back in step 3 |
 | 1 | `?` | help + `state: side=L limit=0.60 …` | — |
 | 2 | rocker → RUN, `s 0.2` | `cmd` 0.200; `pwm_r` ramps 0 → 51 in ≈ 0.4 s, `pwm_l` 0 | motor turns slowly; supply current `expected: record` |
-| 3 | wait 2 s without typing | `# DEADMAN`, `pwm_r` → 0 | motor stops |
-| 4 | `s -0.3` | `pwm_l` ramps to 77, `pwm_r` 0 | other direction |
-| 5 | `s 0.8` | `# WARN |s|=0.80 above soft limit 0.60 …` | **refused**, no change |
-| 6 | `limit 0.8` then `s 0.8` | `# WARN soft limit raised …`; `pwm_r` ramps to 204 over ≈ 1.6 s | current `expected: record` |
-| 7 | rocker → KILL while running | motor stops at once (hardware); if GPIO14 wired: `# KILL …`, `kill` 1 | |
-| 8 | `0` | `pwm_r`/`pwm_l` 0 | |
+| 3 | `dm 2000` (within 10 s of step 2; if `# DEADMAN` already came, send `s 0.2` again first) | `# OK dead-man 2000 ms`; motor still turning | |
+| 4 | wait 2 s without typing | `# DEADMAN`, `pwm_r` → 0 | motor stops |
+| 5 | `s -0.3` | `pwm_l` ramps to 77, `pwm_r` 0 | other direction |
+| 6 | `s 0.8` | `# WARN |s|=0.80 above soft limit 0.60 …` | **refused**, no change |
+| 7 | `limit 0.8` then `s 0.8` | `# WARN soft limit raised …`; `pwm_r` ramps to 204 over ≈ 1.6 s | current `expected: record` |
+| 8 | rocker → KILL while running | motor stops at once (hardware); if GPIO14 wired: `# KILL …`, `kill` 1 | |
+| 9 | `0` | `pwm_r`/`pwm_l` 0 | |
+
+From step 5 on the dead-man is back at 2 s: type the next command within 2 s of the previous one, or expect `# DEADMAN` in between (harmless — it only zeroes the outputs).
 
 Ramp check in the log: no two consecutive rows differ by more than 13 PWM counts (0.5/s × 0.1 s × 255 = 12.75).
 

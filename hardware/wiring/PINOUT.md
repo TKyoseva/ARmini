@@ -59,3 +59,7 @@ Header pin numbers are read from the manual drawing (EXT1 pin 1 = 3V3 at the top
 2. **BTS7960 IS_R / IS_L** — not on sheet 2b; GPIO10/11 proposed. Measure the module's IS voltage under load and in fault
    before connecting (can exceed 3.3 V). Decide whether to use them at all.
 3. **Header pin numbers** in the table (EXT1/EXT2 column) are from the manual drawing, not measured on the board.
+4. **GPIO39 boot pull-up → 10 k pull-downs on GPIO39–42 for carrier revA?** GPIO39 (BTS_L_RPWM) may be pulled up
+   during ESP32-S3 boot, so RPWM can be high until `setup()` runs. Until measured: rocker in KILL whenever flashing or
+   pressing reset. Test: `firmware/bench/src/bts7960/PROTOCOL.md` §3 — meter on GPIO39 ↔ GND, rocker in KILL, hold RST,
+   `expected: record`. If ≈ 3.3 V: decide pull-downs on GPIO39–42 (both BTS pairs) for the carrier revA.
