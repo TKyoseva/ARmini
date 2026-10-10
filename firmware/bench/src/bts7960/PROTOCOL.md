@@ -49,13 +49,14 @@ Bench supply (Jesverty) 12.0 V, current limit **1.0 A** to start; rocker in KILL
 | 2 | rocker → RUN, `s 0.2` | `cmd` 0.200; `pwm_r` ramps 0 → 51 in ≈ 0.4 s, `pwm_l` 0 | motor turns slowly; supply current `expected: record` |
 | 3 | `dm 2000` (within 10 s of step 2; if `# DEADMAN` already came, send `s 0.2` again first) | `# OK dead-man 2000 ms`; motor still turning | |
 | 4 | wait 2 s without typing | `# DEADMAN`, `pwm_r` → 0 | motor stops |
+| 4b | `dm 10000` | `# OK dead-man 10000 ms` | back to human pace for steps 5–9 |
 | 5 | `s -0.3` | `pwm_l` ramps to 77, `pwm_r` 0 | other direction |
 | 6 | `s 0.8` | `# WARN |s|=0.80 above soft limit 0.60 …` | **refused**, no change |
 | 7 | `limit 0.8` then `s 0.8` | `# WARN soft limit raised …`; `pwm_r` ramps to 204 over ≈ 1.6 s | current `expected: record` |
 | 8 | rocker → KILL while running | motor stops at once (hardware); if GPIO14 wired: `# KILL …`, `kill` 1 | |
 | 9 | `0` | `pwm_r`/`pwm_l` 0 | |
 
-From step 5 on the dead-man is back at 2 s: type the next command within 2 s of the previous one, or expect `# DEADMAN` in between (harmless — it only zeroes the outputs).
+The 2 s dead-man is only in force between steps 3 and 4b; step 4b puts it back to 10 s, so steps 5–9 can be typed at human pace. A `# DEADMAN` that still appears in between is harmless — it only zeroes the outputs; send the command again.
 
 Ramp check in the log: no two consecutive rows differ by more than 13 PWM counts (0.5/s × 0.1 s × 255 = 12.75).
 
