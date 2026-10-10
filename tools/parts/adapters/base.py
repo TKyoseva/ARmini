@@ -36,6 +36,7 @@ class Http:
                  sleep=time.sleep, session: Optional[requests.Session] = None):
         self.budget = budget
         self.used = 0
+        self.cap: Optional[int] = None   # absolute used ceiling; None = the run budget only
         self.min_interval = min_interval
         self._sleep = sleep
         self._last: Dict[str, float] = {}
@@ -53,8 +54,9 @@ class Http:
         self._last[host] = time.monotonic()
 
     def _spend(self) -> None:
-        if self.used >= self.budget:
-            raise BudgetExceeded(f"request budget of {self.budget} per run exhausted")
+        limit = self.budget if self.cap is None else min(self.budget, self.cap)
+        if self.used >= limit:
+            raise BudgetExceeded(f"request budget of {limit} per run exhausted")
         self.used += 1
 
     def allowed(self, url: str) -> bool:

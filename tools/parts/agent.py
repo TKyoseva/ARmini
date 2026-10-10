@@ -5,9 +5,12 @@
     python tools/parts/agent.py                  # writes parts/state.json + parts/REPORT.md, Telegram if due
     python tools/parts/agent.py --needs PATH     # another needs.yaml
     python tools/parts/agent.py --offline        # skip the network (tests, airplane)
+    python tools/parts/agent.py --watch          # refresh watch lists even if this is not the first run today
 
-Exit codes: 0 ok · 2 needs.yaml invalid (message on stderr starts with "needs.yaml invalid:").
-It never buys anything. Spec: tasks/night/2026-10-09_T4_parts-agent.md.
+Exit codes: 0 ok (a broken watch.yaml is reported and does not change this) ·
+2 needs.yaml invalid (message on stderr starts with "needs.yaml invalid:").
+It never buys anything. Spec: tasks/night/2026-10-09_T4_parts-agent.md and
+tasks/night/2026-10-10_T6_thruster-watch.md.
 """
 from __future__ import annotations
 
@@ -20,15 +23,18 @@ from typing import Any, Dict, List, Optional
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from adapters import Http, build_adapters, collect  # noqa: E402
+import watch as watch_mod  # noqa: E402
+from adapters import Http, build_adapters, build_watch_adapters, collect  # noqa: E402
 from model import Config, NeedsError, PlanLine, load_needs  # noqa: E402
 from notify import telegram  # noqa: E402
 from plan import carry_alerted, diff, plan_need, record_alerts  # noqa: E402
-from report import render_markdown, render_telegram  # noqa: E402
+from report import render_markdown, render_telegram, render_watch  # noqa: E402
+from watch import watch_ceiling  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 DEFAULT_NEEDS = os.path.join(REPO, "parts", "needs.yaml")
+DEFAULT_WATCH = os.path.join(REPO, "parts", "watch.yaml")
 DEFAULT_STATE = os.path.join(REPO, "parts", "state.json")
 DEFAULT_REPORT = os.path.join(REPO, "parts", "REPORT.md")
 
@@ -94,6 +100,9 @@ def run(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--today", default=None, help="override today's date (YYYY-MM-DD), for tests")
     ap.add_argument("--offline", action="store_true", help="do not call any supplier")
     ap.add_argument("--digest", action="store_true", help="force the daily digest into this run's message")
+    ap.add_argument("--watch", action="store_true",
+                    help="refresh watch lists even when this is not the first run of the day")
+    ap.add_argument("--watch-file", default=DEFAULT_WATCH, help="path to watch.yaml")
     args = ap.parse_args(argv)
 
     now = sofia_now()
@@ -125,10 +134,39 @@ def run(argv: Optional[List[str]] = None) -> int:
     alerts = diff(old_state, new_state, cfg, today)
     carry_alerted(old_state, new_state)
     record_alerts(new_state, alerts, today)
+
+    # Watch lists: first run of the day, or --watch. A broken watch.yaml does not fail the run.
+    do_watch = args.watch or is_first_run_today(old_state, now)
+    watch_error = ""
+    watch_md = ""
+    if do_watch:
+        if http is not None:
+            http.cap = watch_ceiling(http.used, http.budget)
+        try:
+            wr = watch_mod.run_watch(
+                args.watch_file, old_state.get("watch") or {}, today,
+                build_watch_adapters(http), offline=args.offline or http is None, http=http,
+            )
+        finally:
+            if http is not None:
+                http.cap = None
+        watch_error = wr.error
+        watch_md = render_watch(None, wr.error) if wr.error else render_watch(wr.view, "")
+        wr.state["markdown"] = watch_md
+        new_state["watch"] = wr.state
+        alerts = alerts + wr.alerts
+    else:
+        prev = old_state.get("watch") or {}
+        if prev:
+            new_state["watch"] = prev
+            watch_md = prev.get("markdown") or ""
+
     digest = args.digest or is_first_run_today(old_state, now)
-    report_md = render_markdown(cfg, lines, adapter_status, alerts, today, new_state["run_at"])
+    report_md = render_markdown(cfg, lines, adapter_status, alerts, today, new_state["run_at"],
+                                watch_md=watch_md)
     text = render_telegram(lines, adapter_status, alerts, today, digest,
-                           report_url=os.environ.get("PARTS_REPORT_URL", ""))
+                           report_url=os.environ.get("PARTS_REPORT_URL", ""),
+                           watch_error=watch_error if do_watch else "")
 
     if args.dry_run:
         print(report_md)

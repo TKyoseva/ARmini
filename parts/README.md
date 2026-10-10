@@ -1,6 +1,7 @@
 # parts/ · what AR-Mini still needs, and when to order it
 
-One file, `needs.yaml`, is the whole input. Every hour a GitHub Action runs `tools/parts/agent.py`:
+`needs.yaml` is the input for purchases. `watch.yaml` is a second list with no deadline (see Watch lists).
+Every hour a GitHub Action runs `tools/parts/agent.py`:
 it asks the suppliers for price, stock and lead time, computes the **last day to order** for every
 need (`release date − lead days − safety days`, weekends moved to the Friday before) and sends a
 Telegram message **only when something changed or a deadline is near**. It never buys anything.
@@ -79,6 +80,7 @@ pip install -r tools/parts/requirements.txt                 # once
 
 python tools/parts/agent.py --dry-run             # asks comet + vikiwat, prints the report, writes nothing
 python tools/parts/agent.py --dry-run --offline   # no network at all
+python tools/parts/agent.py --dry-run --offline --watch   # watch table from the stored prices
 python -m pytest -q tools/parts                   # tests, no network
 ```
 
@@ -86,6 +88,40 @@ In Cursor chat: `parts report` runs the dry run and shows the table.
 `--dry-run` never sends Telegram and never writes files. Without `--dry-run` the agent writes
 `parts/state.json` and `parts/REPORT.md` (both gitignored on `dev`; the workflow commits them to
 `parts-bot`).
+
+## Watch lists
+
+`parts/watch.yaml` is research, not a purchase. There is no release date and no order-by day, so it is
+not a `need`. The first run of each day (about 07:07 Sofia) also reads it: refreshes price and stock,
+searches a few shops for new products, ranks each list, and writes a **Watch** section into the report.
+Later runs the same day reuse that section and do not fetch again. `--watch` forces a refresh.
+The watch phase has its own cap of 20 requests, inside the 60 for the whole run.
+
+Telegram hears about it only in the daily digest, and each of these at most once per day:
+`WATCH_NEW` (a new unrated product), `WATCH_PRICE` (best price moved more than 10 %),
+`WATCH_STOCK` (in stock ↔ out of stock), `WATCH_TOP` (rank 1 changed).
+
+A broken `watch.yaml` is reported as `watch.yaml invalid: …` in the report and the digest. The needs
+part still runs and the exit code stays 0. The agent never edits `watch.yaml`. Products it finds are
+stored as `unrated` in `state.json` on the `parts-bot` branch, with guessed features that do **not**
+count until a human confirms them.
+
+Ranking is fixed, so it can be tested: `wow` is the sum of `wow_points` for confirmed `features` only.
+Ties break on thrust per gram at 12 V (`thrust_kgf_12v × 1000 / mass_g`; a missing number sorts last),
+then on the lowest price in EUR (unknown sorts last). Rates live in `fx_to_eur` and are typed by hand.
+A null rate leaves the original currency and prints `?` in the EUR column. The agent does not fetch
+exchange rates. `vat_included: false` with `import: true` adds the note "+ import VAT 20 % on arrival";
+it does not change the price figure.
+
+In Cursor chat:
+
+- `add watch: <url> to thruster_v2`
+- `rate W005: rim_driven, steerable`
+- `reject W005: <reason>`
+- `promote W001 for <release id>` (copies it into `needs.yaml`)
+
+Shops that answer with a captcha, or whose robots.txt disallows the path, stay link-only: the stored
+price is kept and the confidence is low. Spec: `tasks/night/2026-10-10_T6_thruster-watch.md`.
 
 ## The five secrets
 
