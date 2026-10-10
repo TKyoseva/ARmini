@@ -240,6 +240,12 @@ S12. **Interview sheet for the year I wasn't there** — answer in one line each
 ### Repo
 140. **Repo names** → `amphireach` (private now, public later), `amphireach-paper` (private: manuscript in second-round review, reviewer comments, response letters — commit history is forever, so never inside the main repo), `amphireach-portfolio` (private: the 25 files + texts), `amphireach-sim` if the simulation has its own repo (rename, GitHub redirects). Lowercase, hyphens, no versions in names; organisation only after January if the project continues. Before going public: scan history for passwords, the manuscript, friends' personal data.
 
+## 13. Added 08–10.10 — first measurements and the first print
+
+143. ⚡ **The thruster is taller than the draft** (card C001, 08.10) → measured: duct OD **72.27 mm** (the box drawing says 77), 112 mm long, mounting face 47.10 mm above the prop axis, frame 9.68 mm, 4 brass inserts, M4 screws 28.4 mm, pattern 34.8–35.3 × 15.2–16.0 mm, 201 / 206 g. The CAD v1.9 stern pad was a guess (44 × 44, M3) and a 72 mm duct cannot sit under a 42 mm waterline on a flat pad. **Fix, CAD v2.0 + decision 0004:** kick-up hinge on the transom, pin above the waterline, thruster folds up on shore; test coupon 50 × 30 × 5 with 4 × Ø4.5 at 35.0 × 15.6 (C005). Lesson: **measure the bought part before drawing its mount.**
+144. **"No supports" was wrong for hull_fore** (found while slicing, 09.10) → the two rim bosses at x 150–215 have a flat 24 mm underside 100 mm above the bed: a cantilever, not a bridge. The PLA fit print uses tree supports under them only. **Fix later in CAD:** a 45° gusset under each boss so the PETG hull prints without supports.
+145. ⚡ **The printer moved but printed nothing** (C008, 09–10.10) → TR2852 "filament detector triggered abnormally", then FR0122 "spool holder filament in use", then, from the external spool with the CFS off, the head drew the part in the air. Evidence: a red bead on the nozzle (the last colour through it was red, not orange), the orange tip came back flat and unmelted, and with the extruder cover off a piece of **red PLA sat in the heat-break inlet** (photos C008_09, C008_10, C008_18). **Fix:** Creality K2 Pro jammed-filament procedure — extruder front cover off (3 screws, mind the spring), cleaning needle from the top with the nozzle hot, red purged from the nozzle (C008_20–21). Lesson: **a CFS error can be a broken piece of the previous filament still in the head — push the old colour out before changing spool or mode.**
+
 ---
 
 ### The short list for the "what broke" video
