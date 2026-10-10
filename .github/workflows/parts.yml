@@ -1,0 +1,112 @@
+name: parts
+# AR-Mini parts agent (task T4): hourly sourcing + order-by alerts. It never buys anything.
+# Budget: ~17 runs/day × ~1 min ≈ 510 min/month of the 2 000 free minutes.
+on:
+  schedule:
+    - cron: '7 4-20 * * *'          # 07:07–23:07 Sofia in summer (EEST), 06:07–22:07 in winter
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run: print the report in the job log, no commit, no Telegram'
+        type: boolean
+        default: false
+  pull_request:
+    paths: ['tools/parts/**', 'parts/**', '.github/workflows/parts.yml']
+
+permissions:
+  contents: write                   # push to the bot branch `parts-bot` only
+
+concurrency:
+  group: parts-agent
+  cancel-in-progress: false
+
+jobs:
+  test:
+    # Unit tests, no network. Runs on PRs that touch the agent (and before every scheduled run).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12', cache: pip, cache-dependency-path: tools/parts/requirements.txt }
+      - run: pip install -r tools/parts/requirements.txt
+      - run: python -m pytest -q tools/parts
+      - name: Dry run with no secrets set
+        run: python tools/parts/agent.py --dry-run --offline
+
+  run:
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-24.04
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true }}
+      PARTS_REPORT_URL: https://github.com/${{ github.repository }}/blob/parts-bot/parts/REPORT.md
+    steps:
+      # Scheduled runs always use the needs.yaml on `dev` (the workflow file itself runs from the
+      # default branch). "Run workflow" uses the branch picked in the GitHub UI, so a dry run can
+      # be tested on a night/* branch before it is merged.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref || 'dev' }}
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12', cache: pip, cache-dependency-path: tools/parts/requirements.txt }
+      - run: pip install -r tools/parts/requirements.txt
+
+      - name: Restore previous state from branch parts-bot
+        run: |
+          if git fetch origin parts-bot 2>/dev/null; then
+            git show origin/parts-bot:parts/state.json > parts/state.json && echo "state restored" || echo "no state.json on parts-bot"
+          else
+            echo "branch parts-bot does not exist yet"
+          fi
+
+      - name: Run the agent
+        id: agent
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TME_TOKEN: ${{ secrets.TME_TOKEN }}
+          TME_SECRET: ${{ secrets.TME_SECRET }}
+          MOUSER_API_KEY: ${{ secrets.MOUSER_API_KEY }}
+        run: |
+          set +e
+          if [ "$DRY_RUN" = "true" ]; then
+            python tools/parts/agent.py --dry-run 2> agent.err
+          else
+            python tools/parts/agent.py 2> agent.err
+          fi
+          code=$?
+          cat agent.err >&2
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          # exit 2 (needs.yaml invalid) is reported to Telegram in the next step, not as a failed job
+          [ "$code" = "2" ] && exit 0
+          exit $code
+
+      - name: needs.yaml invalid → Telegram
+        if: steps.agent.outputs.code == '2' && env.DRY_RUN != 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: head -c 3000 agent.err | python tools/parts/notify.py
+
+      - name: Commit state + report to branch parts-bot
+        if: steps.agent.outputs.code == '0' && env.DRY_RUN != 'true'
+        run: |
+          set -e
+          git config user.name  parts-bot
+          git config user.email actions@github.com
+          tmp=$(mktemp -d)
+          cp parts/state.json parts/REPORT.md "$tmp/"
+          # single-snapshot orphan branch: history is not needed, state.json is the whole state
+          git checkout --orphan parts-bot
+          git rm -rfq --cached .
+          git clean -fdxq
+          mkdir -p parts
+          cp "$tmp/state.json" "$tmp/REPORT.md" parts/
+          printf '# parts-bot\n\nWritten by `.github/workflows/parts.yml`. Do not edit; edit `parts/needs.yaml` on `dev`.\n' > README.md
+          git add -f README.md parts/state.json parts/REPORT.md
+          git commit -qm "parts-bot: state $(date -u +%Y-%m-%dT%H:%MZ)"
+          if git ls-remote --exit-code --heads origin parts-bot >/dev/null; then
+            git push --force-with-lease=parts-bot:origin/parts-bot origin parts-bot
+          else
+            git push origin parts-bot
+          fi
