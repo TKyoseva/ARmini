@@ -28,7 +28,7 @@ The current state on one page. Updated in the workshop chat after every decision
 - Thruster bolt pattern 35.0 × 15.9 → C005: `thruster_arm` printed directly (coupon skipped 11.10, Teddy's call); with it: insert depth → M4 × 16 or × 20 (N001), and `th_frame_dx`.
 - Is the plate centred on the tracks (CAD: 74.1 from the front edge)? → C004. Length of the plate slots (drawn as 100).
 - ESC: logic level and arming → C006 (9 V, 0.10 A, in a bucket).
-- GPIO39–42 (BTS7960 pins, also JTAG) at reset: pulled high? → C015 step D; decides the pull-downs.
+- ~~GPIO39–42 at boot~~ → DECIDED 11.10 (C015): 10 kΩ pull-down to GND on each; GPIO39 is weakly HIGH after boot, 39/40 in download mode (PINOUT.md item 4).
 - DevKit-Lipo pinout freeze → C030 (rows 25.40, EXT1/EXT2 anchors and GPIO38 confirmed 11.10) → PINOUT.md + `pins_devkit.h`.
 - Firmware `armini` Safety still reads the old ADC ladder (`Ladder.h`, `Safety.cpp`, `hal_devkit`) → separate KILL / LEAK pins (0005).
 - 10 mm submergence of the duct in waves → pool, R2c.
@@ -45,7 +45,7 @@ The current state on one page. Updated in the workshop chat after every decision
 | C005 | `thruster_arm` on the thruster: do the 4 M4 screws go in by hand (coupon skipped) | R2a |
 | C006 · C024 · C025 | ESC at 9 V / 0.10 A · bench `esc` env · thruster spins in a bucket from the DevKit | R2a |
 | C004 | assembled chassis: track → plate edge, M3 through the slots | R2b |
-| C015 · C030 · C031 | GPIO39 at reset · pinout freeze · perfboard carrier | R2c |
+| C030 · C031 | pinout freeze (left: C006 ESC level) · perfboard carrier with the 4 pull-downs | R2c |
 | C026 · C027 · C028 | power chain on the bench · ladder bench (KILL, leak, battery) · T7 remote over WiFi | R2c |
 | C029 | MLX90640 sees Pesho at 37 °C from 1 m | R3a |
 | C032 | carrier rev B → KiCad → DRC → order at Aisler (order by Tue 13.10) | R3b |

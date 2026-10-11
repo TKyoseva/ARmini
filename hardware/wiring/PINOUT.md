@@ -32,10 +32,10 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 | 16 | EXT1 9 | PI_RX `PIN_PI_RX` (UART2, v2) | " | SOURCE 2b |
 | 1 | EXT2 4 | ESC_L `PIN_ESC_L` (LEDC 50 Hz) | left thruster ESC — no bench sketch | SOURCE 2b |
 | 2 | EXT2 5 | ESC_R `PIN_ESC_R` (LEDC 50 Hz) | right thruster ESC — no bench sketch | SOURCE 2b |
-| 39 | EXT2 9 | BTS_L_RPWM `PIN_BTS_L_RPWM` | left BTS7960 RPWM | **VERIFY** (pair 39/40 on the sheet, order chosen) |
-| 40 | EXT2 8 | BTS_L_LPWM `PIN_BTS_L_LPWM` | left BTS7960 LPWM | **VERIFY** |
-| 41 | EXT2 7 | BTS_R_RPWM `PIN_BTS_R_RPWM` | right BTS7960 RPWM | **VERIFY** (pair 41/42, order chosen) |
-| 42 | EXT2 6 | BTS_R_LPWM `PIN_BTS_R_LPWM` | right BTS7960 LPWM | **VERIFY** |
+| 39 | EXT2 9 | BTS_L_RPWM `PIN_BTS_L_RPWM` | left BTS7960 RPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
+| 40 | EXT2 8 | BTS_L_LPWM `PIN_BTS_L_LPWM` | left BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
+| 41 | EXT2 7 | BTS_R_RPWM `PIN_BTS_R_RPWM` | right BTS7960 RPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
+| 42 | EXT2 6 | BTS_R_LPWM `PIN_BTS_R_LPWM` | right BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 10 | EXT1 16 | `PIN_BTS_IS_R` (ADC1_CH9) | BTS7960 IS_R, optional | **VERIFY** (not on the sheet, proposed) |
 | 11 | EXT1 17 | `PIN_BTS_IS_L` (ADC2_CH0) | BTS7960 IS_L, optional | **VERIFY** (not on the sheet, proposed) |
 | 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/33k from F4 | SOURCE 2b |
@@ -50,7 +50,7 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 | EXT1 21 | — | +5 V in/out | from the MZHOU buck when running; USB only when programming | SOURCE 2b |
 | EXT1 22, EXT2 1 / 22 | — | GND | common ground | SOURCE manual p7 |
 
-Header pin numbers are read from the manual drawing (EXT1 pin 1 = 3V3 at the top, pin 22 = GND; EXT2 pin 1 = GND) — count them on the board before soldering anything permanent.
+Header pin numbers are from the manual drawing (EXT1 pin 1 = 3V3 at the antenna end, pin 22 = GND; EXT2 pin 1 = GND) and were **confirmed on the board 11.10 (C030)**: continuity EXT1 1↔2 (3V3), EXT1 22 ↔ EXT2 1 ↔ EXT2 22 (GND), no 3V3–GND short; GPIO38 (LED1) found on EXT2 10 with the meter. Rows 25.40 apart, 22 pins at 2.54 per row.
 
 ## VERIFY (DevKit-Lipo)
 
@@ -58,8 +58,11 @@ Header pin numbers are read from the manual drawing (EXT1 pin 1 = 3V3 at the top
    Test: `firmware/bench/src/bts7960/PROTOCOL.md` step 2 — if the track runs backwards, swap the two wires and correct sheet 2b.
 2. **BTS7960 IS_R / IS_L** — not on sheet 2b; GPIO10/11 proposed. Measure the module's IS voltage under load and in fault
    before connecting (can exceed 3.3 V). Decide whether to use them at all.
-3. **Header pin numbers** in the table (EXT1/EXT2 column) are from the manual drawing, not measured on the board.
-4. **GPIO39 boot pull-up → 10 k pull-downs on GPIO39–42 for carrier revA?** GPIO39 (BTS_L_RPWM) may be pulled up
-   during ESP32-S3 boot, so RPWM can be high until `setup()` runs. Until measured: rocker in KILL whenever flashing or
-   pressing reset. Test: `firmware/bench/src/bts7960/PROTOCOL.md` §3 — meter on GPIO39 ↔ GND, rocker in KILL, hold RST,
-   `expected: record`. If ≈ 3.3 V: decide pull-downs on GPIO39–42 (both BTS pairs) for the carrier revA.
+3. ~~Header pin numbers~~ → **MEASURED 11.10 (C030)**, see the note under the table.
+4. **GPIO39–42 at boot → DECIDED 11.10 (C015): 10 kΩ pull-down to GND on each of GPIO39, 40, 41, 42** on the
+   breadboard, the perfboard (C031) and carrier rev B (C032). Measured with the `ladder` sketch (does not touch 39–42), meter
+   to GND: in reset (EN low) all four ≈ 0.02 V; after boot GPIO39 = 3.15 V (40–42 ≈ 0.02 V) until the code drives it; in
+   download mode GPIO39 = 3.23 V and GPIO40 = 3.24 V. With 10 kΩ to GND, 39 (running and download) and 40 (download) read
+   ≈ 0 V, so the HIGH is very weak and the pull-down wins. Without a pull-down the left BTS7960 would see RPWM = 1, LPWM = 0
+   (full forward) from reset until `setup()`. Layers: pull-downs + firmware drives 39–42 LOW first in `setup()` + the rocker
+   (R_EN/L_EN through its RUN pole) stays the hardware stop. Rule unchanged: rocker in KILL when flashing or pressing reset.
