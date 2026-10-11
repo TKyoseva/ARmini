@@ -1,0 +1,133 @@
+# AR-Mini · watch list — things to follow, not to order yet.
+#
+# needs.yaml = purchases with a release date (order-by, alerts every hour).
+# watch.yaml = research with no deadline: the parts agent refreshes price + stock ONCE A DAY
+# (first run, ~07:07 Sofia), looks for new products with the `discover` queries, ranks each list
+# and adds it to parts/REPORT.md. Telegram only in the daily digest. It never buys anything.
+#
+# Cursor chat:  "add watch: <url> to thruster_v2"  ·  "rate W005: rim_driven, steerable"
+#               "reject W005: <reason>"            ·  "promote W001 for <release id>" (→ needs.yaml)
+# Spec: tasks/night/2026-10-10_T6_thruster-watch.md
+# Every number below has its source next to it. Checked 2026-10-10 unless noted.
+
+fx_to_eur:              # fixed rates, set by hand. null = report shows the original currency only.
+  USD: null             # VERIFY: Teddy
+  CHF: null             # VERIFY: Teddy
+
+lists:
+  - id: thruster_v2
+    title: "Thrusters for AR-Mini v2 (after 1 November)"
+    asked: "Teddy 10.10: for v2, rank by 'looks impressive', budget no limit"
+    budget_eur: null
+    must:
+      voltage_includes_v: 12          # runs on our 3S LiPo (11.1 V nominal)
+    rank_by: [wow, thrust_per_gram_12v, price_eur]
+    wow_points:                       # VERIFY: Teddy — change the points, the ranking follows
+      rim_driven: 3                   # hubless: the propeller sits inside a ring, nothing in the middle
+      waterjet: 3                     # pump-jet, like the RNLI Shannon-class lifeboat; no open propeller
+      steerable: 2                    # the nozzle or pod turns: steering without differential thrust
+      published_data: 2               # maker publishes thrust/current curves we can plot in the portfolio
+      rov_pedigree: 1                 # used on a well-known ROV (BlueROV2)
+    discover:                         # search terms per shop; new products appear as `unrated`
+      robotshop_eu: ["underwater thruster", "rim driven thruster"]
+      bluerobotics: ["thruster"]
+      hydromea: ["diskdrive"]
+      rc_terminal: ["Jetantrieb"]
+    exclude_words: [propeller, "prop set", "thrust kit", duct, penetrator, cable, "magnet ring", seal, impeller, "speed controller", esc]
+
+    items:
+      - id: W001
+        name: "Hydromea DiskDrive 50"
+        maker: "Hydromea (Lausanne, Switzerland)"
+        kind: rim-driven thruster
+        features: [rim_driven]
+        status: watch
+        spec:
+          voltage_v: [12, 16]
+          thrust_kgf_12v: 2.1
+          thrust_kgf_16v: 3.0
+          current_a_max: 25
+          mass_g: 175                 # in air, no cable; 115 g in water
+          size_mm: "82 x 95 x 15"
+          prop_d_mm: 50
+          mount: "3 x d5 holes; Thrust Kit = 316 steel bracket + 2 flow ducts"
+          esc: "external sensorless BLDC ESC, not included (datasheet: 'compatible with most ESCs')"
+          bidirectional: null         # VERIFY
+        offers:
+          - { shop: hydromea, url: "https://www.hydromea.com/category/diskdrive-50-products", price: 649.00, currency: USD, vat_included: null, import: true, in_stock: null, note: "thruster only" }
+          - { shop: hydromea, url: "https://www.hydromea.com/product-page/diskdrive-50-thrust-kit", price: 80.00, currency: USD, vat_included: null, import: true, in_stock: true, note: "Thrust Kit (bracket + ducts), without the thruster" }
+        sources:
+          - "https://cdn.robotshop.com/rbm/1e498a66-d638-4551-bed8-86bd5256fad4/0/0b27d356-788c-4154-9603-27bff149123d/716d21af_hydromea_diskdrive50_datasheet.pdf"
+          - "https://files.hydromea.com/diskdrive/Hydromea_DiskDrive50_2D_Drawing.pdf"
+        fit: "15 mm thick: could lie flat against the transom or sit in a slot in the hull. Needs its own ESC. Swiss shop: customs + 20 % import VAT on arrival."
+
+      - id: W002
+        name: "Blue Robotics T200"
+        maker: "Blue Robotics (USA)"
+        kind: ducted thruster
+        features: [published_data, rov_pedigree]
+        status: watch
+        spec:
+          voltage_v: [7, 20]          # 12-16 nominal
+          thrust_kgf_12v: 3.71        # forward; 2.92 reverse
+          current_a_12v: 17           # 205 W
+          thrust_kgf_16v: 5.25        # forward; 4.1 reverse; 24 A
+          mass_g: 344                 # in air with 1 m cable; 156 g in water
+          size_mm: "d100 x 113"
+          prop_d_mm: 76
+          mount: "4 x M3 (6 mm deep) on 19 mm + 1 x M6"
+          esc: "Basic ESC BESC30-R3, bidirectional, sold separately (USD 40)"
+          bidirectional: true
+        offers:
+          - { shop: robotshop_eu, url: "https://eu.robotshop.com/products/bluerobotics-t200-thruster-w-o-speed-controller", price: 253.00, currency: EUR, vat_included: true, import: false, in_stock: true, note: "page: 'Only 1 unit left'; no ESC" }
+          - { shop: bluerobotics, url: "https://bluerobotics.com/store/thrusters/t200-thruster/", price: 240.00, currency: USD, vat_included: false, import: true, in_stock: null, note: "1-9 pcs; Basic ESC USD 40 extra" }
+        sources:
+          - "https://bluerobotics.com/store/thrusters/t200-thruster/"
+        fit: "d100 = the whole v1 hull width (100 mm). Two at 12 V draw 34 A, over our 30 A main fuse. Full curves published: our thrust rig can be checked against them."
+
+      - id: W003
+        name: "TFL B54270 jet drive, all-aluminium, 4-blade impeller d39"
+        maker: "TFL (sold by RC-Terminal, Germany)"
+        kind: waterjet
+        features: [waterjet, steerable]   # steerable: page lists a 2.0 mm steering linkage + servo holder. VERIFY
+        status: watch
+        spec:
+          voltage_v: null             # depends on the motor
+          thrust_kgf_12v: null
+          mass_g: null
+          size_mm: "length 220 (130 inside the hull, ~90 outside)"
+          impeller_d_mm: 39
+          hull_cutouts: "intake ~110 x 55 in the hull bottom; transom hole ~d50; bellows seal"
+          motor: "not included: 36/40-class, 5 mm shaft, ~2200 KV recommended (5-6 mm coupler included)"
+          esc: "not included"
+          bidirectional: false        # a jet reverses only with a reverse bucket; none listed. VERIFY
+        offers:
+          - { shop: rc_terminal, url: "https://www.rc-terminal.de/TFL-Jetantrieb-B54270-Voll-Aluminium-fuer-RC-Rennboote-mit-4-Blatt-Alu-Impeller", price: 439.90, currency: EUR, vat_included: true, import: false, in_stock: false, note: "incl. 19 % DE VAT; 'momentan nicht verfügbar', notify option; shipping outside DE not stated" }
+        sources:
+          - "https://www.hamiltonjet.com/assets/main/Jetbriefs/Search_and_Rescue/jb-547---rnli-shannon-class-life-boat.pdf"
+        fit: "Needs a 110 x 55 intake in the hull bottom: breaks our rule 'no holes below the waterline', so a v2 hull would be designed around it. Racing-boat power, far more than we need. Story: the RNLI Shannon class uses twin Hamilton HJ364 waterjets instead of propellers, for manoeuvring alongside a casualty."
+
+      - id: W004
+        name: "ApisQueen U2 mini (with 45 A ESC)"
+        maker: "ApisQueen (Shenzhen, China)"
+        kind: ducted thruster
+        features: []                  # baseline: the same class as our Cuifati
+        status: watch
+        spec:
+          voltage_v: [12, 16]
+          thrust_kgf_12v: null        # listing: 2.87 lb (~1.3 kgf), voltage not stated
+          power_w: 130
+          kv: 500
+          mass_g: 286                 # listing: 10.08 oz
+          esc: "45 A bidirectional ESC included; CW and CCW versions"
+          bidirectional: true
+        offers:
+          - { shop: vxb, url: "https://vxb.com/products/u2-mini-underwater-thruster-12-to-16v-130w-brushle", price: 99.99, currency: USD, vat_included: false, import: true, in_stock: null, note: "free shipping stated for US only" }
+          - { shop: ebay_de, url: "https://www.ebay.de/itm/227045572886", price: 62.00, currency: USD, vat_included: true, import: false, in_stock: true, note: "NOT the mini: ApisQueen U2 12 V 150 W with ESC, 210 g; + USD 23 shipping from Shenzhen; import fees included" }
+        sources:
+          - "https://www.desertcart.ae/products/542038543-u2-mini-cw.md"
+        fit: "Same size class as the Cuifati we have. Here as the baseline the others are compared against."
+
+    rejected:
+      - { name: "MHZ Jet 58 steerable jet drive", url: "https://www.mhz-powerboats.com/Jet-58-Lenkbar-Jetantrieb/1723-58", why: "EUR 549, 760 g, needs 4.5-6 kW and a boat of at least 1.30 m" }
+      - { name: "Azimuth pod (off the shelf)", url: "https://www.printables.com/model/1631558-rc-tugboat-with-functional-azimuth-thrusters", why: "no small ready-made unit found on 10.10; a 3D-printed design exists -> a v2 BUILD idea, not a purchase" }

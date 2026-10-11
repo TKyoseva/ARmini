@@ -11,7 +11,7 @@ AR-Mini is a ~1:9 physical demonstrator of **AmphiReach**, an autonomous amphibi
 | Hulls | 2 × catamaran hull 610 × 100 × 120 mm, PETG, each printed in 2 sections of 305 mm; 250 mm gap; draft 42 mm at 4.7 kg |
 | Water drive | 2 × Cuifati underwater thrusters (12 V, ESC inside), differential steering, kick-up mount on the transom ([decision 0004](docs/decisions/0004-kick-up-thruster-mount.md)) |
 | Land drive | DFRobot ROB0154 tracked chassis, bolted under two 15 × 15 aluminium cross-beams |
-| Rescue lift | parallelogram arms (110 mm) on Waveshare ST3215 bus servos, Ø5 aluminium cradle 220 × 123 mm |
+| Rescue lift | parallelogram arms (110 mm) on Waveshare ST3215 bus servos, Ø5 aluminium cradle 220 × 112 mm (TD-8120MG preset, 10.10; recomputed when the ST3215 is measured) |
 | Sensing | MLX90642-D45 thermal camera on a pan servo (search), MLX90640 110° on the cradle (confirm), BNO055 IMU, leak probe |
 | Control | Seeed XIAO ESP32-S3 Sense (FreeRTOS) · PCA9685 PWM · 2 × BTS7960 · serial bus servo driver · Raspberry Pi 5 + ROS 2 in v2 |
 | Power | 2 × LiPo 3S 2200 mAh · 30 A inline fuse · 50 A main switch · 6-slot fuse block · logic kill rocker |

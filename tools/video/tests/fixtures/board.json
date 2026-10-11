@@ -1,0 +1,42 @@
+{
+  "exported": "2026-10-09T07:57:24+00:00",
+  "prefix": "C",
+  "source": "test fixture (shape of the AR-Mini Board export)",
+  "releases": [
+    {"id": "r0", "name": "R0", "goal": "already cut release", "date": "2026-10-05", "cut": "2026-10-05"},
+    {"id": "r1a", "name": "R1a", "goal": "hull_fore floats: draft measured, no leak in 20 min", "date": "2026-10-11", "cut": null},
+    {"id": "r1b", "name": "R1b", "goal": "the arm lifts Pesho in the bathtub", "date": "2026-10-13", "cut": null}
+  ],
+  "cards": [
+    {
+      "label": "C001", "seq": 1, "col": "done", "rel": "R1a",
+      "title": "Cuifati thruster: dimensions, bolt pattern, mass",
+      "hyp": "Is the thruster a generic Chinese part, and are its listed dimensions real?",
+      "note": "", "outcome": "partial",
+      "result": "duct Ø72.27 × 112 (box says 77), mounting face 47.10 above the axis, frame 9.68, M4 at 35 × 15.6, 206 g",
+      "photo": ""
+    },
+    {
+      "label": "C002", "seq": 2, "col": "done", "rel": "R1a",
+      "title": "Thruster: the 4 wires, ESC or phases (no 12 V)",
+      "hyp": "3 equal pairs under 1 Ω = motor phases",
+      "note": "", "outcome": "pass",
+      "result": "4 wires, not 3. No shorts.",
+      "photo": ""
+    },
+    {
+      "label": "C003", "seq": 3, "col": "backlog", "rel": "R1a",
+      "title": "hull_fore in the bathtub: floats, leaks, draft",
+      "hyp": "0 drops inside after 20 min",
+      "note": "", "outcome": null, "result": "", "photo": ""
+    },
+    {
+      "label": "C004", "seq": 4, "col": "done", "rel": "R1b",
+      "title": "ROB0154 plate: slots vs beams, size, mass",
+      "hyp": "plate 152.2 × 134.8, centred on the tracks",
+      "note": "", "outcome": "fail",
+      "result": "plate 151.82 × 134.8; slots 11.3 and 26.4 mm from the edges (≈114 ±0.8 apart); 10 mm off the beams. Chassis kit 1175 g",
+      "photo": ""
+    }
+  ]
+}

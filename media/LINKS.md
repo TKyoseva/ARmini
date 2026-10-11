@@ -9,3 +9,4 @@ File name: `C006_01.HEIC`, `C006_02.MOV` … in the order they were taken. `capt
 | C001 | 2026-10-08 | thruster: dimensions, bolt pattern, mass | Partial | [C001_2026-10-08_thruster-measure](https://www.icloud.com/iclouddrive/08aBlD2PmWlmLUKzUCxIMDYVw) |
 | C002 | 2026-10-08 | thruster: the 4 wires, ESC or phases (no 12 V) | Pass | [C002_2026-10-08_thruster-wires](https://www.icloud.com/iclouddrive/003fqj7BXTbCD54QjDjdgEcww) |
 | C003 | 2026-10-09 | ROB0154 plate: slots vs beams, size, mass | Fail | [C003_2026-10-09_rob0154-plate](https://www.icloud.com/iclouddrive/0d0WTgwnKRnblAFmnYWTkLQ8w) |
+| C010 | 2026-10-09 | DevKit-Lipo module marking: MCN8R8 (T1 review) | Pass | C010_2026-10-09_devkit-module |

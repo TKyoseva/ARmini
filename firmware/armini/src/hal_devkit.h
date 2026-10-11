@@ -10,12 +10,13 @@ namespace armini {
 
 class DevkitDryRunHal : public Hal {
  public:
-  explicit DevkitDryRunHal(const Config& cfg);
+  DevkitDryRunHal(const Config& cfg, const SafetyConfig& scfg);
 
   // Serial.begin, wait for the USB CDC host (bounded), print banner + CSV header.
   void begin();
 
   void readInputs(Inputs& in) override;
+  void readSafety(SafetyInputs& s) override;
   void writeOutputs(const Outputs& out) override;
   uint32_t nowMs() override;
   bool takeResetRequest() override;
@@ -32,8 +33,9 @@ class DevkitDryRunHal : public Hal {
   static const size_t kLineMax = 64;
 
   const Config& cfg_;
-  Inputs fake_;
-  float v_bat_;               // last `vbat` value, derives fake_.battery_low
+  const SafetyConfig& scfg_;
+  Inputs fake_;               // mission inputs (safety fields unused here)
+  SafetyInputs fake_safety_;  // raw safety inputs: leak/kill/vbat/hb/ladder
   bool reset_requested_;
   char line_[kLineMax];
   size_t line_len_;

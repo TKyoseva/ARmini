@@ -12,8 +12,9 @@ enum class State : uint8_t { IDLE, SEARCH, APPROACH, DEPLOY, LIFT, STOW, SHORE, 
 static const uint8_t kStateCount = 8;
 
 // Why we are in SAFE. Priority when several trip in one tick:
-// KILL > LEAK > BATTERY > DISARM (same order T2 proposes for its Safety module).
-enum class SafeReason : uint8_t { NONE, LEAK, KILL, BATTERY, DISARM };
+// KILL > LEAK > BATTERY > HEARTBEAT > DISARM (same order as the T2 Safety module,
+// which adds DISARM at the end because it is a mission condition, not a fault).
+enum class SafeReason : uint8_t { NONE, LEAK, KILL, BATTERY, HEARTBEAT, DISARM };
 
 inline const char* stateName(State s) {
   switch (s) {
@@ -34,8 +35,9 @@ inline const char* reasonName(SafeReason r) {
     case SafeReason::NONE:    return "NONE";
     case SafeReason::LEAK:    return "LEAK";
     case SafeReason::KILL:    return "KILL";
-    case SafeReason::BATTERY: return "BATTERY";
-    case SafeReason::DISARM:  return "DISARM";
+    case SafeReason::BATTERY:   return "BATTERY";
+    case SafeReason::HEARTBEAT: return "HEARTBEAT";
+    case SafeReason::DISARM:    return "DISARM";
   }
   return "?";
 }
@@ -53,9 +55,14 @@ struct Inputs {
   bool  load_detected    = false;  // something is in the cradle after the lift
   float tilt_deg         = 0.0f;   // IMU pitch, bow up positive (VERIFY: sign on the BNO055 mount)
   float heading_deg      = 0.0f;   // IMU yaw, 0..360
-  bool  leak             = false;  // leak probe wet
-  bool  kill             = false;  // logic kill switch
-  bool  battery_low      = false;  // battery below threshold (HAL / T2 Safety decides)
+  // Safety causes. On the robot these four are NOT the raw sensors: main.cpp
+  // fills them from the debounced, latched Safety verdict (applyVerdict() in
+  // Safety.h), exactly one of them true while Safety is tripped. The state
+  // machine treats them as plain booleans, so the host tests drive them directly.
+  bool  leak             = false;  // Safety: leak probe wet for leak_debounce_ms
+  bool  kill             = false;  // Safety: logic kill switch (no debounce)
+  bool  battery_low      = false;  // Safety: v_bat < v_trip for batt_debounce_ms, hysteresis to v_reset
+  bool  heartbeat_lost   = false;  // Safety: heartbeat_ok false for heartbeat_timeout_ms
 };
 
 struct Flags {
@@ -112,8 +119,7 @@ struct Config {
   float    track_speed    = 0.50f; // VERIFY: ROB0154 speed on the ramp, 0..1
   uint32_t shore_drive_ms = 3000;  // VERIFY: time to drive clear of the water
 
-  // --- battery (used by the HAL to derive Inputs::battery_low) ----------
-  float v_bat_low_v = 9.9f;        // VERIFY: T2 proposes 9.9 V (3.3 V/cell, 3S); Teddy decides
+  // Battery thresholds live in SafetyConfig (Safety.h): v_trip / v_reset.
 
   // --- output limits -----------------------------------------------------
   float angle_min_deg = 0.0f;      // SOURCE: task T1 ("angles in [0, 270]"); VERIFY against servo range

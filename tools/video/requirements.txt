@@ -1,0 +1,5 @@
+# tools/video — release video agent. Runs on Teddy's Mac only (media lives in iCloud Drive).
+# System tools (not pip): ffmpeg, ffprobe (brew install ffmpeg), gh (brew install gh), sips (macOS, built in).
+pillow>=10          # EXIF orientation + downscaling of the converted photos (without it files are copied as is)
+google-genai>=1.0   # optional: only imported when GEMINI_API_KEY is set and --no-llm is not given
+pytest>=7           # tests only: python -m pytest -q tools/video

@@ -13,7 +13,7 @@ CAD v1.9 had a flat stern pad below the waterline (44 × 44, M3 at 20 mm pitch, 
 - Deployed: prop axis z −4, duct top 10 mm under the waterline; overall length 733 mm. Kicked up 100°: duct bottom ≈ 74 mm above the hull bottom.
 
 ## Open (to measure / verify)
-- Hole pattern 35.0 × 15.6 → **C005 coupon** (`thruster_coupon`, PLA, 20 min): do all four M4 go in by hand?
+- Hole pattern 35.0 × 15.6 → **35.0 × 15.9** measured 10.10 (inner/outer edges 31.17/38.86 and 12.25/19.50) → **C005 coupon** (`thruster_coupon`, PLA, 20 min): do all four M4 go in by hand?
 - Frame position along the duct (`th_frame_dx`) and the M4 screw length vs plate 5 mm + frame 9.68.
 - Does 10 mm submergence hold in waves at this scale? Measure in the pool (R2).
 - Reverse thrust with the lock pin out: does the arm lift? Expected yes; that is why the pin exists.

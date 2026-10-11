@@ -22,3 +22,7 @@ __pycache__/
 interfaces.scad.bak
 # KiCad local project settings (per user)
 *.kicad_prl
+
+# parts agent output (lives on branch parts-bot, written by tools/parts/agent.py)
+parts/state.json
+parts/REPORT.md

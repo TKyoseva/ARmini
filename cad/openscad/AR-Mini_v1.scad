@@ -29,7 +29,7 @@
 //                                 4 x M3x30 + washers: box floor slot -> beam tube (match-drilled on assembly) -> ROB0154 plate slot -> nut
 //   thruster_bracket x2           PETG; bolts to the transom pad above the waterline (4 x M3), carries the hinge pin
 //   thruster_arm x2               PETG, 6 perimeters; 4 x M4 into the thruster's brass inserts, swings on a 5 mm rod
-//   thruster_coupon x1            PLA, 20 min; L005: do all 4 M4 screws go in by hand at 35.0 x 15.6?
+//   thruster_coupon x1            PLA, 20 min; L005: do all 4 M4 screws go in by hand at 35.0 x 15.9?
 //
 //  v2.0 (9.10, from L001 + L003): ROB0154 plate measured 151.82 x 134.8, its two transverse slots are 11.3 / 26.4 mm from the
 //   plate edges (octagonal hole forward) -> ch_x 290 -> 300 puts the slots under the beams (385 / 500). Power-box beam holes became
@@ -102,7 +102,7 @@ th_duct_d   = 72.27;  // duct OD (box drawing said 77)
 th_duct_L   = 112;
 th_face_z   = 47.10;  // thruster mounting face above the prop axis
 th_frame_t  = 9.68;   // frame thickness (brass inserts in it)
-th_pitch    = [35.0, 15.6];   // M4 inserts c-c [along the duct, across]; four readings 34.8-35.3 x 15.2-16.0 -> VERIFY on the coupon (L005)
+th_pitch    = [35.0, 15.9];   // M4 inserts c-c [along the duct, across]. MEASURED 10.10 (inner/outer edges): along 31.17/38.86 -> 35.02, across 12.25/19.50 -> 15.88 (8.10 guess 15.6). Coupon C005 confirms
 th_screw_d  = 4.5;    // clearance holes for the M4 screws (thread 3.93 measured; screw length 28.4 -> VERIFY vs 5 mm plate + 9.68 frame)
 th_mass     = 206;    // g each with cable and screws (the other one 201)
 th_frame_dx = 0;      // frame centre along the duct, from the duct centre.  MEASURE (L005)
@@ -150,12 +150,13 @@ stow_a   = 45;        // stowed (aft & 45 deg up)
 cradle_L = 220;
 // Servo preset: "TD8120" = the TD-8120MG you have now (bathtub test), "ST3215" = final (arrives 9.10 — MEASURE then)
 servo_sel       = "TD8120";
-servo           = servo_sel == "TD8120" ? [40.5, 20.4, 28.0] : [45.5, 25.5, 35.5];   // L (x), W (z, shaft face), depth bottom→ear plane (y). TD MEASURED 5.10: 40.3 x 20.14, ear plane 28.0
+servo           = servo_sel == "TD8120" ? [40.7, 20.4, 28.8] : [45.5, 25.5, 35.5];   // POCKET L (x), W (z, shaft face), depth bottom→ear plane (y). TD MEASURED 10.10 (C017): body 40.40 x 20.17 x 40.85, bottom→ear plane 28.51 (5.10 said 40.3 x 20.14, 28.0)
 servo_shaft_off = servo_sel == "TD8120" ? 10.4 : 11;      // shaft centre from the servo's forward end (TD MEASURED 10.4)
-servo_ear_dx    = servo_sel == "TD8120" ? 4.85 : 5;       // ear holes beyond the body end (TD: 50 mm hole span measured)
-servo_ear_dz    = servo_sel == "TD8120" ? 5    : 8;       // ear holes +/- from the shaft axis (TD MEASURED: 10 mm apart, hole 4.34)
-servo_top       = servo_sel == "TD8120" ? 12.7 : 0;       // shaft face past the ear plane (TD total 40.7 measured - 28 ear plane)
-disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle.              MEASURE
+servo_ear_dx    = servo_sel == "TD8120" ? 3.78 : 5;       // ear holes beyond the pocket end: span = servo[0] + 2*dx. TD MEASURED 10.10: hole c-c 48.26 along the body (inner edges 44.35, outer 52.16; the 5.10 "50" was wrong)
+servo_ear_dz    = servo_sel == "TD8120" ? 4.825 : 8;      // ear holes +/- from the shaft axis (TD MEASURED 10.10: 9.65 apart, hole d4.05 -> M3)
+servo_top       = servo_sel == "TD8120" ? 12.34 : 0;      // case top past the ear plane (TD MEASURED 10.10: 40.85 - 28.51)
+servo_disc_h    = servo_sel == "TD8120" ? 8.84 : 4;       // case top -> disc top face, disc pushed fully onto the spline (TD MEASURED 10.10: 14.84 to the arm top - arm_t 6). ST3215: MEASURE
+disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle. TD FITTED 10.10 (C017): black plastic 25T disc from the bag, ring c-c ~16 (inner edges 13.75); the bag screws bite in the disc
 
 // ---------------- thermal camera pan (4th servo, on top of the arch tube) ----------------
 cam_tilt    = 15;     // camera looks this far below horizontal
@@ -165,7 +166,8 @@ cam_hole_dx = 20;     // MLX90640 board hole spacing (board 28 x 16 mm, 2 mm hol
 boss_y    = gap/2 + wall + boss_w/2;              // global y of the boss holes (left hull)
 vp        = 6;                                    // pivot bracket plate thickness
 blk_y0    = -vp - 3 - servo[2];                   // servo block front face, bracket-local y
-arm_y     = gap/2 + blk_y0 - servo_top - 4;       // drive arm face (global, left): past the servo top/disc
+arm_y     = gap/2 + blk_y0 - servo_top - servo_disc_h;   // drive arm face (global, left): on the disc top
+idler_boss_L = servo_top + servo_disc_h - 0.7;     // was a fixed 16 (= 12.7 + 4 - 0.7); TD now 20.48
 coupler_y = arm_y - arm_t - 4;                    // coupler centre plane
 idler_y   = coupler_y - 4;                        // idler arm face
 alpha     = (pose == "deployed") ? deploy_a : stow_a;
@@ -312,7 +314,7 @@ module pivot_bracket() {
             translate([-boss_l/2, 0, 0]) cube([boss_l, wall + boss_w, pt]);                 // top plate on the boss
             translate([-boss_l/2, -vp, z0]) cube([boss_l, vp, -z0 + pt]);                   // plate down the inner face
             translate([x0, blk_y0, z0]) cube([x1 - x0, servo[2] + 3, -z0]);                 // servo block
-            translate([0, blk_y0 + 0.01, zs - arm_gap]) rotate([90, 0, 0]) cylinder(d = 9, h = 16);   // idler boss
+            translate([0, blk_y0 + 0.01, zs - arm_gap]) rotate([90, 0, 0]) cylinder(d = 9, h = idler_boss_L);   // idler boss, ends 0.7 short of the drive arm plane
         }
         for (dx = [-boss_pitch/2, boss_pitch/2]) {
             translate([dx, wall + boss_w/2, -1]) cylinder(d = bolt_d, h = pt + 2);
@@ -321,7 +323,7 @@ module pivot_bracket() {
         translate([-servo_shaft_off, blk_y0 - 1, zs - servo[1]/2]) cube([servo[0], servo[2] + 1, servo[1]]);   // pocket
         for (xe = [-servo_shaft_off - servo_ear_dx, servo[0] - servo_shaft_off + servo_ear_dx], dz = [-servo_ear_dz, servo_ear_dz])
             translate([xe, blk_y0 - 1, zs + dz]) rotate([-90, 0, 0]) cylinder(d = insert_d, h = 9);   // ear inserts
-        translate([0, blk_y0 - 17, zs - arm_gap]) rotate([-90, 0, 0]) cylinder(d = 2.6, h = servo[2] + 18);   // idler pin (tap M3)
+        translate([0, blk_y0 - idler_boss_L - 1, zs - arm_gap]) rotate([-90, 0, 0]) cylinder(d = 2.6, h = servo[2] + idler_boss_L + 2);   // idler pin (tap M3)
     }
 }
 
