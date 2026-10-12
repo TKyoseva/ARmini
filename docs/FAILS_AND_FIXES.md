@@ -251,6 +251,8 @@ S12. **Interview sheet for the year I wasn't there** — answer in one line each
 ## 14. Added 12.10 — breadboard, Pesho v3
 
 148. **Breadboard sheet 2b said the DevKit fits rows b/i of one 830** → wrong: its header rows are 25.40 mm apart = 10 pitches, so the DevKit-Lipo sits across two BB400 boards (measured C030, 11.10).
+149. **The hand warmer did not fit Pesho's head** (12.10) → the Decathlon warmer is 82.6 × 52.3 mm, the head was a Ø46 ball with a Ø28 mouth → head v3 is a capsule; the warmer is rolled along the wall, heats the shell the camera sees; air in under it, out through the lid.
+150. **A heavy warm head tips the dummy onto its back** (12.10) → head + lid + warmer ≈ 75 g at the top → a shoulder float ring (life-vest collar) + M12 nuts low in the boots. Weighed: warmer 45 g, nut 16 g → thermal test 3 + 3 nuts (≈10° back, whole head out), cradle test 1 + 1 (on his back, face 2 cm out). Back pockets removed: they put his face at the waterline. Numbers from `pesho.py --float`.
 
 ---
 

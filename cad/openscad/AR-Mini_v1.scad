@@ -24,7 +24,7 @@
 //   coupler x2                    plate flat
 //   cam_pan_mount x1              as modelled (slide onto the arch tube first)
 //   cam_plate x1                  flat, tab prints at 75 deg without supports
-//   dummy_head x1, dummy_lid x1   PLA; "Pesho" — hollow head with hand-warmer pocket and air vents
+//   Pesho (dummy)                 → cad/pesho/pesho.py (body red PLA, head + lid white PETG)
 //   power_box x1, power_lid x1    PETG, 4 perimeters; sits ON the two cross-beams (v1.9), holds fuse block + 2x BTS7960 + bus bars
 //                                 4 x M3x30 + washers: box floor slot -> beam tube (match-drilled on assembly) -> ROB0154 plate slot -> nut
 //   thruster_bracket x2           PETG; bolts to the transom pad above the waterline (4 x M3), carries the hinge pin
@@ -38,7 +38,7 @@
 //   waterline, thruster folds up on shore. No holes below the waterline.
 // ============================================================
 
-part = "assembly";   // assembly | hull_fore | hull_aft | plate_check | beam_bracket | arch_post | pivot_bracket | arm_drive | arm_idler | coupler | cam_pan_mount | cam_plate | dummy_head | dummy_lid | power_box | power_lid | thruster_bracket | thruster_arm | thruster_coupon
+part = "assembly";   // assembly | hull_fore | hull_aft | plate_check | beam_bracket | arch_post | pivot_bracket | arm_drive | arm_idler | coupler | cam_pan_mount | cam_plate | power_box | power_lid | thruster_bracket | thruster_arm | thruster_coupon
 side = 1;            // 1 = left (port), -1 = right (mirrored)
 pose = "deployed";   // deployed | stowed   (assembly only)
 
@@ -390,24 +390,10 @@ module cam_plate() {
 }
 
 // ============================================================
-//  TEST DUMMY HEAD ("Pesho") — hollow, hand warmer inside, vents on top, flat neck to glue on the foam torso
+//  TEST DUMMY "Pesho": moved to cad/pesho/pesho.py (v3, 12.10). Body, head and lid are generated there
+//  (signed-distance fields → build/pesho_*.stl) together with the floating check, so one file holds the
+//  geometry and the numbers. The assembly below still shows him as the grey 40 × 200 reference cylinder.
 // ============================================================
-head_d = 46; head_wall = 1.6; head_neck_d = 26; head_mouth_d = 28; head_vents = 6;
-module dummy_head() {
-    difference() {
-        sphere(d = head_d);
-        sphere(d = head_d - 2*head_wall);
-        translate([0, 0, head_d/2 - 8]) cylinder(d = head_mouth_d, h = 20);            // opening for the warmer + lid
-        translate([0, 0, -head_d]) cube([head_d, head_d, head_d - (head_neck_d/2) * 1.4], center = true);   // flat neck (prints flat)
-        for (i = [0:head_vents - 1]) rotate([0, 0, i*360/head_vents]) translate([head_d/2 - 6, 0, head_d/2 - 12]) rotate([0, 20, 0]) cylinder(d = 3, h = 10);   // air vents
-    }
-}
-module dummy_lid() {
-    difference() {
-        union() { cylinder(d = head_mouth_d - 0.4, h = 4); translate([0, 0, 4]) cylinder(d = head_mouth_d + 5, h = 1.6); }
-        for (i = [0:3]) rotate([0, 0, i*90 + 45]) translate([8, 0, -1]) cylinder(d = 3, h = 8);   // vents in the lid
-    }
-}
 
 // ============================================================
 //  POWER BOX — printed enclosure on the chassis plate (fuse block, 2x BTS7960, bus bars, 50 A toggle on the front wall)
@@ -572,8 +558,6 @@ else if (part == "arm_idler")      arm(false);
 else if (part == "coupler")        rotate([90, 0, 0]) coupler();
 else if (part == "cam_pan_mount")  cam_pan_mount();
 else if (part == "cam_plate")      cam_plate();
-else if (part == "dummy_head")     dummy_head();
-else if (part == "dummy_lid")      dummy_lid();
 else if (part == "power_box")      power_box();
 else if (part == "power_lid")      power_lid();
 else if (part == "thruster_bracket") thruster_bracket();
