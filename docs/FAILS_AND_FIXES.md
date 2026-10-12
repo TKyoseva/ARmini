@@ -248,6 +248,10 @@ S12. **Interview sheet for the year I wasn't there** — answer in one line each
 146. **The first print after the jam came out thin: the nozzle was at 140 °C** (C017, 10.10) → the head followed the arm outline but laid down almost nothing; the printer screen showed the nozzle at **140 °C** (PLA needs ~220). **Fix:** in Creality Print Teddy set the filament source (spool holder, "Enable CFS" off) and the nozzle temperature for the plate, sliced again → arm_drive printed clean: **20 min, 13.0 g**, holes open (C017_01–07). Lesson: **when the extrusion is thin, read the nozzle temperature on the screen first (current / target) before taking the head apart.**
 147. **The servo pocket was drawn from a wrong number** (C017, 10.10, caught before printing) → re-measuring the TD-8120MG for the arm fit: body **40.40** long (pocket was 40.5: no room), bottom → ear plane **28.51** (pocket 28.0: the servo would bottom out before the ears seat), ear holes **48.26 c-c** along the body, not 50 (two readings: inner edges 44.35, outer edges 52.16, average = c-c; the check (52.16 − 44.35)/2 = 3.9 matches the hole d4.05). With 50 the screws would have missed the inserts by ~1 mm each side. **Fix:** TD8120 preset → pocket 40.7 × 20.4 × 28.8, ear span 48.26, 9.65 across, case top 12.34. Lesson: **a hole-to-hole distance is never one caliper reading — measure inner and outer edges and average.** Same session: the plastic disc stands **8.84 mm** above the case top once pushed fully onto the spline (the first reading, 3.3 mm higher, had the disc sitting on the tip of the spline). The CAD guessed 4 → drive arm 4.5 mm further in, idler boss 16 → 20.5, cradle rod centres **123 → 112** (rod not bent yet, so nothing to redo).
 
+## 14. Added 12.10 — breadboard, Pesho v3
+
+148. **Breadboard sheet 2b said the DevKit fits rows b/i of one 830** → wrong: its header rows are 25.40 mm apart = 10 pitches, so the DevKit-Lipo sits across two BB400 boards (measured C030, 11.10).
+
 ---
 
 ### The short list for the "what broke" video
