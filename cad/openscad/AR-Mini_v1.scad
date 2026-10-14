@@ -109,7 +109,7 @@ th_frame_dx = 0;      // frame centre along the duct, from the duct centre.  MEA
 th_submerge = 10;     // duct top this far under the waterline when deployed
 th_axis_z   = draft - th_submerge - th_duct_d/2;   // prop axis -> -4.1: duct bottom 40 mm BELOW the hull. On shore the kick-up folds it away.
 th_pivot_z  = 75;     // hinge pin above the hull bottom = 33 mm above the waterline. Nothing is drilled below the waterline.
-th_pin_dx   = 14;     // pin aft of the transom pad face
+th_pin_dx   = 19;     // pin aft of the transom pad face. Was 14: the arm boss (r 12) reached x = 2, inside the 6 mm bracket plate (FAILS 151). Now boss front at x = 7, 1 mm clear
 th_aft      = 47;     // duct centre aft of the pin (deployed): duct nose 5 mm aft of the pad and clears it through the whole swing
 th_kick     = 0;      // assembly only: 0 = deployed, 100 = kicked up on shore
 th_pin_d    = 5.3;    // the hinge pin is the same 5 mm aluminium rod as the cradle, 60 mm, R-clips in 1.5 mm cross holes
@@ -119,6 +119,7 @@ tp_w = 56; tp_h = 70; tp_t = 6;   // transom pad: printed with the hull, 4 x M3 
 tp_z = 79;            // pad centre -> z 44..114
 tp_pitch = 40;        // insert pattern (y +/-20, z 59 / 99)
 th_plate = [50, 30, 5];               // arm plate on the thruster face (same as the coupon)
+assert(th_pin_dx - 6 >= 12 + 1, "thruster arm boss hits the bracket plate");   // 6 = bracket plate thickness, 12 = arm boss radius, 1 = clearance
 
 
 // ---------------- power box (printed, on the ROB0154 top plate) ----------------

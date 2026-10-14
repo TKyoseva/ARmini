@@ -254,6 +254,10 @@ S12. **Interview sheet for the year I wasn't there** — answer in one line each
 149. **The hand warmer did not fit Pesho's head** (12.10) → the Decathlon warmer is 82.6 × 52.3 mm, the head was a Ø46 ball with a Ø28 mouth → head v3 is a capsule; the warmer is rolled along the wall, heats the shell the camera sees; air in under it, out through the lid.
 150. **A heavy warm head tips the dummy onto its back** (12.10) → head + lid + warmer ≈ 75 g at the top → a shoulder float ring (life-vest collar) + M12 nuts low in the boots. Weighed: warmer 45 g, nut 16 g → thermal test 3 + 3 nuts (≈10° back, whole head out), cradle test 1 + 1 (on his back, face 2 cm out). Back pockets removed: they put his face at the waterline. Numbers from `pesho.py --float`.
 
+## 15. Added 14.10 — thruster kick-up
+
+151. **Thruster arm boss (r 12) collides with the bracket plate** (C041, 14.10, caught in CAD) → the hinge pin sat `th_pin_dx` = 14 mm aft of the pad face and the bracket plate is 6 mm thick, so the pin was 8 mm from the plate face and the arm's r 12 hinge boss reached x = 2 — 4 mm inside the plate. **Fix, CAD:** `th_pin_dx` 14 → **19**: boss front at x = 7, 1 mm clear of the plate; the lugs are 5 mm longer and the duct moves 5 mm aft (overall length +5). An `assert(th_pin_dx - 6 >= 12 + 1)` now fails the render if the pin creeps back. Lesson: **a hinge boss needs pin offset ≥ plate + boss radius + clearance — write it as an assert, not a comment.**
+
 ---
 
 ### The short list for the "what broke" video
