@@ -47,18 +47,20 @@ CABLE_Y1 = 71.0        # SPEC §2: 15 mm free past the USB-C end
 # SOURCE: SPEC §2. Pads of pin 1 sit outside this rectangle.
 KO = (26.2, 0.0, 47.2, 12.0)
 
-# U2 PCA9685 module — SOURCE: SPEC §4, MEASURED 13.10 (C032).
-# Board 58.98 × 25.92; two 1×6 rows along the short edges, 2.36 in from each end,
-# row to row 54.26; 4 × Ø2.7 holes on 54.26 × 17.36 in line with the rows.
+# U2 PCA9685 module — SOURCE: SPEC §4, MEASURED 13.10 (C032), CORRECTED 15.10 (FAILS 152):
+# the 1:1 print did not fit. The caliper tips in two holes read the centre distance directly
+# (55.99 / 19.09), the 1.73 'single-hole' reading must NOT be subtracted → the module is the
+# Adafruit-derived 2.20" × 0.75" pattern: row to row 55.88, holes 55.88 × 19.05 in line with
+# the rows, pin 1 / pin 6 to hole 3.175 (0.125"). Board 58.98 × 25.92, rows 1.55 from the ends.
 # The module lies along Y (rows along X) right of the DevKit, as in the 11.10 mockup.
 U2_W, U2_L = 25.92, 58.98
-U2_ROW, U2_HOLE_DX, U2_INSET = 54.26, 17.36, 2.36
+U2_ROW, U2_HOLE_DX, U2_INSET = 55.88, 19.05, 1.55   # was 54.26, 17.36, 2.36 (15.10, FAILS 152)
 U2_X0, U2_Y0 = 51.5, 0.5
 U2_CX = U2_X0 + U2_W / 2                 # 64.46
-U2_ROW1_Y = U2_Y0 + U2_INSET             # 2.86
-U2_ROW2_Y = U2_ROW1_Y + U2_ROW           # 57.12
-U2_PIN1_X = U2_CX - 2.5 * 2.54           # 58.11  VERIFY: row assumed centred across the 25.92 width
-U2_HOLE_D = 2.7
+U2_ROW1_Y = U2_Y0 + U2_INSET             # 2.05
+U2_ROW2_Y = U2_ROW1_Y + U2_ROW           # 57.93
+U2_PIN1_X = U2_CX - 2.5 * 2.54           # 58.11  row centred across the 25.92 width (holes 3.44 from the long edges, photo C032_02)
+U2_HOLE_D = 3.0                          # M2.5 standoff, 0.15 mm slack each side (was 2.7)
 
 # U3 Adafruit BNO055 #2472 — SOURCE: Adafruit Eagle file + caliper 13.10 (SPEC §4).
 # Board 26.67 × 20.32. JP1 1×6 at 1.27 from one long edge, pins at 6.985 … 19.685 along it.
@@ -71,7 +73,7 @@ U3_JP1_X = U3_X0 + 1.27                  # 79.77
 U3_JP2_X = U3_X0 + 1.27 + 17.78          # 97.55
 U3_JP1_Y1 = U3_Y0 + 6.985
 U3_JP2_Y1 = U3_Y0 + 9.525
-U3_HOLE_D = 2.7
+U3_HOLE_D = 3.0                          # M2.5 standoff with slack (was 2.7, 15.10)
 
 MOUNT = ((3.5, 3.5), (96.5, 3.5), (3.5, 76.5), (96.5, 76.5))   # SPEC §1: 93 × 73 grid
 SCREW_HEAD_R = 3.0     # M3 pan head Ø5.5–6: keep tall parts out
@@ -395,24 +397,35 @@ def place_parts():
     header("U1A", "DevKit_EXT1", EXT1_X, PIN1_Y, 22, HPITCH, e1, tick="right", body=dev_body, zone="U1")
     header("U1B", "DevKit_EXT2", EXT2_X, PIN1_Y, 22, HPITCH, e2, tick="left", body=dev_body, zone="U1")
 
-    # ---- U2 PCA9685: two 1×6 rows along X + 4 × Ø2.7, V+ (pin 6) not connected (SPEC §4).
+    # ---- U2 PCA9685: two 1×6 rows along X + 4 × Ø3.0, V+ (pin 6) not connected (SPEC §4).
     # Pin order from the V+ terminal edge: GND, OE, SCL, SDA, VCC, V+. Pin 1 at small x.
-    # Pins 1 and 6 are 1.4 × 2.2 so the Ø2.7 hole 2.33 mm away keeps 0.25 mm hole clearance.
+    # Pins 1 and 6 are 1.4 × 2.2; the Ø3.0 hole is 3.175 mm away → 0.97 mm hole-to-pad clearance.
     u2_nets = ["GND", "OE", "SCL0", "SDA0", "+3V3", None]
     u2_sizes = {0: (1.4, 2.2), 5: (1.4, 2.2)}
     u2_holes = ((-U2_HOLE_DX / 2 + 2.5 * 2.54, 0, U2_HOLE_D), (U2_HOLE_DX / 2 + 2.5 * 2.54, 0, U2_HOLE_D))
     for ref, yy, nets, ry in (("U2A", U2_ROW1_Y, u2_nets, 2.3), ("U2B", U2_ROW2_Y, [None] * 6, -2.3)):
         header(ref, "PCA9685_row", U2_PIN1_X, yy, 6, 2.54, nets, dx=1, dy=0, pad_sizes=u2_sizes,
                tick="top", holes=u2_holes, zone="U2", ref_at=(16.0, ry))
-    B.gr(rect(U2_X0, U2_Y0, U2_X0 + U2_W, U2_Y0 + U2_L, "F.SilkS", 0.12))
+    # Module outline on silk. The Ø3.0 holes sit 1.55 from the short edges (r 1.5 → 0.05 from the
+    # line), so the short edges are drawn in three pieces with a gap around each hole; a closed
+    # gr_rect raised 4 × silk_over_copper (silk clipped by the hole's mask opening).
+    u2_x1, u2_y1 = U2_X0 + U2_W, U2_Y0 + U2_L
+    B.gr(gr_line(U2_X0, U2_Y0, U2_X0, u2_y1, "F.SilkS", 0.12))
+    B.gr(gr_line(u2_x1, U2_Y0, u2_x1, u2_y1, "F.SilkS", 0.12))
+    gap = U2_HOLE_D / 2 + 0.3
+    hx_l, hx_r = U2_CX - U2_HOLE_DX / 2, U2_CX + U2_HOLE_DX / 2
+    for yy in (U2_Y0, u2_y1):
+        B.gr(gr_line(U2_X0, yy, hx_l - gap, yy, "F.SilkS", 0.12))
+        B.gr(gr_line(hx_l + gap, yy, hx_r - gap, yy, "F.SilkS", 0.12))
+        B.gr(gr_line(hx_r + gap, yy, u2_x1, yy, "F.SilkS", 0.12))
     B.gr(silk_text("U2 PCA9685 · V+ terminal side <-", U2_CX, 8.5, 0.8))
     B.gr(silk_text("GND OE SCL SDA VCC V+", U2_CX, U2_ROW1_Y + 2.4, 0.8))
     B.gr(silk_text("GND OE SCL SDA VCC V+", U2_CX, U2_ROW2_Y - 2.4, 0.8))
     B.gr(silk_text("U2B mechanical only", U2_CX, 60.6, 0.8))
-    B.gr(fab_text("VERIFY U2: pin row centred across 25.92 (1:1 print, SPEC §9.2)", U2_CX, 12.0, 0.8))
-    B.gr(fab_text("U2 pads 1/6 1.4 x 2.2, ring 0.2 (hole 2.33 mm away)", U2_CX, 14.0, 0.8))
+    B.gr(fab_text("U2 rows 55.88 apart, holes 55.88 x 19.05 (corrected 15.10, FAILS 152)", U2_CX, 12.0, 0.8))
+    B.gr(fab_text("U2 pads 1/6 1.4 x 2.2, ring 0.2 (hole 3.175 mm away)", U2_CX, 14.0, 0.8))
 
-    # ---- U3 BNO055: JP1 1×6 connected, JP2 1×4 mechanical, 4 × Ø2.7.
+    # ---- U3 BNO055: JP1 1×6 connected, JP2 1×4 mechanical, 4 × Ø3.0.
     # JP1: Vin=+3V3 only (SPEC §4), 3Vo NC, GND, SDA0, SCL0, RST NC.
     u3_holes = tuple((U3_X0 + hx - U3_JP1_X, U3_Y0 + hy - U3_JP1_Y1, U3_HOLE_D)
                      for hx in (2.54, 17.78) for hy in (2.54, 24.13))
