@@ -1,0 +1,2782 @@
+** Drc report for AR-Mini_carrier_revB.kicad_pcb **
+** Created on 2026-10-12T22:27:07 **
+** Report includes: Errors, Warnings **
+
+** Found 699 DRC violations **
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0200 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(21.2500 mm, 52.7500 mm): Track [+5V] on F.Cu, length 4.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(20.7500 mm, 57.7500 mm): Track [+5V] on F.Cu, length 0.7500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0903 mm)
+    Local override; error
+    @(18.7000 mm, 71.0000 mm): PTH pad 6 [ESC_R_5V] of U6
+    @(19.7500 mm, 71.7500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1700 mm)
+    Local override; error
+    @(16.0000 mm, 77.2500 mm): Track [+5V] on F.Cu, length 7.5000 mm
+    @(13.6200 mm, 78.6200 mm): PTH pad 11 [<no net>] of U6
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0537 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(20.7500 mm, 57.5000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1026 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(20.0000 mm, 57.7500 mm): Track [+5V] on F.Cu, length 14.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0532 mm)
+    Local override; error
+    @(16.1600 mm, 71.0000 mm): PTH pad 5 [ESC_R] of U6
+    @(19.5000 mm, 72.2500 mm): Track [+5V] on F.Cu, length 3.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0903 mm)
+    Local override; error
+    @(18.7000 mm, 71.0000 mm): PTH pad 6 [ESC_R_5V] of U6
+    @(20.0000 mm, 71.7500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0806 mm)
+    Local override; error
+    @(18.7000 mm, 71.0000 mm): PTH pad 6 [ESC_R_5V] of U6
+    @(19.5000 mm, 72.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0577 mm)
+    Local override; error
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+    @(90.7500 mm, 54.5000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0806 mm)
+    Local override; error
+    @(18.7000 mm, 71.0000 mm): PTH pad 6 [ESC_R_5V] of U6
+    @(19.7500 mm, 72.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SRV_TX and +5V)
+    Local override; error
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+    @(10.2500 mm, 25.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(94.0000 mm, 23.2500 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(94.2500 mm, 23.7500 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(94.0000 mm, 23.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(94.2500 mm, 23.2500 mm): Track [EN] on B.Cu, length 0.5000 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1207 mm)
+    Local override; error
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+    @(90.2500 mm, 54.5000 mm): Track [+5V] on F.Cu, length 0.5000 mm
+[shorting_items]: Items shorting two nets (nets KILL and EN)
+    Local override; error
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+    @(93.7500 mm, 19.7500 mm): Track [EN] on B.Cu, length 3.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1870 mm)
+    Local override; error
+    @(21.0000 mm, 29.7500 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 30.5000 mm): PTH pad 2 [GND] of R23
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1590 mm)
+    Local override; error
+    @(21.5000 mm, 24.0000 mm): Track [+3V3] on F.Cu, length 1.2500 mm
+    @(23.2500 mm, 24.5000 mm): Track [SRV_TX] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1560 mm)
+    Local override; error
+    @(21.0000 mm, 24.0000 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+[shorting_items]: Items shorting two nets (nets CH8 and +3V3)
+    Local override; error
+    @(15.0000 mm, 48.5000 mm): PTH pad 1 [CH8] of R8
+    @(15.0000 mm, 38.7500 mm): Track [+3V3] on B.Cu, length 17.7500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1560 mm)
+    Local override; error
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+    @(21.2500 mm, 24.0000 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(93.7500 mm, 23.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[shorting_items]: Items shorting two nets (nets +3V3 and OE)
+    Local override; error
+    @(17.0000 mm, 38.5000 mm): Track [+3V3] on B.Cu, length 8.0000 mm
+    @(15.0000 mm, 37.7000 mm): PTH pad 1 [OE] of R10
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(21.0000 mm, 35.2500 mm): Track [+3V3] on F.Cu, length 1.0000 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1528 mm)
+    Local override; error
+    @(20.0000 mm, 35.2500 mm): Track [+3V3] on F.Cu, length 2.5000 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[shorting_items]: Items shorting two nets (nets Q2B and 12V_PROT)
+    Local override; error
+    @(92.5000 mm, 48.0000 mm): Track [Q2B] on B.Cu, length 29.2500 mm
+    @(90.0000 mm, 48.0000 mm): PTH pad 1 [12V_PROT] of C1
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1700 mm)
+    Local override; error
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+    @(21.2500 mm, 22.5000 mm): Track [+3V3] on F.Cu, length 1.5000 mm
+[shorting_items]: Items shorting two nets (nets GND and LED3_A)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(20.0000 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 21.7500 mm
+[shorting_items]: Items shorting two nets (nets GND and LED3_A)
+    Local override; error
+    @(36.0000 mm, 73.0000 mm): PTH pad 1 [GND] of J2
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+[shorting_items]: Items shorting two nets (nets GND and LED2_A)
+    Local override; error
+    @(36.0000 mm, 73.0000 mm): PTH pad 1 [GND] of J2
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+    @(54.0000 mm, 25.2500 mm): Track [SCL0] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and SCL0)
+    Local override; error
+    @(53.2000 mm, 40.0000 mm): PTH pad 1 [BTS_R_RPWM] of R14
+    @(52.2500 mm, 39.7500 mm): Track [SCL0] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_L_RPWM and SCL0)
+    Local override; error
+    @(53.2000 mm, 32.0000 mm): PTH pad 1 [BTS_L_RPWM] of R12
+    @(52.5000 mm, 39.7500 mm): Track [SCL0] on B.Cu, length 11.7500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(52.2500 mm, 40.0000 mm): Track [SCL0] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 40.0000 mm): PTH pad 1 [BTS_R_RPWM] of R14
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.0000 mm, 25.0000 mm): Track [SCL0] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.2500 mm, 24.5000 mm): Track [SCL0] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.2500 mm, 25.0000 mm): Track [SCL0] on F.Cu, length 0.5000 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[shorting_items]: Items shorting two nets (nets SDA0 and +3V3)
+    Local override; error
+    @(86.0000 mm, 21.0000 mm): Track [SDA0] on B.Cu, length 14.5000 mm
+    @(86.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of U3
+[shorting_items]: Items shorting two nets (nets +3V3 and SDA0)
+    Local override; error
+    @(70.0000 mm, 6.5000 mm): PTH pad 1 [+3V3] of J6
+    @(75.7500 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 11.7500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and ESC_R)
+    Local override; error
+    @(50.0000 mm, 17.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.5000 mm
+    @(50.7500 mm, 13.2500 mm): Track [ESC_R] on F.Cu, length 8.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_L_RPWM and ESC_R)
+    Local override; error
+    @(49.4000 mm, 21.5900 mm): PTH pad 9 [BTS_L_RPWM] of U1B
+    @(50.7500 mm, 21.5000 mm): Track [ESC_R] on B.Cu, length 5.0000 mm
+[shorting_items]: Items shorting two nets (nets ESC_R and GND)
+    Local override; error
+    @(39.7500 mm, 77.5000 mm): Track [ESC_R] on B.Cu, length 10.0000 mm
+    @(36.0000 mm, 77.2000 mm): PTH pad 1 [GND] of J3
+[shorting_items]: Items shorting two nets (nets PI_TX and PI_RX)
+    Local override; error
+    @(9.0000 mm, 17.5000 mm): Track [PI_TX] on B.Cu, length 2.0000 mm
+    @(9.0000 mm, 18.0800 mm): PTH pad 3 [PI_RX] of JP3
+[shorting_items]: Items shorting two nets (nets 12V_IN and )
+    Local override; error
+    @(69.7500 mm, 70.2500 mm): Track [12V_IN] on B.Cu, length 3.0000 mm
+    @(68.0000 mm, 70.1600 mm): PTH pad 5 [<no net>] of U2B
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0032 mm)
+    Local override; error
+    @(68.0000 mm, 70.1600 mm): PTH pad 5 [<no net>] of U2B
+    @(66.7500 mm, 70.2500 mm): Track [12V_IN] on F.Cu, length 0.7500 mm
+[shorting_items]: Items shorting two nets (nets PI_TX and PI_RX)
+    Local override; error
+    @(20.7500 mm, 17.5000 mm): Track [PI_TX] on B.Cu, length 11.7500 mm
+    @(9.0000 mm, 18.0800 mm): PTH pad 3 [PI_RX] of JP3
+[shorting_items]: Items shorting two nets (nets PI_RX and +3V3)
+    Local override; error
+    @(21.2500 mm, 20.0000 mm): Track [PI_RX] on B.Cu, length 8.2500 mm
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+[shorting_items]: Items shorting two nets (nets SRV_RX and SRV_TX)
+    Local override; error
+    @(21.2500 mm, 27.0000 mm): Track [SRV_RX] on B.Cu, length 12.2500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[shorting_items]: Items shorting two nets (nets SRV_TX and SRV_RX)
+    Local override; error
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+    @(9.0000 mm, 27.0000 mm): Track [SRV_RX] on B.Cu, length 1.5000 mm
+[shorting_items]: Items shorting two nets (nets SDA1 and SRV_RX)
+    Local override; error
+    @(22.0000 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 13.7500 mm
+    @(9.0000 mm, 28.5000 mm): PTH pad 2 [SRV_RX] of J8
+[shorting_items]: Items shorting two nets (nets GND and 12V_IN)
+    Local override; error
+    @(78.0000 mm, 62.0000 mm): PTH pad 1 [GND] of Q1
+    @(82.0000 mm, 62.2500 mm): Track [12V_IN] on B.Cu, length 7.0000 mm
+[shorting_items]: Items shorting two nets (nets SDA1 and +3V3)
+    Local override; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 13.5000 mm
+    @(9.0000 mm, 38.0000 mm): PTH pad 1 [+3V3] of J7
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1812 mm)
+    Local override; error
+    @(82.2500 mm, 62.2500 mm): Track [12V_IN] on F.Cu, length 0.2500 mm
+    @(80.5400 mm, 62.0000 mm): PTH pad 2 [12V_PROT] of Q1
+[shorting_items]: Items shorting two nets (nets SCL1 and Q2B)
+    Local override; error
+    @(20.7500 mm, 35.5000 mm): Track [SCL1] on B.Cu, length 1.7500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[shorting_items]: Items shorting two nets (nets Q2B and SCL1)
+    Local override; error
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+    @(20.7500 mm, 33.7500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SDA1 and SRV_TX)
+    Local override; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[shorting_items]: Items shorting two nets (nets +3V3 and LEAK)
+    Local override; error
+    @(20.0800 mm, 16.1000 mm): PTH pad 2 [+3V3] of R6
+    @(21.2500 mm, 16.7500 mm): Track [LEAK] on B.Cu, length 7.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(90.0000 mm, 64.0000 mm): PTH pad 1 [+5V] of C2
+    @(91.0000 mm, 64.7500 mm): Track [BZ_N] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+    @(14.0000 mm, 16.7500 mm): Track [LEAK] on F.Cu, length 1.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(90.0000 mm, 64.0000 mm): PTH pad 1 [+5V] of C2
+    @(91.0000 mm, 65.0000 mm): Track [BZ_N] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(15.0000 mm, 23.3000 mm): PTH pad 1 [LEAK_P] of R21
+    @(15.5000 mm, 22.2500 mm): Track [LEAK] on F.Cu, length 0.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(15.5000 mm, 20.2500 mm): Track [LEAK] on F.Cu, length 2.0000 mm
+    @(15.0000 mm, 23.3000 mm): PTH pad 1 [LEAK_P] of R21
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(90.0000 mm, 64.0000 mm): PTH pad 1 [+5V] of C2
+    @(90.7500 mm, 65.0000 mm): Track [BZ_N] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(16.0000 mm, 22.2500 mm): Track [LEAK] on F.Cu, length 0.2500 mm
+    @(15.0000 mm, 23.3000 mm): PTH pad 1 [LEAK_P] of R21
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(30.7500 mm, 77.0000 mm): Track [ESC_R_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 77.6000 mm): Pad C [ESC_R] of JP2 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(15.0000 mm, 23.3000 mm): PTH pad 1 [LEAK_P] of R21
+    @(16.0000 mm, 22.5000 mm): Track [LEAK] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(90.0000 mm, 64.0000 mm): PTH pad 1 [+5V] of C2
+    @(91.2500 mm, 64.7500 mm): Track [BZ_N] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_IS_R and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+    @(53.7500 mm, 51.7500 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets LEAK_P and )
+    Local override; error
+    @(9.0000 mm, 32.5000 mm): Track [LEAK_P] on B.Cu, length 2.5000 mm
+    @(9.0000 mm, 33.5000 mm): PTH pad 4 [<no net>] of J8
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and BTS_IS_R)
+    Local override; error
+    @(53.7500 mm, 51.5000 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and BTS_IS_R)
+    Local override; error
+    @(53.5000 mm, 51.5000 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 32.0000 mm): PTH pad 1 [BTS_L_RPWM] of R12
+    @(54.2500 mm, 32.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.0000 mm, 53.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 2.0000 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.2500 mm, 55.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.2500 mm, 56.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.5000 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 32.0000 mm): PTH pad 1 [BTS_L_RPWM] of R12
+    @(54.5000 mm, 32.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(52.2500 mm, 55.2500 mm): Track [IS_R_MOD] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+    @(54.5000 mm, 56.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+    @(71.2500 mm, 6.5000 mm): Via [+3V3] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1090 mm)
+    Local override; error
+    @(22.7500 mm, 24.0000 mm): Via [+3V3] on F.Cu - B.Cu
+    @(23.2500 mm, 24.5000 mm): Track [SRV_TX] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1785 mm)
+    Local override; error
+    @(69.2500 mm, 72.2500 mm): Via [LED1_A] on F.Cu - B.Cu
+    @(68.0000 mm, 72.7000 mm): PTH pad 6 [<no net>] of U2B
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1785 mm)
+    Local override; error
+    @(69.2500 mm, 72.2500 mm): Via [LED1_A] on F.Cu - B.Cu
+    @(68.0000 mm, 72.7000 mm): PTH pad 6 [<no net>] of U2B
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+    @(71.2500 mm, 6.5000 mm): Via [+3V3] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(57.5000 mm, 68.0000 mm): Via [IS_L_MOD] on F.Cu - B.Cu
+    @(56.7500 mm, 68.0000 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1067 mm)
+    Local override; error
+    @(24.0000 mm, 24.1300 mm): PTH pad 10 [SRV_TX] of U1A
+    @(22.7500 mm, 24.0000 mm): Via [+3V3] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(12.2500 mm, 19.2500 mm): Via [SCL1] on F.Cu - B.Cu
+    @(13.0000 mm, 19.2500 mm): Via [LEAK] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets BTS_L_LPWM and ESC_L)
+    Local override; error
+    @(48.2500 mm, 19.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(48.0000 mm, 9.2500 mm): Track [ESC_L] on F.Cu, length 48.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+    @(54.2500 mm, 55.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(12.2500 mm, 19.2500 mm): Via [SCL1] on F.Cu - B.Cu
+    @(13.0000 mm, 19.2500 mm): Via [LEAK] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1096 mm)
+    Local override; error
+    @(49.4000 mm, 34.2900 mm): PTH pad 14 [<no net>] of U1B
+    @(49.7500 mm, 35.5000 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(57.5000 mm, 68.0000 mm): Via [IS_L_MOD] on F.Cu - B.Cu
+    @(56.7500 mm, 68.0000 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1495 mm)
+    Local override; error
+    @(19.5000 mm, 22.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1200 mm)
+    Local override; error
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+    @(19.0000 mm, 19.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1495 mm)
+    Local override; error
+    @(19.5000 mm, 22.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1090 mm)
+    Local override; error
+    @(59.5000 mm, 48.0000 mm): Track [Q2B] on F.Cu, length 0.7500 mm
+    @(59.7500 mm, 46.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1200 mm)
+    Local override; error
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+    @(19.0000 mm, 19.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1096 mm)
+    Local override; error
+    @(49.4000 mm, 34.2900 mm): PTH pad 14 [<no net>] of U1B
+    @(49.7500 mm, 35.5000 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_R_LPWM)
+    Local override; error
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+    @(52.2500 mm, 19.2500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets IS_R_MOD and IS_L_MOD)
+    Local override; error
+    @(52.2500 mm, 55.2500 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[shorting_items]: Items shorting two nets (nets 12V_PROT and BTS_R_LPWM)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_R_LPWM)
+    Local override; error
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+    @(52.2500 mm, 19.2500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets IS_R_MOD and IS_L_MOD)
+    Local override; error
+    @(52.2500 mm, 55.2500 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1090 mm)
+    Local override; error
+    @(54.5000 mm, 49.5000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(54.0000 mm, 49.2500 mm): Track [BTS_IS_R] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets 12V_PROT and BTS_R_LPWM)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1090 mm)
+    Local override; error
+    @(54.7500 mm, 57.2500 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(54.2500 mm, 56.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1090 mm)
+    Local override; error
+    @(60.7500 mm, 67.2500 mm): Track [EN] on F.Cu, length 7.7500 mm
+    @(52.5000 mm, 67.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets BTS_IS_R and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+    @(54.0000 mm, 53.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets BTS_IS_R and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+    @(54.0000 mm, 53.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets ESC_R and BTS_R_RPWM)
+    Local override; error
+    @(50.7500 mm, 13.2500 mm): Track [ESC_R] on F.Cu, length 8.2500 mm
+    @(50.5000 mm, 17.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1906 mm)
+    Local override; error
+    @(51.5000 mm, 17.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.7500 mm, 57.2500 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(54.0000 mm, 57.2500 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1906 mm)
+    Local override; error
+    @(51.5000 mm, 17.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets BTS_L_RPWM and SDA0)
+    Local override; error
+    @(52.5000 mm, 23.0000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.7500 mm, 57.2500 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(54.0000 mm, 57.2500 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(20.0000 mm, 57.7500 mm): Track [+5V] on F.Cu, length 14.0000 mm
+    @(19.2500 mm, 71.5000 mm): Via [ESC_R_5V] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets BTS_L_RPWM and SDA0)
+    Local override; error
+    @(52.5000 mm, 23.0000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[shorting_items]: Items shorting two nets (nets SCL1 and LEAK)
+    Local override; error
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+    @(14.0000 mm, 16.7500 mm): Via [LEAK] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets SCL1 and LEAK)
+    Local override; error
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+    @(14.0000 mm, 16.7500 mm): Via [LEAK] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets LEAK and CH6)
+    Local override; error
+    @(14.0000 mm, 19.2500 mm): Via [LEAK] on F.Cu - B.Cu
+    @(13.7500 mm, 18.2500 mm): Track [CH6] on F.Cu, length 23.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1571 mm)
+    Local override; error
+    @(21.7500 mm, 35.5000 mm): Via [SCL1] on F.Cu - B.Cu
+    @(21.2500 mm, 29.7500 mm): Track [+3V3] on F.Cu, length 5.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1571 mm)
+    Local override; error
+    @(21.5000 mm, 24.7500 mm): Via [SRV_TX] on F.Cu - B.Cu
+    @(21.0000 mm, 24.0000 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1032 mm)
+    Local override; error
+    @(68.0000 mm, 70.1600 mm): PTH pad 5 [<no net>] of U2B
+    @(66.7500 mm, 70.2500 mm): Via [12V_IN] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1243 mm)
+    Local override; error
+    @(21.2500 mm, 27.0000 mm): Via [SRV_RX] on F.Cu - B.Cu
+    @(20.0800 mm, 26.9000 mm): PTH pad 2 [+3V3] of R22
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1032 mm)
+    Local override; error
+    @(68.0000 mm, 70.1600 mm): PTH pad 5 [<no net>] of U2B
+    @(66.7500 mm, 70.2500 mm): Via [12V_IN] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(18.7500 mm, 74.7500 mm): Via [ESC_L_5V] on F.Cu - B.Cu
+    @(19.5000 mm, 74.7500 mm): Via [ESC_R_5V] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1243 mm)
+    Local override; error
+    @(21.2500 mm, 27.0000 mm): Via [SRV_RX] on F.Cu - B.Cu
+    @(20.0800 mm, 26.9000 mm): PTH pad 2 [+3V3] of R22
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(18.7500 mm, 74.7500 mm): Via [ESC_L_5V] on F.Cu - B.Cu
+    @(19.5000 mm, 74.7500 mm): Via [ESC_R_5V] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1578 mm)
+    Local override; error
+    @(21.2500 mm, 20.0000 mm): Via [PI_RX] on F.Cu - B.Cu
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1355 mm)
+    Local override; error
+    @(39.7500 mm, 77.5000 mm): Via [ESC_R] on F.Cu - B.Cu
+    @(38.5000 mm, 77.2000 mm): PTH pad 2 [<no net>] of J3
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1355 mm)
+    Local override; error
+    @(39.7500 mm, 77.5000 mm): Via [ESC_R] on F.Cu - B.Cu
+    @(38.5000 mm, 77.2000 mm): PTH pad 2 [<no net>] of J3
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(44.2500 mm, 57.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(45.0000 mm, 57.2500 mm): Via [ESC_R] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(44.2500 mm, 52.7500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(45.0000 mm, 52.7500 mm): Via [ESC_R] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(45.7500 mm, 22.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(45.7500 mm, 21.5000 mm): Via [ESC_R] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(44.2500 mm, 57.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(45.0000 mm, 57.2500 mm): Via [ESC_R] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(13.0000 mm, 20.0000 mm): Via [PI_RX] on F.Cu - B.Cu
+    @(13.0000 mm, 19.2500 mm): Via [LEAK] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1578 mm)
+    Local override; error
+    @(21.2500 mm, 20.0000 mm): Via [PI_RX] on F.Cu - B.Cu
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(44.2500 mm, 52.7500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(45.0000 mm, 52.7500 mm): Via [ESC_R] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(24.0000 mm, 44.4500 mm): PTH pad 18 [<no net>] of U1A
+    @(24.5000 mm, 43.2500 mm): Via [BTS_IS_L] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(24.0000 mm, 44.4500 mm): PTH pad 18 [<no net>] of U1A
+    @(24.5000 mm, 43.2500 mm): Via [BTS_IS_L] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(45.7500 mm, 22.2500 mm): Via [BTS_L_LPWM] on F.Cu - B.Cu
+    @(45.7500 mm, 21.5000 mm): Via [ESC_R] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(13.0000 mm, 20.0000 mm): Via [PI_RX] on F.Cu - B.Cu
+    @(13.0000 mm, 19.2500 mm): Via [LEAK] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1332 mm)
+    Local override; error
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+    @(79.2500 mm, 20.2500 mm): Via [12V_PROT] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(76.0000 mm, 7.2500 mm): Via [SDA0] on F.Cu - B.Cu
+    @(75.2500 mm, 7.7500 mm): Track [SCL0] on F.Cu, length 0.7500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1332 mm)
+    Local override; error
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+    @(79.2500 mm, 20.2500 mm): Via [12V_PROT] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets SDA0 and ESC_L)
+    Local override; error
+    @(48.2500 mm, 39.0000 mm): Via [SDA0] on F.Cu - B.Cu
+    @(48.0000 mm, 9.2500 mm): Track [ESC_L] on F.Cu, length 48.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1649 mm)
+    Local override; error
+    @(49.4000 mm, 26.6700 mm): PTH pad 11 [<no net>] of U1B
+    @(50.0000 mm, 25.5000 mm): Via [SDA0] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets CH9 and +5V)
+    Local override; error
+    @(15.7500 mm, 51.2500 mm): Via [CH9] on F.Cu - B.Cu
+    @(20.5000 mm, 50.7500 mm): Track [+5V] on F.Cu, length 10.0000 mm
+[shorting_items]: Items shorting two nets (nets LED1_A and LED2_A)
+    Local override; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(78.7500 mm, 73.0000 mm): Via [LED2_A] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets LED1_A and LED2_A)
+    Local override; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(78.7500 mm, 73.0000 mm): Via [LED2_A] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1649 mm)
+    Local override; error
+    @(49.4000 mm, 26.6700 mm): PTH pad 11 [<no net>] of U1B
+    @(50.0000 mm, 25.5000 mm): Via [SDA0] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1090 mm)
+    Local override; error
+    @(15.7500 mm, 47.5000 mm): Via [CH8] on F.Cu - B.Cu
+    @(20.7500 mm, 47.2500 mm): Track [KILL] on F.Cu, length 4.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(52.5000 mm, 41.2500 mm): Via [CH8] on F.Cu - B.Cu
+    @(52.5000 mm, 42.0000 mm): Via [CH9] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(82.0000 mm, 74.0000 mm): PTH pad 1 [LED2_A] of LED2
+    @(83.2500 mm, 73.7500 mm): Via [LED3_A] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(63.2500 mm, 39.2500 mm): Via [CH8] on F.Cu - B.Cu
+    @(63.2500 mm, 40.0000 mm): Via [CH9] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(82.0000 mm, 74.0000 mm): PTH pad 1 [LED2_A] of LED2
+    @(83.2500 mm, 73.7500 mm): Via [LED3_A] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(13.0000 mm, 20.7500 mm): Via [CH7] on F.Cu - B.Cu
+    @(13.0000 mm, 20.0000 mm): Via [PI_RX] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(52.5000 mm, 41.2500 mm): Via [CH8] on F.Cu - B.Cu
+    @(52.5000 mm, 42.0000 mm): Via [CH9] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(63.2500 mm, 39.2500 mm): Via [CH8] on F.Cu - B.Cu
+    @(63.2500 mm, 40.0000 mm): Via [CH9] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1100 mm)
+    Local override; error
+    @(93.7500 mm, 58.0000 mm): Via [Q3B] on F.Cu - B.Cu
+    @(92.5400 mm, 58.0000 mm): PTH pad 2 [GND] of C4
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(13.0000 mm, 20.7500 mm): Via [CH7] on F.Cu - B.Cu
+    @(13.0000 mm, 20.0000 mm): Via [PI_RX] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(70.5000 mm, 17.5000 mm): Track [12V_PROT] on B.Cu, length 17.2500 mm
+    @(70.0000 mm, 18.2500 mm): Via [CH6] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1248 mm)
+    Local override; error
+    @(93.5000 mm, 21.0000 mm): PTH pad 3 [GND] of J10
+    @(93.7500 mm, 19.7500 mm): Via [EN] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1100 mm)
+    Local override; error
+    @(93.7500 mm, 58.0000 mm): Via [Q3B] on F.Cu - B.Cu
+    @(92.5400 mm, 58.0000 mm): PTH pad 2 [GND] of C4
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1248 mm)
+    Local override; error
+    @(93.5000 mm, 21.0000 mm): PTH pad 3 [GND] of J10
+    @(93.7500 mm, 19.7500 mm): Via [EN] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1822 mm)
+    Local override; error
+    @(58.2800 mm, 60.0000 mm): PTH pad 2 [GND] of R19
+    @(59.0000 mm, 61.0000 mm): Via [KILL] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1822 mm)
+    Local override; error
+    @(58.2800 mm, 60.0000 mm): PTH pad 2 [GND] of R19
+    @(59.0000 mm, 61.0000 mm): Via [KILL] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1026 mm)
+    Local override; error
+    @(50.2500 mm, 37.7500 mm): Via [OE] on F.Cu - B.Cu
+    @(49.4000 mm, 36.8300 mm): PTH pad 15 [<no net>] of U1B
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(90.5000 mm, 46.0000 mm): Via [OE] on F.Cu - B.Cu
+    @(89.7500 mm, 40.2500 mm): Track [12V_PROT] on B.Cu, length 6.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1026 mm)
+    Local override; error
+    @(50.2500 mm, 37.7500 mm): Via [OE] on F.Cu - B.Cu
+    @(49.4000 mm, 36.8300 mm): PTH pad 15 [<no net>] of U1B
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(19.5000 mm, 22.2500 mm): Track [BTS_L_LPWM] on B.Cu, length 26.2500 mm
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+[shorting_items]: Items shorting two nets (nets BTS_L_LPWM and ESC_L)
+    Local override; error
+    @(48.7500 mm, 19.2500 mm): Track [BTS_L_LPWM] on F.Cu, length 0.5000 mm
+    @(48.0000 mm, 9.2500 mm): Track [ESC_L] on F.Cu, length 48.0000 mm
+[shorting_items]: Items shorting two nets (nets BTS_L_LPWM and +3V3)
+    Local override; error
+    @(48.2500 mm, 19.2500 mm): Track [BTS_L_LPWM] on B.Cu, length 29.2500 mm
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+[shorting_items]: Items shorting two nets (nets BTS_R_LPWM and VBAT_S)
+    Local override; error
+    @(53.5000 mm, 19.5000 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_R_LPWM)
+    Local override; error
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+    @(53.5000 mm, 19.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_LPWM and GND)
+    Local override; error
+    @(53.7500 mm, 19.7500 mm): Track [BTS_R_LPWM] on B.Cu, length 6.5000 mm
+    @(58.2800 mm, 20.0000 mm): PTH pad 2 [GND] of R2
+[shorting_items]: Items shorting two nets (nets BTS_R_LPWM and VBAT_S)
+    Local override; error
+    @(52.2500 mm, 19.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 1.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(52.2500 mm, 16.7500 mm): Track [BTS_R_LPWM] on F.Cu, length 2.5000 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[shorting_items]: Items shorting two nets (nets BTS_R_LPWM and VBAT_S)
+    Local override; error
+    @(53.7500 mm, 19.5000 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(52.0000 mm, 16.5000 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets IS_R_MOD and IS_L_MOD)
+    Local override; error
+    @(56.0000 mm, 55.2500 mm): Track [IS_R_MOD] on B.Cu, length 3.7500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(52.2500 mm, 16.5000 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and BTS_R_LPWM)
+    Local override; error
+    @(49.4000 mm, 16.5100 mm): PTH pad 7 [BTS_R_RPWM] of U1B
+    @(50.0000 mm, 15.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 1.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 60.0000 mm): PTH pad 1 [BTS_IS_L] of R19
+    @(54.2500 mm, 59.5000 mm): Track [IS_L_MOD] on F.Cu, length 0.5000 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and BTS_R_LPWM)
+    Local override; error
+    @(49.4000 mm, 16.5100 mm): PTH pad 7 [BTS_R_RPWM] of U1B
+    @(50.0000 mm, 16.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 2.0000 mm
+[shorting_items]: Items shorting two nets (nets IS_L_MOD and GND)
+    Local override; error
+    @(57.5000 mm, 68.0000 mm): Track [IS_L_MOD] on B.Cu, length 5.5000 mm
+    @(58.2800 mm, 64.5000 mm): PTH pad 2 [GND] of C5
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 60.0000 mm): PTH pad 1 [BTS_IS_L] of R19
+    @(54.5000 mm, 59.5000 mm): Track [IS_L_MOD] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 60.0000 mm): PTH pad 1 [BTS_IS_L] of R19
+    @(54.0000 mm, 59.0000 mm): Track [IS_L_MOD] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 60.0000 mm): PTH pad 1 [BTS_IS_L] of R19
+    @(54.2500 mm, 59.0000 mm): Track [IS_L_MOD] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+    @(54.0000 mm, 65.5000 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(54.2500 mm, 65.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+    @(54.5000 mm, 65.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+    @(54.2500 mm, 65.5000 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_LPWM and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 44.0000 mm): PTH pad 1 [BTS_R_LPWM] of R15
+    @(54.0000 mm, 34.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 15.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(53.5000 mm, 28.5000 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(53.5000 mm, 28.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(53.7500 mm, 28.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(54.0000 mm, 24.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 3.5000 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(53.2500 mm, 28.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 3.2500 mm
+[shorting_items]: Items shorting two nets (nets SDA0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+    @(56.0000 mm, 24.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 2.0000 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(53.7500 mm, 28.5000 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(48.5000 mm, 73.7500 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+    @(48.0000 mm, 72.6000 mm): PTH pad 1 [BTS_L_RPWM] of J4
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0081 mm)
+    Local override; error
+    @(48.0000 mm, 72.6000 mm): PTH pad 1 [BTS_L_RPWM] of J4
+    @(49.0000 mm, 73.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(48.0000 mm, 72.6000 mm): PTH pad 1 [BTS_L_RPWM] of J4
+    @(49.0000 mm, 73.7500 mm): Track [BTS_R_RPWM] on F.Cu, length 0.5000 mm
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+    @(53.5000 mm, 65.2500 mm): Track [BTS_R_RPWM] on B.Cu, length 1.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0081 mm)
+    Local override; error
+    @(48.0000 mm, 72.6000 mm): PTH pad 1 [BTS_L_RPWM] of J4
+    @(49.2500 mm, 73.5000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and VBAT_S)
+    Local override; error
+    @(53.7500 mm, 64.7500 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and VBAT_S)
+    Local override; error
+    @(54.0000 mm, 57.2500 mm): Track [BTS_R_RPWM] on B.Cu, length 7.5000 mm
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+    @(50.0000 mm, 23.0000 mm): Track [BTS_L_RPWM] on F.Cu, length 2.5000 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and VBAT_S)
+    Local override; error
+    @(53.5000 mm, 65.0000 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+    @(52.5000 mm, 65.2500 mm): Track [BTS_R_RPWM] on B.Cu, length 1.7500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and BTS_L_RPWM)
+    Local override; error
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+    @(54.0000 mm, 28.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and VBAT_S)
+    Local override; error
+    @(54.0000 mm, 64.7500 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+[shorting_items]: Items shorting two nets (nets BTS_IS_R and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+    @(53.2500 mm, 51.2500 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.0000 mm, 55.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and BTS_IS_R)
+    Local override; error
+    @(54.0000 mm, 51.7500 mm): Track [BTS_R_RPWM] on B.Cu, length 1.2500 mm
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.0000 mm, 57.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(52.5000 mm, 23.0000 mm): Track [BTS_L_RPWM] on B.Cu, length 3.5000 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+    @(53.7500 mm, 65.0000 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_RPWM and BTS_IS_R)
+    Local override; error
+    @(53.5000 mm, 51.2500 mm): Track [BTS_R_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 32.0000 mm): PTH pad 1 [BTS_L_RPWM] of R12
+    @(54.0000 mm, 33.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.2500 mm, 57.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[shorting_items]: Items shorting two nets (nets BTS_L_LPWM and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 36.0000 mm): PTH pad 1 [BTS_L_LPWM] of R13
+    @(53.2500 mm, 34.7500 mm): Track [BTS_R_RPWM] on B.Cu, length 5.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 32.0000 mm): PTH pad 1 [BTS_L_RPWM] of R12
+    @(54.2500 mm, 33.0000 mm): Track [BTS_R_RPWM] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_R_LPWM and BTS_R_RPWM)
+    Local override; error
+    @(53.2000 mm, 44.0000 mm): PTH pad 1 [BTS_R_LPWM] of R15
+    @(53.2500 mm, 40.0000 mm): Track [BTS_R_RPWM] on B.Cu, length 11.2500 mm
+[shorting_items]: Items shorting two nets (nets  and LEAK_P)
+    Local override; error
+    @(9.0000 mm, 33.5000 mm): PTH pad 4 [<no net>] of J8
+    @(9.0000 mm, 35.0000 mm): Track [LEAK_P] on B.Cu, length 2.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(30.7500 mm, 76.7500 mm): Track [ESC_R_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 77.6000 mm): Pad C [ESC_R] of JP2 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0015 mm)
+    Local override; error
+    @(30.5000 mm, 76.7500 mm): Track [ESC_R_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 77.6000 mm): Pad C [ESC_R] of JP2 on F.Cu
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.0000 mm, 43.7500 mm): Track [SCL1] on B.Cu, length 1.7500 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0015 mm)
+    Local override; error
+    @(29.8000 mm, 77.6000 mm): Pad C [ESC_R] of JP2 on F.Cu
+    @(30.5000 mm, 76.5000 mm): Track [ESC_R_5V] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.2500 mm, 43.7500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(28.0000 mm, 77.6000 mm): Pad A [ESC_R] of JP2 on F.Cu
+    @(19.5000 mm, 76.5000 mm): Track [ESC_R_5V] on F.Cu, length 11.0000 mm
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.5000 mm, 43.5000 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.7500 mm, 43.2500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.7500 mm, 39.2500 mm): Track [SCL1] on B.Cu, length 4.0000 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.5000 mm, 43.2500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[shorting_items]: Items shorting two nets (nets SCL1 and SDA1)
+    Local override; error
+    @(9.2500 mm, 43.5000 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[shorting_items]: Items shorting two nets (nets Q2B and SCL1)
+    Local override; error
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+    @(20.2500 mm, 33.5000 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL1 and Q2B)
+    Local override; error
+    @(20.2500 mm, 33.2500 mm): Track [SCL1] on B.Cu, length 8.0000 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[shorting_items]: Items shorting two nets (nets GND and SDA1)
+    Local override; error
+    @(9.0000 mm, 13.0000 mm): PTH pad 1 [GND] of JP3
+    @(8.2500 mm, 12.5000 mm): Track [SDA1] on B.Cu, length 6.7500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+    @(30.7500 mm, 72.7500 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+    @(30.7500 mm, 73.0000 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets Q2B and SCL1)
+    Local override; error
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+    @(20.5000 mm, 33.7500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL1 and Q2B)
+    Local override; error
+    @(20.5000 mm, 33.5000 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[shorting_items]: Items shorting two nets (nets ESC_L_5V and ESC_L)
+    Local override; error
+    @(30.5000 mm, 73.0000 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(28.2500 mm, 73.5000 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+    @(28.0000 mm, 72.2000 mm): Pad A [ESC_L] of JP1 on F.Cu
+[shorting_items]: Items shorting two nets (nets ESC_L_5V and ESC_L)
+    Local override; error
+    @(30.5000 mm, 73.2500 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+[shorting_items]: Items shorting two nets (nets IS_L_MOD and BTS_IS_L)
+    Local override; error
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+    @(53.2500 mm, 56.0000 mm): Track [BTS_IS_L] on B.Cu, length 5.0000 mm
+[shorting_items]: Items shorting two nets (nets IS_L_MOD and BTS_IS_L)
+    Local override; error
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+    @(53.2500 mm, 60.0000 mm): Track [BTS_IS_L] on B.Cu, length 4.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(28.2500 mm, 73.2500 mm): Track [ESC_L_5V] on F.Cu, length 2.2500 mm
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+[shorting_items]: Items shorting two nets (nets +5V and BTS_IS_L)
+    Local override; error
+    @(24.0000 mm, 52.0700 mm): PTH pad 21 [+5V] of U1A
+    @(24.5000 mm, 43.2500 mm): Track [BTS_IS_L] on B.Cu, length 12.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 48.0000 mm): PTH pad 1 [IS_R_MOD] of R16
+    @(54.0000 mm, 49.2500 mm): Track [BTS_IS_R] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets  and BTS_IS_R)
+    Local override; error
+    @(49.4000 mm, 52.0700 mm): PTH pad 21 [<no net>] of U1B
+    @(45.7500 mm, 52.0000 mm): Track [BTS_IS_R] on B.Cu, length 7.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 48.0000 mm): PTH pad 1 [IS_R_MOD] of R16
+    @(54.2500 mm, 49.0000 mm): Track [BTS_IS_R] on F.Cu, length 0.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.0000 mm, 49.0000 mm): Track [BTS_IS_R] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 48.0000 mm): PTH pad 1 [IS_R_MOD] of R16
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 48.0000 mm): PTH pad 1 [IS_R_MOD] of R16
+    @(54.2500 mm, 48.5000 mm): Track [BTS_IS_R] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(54.2500 mm, 17.0000 mm): Track [VBAT_S] on F.Cu, length 0.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(54.0000 mm, 17.0000 mm): Track [VBAT_S] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1050 mm)
+    Local override; error
+    @(54.0000 mm, 17.2500 mm): Track [VBAT_S] on F.Cu, length 0.2500 mm
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(54.2500 mm, 16.5000 mm): Track [VBAT_S] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets VBAT_S and BTS_L_LPWM)
+    Local override; error
+    @(47.2500 mm, 20.0000 mm): Track [VBAT_S] on B.Cu, length 6.0000 mm
+    @(49.4000 mm, 19.0500 mm): PTH pad 8 [BTS_L_LPWM] of U1B
+[shorting_items]: Items shorting two nets (nets OE and 12V_PROT)
+    Local override; error
+    @(68.0000 mm, 16.5400 mm): PTH pad 2 [OE] of U2A
+    @(70.5000 mm, 17.5000 mm): Track [12V_PROT] on B.Cu, length 17.2500 mm
+[shorting_items]: Items shorting two nets (nets 12V_PROT and CH7)
+    Local override; error
+    @(79.2500 mm, 39.2500 mm): Track [12V_PROT] on F.Cu, length 19.0000 mm
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+[shorting_items]: Items shorting two nets (nets 12V_PROT and CH7)
+    Local override; error
+    @(79.2500 mm, 20.2500 mm): Track [12V_PROT] on B.Cu, length 8.5000 mm
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+[shorting_items]: Items shorting two nets (nets 12V_PROT and 5V_RAW)
+    Local override; error
+    @(81.0000 mm, 55.0000 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[shorting_items]: Items shorting two nets (nets 5V_RAW and 12V_PROT)
+    Local override; error
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+    @(81.2500 mm, 55.0000 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets 5V_RAW and 12V_PROT)
+    Local override; error
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+    @(81.2500 mm, 54.7500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(80.7500 mm, 55.5000 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[shorting_items]: Items shorting two nets (nets 12V_PROT and 5V_RAW)
+    Local override; error
+    @(81.0000 mm, 55.2500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[shorting_items]: Items shorting two nets (nets 5V_RAW and 12V_PROT)
+    Local override; error
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+    @(81.5000 mm, 54.7500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+    @(80.5000 mm, 55.5000 mm): Track [12V_PROT] on F.Cu, length 6.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(81.5000 mm, 48.5000 mm): Track [12V_PROT] on F.Cu, length 6.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[shorting_items]: Items shorting two nets (nets 12V_PROT and GND)
+    Local override; error
+    @(83.2500 mm, 40.0000 mm): Track [12V_PROT] on B.Cu, length 6.7500 mm
+    @(85.0800 mm, 40.0000 mm): PTH pad 2 [GND] of U4A
+[shorting_items]: Items shorting two nets (nets 5V_RAW and 12V_PROT)
+    Local override; error
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+    @(80.7500 mm, 55.2500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and SDA0)
+    Local override; error
+    @(77.5000 mm, 6.5000 mm): PTH pad 4 [SCL0] of J6
+    @(86.0000 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 10.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1700 mm)
+    Local override; error
+    @(49.4000 mm, 26.6700 mm): PTH pad 11 [<no net>] of U1B
+    @(47.2500 mm, 25.5000 mm): Track [SDA0] on B.Cu, length 2.7500 mm
+[shorting_items]: Items shorting two nets (nets CH7 and SDA0)
+    Local override; error
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+    @(70.7500 mm, 21.0000 mm): Track [SDA0] on B.Cu, length 15.2500 mm
+[shorting_items]: Items shorting two nets (nets SDA0 and SCL0)
+    Local override; error
+    @(76.0000 mm, 7.2500 mm): Track [SDA0] on F.Cu, length 1.0000 mm
+    @(76.2500 mm, 7.5000 mm): Track [SCL0] on F.Cu, length 0.7500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and SDA0)
+    Local override; error
+    @(76.0000 mm, 7.7500 mm): Track [SCL0] on F.Cu, length 0.2500 mm
+    @(76.0000 mm, 7.2500 mm): Track [SDA0] on F.Cu, length 1.0000 mm
+[shorting_items]: Items shorting two nets (nets SDA0 and SCL0)
+    Local override; error
+    @(76.0000 mm, 7.2500 mm): Track [SDA0] on F.Cu, length 1.0000 mm
+    @(76.0000 mm, 7.5000 mm): Track [SCL0] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(51.0000 mm, 40.0000 mm): Track [SCL0] on B.Cu, length 1.2500 mm
+    @(53.2000 mm, 40.0000 mm): PTH pad 1 [BTS_R_RPWM] of R14
+[shorting_items]: Items shorting two nets (nets LED2_A and LED1_A)
+    Local override; error
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+    @(20.2500 mm, 47.7500 mm): Track [LED1_A] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets LED1_A and LED2_A)
+    Local override; error
+    @(20.5000 mm, 48.0000 mm): Track [LED1_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+[shorting_items]: Items shorting two nets (nets LED2_A and LED1_A)
+    Local override; error
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+    @(20.2500 mm, 48.0000 mm): Track [LED1_A] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets LED1_A and LED2_A)
+    Local override; error
+    @(20.5000 mm, 48.2500 mm): Track [LED1_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+[shorting_items]: Items shorting two nets (nets LED2_A and LED1_A)
+    Local override; error
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+    @(20.7500 mm, 51.0000 mm): Track [LED1_A] on B.Cu, length 2.7500 mm
+[shorting_items]: Items shorting two nets (nets LED2_A and LED1_A)
+    Local override; error
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+    @(20.7500 mm, 48.2500 mm): Track [LED1_A] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets LED2_A and LED1_A)
+    Local override; error
+    @(20.0800 mm, 48.5000 mm): PTH pad 2 [LED2_A] of R8
+    @(20.0000 mm, 47.7500 mm): Track [LED1_A] on B.Cu, length 2.7500 mm
+[shorting_items]: Items shorting two nets (nets LED1_A and GND)
+    Local override; error
+    @(69.2500 mm, 72.2500 mm): Track [LED1_A] on B.Cu, length 47.7500 mm
+    @(36.0000 mm, 73.0000 mm): PTH pad 1 [GND] of J2
+[shorting_items]: Items shorting two nets (nets SDA0 and ESC_L)
+    Local override; error
+    @(48.7500 mm, 39.0000 mm): Track [SDA0] on F.Cu, length 0.5000 mm
+    @(48.0000 mm, 9.2500 mm): Track [ESC_L] on F.Cu, length 48.0000 mm
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.2500 mm, 51.2500 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(79.0000 mm, 73.0000 mm): Track [LED2_A] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(79.0000 mm, 73.2500 mm): Track [LED2_A] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.7500 mm, 51.7500 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[shorting_items]: Items shorting two nets (nets LED1_A and GND)
+    Local override; error
+    @(21.5000 mm, 72.2500 mm): Track [LED1_A] on B.Cu, length 20.7500 mm
+    @(21.2400 mm, 71.0000 mm): PTH pad 7 [GND] of U6
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.2500 mm, 51.5000 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.5000 mm, 51.5000 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.5000 mm, 51.7500 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.0000 mm, 51.2500 mm): Track [LED2_A] on B.Cu, length 2.7500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(79.2500 mm, 73.2500 mm): Track [LED2_A] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets +5V and CH9)
+    Local override; error
+    @(20.5000 mm, 50.7500 mm): Track [+5V] on F.Cu, length 10.0000 mm
+    @(15.0000 mm, 51.2500 mm): Track [CH9] on F.Cu, length 0.7500 mm
+[shorting_items]: Items shorting two nets (nets CH9 and +5V)
+    Local override; error
+    @(15.7500 mm, 51.2500 mm): Track [CH9] on F.Cu, length 0.7500 mm
+    @(20.5000 mm, 50.7500 mm): Track [+5V] on F.Cu, length 10.0000 mm
+[shorting_items]: Items shorting two nets (nets CH9 and CH8)
+    Local override; error
+    @(16.2500 mm, 48.2500 mm): Track [CH9] on B.Cu, length 0.5000 mm
+    @(15.0000 mm, 48.5000 mm): PTH pad 1 [CH8] of R8
+[shorting_items]: Items shorting two nets (nets LED2_A and LED3_A)
+    Local override; error
+    @(20.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 21.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[shorting_items]: Items shorting two nets (nets CH9 and CH8)
+    Local override; error
+    @(15.7500 mm, 48.2500 mm): Track [CH9] on B.Cu, length 3.0000 mm
+    @(15.0000 mm, 48.5000 mm): PTH pad 1 [CH8] of R8
+[shorting_items]: Items shorting two nets (nets CH9 and BTS_IS_L)
+    Local override; error
+    @(52.5000 mm, 42.0000 mm): Track [CH9] on B.Cu, length 36.0000 mm
+    @(24.0000 mm, 41.9100 mm): PTH pad 17 [BTS_IS_L] of U1A
+[shorting_items]: Items shorting two nets (nets CH6 and CH8)
+    Local override; error
+    @(15.0000 mm, 41.3000 mm): PTH pad 1 [CH6] of R11
+    @(15.7500 mm, 41.2500 mm): Track [CH8] on B.Cu, length 6.2500 mm
+[shorting_items]: Items shorting two nets (nets BTS_IS_L and CH8)
+    Local override; error
+    @(24.0000 mm, 41.9100 mm): PTH pad 17 [BTS_IS_L] of U1A
+    @(52.5000 mm, 41.2500 mm): Track [CH8] on B.Cu, length 36.7500 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and CH6)
+    Local override; error
+    @(68.0000 mm, 19.0800 mm): PTH pad 3 [SCL0] of U2A
+    @(70.0000 mm, 18.2500 mm): Track [CH6] on B.Cu, length 50.7500 mm
+[shorting_items]: Items shorting two nets (nets LEAK and CH6)
+    Local override; error
+    @(14.0000 mm, 19.2500 mm): Track [LEAK] on F.Cu, length 0.5000 mm
+    @(13.7500 mm, 18.2500 mm): Track [CH6] on F.Cu, length 23.0000 mm
+[shorting_items]: Items shorting two nets (nets GND and CH7)
+    Local override; error
+    @(58.2800 mm, 20.0000 mm): PTH pad 2 [GND] of R2
+    @(70.0000 mm, 20.7500 mm): Track [CH7] on B.Cu, length 57.0000 mm
+[shorting_items]: Items shorting two nets (nets +5V and Q3B)
+    Local override; error
+    @(90.0000 mm, 58.0000 mm): PTH pad 1 [+5V] of C4
+    @(93.7500 mm, 58.0000 mm): Track [Q3B] on B.Cu, length 30.5000 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and +3V3)
+    Local override; error
+    @(77.5000 mm, 6.5000 mm): PTH pad 4 [SCL0] of J6
+    @(71.2500 mm, 6.5000 mm): Track [+3V3] on B.Cu, length 10.7500 mm
+[shorting_items]: Items shorting two nets (nets SCL1 and Q2B)
+    Local override; error
+    @(24.0000 mm, 36.8300 mm): PTH pad 15 [SCL1] of U1A
+    @(51.0000 mm, 36.2500 mm): Track [Q2B] on B.Cu, length 31.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)
+    Local override; error
+    @(70.7500 mm, 6.5000 mm): Track [+3V3] on F.Cu, length 0.5000 mm
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+[shorting_items]: Items shorting two nets (nets  and +3V3)
+    Local override; error
+    @(49.4000 mm, 24.1300 mm): PTH pad 10 [<no net>] of U1B
+    @(22.7500 mm, 24.0000 mm): Track [+3V3] on B.Cu, length 35.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1625 mm)
+    Local override; error
+    @(20.7500 mm, 24.2500 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1700 mm)
+    Local override; error
+    @(21.2500 mm, 29.7500 mm): Track [+3V3] on F.Cu, length 5.2500 mm
+    @(20.0800 mm, 30.5000 mm): PTH pad 2 [GND] of R23
+[shorting_items]: Items shorting two nets (nets EN and OE)
+    Local override; error
+    @(15.0000 mm, 37.0000 mm): Track [EN] on B.Cu, length 3.0000 mm
+    @(15.0000 mm, 37.7000 mm): PTH pad 1 [OE] of R10
+[shorting_items]: Items shorting two nets (nets EN and OE)
+    Local override; error
+    @(50.7500 mm, 37.0000 mm): Track [EN] on B.Cu, length 35.7500 mm
+    @(15.0000 mm, 37.7000 mm): PTH pad 1 [OE] of R10
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1625 mm)
+    Local override; error
+    @(20.0800 mm, 23.3000 mm): PTH pad 2 [LEAK] of R21
+    @(21.0000 mm, 24.2500 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1870 mm)
+    Local override; error
+    @(21.0000 mm, 29.5000 mm): Track [+3V3] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 30.5000 mm): PTH pad 2 [GND] of R23
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1506 mm)
+    Local override; error
+    @(61.0000 mm, 66.7500 mm): Track [EN] on F.Cu, length 0.2500 mm
+    @(60.0000 mm, 66.0000 mm): Pad 1 [KILL] of TP7 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1506 mm)
+    Local override; error
+    @(60.7500 mm, 67.0000 mm): Track [EN] on F.Cu, length 0.2500 mm
+    @(60.0000 mm, 66.0000 mm): Pad 1 [KILL] of TP7 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1506 mm)
+    Local override; error
+    @(61.0000 mm, 67.0000 mm): Track [EN] on F.Cu, length 0.2500 mm
+    @(60.0000 mm, 66.0000 mm): Pad 1 [KILL] of TP7 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1506 mm)
+    Local override; error
+    @(61.2500 mm, 66.7500 mm): Track [EN] on F.Cu, length 0.2500 mm
+    @(60.0000 mm, 66.0000 mm): Pad 1 [KILL] of TP7 on F.Cu
+[shorting_items]: Items shorting two nets (nets  and EN)
+    Local override; error
+    @(68.0000 mm, 26.7000 mm): PTH pad 6 [<no net>] of U2A
+    @(68.5000 mm, 24.2500 mm): Track [EN] on B.Cu, length 14.2500 mm
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(94.0000 mm, 24.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[shorting_items]: Items shorting two nets (nets KILL and EN)
+    Local override; error
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+    @(93.7500 mm, 24.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets EN and KILL)
+    Local override; error
+    @(94.0000 mm, 23.7500 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[shorting_items]: Items shorting two nets (nets +3V3 and KILL)
+    Local override; error
+    @(58.2800 mm, 24.0000 mm): PTH pad 2 [+3V3] of R3
+    @(59.0000 mm, 23.5000 mm): Track [KILL] on B.Cu, length 34.5000 mm
+[shorting_items]: Items shorting two nets (nets SCL0 and EN)
+    Local override; error
+    @(86.0000 mm, 23.6200 mm): PTH pad 4 [SCL0] of U3
+    @(93.7500 mm, 24.2500 mm): Track [EN] on B.Cu, length 25.2500 mm
+[shorting_items]: Items shorting two nets (nets GND and KILL)
+    Local override; error
+    @(58.2800 mm, 52.0000 mm): PTH pad 2 [GND] of R17
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(15.0000 mm, 30.5000 mm): PTH pad 1 [EN] of R23
+    @(15.7500 mm, 29.5000 mm): Track [KILL] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(15.0000 mm, 30.5000 mm): PTH pad 1 [EN] of R23
+    @(16.0000 mm, 29.7500 mm): Track [KILL] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(15.0000 mm, 30.5000 mm): PTH pad 1 [EN] of R23
+    @(16.0000 mm, 29.5000 mm): Track [KILL] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(15.0000 mm, 30.5000 mm): PTH pad 1 [EN] of R23
+    @(16.2500 mm, 29.7500 mm): Track [KILL] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets SCL1 and OE)
+    Local override; error
+    @(24.0000 mm, 36.8300 mm): PTH pad 15 [SCL1] of U1A
+    @(50.2500 mm, 37.7500 mm): Track [OE] on B.Cu, length 35.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+    @(91.5000 mm, 53.7500 mm): Track [+5V] on F.Cu, length 13.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(91.5000 mm, 40.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(90.0000 mm, 40.0000 mm): Pad 1 [12V_PROT] of D1 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0142 mm)
+    Local override; error
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+    @(91.0000 mm, 54.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0577 mm)
+    Local override; error
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+    @(90.7500 mm, 54.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1207 mm)
+    Local override; error
+    @(90.2500 mm, 57.2500 mm): Track [+5V] on F.Cu, length 2.7500 mm
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0142 mm)
+    Local override; error
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+    @(91.0000 mm, 54.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0577 mm)
+    Local override; error
+    @(91.2500 mm, 53.7500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1000 mm)
+    Local override; error
+    @(20.2500 mm, 66.0000 mm): Track [+5V] on F.Cu, length 38.5000 mm
+    @(60.0000 mm, 66.0000 mm): Pad 1 [KILL] of TP7 on F.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1014 mm)
+    Local override; error
+    @(75.0000 mm, 66.5000 mm): Track [12V_IN] on B.Cu, length 0.2500 mm
+    @(58.7500 mm, 66.0000 mm): Track [+5V] on B.Cu, length 15.2500 mm
+[shorting_items]: Items shorting two nets (nets +5V and SRV_TX)
+    Local override; error
+    @(10.2500 mm, 25.7500 mm): Track [+5V] on F.Cu, length 0.7500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[shorting_items]: Items shorting two nets (nets +5V and SRV_TX)
+    Local override; error
+    @(10.5000 mm, 25.7500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[shorting_items]: Items shorting two nets (nets SRV_TX and +5V)
+    Local override; error
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+    @(10.0000 mm, 25.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[shorting_items]: Items shorting two nets (nets +5V and SRV_TX)
+    Local override; error
+    @(10.0000 mm, 24.7500 mm): Track [+5V] on F.Cu, length 0.7500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[shorting_items]: Items shorting two nets (nets +5V and SRV_TX)
+    Local override; error
+    @(9.2500 mm, 24.7500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0275 mm)
+    Local override; error
+    @(21.0000 mm, 51.0000 mm): Track [+5V] on F.Cu, length 0.5000 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0577 mm)
+    Local override; error
+    @(91.2500 mm, 54.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(90.0000 mm, 53.0000 mm): PTH pad 2 [GND] of C1
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1026 mm)
+    Local override; error
+    @(21.2500 mm, 51.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0537 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(21.0000 mm, 57.5000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0275 mm)
+    Local override; error
+    @(20.5000 mm, 51.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0532 mm)
+    Local override; error
+    @(16.2500 mm, 72.2500 mm): Track [+5V] on F.Cu, length 6.2500 mm
+    @(16.1600 mm, 71.0000 mm): PTH pad 5 [ESC_R] of U6
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0370 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(21.2500 mm, 57.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1026 mm)
+    Local override; error
+    @(21.0000 mm, 51.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1884 mm)
+    Local override; error
+    @(23.5000 mm, 52.7500 mm): Track [+5V] on F.Cu, length 2.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0200 mm)
+    Local override; error
+    @(21.2500 mm, 52.5000 mm): Track [+5V] on F.Cu, length 1.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0370 mm)
+    Local override; error
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+    @(21.0000 mm, 57.2500 mm): Track [+5V] on F.Cu, length 0.2500 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0801 mm)
+    Local override; error
+    @(68.0000 mm, 72.7000 mm): PTH pad 6 [<no net>] of U2B
+    @(66.0000 mm, 74.5000 mm): PTH pad 1 [12V_IN] of J1
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0801 mm)
+    Local override; error
+    @(68.0000 mm, 72.7000 mm): PTH pad 6 [<no net>] of U2B
+    @(66.0000 mm, 74.5000 mm): PTH pad 1 [12V_IN] of J1
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(78.7500 mm, 73.0000 mm): Via [LED2_A] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+    @(78.7500 mm, 73.0000 mm): Via [LED2_A] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1050 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+    @(54.0000 mm, 53.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1050 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+    @(54.0000 mm, 53.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+    @(52.2500 mm, 55.2500 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+    @(52.2500 mm, 55.2500 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+    @(52.2500 mm, 19.2500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+    @(52.2500 mm, 19.2500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1000 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+    @(52.5000 mm, 23.0000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1000 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+    @(52.5000 mm, 23.0000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0500 mm)
+    Rule: board setup constraints hole; error
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1000 mm)
+    Rule: board setup constraints hole; error
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+    @(14.0000 mm, 16.7500 mm): Via [LEAK] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1000 mm)
+    Rule: board setup constraints hole; error
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+    @(14.0000 mm, 16.7500 mm): Via [LEAK] on F.Cu - B.Cu
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; 1 spokes connected to isolated island)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(49.4000 mm, 1.2700 mm): PTH pad 1 [GND] of U1B
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; 1 spokes connected to isolated island)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(49.4000 mm, 54.6100 mm): PTH pad 22 [GND] of U1B
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(9.0000 mm, 31.0000 mm): PTH pad 3 [GND] of J8
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(84.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J11
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(21.2400 mm, 71.0000 mm): PTH pad 7 [GND] of U6
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(18.7000 mm, 78.6200 mm): PTH pad 9 [GND] of U6
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(11.0800 mm, 78.6200 mm): PTH pad 12 [GND] of U6
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(55.5000 mm, 72.6000 mm): PTH pad 4 [GND] of J4
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; 1 spokes connected to isolated island)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(58.2800 mm, 60.0000 mm): PTH pad 2 [GND] of R19
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 23.0000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 23.0000 mm): Via [BTS_L_RPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(56.0000 mm, 24.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 2.0000 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.0000 mm, 20.7500 mm): Track [CH7] on B.Cu, length 57.0000 mm
+    @(24.0000 mm, 21.5900 mm): PTH pad 9 [PI_RX] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.7500 mm, 37.0000 mm): Track [EN] on B.Cu, length 35.7500 mm
+    @(24.0000 mm, 36.8300 mm): PTH pad 15 [SCL1] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.0000 mm, 20.7500 mm): Track [CH7] on B.Cu, length 57.0000 mm
+    @(49.4000 mm, 21.5900 mm): PTH pad 9 [BTS_L_RPWM] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.0000 mm, 20.7500 mm): Track [CH7] on B.Cu, length 57.0000 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.0000 mm, 20.7500 mm): Track [CH7] on B.Cu, length 57.0000 mm
+    @(58.2800 mm, 20.0000 mm): PTH pad 2 [GND] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(45.7500 mm, 52.0000 mm): Track [BTS_IS_R] on B.Cu, length 7.5000 mm
+    @(49.4000 mm, 52.0700 mm): PTH pad 21 [<no net>] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(21.2500 mm, 27.0000 mm): Track [SRV_RX] on B.Cu, length 12.2500 mm
+    @(15.0000 mm, 26.9000 mm): PTH pad 1 [KILL] of R22
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.7500 mm, 37.0000 mm): Track [EN] on B.Cu, length 35.7500 mm
+    @(20.0800 mm, 37.7000 mm): PTH pad 2 [+3V3] of R10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.7500 mm, 37.0000 mm): Track [EN] on B.Cu, length 35.7500 mm
+    @(15.0000 mm, 37.7000 mm): PTH pad 1 [OE] of R10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 24.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 3.5000 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.7500 mm, 37.0000 mm): Track [EN] on B.Cu, length 35.7500 mm
+    @(49.4000 mm, 36.8300 mm): PTH pad 15 [<no net>] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 24.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 3.5000 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.0000 mm, 37.0000 mm): Track [EN] on B.Cu, length 3.0000 mm
+    @(15.0000 mm, 37.7000 mm): PTH pad 1 [OE] of R10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 28.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.0000 mm, 20.7500 mm): Track [CH7] on B.Cu, length 57.0000 mm
+    @(68.0000 mm, 21.6200 mm): PTH pad 4 [SDA0] of U2A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(24.5000 mm, 43.2500 mm): Track [BTS_IS_L] on B.Cu, length 12.5000 mm
+    @(24.0000 mm, 44.4500 mm): PTH pad 18 [<no net>] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(21.2500 mm, 27.0000 mm): Track [SRV_RX] on B.Cu, length 12.2500 mm
+    @(20.0800 mm, 26.9000 mm): PTH pad 2 [+3V3] of R22
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.7500 mm, 28.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 41.2500 mm): Track [CH8] on B.Cu, length 36.7500 mm
+    @(24.0000 mm, 41.9100 mm): PTH pad 17 [BTS_IS_L] of U1A
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(10.2500 mm, 25.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(48.2500 mm, 19.2500 mm): Track [BTS_L_LPWM] on B.Cu, length 29.2500 mm
+    @(24.0000 mm, 19.0500 mm): PTH pad 8 [PI_TX] of U1A
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 55.2500 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 41.2500 mm): Track [CH8] on B.Cu, length 36.7500 mm
+    @(15.0000 mm, 41.3000 mm): PTH pad 1 [CH6] of R11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(24.5000 mm, 43.2500 mm): Track [BTS_IS_L] on B.Cu, length 12.5000 mm
+    @(24.0000 mm, 46.9900 mm): PTH pad 19 [<no net>] of U1A
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(10.0000 mm, 25.0000 mm): Track [+5V] on F.Cu, length 0.2500 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 41.2500 mm): Track [CH8] on B.Cu, length 36.7500 mm
+    @(20.0800 mm, 41.3000 mm): PTH pad 2 [Q3B] of R11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(48.2500 mm, 19.2500 mm): Track [BTS_L_LPWM] on B.Cu, length 29.2500 mm
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(24.5000 mm, 43.2500 mm): Track [BTS_IS_L] on B.Cu, length 12.5000 mm
+    @(24.0000 mm, 49.5300 mm): PTH pad 20 [KILL] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 41.2500 mm): Track [CH8] on B.Cu, length 36.7500 mm
+    @(49.4000 mm, 41.9100 mm): PTH pad 17 [SCL0] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(24.5000 mm, 43.2500 mm): Track [BTS_IS_L] on B.Cu, length 12.5000 mm
+    @(24.0000 mm, 52.0700 mm): PTH pad 21 [+5V] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.7500 mm, 41.2500 mm): Track [CH8] on B.Cu, length 6.2500 mm
+    @(15.0000 mm, 41.3000 mm): PTH pad 1 [CH6] of R11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(17.0000 mm, 38.5000 mm): Track [+3V3] on B.Cu, length 8.0000 mm
+    @(15.0000 mm, 37.7000 mm): PTH pad 1 [OE] of R10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.7500 mm, 28.5000 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 55.2500 mm): Via [IS_R_MOD] on F.Cu - B.Cu
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 13.5000 mm
+    @(9.0000 mm, 38.0000 mm): PTH pad 1 [+3V3] of J7
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.5000 mm, 28.5000 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(19.5000 mm, 22.2500 mm): Track [BTS_L_LPWM] on B.Cu, length 26.2500 mm
+    @(24.0000 mm, 21.5900 mm): PTH pad 9 [PI_RX] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.5000 mm, 28.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(24.5000 mm, 43.2500 mm): Track [BTS_IS_L] on B.Cu, length 12.5000 mm
+    @(24.0000 mm, 54.6100 mm): PTH pad 22 [GND] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.2500 mm, 28.7500 mm): Track [BTS_L_RPWM] on B.Cu, length 3.2500 mm
+    @(53.2000 mm, 28.0000 mm): PTH pad 1 [SCL0] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.7500 mm, 21.0000 mm): Track [SDA0] on B.Cu, length 15.2500 mm
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.7500 mm, 41.2500 mm): Track [CH8] on B.Cu, length 6.2500 mm
+    @(15.0000 mm, 44.9000 mm): PTH pad 1 [CH7] of R7
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.0000 mm, 38.7500 mm): Track [+3V3] on B.Cu, length 17.7500 mm
+    @(15.0000 mm, 41.3000 mm): PTH pad 1 [CH6] of R11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 34.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 15.2500 mm
+    @(53.2000 mm, 36.0000 mm): PTH pad 1 [BTS_L_LPWM] of R13
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(58.7500 mm, 66.0000 mm): Track [+5V] on B.Cu, length 15.2500 mm
+    @(68.0000 mm, 65.0800 mm): PTH pad 3 [<no net>] of U2B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 13.5000 mm
+    @(9.0000 mm, 40.5000 mm): PTH pad 2 [GND] of J7
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.0000 mm, 38.7500 mm): Track [+3V3] on B.Cu, length 17.7500 mm
+    @(15.0000 mm, 44.9000 mm): PTH pad 1 [CH7] of R7
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.2500 mm, 60.0000 mm): Track [BTS_IS_L] on B.Cu, length 4.0000 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 13.5000 mm
+    @(9.0000 mm, 31.0000 mm): PTH pad 3 [GND] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 34.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 15.2500 mm
+    @(53.2000 mm, 44.0000 mm): PTH pad 1 [BTS_R_LPWM] of R15
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.2500 mm, 56.0000 mm): Track [BTS_IS_L] on B.Cu, length 5.0000 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.0000 mm, 38.7500 mm): Track [+3V3] on B.Cu, length 17.7500 mm
+    @(15.0000 mm, 48.5000 mm): PTH pad 1 [CH8] of R8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 13.5000 mm
+    @(9.0000 mm, 33.5000 mm): PTH pad 4 [<no net>] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.0000 mm, 38.7500 mm): Track [+3V3] on B.Cu, length 17.7500 mm
+    @(15.0000 mm, 52.1000 mm): PTH pad 1 [CH9] of R9
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(86.0000 mm, 21.0000 mm): Track [SDA0] on B.Cu, length 14.5000 mm
+    @(86.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of U3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 13.0000 mm): PTH pad 1 [GND] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(86.0000 mm, 21.0000 mm): Track [SDA0] on B.Cu, length 14.5000 mm
+    @(86.0000 mm, 18.5400 mm): PTH pad 2 [GND] of U3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 34.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 15.2500 mm
+    @(53.2000 mm, 40.0000 mm): PTH pad 1 [BTS_R_RPWM] of R14
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 42.0000 mm): Track [CH9] on B.Cu, length 36.0000 mm
+    @(24.0000 mm, 41.9100 mm): PTH pad 17 [BTS_IS_L] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.2500 mm, 37.7500 mm): Track [OE] on B.Cu, length 35.2500 mm
+    @(24.0000 mm, 36.8300 mm): PTH pad 15 [SCL1] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 34.2500 mm): Track [BTS_L_RPWM] on B.Cu, length 15.2500 mm
+    @(53.2000 mm, 48.0000 mm): PTH pad 1 [IS_R_MOD] of R16
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.2500 mm, 37.7500 mm): Track [OE] on B.Cu, length 35.2500 mm
+    @(20.0800 mm, 37.7000 mm): PTH pad 2 [+3V3] of R10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.7500 mm, 21.5000 mm): Track [ESC_R] on B.Cu, length 5.0000 mm
+    @(49.4000 mm, 21.5900 mm): PTH pad 9 [BTS_L_RPWM] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 15.5400 mm): PTH pad 2 [PI_TX] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 42.0000 mm): Track [CH9] on B.Cu, length 36.0000 mm
+    @(20.0800 mm, 41.3000 mm): PTH pad 2 [Q3B] of R11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 16.7500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 16.0000 mm): PTH pad 1 [12V_PROT] of R1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.2500 mm, 37.7500 mm): Track [OE] on B.Cu, length 35.2500 mm
+    @(49.4000 mm, 36.8300 mm): PTH pad 15 [<no net>] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 18.0800 mm): PTH pad 3 [PI_RX] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(22.7500 mm, 24.0000 mm): Track [+3V3] on B.Cu, length 35.5000 mm
+    @(24.0000 mm, 24.1300 mm): PTH pad 10 [SRV_TX] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 20.6200 mm): PTH pad 4 [+5V] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(22.7500 mm, 24.0000 mm): Track [+3V3] on B.Cu, length 35.5000 mm
+    @(49.4000 mm, 24.1300 mm): PTH pad 10 [<no net>] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(86.0000 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 10.0000 mm
+    @(77.5000 mm, 6.5000 mm): PTH pad 4 [SCL0] of J6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(86.0000 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 10.0000 mm
+    @(82.0000 mm, 6.5000 mm): PTH pad 1 [+3V3] of J11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(22.7500 mm, 24.0000 mm): Track [+3V3] on B.Cu, length 35.5000 mm
+    @(53.2000 mm, 24.0000 mm): PTH pad 1 [SDA0] of R3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.5000 mm, 42.0000 mm): Track [CH9] on B.Cu, length 36.0000 mm
+    @(49.4000 mm, 41.9100 mm): PTH pad 17 [SCL0] of U1B
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Via [LED2_A] on F.Cu - B.Cu
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(86.0000 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 10.0000 mm
+    @(84.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J11
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(16.2500 mm, 48.2500 mm): Track [CH9] on B.Cu, length 0.5000 mm
+    @(15.0000 mm, 48.5000 mm): PTH pad 1 [CH8] of R8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Via [LED2_A] on F.Cu - B.Cu
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(39.7500 mm, 77.5000 mm): Track [ESC_R] on B.Cu, length 10.0000 mm
+    @(36.0000 mm, 77.2000 mm): PTH pad 1 [GND] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(75.7500 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 11.7500 mm
+    @(70.0000 mm, 6.5000 mm): PTH pad 1 [+3V3] of J6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 24.0000 mm): PTH pad 2 [+3V3] of R3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(75.7500 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 11.7500 mm
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 28.0000 mm): PTH pad 2 [+3V3] of R4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(71.2500 mm, 6.5000 mm): Track [+3V3] on B.Cu, length 10.7500 mm
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(15.7500 mm, 48.2500 mm): Track [CH9] on B.Cu, length 3.0000 mm
+    @(15.0000 mm, 48.5000 mm): PTH pad 1 [CH8] of R8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 32.0000 mm): PTH pad 2 [GND] of R12
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 40.0000 mm): Track [12V_PROT] on B.Cu, length 6.7500 mm
+    @(85.0800 mm, 40.0000 mm): PTH pad 2 [GND] of U4A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(71.2500 mm, 6.5000 mm): Track [+3V3] on B.Cu, length 10.7500 mm
+    @(75.0000 mm, 6.5000 mm): PTH pad 3 [SDA0] of J6
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 19.2500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(81.5000 mm, 54.7500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(39.7500 mm, 77.5000 mm): Track [ESC_R] on B.Cu, length 10.0000 mm
+    @(38.5000 mm, 77.2000 mm): PTH pad 2 [<no net>] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 19.2500 mm): Via [BTS_R_LPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 36.0000 mm): PTH pad 2 [GND] of R13
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 26.0000 mm): PTH pad 1 [SRV_TX] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(36.0000 mm, 73.0000 mm): PTH pad 1 [GND] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 29.5000 mm): Track [SDA1] on B.Cu, length 17.0000 mm
+    @(9.0000 mm, 28.5000 mm): PTH pad 2 [SRV_RX] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(38.5000 mm, 73.0000 mm): PTH pad 2 [<no net>] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(71.2500 mm, 6.5000 mm): Track [+3V3] on B.Cu, length 10.7500 mm
+    @(77.5000 mm, 6.5000 mm): PTH pad 4 [SCL0] of J6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(57.5000 mm, 68.0000 mm): Track [IS_L_MOD] on B.Cu, length 5.5000 mm
+    @(58.2800 mm, 64.5000 mm): PTH pad 2 [GND] of C5
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 40.0000 mm): PTH pad 2 [GND] of R14
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 44.0000 mm): PTH pad 2 [GND] of R15
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(41.0000 mm, 73.0000 mm): PTH pad 3 [ESC_L] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(68.0000 mm, 72.7000 mm): PTH pad 6 [<no net>] of U2B
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(30.5000 mm, 73.2500 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(48.0000 mm, 72.6000 mm): PTH pad 1 [BTS_L_RPWM] of J4
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(81.2500 mm, 54.7500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(30.5000 mm, 73.0000 mm): Track [ESC_L_5V] on F.Cu, length 0.2500 mm
+    @(29.8000 mm, 72.2000 mm): Pad C [ESC_L] of JP1 on F.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(50.5000 mm, 72.6000 mm): PTH pad 2 [BTS_L_LPWM] of J4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(92.5000 mm, 48.0000 mm): Track [Q2B] on B.Cu, length 29.2500 mm
+    @(90.0000 mm, 48.0000 mm): PTH pad 1 [12V_PROT] of C1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(53.0000 mm, 72.6000 mm): PTH pad 3 [EN] of J4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(55.5000 mm, 72.6000 mm): PTH pad 4 [GND] of J4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 48.0000 mm): PTH pad 2 [BTS_IS_R] of R16
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(78.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 58.0000 mm
+    @(58.0000 mm, 72.6000 mm): PTH pad 5 [IS_L_MOD] of J4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 52.0000 mm): PTH pad 2 [GND] of R17
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 56.0000 mm): PTH pad 2 [BTS_IS_L] of R18
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(81.2500 mm, 55.0000 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 21.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 61.0000 mm): Track [KILL] on B.Cu, length 37.5000 mm
+    @(58.2800 mm, 60.0000 mm): PTH pad 2 [GND] of R19
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(81.0000 mm, 55.0000 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 21.2500 mm
+    @(20.0800 mm, 56.5000 mm): PTH pad 2 [GND] of C3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.2500 mm, 12.5000 mm): Track [SDA1] on B.Cu, length 6.7500 mm
+    @(9.0000 mm, 13.0000 mm): PTH pad 1 [GND] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 23.5000 mm): Track [KILL] on B.Cu, length 34.5000 mm
+    @(58.2800 mm, 24.0000 mm): PTH pad 2 [+3V3] of R3
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(81.0000 mm, 55.2500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 23.5000 mm): Track [KILL] on B.Cu, length 34.5000 mm
+    @(68.0000 mm, 24.1600 mm): PTH pad 5 [+3V3] of U2A
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(80.7500 mm, 55.2500 mm): Track [12V_PROT] on F.Cu, length 0.2500 mm
+    @(80.0000 mm, 54.0000 mm): PTH pad 1 [5V_RAW] of F1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 73.0000 mm): Track [LED2_A] on B.Cu, length 21.2500 mm
+    @(21.2400 mm, 71.0000 mm): PTH pad 7 [GND] of U6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 23.5000 mm): Track [KILL] on B.Cu, length 34.5000 mm
+    @(86.0000 mm, 23.6200 mm): PTH pad 4 [SCL0] of U3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(59.0000 mm, 23.5000 mm): Track [KILL] on B.Cu, length 34.5000 mm
+    @(78.0000 mm, 23.0800 mm): PTH pad 3 [CH8] of JP4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 51.7500 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(82.0000 mm, 62.2500 mm): Track [12V_IN] on B.Cu, length 7.0000 mm
+    @(78.0000 mm, 62.0000 mm): PTH pad 1 [GND] of Q1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 19.7500 mm): Track [EN] on B.Cu, length 3.2500 mm
+    @(93.5000 mm, 21.0000 mm): PTH pad 3 [GND] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(51.0000 mm, 36.2500 mm): Track [Q2B] on B.Cu, length 31.0000 mm
+    @(24.0000 mm, 36.8300 mm): PTH pad 15 [SCL1] of U1A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 35.5000 mm): Track [SCL1] on B.Cu, length 1.7500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(56.0000 mm, 55.2500 mm): Track [IS_R_MOD] on B.Cu, length 3.7500 mm
+    @(53.2000 mm, 56.0000 mm): PTH pad 1 [IS_L_MOD] of R18
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 33.7500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(82.0000 mm, 62.2500 mm): Track [12V_IN] on B.Cu, length 7.0000 mm
+    @(80.5400 mm, 62.0000 mm): PTH pad 2 [12V_PROT] of Q1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 19.7500 mm): Track [EN] on B.Cu, length 3.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(51.0000 mm, 36.2500 mm): Track [Q2B] on B.Cu, length 31.0000 mm
+    @(49.4000 mm, 36.8300 mm): PTH pad 15 [<no net>] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.5000 mm, 51.7500 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 23.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.5000 mm, 51.5000 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(79.2500 mm, 20.2500 mm): Track [12V_PROT] on B.Cu, length 8.5000 mm
+    @(78.0000 mm, 20.5400 mm): PTH pad 2 [CH7] of JP4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 58.0000 mm): Track [Q3B] on B.Cu, length 30.5000 mm
+    @(92.5400 mm, 58.0000 mm): PTH pad 2 [GND] of C4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.5000 mm, 33.7500 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(94.0000 mm, 23.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(70.5000 mm, 17.5000 mm): Track [12V_PROT] on B.Cu, length 17.2500 mm
+    @(68.0000 mm, 16.5400 mm): PTH pad 2 [OE] of U2A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 58.0000 mm): Track [Q3B] on B.Cu, length 30.5000 mm
+    @(90.0000 mm, 58.0000 mm): PTH pad 1 [+5V] of C4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.0000 mm, 15.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 1.0000 mm
+    @(49.4000 mm, 16.5100 mm): PTH pad 7 [BTS_R_RPWM] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(69.7500 mm, 70.2500 mm): Track [12V_IN] on B.Cu, length 3.0000 mm
+    @(68.0000 mm, 70.1600 mm): PTH pad 5 [<no net>] of U2B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(94.0000 mm, 23.2500 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.2500 mm, 51.5000 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(14.0000 mm, 16.7500 mm): Via [LEAK] on F.Cu - B.Cu
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(94.2500 mm, 23.2500 mm): Track [EN] on B.Cu, length 0.5000 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.5000 mm, 33.5000 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(14.0000 mm, 16.7500 mm): Via [LEAK] on F.Cu - B.Cu
+    @(15.0000 mm, 16.1000 mm): PTH pad 1 [SCL1] of R6
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(94.2500 mm, 23.7500 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(50.0000 mm, 16.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 2.0000 mm
+    @(49.4000 mm, 16.5100 mm): PTH pad 7 [BTS_R_RPWM] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.7500 mm, 17.5000 mm): Track [PI_TX] on B.Cu, length 11.7500 mm
+    @(9.0000 mm, 18.0800 mm): PTH pad 3 [PI_RX] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.2500 mm, 51.2500 mm): Track [LED2_A] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(94.0000 mm, 23.7500 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.2500 mm, 33.5000 mm): Track [SCL1] on B.Cu, length 0.2500 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(52.2500 mm, 19.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 1.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(94.0000 mm, 24.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.5000 mm, 19.2500 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.0000 mm, 51.2500 mm): Track [LED2_A] on B.Cu, length 2.7500 mm
+    @(20.0800 mm, 52.1000 mm): PTH pad 2 [LED3_A] of R9
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.5000 mm, 19.5000 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(47.2500 mm, 20.0000 mm): Track [VBAT_S] on B.Cu, length 6.0000 mm
+    @(49.4000 mm, 19.0500 mm): PTH pad 8 [BTS_L_LPWM] of U1B
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 24.0000 mm): Track [EN] on B.Cu, length 0.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.7500 mm, 19.5000 mm): Track [BTS_R_LPWM] on B.Cu, length 0.2500 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(9.0000 mm, 17.5000 mm): Track [PI_TX] on B.Cu, length 2.0000 mm
+    @(9.0000 mm, 18.0800 mm): PTH pad 3 [PI_RX] of JP3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.7500 mm, 19.7500 mm): Track [BTS_R_LPWM] on B.Cu, length 6.5000 mm
+    @(53.2000 mm, 20.0000 mm): PTH pad 1 [VBAT_S] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.2500 mm, 33.2500 mm): Track [SCL1] on B.Cu, length 8.0000 mm
+    @(15.0000 mm, 34.1000 mm): PTH pad 1 [EN] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 24.2500 mm): Track [EN] on B.Cu, length 25.2500 mm
+    @(68.0000 mm, 24.1600 mm): PTH pad 5 [+3V3] of U2A
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 53.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 24.2500 mm): Track [EN] on B.Cu, length 25.2500 mm
+    @(86.0000 mm, 23.6200 mm): PTH pad 4 [SCL0] of U3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(53.7500 mm, 19.7500 mm): Track [BTS_R_LPWM] on B.Cu, length 6.5000 mm
+    @(58.2800 mm, 20.0000 mm): PTH pad 2 [GND] of R2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(21.2500 mm, 20.0000 mm): Track [PI_RX] on B.Cu, length 8.2500 mm
+    @(15.0000 mm, 19.7000 mm): PTH pad 1 [LEAK] of R20
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(38.5000 mm, 73.0000 mm): PTH pad 2 [<no net>] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(54.0000 mm, 53.0000 mm): Via [BTS_R_RPWM] on F.Cu - B.Cu
+    @(53.2000 mm, 52.0000 mm): PTH pad 1 [BTS_IS_R] of R17
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(21.2500 mm, 20.0000 mm): Track [PI_RX] on B.Cu, length 8.2500 mm
+    @(20.0800 mm, 19.7000 mm): PTH pad 2 [+3V3] of R20
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(20.2500 mm, 33.2500 mm): Track [SCL1] on B.Cu, length 8.0000 mm
+    @(20.0800 mm, 34.1000 mm): PTH pad 2 [Q2B] of R24
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(93.7500 mm, 24.2500 mm): Track [EN] on B.Cu, length 25.2500 mm
+    @(93.5000 mm, 23.5000 mm): PTH pad 4 [KILL] of J10
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(41.0000 mm, 73.0000 mm): PTH pad 3 [ESC_L] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(36.0000 mm, 73.0000 mm): PTH pad 1 [GND] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(68.5000 mm, 24.2500 mm): Track [EN] on B.Cu, length 14.2500 mm
+    @(68.0000 mm, 24.1600 mm): PTH pad 5 [+3V3] of U2A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(82.0000 mm, 74.0000 mm): PTH pad 1 [LED2_A] of LED2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(66.0000 mm, 74.5000 mm): PTH pad 1 [12V_IN] of J1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(68.5000 mm, 24.2500 mm): Track [EN] on B.Cu, length 14.2500 mm
+    @(68.0000 mm, 26.7000 mm): PTH pad 6 [<no net>] of U2A
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(71.0800 mm, 74.5000 mm): PTH pad 2 [GND] of J1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(9.7500 mm, 39.2500 mm): Track [SCL1] on B.Cu, length 4.0000 mm
+    @(9.0000 mm, 40.5000 mm): PTH pad 2 [GND] of J7
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(83.2500 mm, 73.7500 mm): Track [LED3_A] on B.Cu, length 63.2500 mm
+    @(78.0000 mm, 74.0000 mm): PTH pad 1 [LED1_A] of LED1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(69.2500 mm, 72.2500 mm): Track [LED1_A] on B.Cu, length 47.7500 mm
+    @(38.5000 mm, 73.0000 mm): PTH pad 2 [<no net>] of J2
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(9.7500 mm, 39.2500 mm): Track [SCL1] on B.Cu, length 4.0000 mm
+    @(9.0000 mm, 43.0000 mm): PTH pad 3 [SDA1] of J7
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(69.2500 mm, 72.2500 mm): Track [LED1_A] on B.Cu, length 47.7500 mm
+    @(41.0000 mm, 73.0000 mm): PTH pad 3 [ESC_L] of J2
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(58.7500 mm, 66.0000 mm): Track [+5V] on B.Cu, length 15.2500 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(65.7500 mm, 10.0000 mm): Track [SCL0] on B.Cu, length 2.2500 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(64.0000 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 2.7500 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(39.7500 mm, 77.5000 mm): Track [ESC_R] on B.Cu, length 10.0000 mm
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(3.0000 mm, 0.0000 mm): Segment on Edge.Cuts
+    @(22.6550 mm, 0.0000 mm): Rectangle on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(3.0000 mm, 0.0000 mm): Segment on Edge.Cuts
+    @(23.1000 mm, -0.0300 mm): Segment of U1A on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(3.0000 mm, 0.0000 mm): Segment on Edge.Cuts
+    @(48.5000 mm, -0.0300 mm): Segment of U1B on F.Silkscreen
+[hole_to_hole]: Drilled hole too close to other hole (board setup constraints min 0.2500 mm; actual 0.1933 mm)
+    Rule: board setup constraints; warning
+    @(18.7000 mm, 71.0000 mm): PTH pad 6 [ESC_R_5V] of U6
+    @(19.2500 mm, 71.5000 mm): Via [ESC_R_5V] on F.Cu - B.Cu
+[hole_to_hole]: Drilled hole too close to other hole (board setup constraints min 0.2500 mm; actual 0.1933 mm)
+    Rule: board setup constraints; warning
+    @(18.7000 mm, 71.0000 mm): PTH pad 6 [ESC_R_5V] of U6
+    @(19.2500 mm, 71.5000 mm): Via [ESC_R_5V] on F.Cu - B.Cu
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(24.0000 mm, 1.2700 mm): Footprint U1A
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(49.4000 mm, 1.2700 mm): Footprint U1B
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(9.0000 mm, 13.0000 mm): Footprint JP3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(9.0000 mm, 26.0000 mm): Footprint J8
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(9.0000 mm, 38.0000 mm): Footprint J7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(9.0000 mm, 50.0000 mm): Footprint J9
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(68.0000 mm, 14.0000 mm): Footprint U2A
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(68.0000 mm, 60.0000 mm): Footprint U2B
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(86.0000 mm, 16.0000 mm): Footprint U3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(80.0000 mm, 40.0000 mm): Footprint U4A
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(80.0000 mm, 46.0000 mm): Footprint U4B
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(80.0000 mm, 54.0000 mm): Footprint F1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(78.0000 mm, 62.0000 mm): Footprint Q1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(90.0000 mm, 40.0000 mm): Footprint D1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(90.0000 mm, 48.0000 mm): Footprint C1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(90.0000 mm, 58.0000 mm): Footprint C4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(90.0000 mm, 64.0000 mm): Footprint C2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(96.0000 mm, 46.0000 mm): Footprint Q2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(96.0000 mm, 56.0000 mm): Footprint Q3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(93.5000 mm, 16.0000 mm): Footprint J10
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(70.0000 mm, 6.5000 mm): Footprint J6
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(82.0000 mm, 6.5000 mm): Footprint J11
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(78.0000 mm, 18.0000 mm): Footprint JP4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(6.0000 mm, 71.0000 mm): Footprint U6
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(28.0000 mm, 72.2000 mm): Footprint JP1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(28.0000 mm, 77.6000 mm): Footprint JP2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(36.0000 mm, 73.0000 mm): Footprint J2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(36.0000 mm, 77.2000 mm): Footprint J3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(48.0000 mm, 72.6000 mm): Footprint J4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(48.0000 mm, 77.4000 mm): Footprint J5
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(66.0000 mm, 74.5000 mm): Footprint J1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(78.0000 mm, 74.0000 mm): Footprint LED1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(82.0000 mm, 74.0000 mm): Footprint LED2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(86.0000 mm, 74.0000 mm): Footprint LED3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(78.0000 mm, 68.0000 mm): Footprint BZ1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 12.5000 mm): Footprint R5
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 16.1000 mm): Footprint R6
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 19.7000 mm): Footprint R20
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 23.3000 mm): Footprint R21
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 26.9000 mm): Footprint R22
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 30.5000 mm): Footprint R23
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 34.1000 mm): Footprint R24
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 37.7000 mm): Footprint R10
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 41.3000 mm): Footprint R11
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 44.9000 mm): Footprint R7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 48.5000 mm): Footprint R8
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 52.1000 mm): Footprint R9
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 16.0000 mm): Footprint R1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 20.0000 mm): Footprint R2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 24.0000 mm): Footprint R3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 28.0000 mm): Footprint R4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 32.0000 mm): Footprint R12
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 36.0000 mm): Footprint R13
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 40.0000 mm): Footprint R14
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 44.0000 mm): Footprint R15
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 48.0000 mm): Footprint R16
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 52.0000 mm): Footprint R17
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 56.0000 mm): Footprint R18
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 60.0000 mm): Footprint R19
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(53.2000 mm, 64.5000 mm): Footprint C5
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 56.5000 mm): Footprint C3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(70.0000 mm, 70.0000 mm): Footprint TP1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(74.0000 mm, 66.0000 mm): Footprint TP2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(15.0000 mm, 8.0000 mm): Footprint TP3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(64.0000 mm, 10.0000 mm): Footprint TP4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(68.0000 mm, 10.0000 mm): Footprint TP5
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(74.0000 mm, 10.0000 mm): Footprint TP6
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(60.0000 mm, 66.0000 mm): Footprint TP7
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(64.0000 mm, 66.0000 mm): Footprint TP8
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(3.5000 mm, 3.5000 mm): Footprint H1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(96.5000 mm, 3.5000 mm): Footprint H2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(3.5000 mm, 76.5000 mm): Footprint H3
+[lib_footprint_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    Local override; warning
+    @(96.5000 mm, 76.5000 mm): Footprint H4
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(27.8000 mm, 74.0000 mm): PCB text 'A' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(31.8000 mm, 74.0000 mm): PCB text 'B' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(27.8000 mm, 79.4000 mm): PCB text 'A' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(31.8000 mm, 79.4000 mm): PCB text 'B' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(24.0000 mm, 69.6000 mm): PCB text 'A = ESC direct' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(82.0000 mm, 71.6000 mm): PCB text 'G Y R' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(55.5000 mm, 64.5000 mm): PCB text 'R16-19 DNP' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(28.0000 mm, 70.0000 mm): Reference field of JP1
+    @(24.0000 mm, 69.6000 mm): PCB text 'A = ESC direct' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(15.0000 mm, 5.8000 mm): Reference field of TP3
+    @(10.0000 mm, 6.0000 mm): PCB text 'ANTENNA ->' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(74.0000 mm, 7.8000 mm): Reference field of TP6
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(68.0000 mm, 7.8000 mm): Reference field of TP5
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(60.0000 mm, 63.8000 mm): Reference field of TP7
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(82.0000 mm, 71.6000 mm): PCB text 'G Y R' on F.Silkscreen
+    @(82.0000 mm, 71.8000 mm): Reference field of LED2
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(22.6550 mm, 0.0000 mm): Rectangle on F.Silkscreen
+    @(23.1000 mm, -0.0300 mm): Segment of U1A on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(22.6550 mm, 0.0000 mm): Rectangle on F.Silkscreen
+    @(48.5000 mm, -0.0300 mm): Segment of U1B on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(64.0000 mm, 7.8000 mm): Reference field of TP4
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(55.5000 mm, 64.5000 mm): PCB text 'R16-19 DNP' on F.Silkscreen
+    @(53.2000 mm, 64.5000 mm): PTH pad 1 [VBAT_S] of C5
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(55.5000 mm, 64.5000 mm): PCB text 'R16-19 DNP' on F.Silkscreen
+    @(58.2800 mm, 64.5000 mm): PTH pad 2 [GND] of C5
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(65.1000 mm, 73.2000 mm): Segment of J1 on F.Silkscreen
+    @(66.0000 mm, 74.5000 mm): PTH pad 1 [12V_IN] of J1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(70.0000 mm, 67.8000 mm): Reference field of TP1
+    @(68.0000 mm, 67.6200 mm): PTH pad 4 [<no net>] of U2B
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(68.0000 mm, 70.1600 mm): PTH pad 5 [<no net>] of U2B
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(70.0000 mm, 70.0000 mm): Pad 1 [12V_IN] of TP1 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(60.0000 mm, 63.8000 mm): Reference field of TP7
+    @(58.2800 mm, 64.5000 mm): PTH pad 2 [GND] of C5
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(60.0000 mm, 8.0000 mm): Rectangle on F.Silkscreen
+    @(60.0000 mm, 66.0000 mm): Pad 1 [KILL] of TP7 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(68.0000 mm, 7.8000 mm): Reference field of TP5
+    @(70.0000 mm, 6.5000 mm): PTH pad 1 [+3V3] of J6
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(74.0000 mm, 7.8000 mm): Reference field of TP6
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(74.0000 mm, 7.8000 mm): Reference field of TP6
+    @(75.0000 mm, 6.5000 mm): PTH pad 3 [SDA0] of J6
+
+** Found 13 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(58.7500 mm, 66.0000 mm): Track [+5V] on B.Cu, length 15.2500 mm
+    @(74.0000 mm, 66.0000 mm): Pad 1 [+5V] of TP2 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(9.0000 mm, 31.0000 mm): PTH pad 3 [GND] of J8
+    @(9.0000 mm, 40.5000 mm): PTH pad 2 [GND] of J7
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(9.0000 mm, 40.5000 mm): PTH pad 2 [GND] of J7
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(36.0000 mm, 77.2000 mm): PTH pad 1 [GND] of J3
+    @(36.0000 mm, 73.0000 mm): PTH pad 1 [GND] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(58.2800 mm, 52.0000 mm): PTH pad 2 [GND] of R17
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(68.0000 mm, 14.0000 mm): PTH pad 1 [GND] of U2A
+    @(58.2800 mm, 20.0000 mm): PTH pad 2 [GND] of R2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(74.0000 mm, 10.0000 mm): Pad 1 [GND] of TP6 on F.Cu
+    @(72.5000 mm, 6.5000 mm): PTH pad 2 [GND] of J6
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(85.0800 mm, 40.0000 mm): PTH pad 2 [GND] of U4A
+    @(94.2000 mm, 40.0000 mm): Pad 2 [GND] of D1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(39.7500 mm, 77.5000 mm): Track [ESC_R] on B.Cu, length 10.0000 mm
+    @(29.7500 mm, 77.5000 mm): Track [ESC_R] on F.Cu, length 0.1118 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(64.0000 mm, 10.0000 mm): Pad 1 [SDA0] of TP4 on F.Cu
+    @(64.0000 mm, 7.2500 mm): Track [SDA0] on B.Cu, length 2.7500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(68.0000 mm, 10.0000 mm): Pad 1 [SCL0] of TP5 on F.Cu
+    @(65.7500 mm, 10.0000 mm): Track [SCL0] on B.Cu, length 2.2500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(83.2500 mm, 40.0000 mm): Track [12V_PROT] on B.Cu, length 6.7500 mm
+    @(90.0000 mm, 40.0000 mm): Pad 1 [12V_PROT] of D1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(70.0000 mm, 70.0000 mm): Pad 1 [12V_IN] of TP1 on F.Cu
+    @(70.0000 mm, 67.0000 mm): Track [12V_IN] on B.Cu, length 3.0000 mm
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

@@ -1,0 +1,371 @@
+<title>AR-Mini Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Kanban, one kind of card: Backlog → Today (WIP 3, clock starts) → Done → Release. A card with an expected number is a test. */
+:root{
+  --bg:#eef2f3; --panel:#ffffff; --ink:#122129; --mute:#5b6d75; --line:#d3dde0;
+  --water:#0f5f73; --water-2:#d9ebef; --flare:#e8590c; --flare-2:#fde6d8;
+  --pass:#2f7d4f; --pass-2:#dcefe3; --fail:#b42318; --fail-2:#f8dcd9; --part:#a46a00; --part-2:#f6ead0;
+  --f-disp:"Chakra Petch","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c161b; --panel:#13222a; --ink:#e3edf0; --mute:#8fa3ab; --line:#24363f;
+  --water:#58b4c9; --water-2:#16323b; --flare:#ff7a33; --flare-2:#3a2216;
+  --pass:#5cc58a; --pass-2:#173326; --fail:#ff7b6e; --fail-2:#3b1a17; --part:#e6b14a; --part-2:#352a12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c161b; --panel:#13222a; --ink:#e3edf0; --mute:#8fa3ab; --line:#24363f;
+  --water:#58b4c9; --water-2:#16323b; --flare:#ff7a33; --flare-2:#3a2216;
+  --pass:#5cc58a; --pass-2:#173326; --fail:#ff7b6e; --fail-2:#3b1a17; --part:#e6b14a; --part-2:#352a12; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+h1,h2,h3{font-family:var(--f-disp);letter-spacing:.01em;text-wrap:balance;margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px 0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.top h1{font-size:24px;line-height:1}
+.top h1 span{color:var(--flare)}
+.sub{color:var(--mute);font-size:12px;margin-top:4px}
+.count{text-align:right;white-space:nowrap}
+.count b{font:700 28px/1 var(--f-disp);color:var(--flare)}
+.count small{display:block;color:var(--mute);font-size:11px}
+.tabs{display:flex;gap:2px;margin-top:10px}
+.tabs button{flex:1;border:0;background:none;padding:9px 2px;font:600 12px var(--f-disp);color:var(--mute);border-bottom:3px solid transparent;cursor:pointer;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--flare)}
+.tabs .n{font:500 11px var(--f-mono);margin-left:3px;color:var(--flare)}
+.board{display:grid;gap:14px;padding-top:14px}
+.tabs .wide{display:none}
+@media (min-width:860px){.board{grid-template-columns:1fr 1fr 1fr}.tabs .col{display:none}.tabs .wide{display:block}}
+.col-v{display:grid;gap:8px;align-content:start}
+.colh{display:flex;justify-content:space-between;align-items:baseline;padding:0 2px}
+.colh h2{font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.colh .wip{font:500 12px var(--f-mono);color:var(--mute)}
+.colh .wip.over{color:var(--fail)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+label{display:grid;gap:3px;font-size:11px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+input,select,textarea{font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
+textarea{min-height:56px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--flare);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form{display:grid;gap:10px}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 12px;font:600 14px var(--f-body);cursor:pointer}
+.btn.go{background:var(--flare);border-color:var(--flare);color:#fff}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.it{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:var(--r);padding:10px 12px;display:grid;gap:5px}
+.it.card{border-left-color:var(--water)} .it.run{border-left-color:var(--flare)}
+.it.pass{border-left-color:var(--pass)} .it.fail{border-left-color:var(--fail)} .it.partial{border-left-color:var(--part)}
+.it h3{font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--mute)}
+.chip{display:inline-block;padding:1px 8px;border-radius:99px;font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.04em;background:var(--water-2);color:var(--water)}
+.chip.pass{background:var(--pass-2);color:var(--pass)} .chip.fail{background:var(--fail-2);color:var(--fail)} .chip.partial{background:var(--part-2);color:var(--part)} .chip.run{background:var(--flare-2);color:var(--flare)}
+.hyp{font-size:14px;color:var(--ink)} .hyp b,.res b{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-right:6px}
+.res{font-size:14px;overflow-wrap:anywhere}
+.note{font-size:13px;color:var(--mute);overflow-wrap:anywhere}
+a{color:var(--water)}
+.empty{color:var(--mute);text-align:center;padding:20px 12px;border:1px dashed var(--line);border-radius:var(--r);font-size:14px}
+.warn{background:var(--flare-2);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:12px}
+details summary{cursor:pointer;font:600 12px var(--f-disp);letter-spacing:.03em;text-transform:uppercase;color:var(--mute)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px}
+.kpi b{display:block;font:600 22px/1.1 var(--f-disp)}
+.kpi span{font-size:11px;color:var(--mute)}
+canvas{width:100%;height:160px;display:block}
+.relbox{border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;display:grid;gap:6px}
+.relbox.cut{background:var(--pass-2);border-color:var(--pass)}
+.relbox.next{border-color:var(--flare)}
+.relbox .tag{font:700 16px var(--f-disp)}
+.relbox .items{font-size:13px;color:var(--mute)}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;z-index:9}
+</style>
+
+<div class="bar"><div class="wrap">
+  <div class="top">
+    <div><h1>AR-Mini <span>Board</span></h1><div class="sub" id="relnow">backlog → today → done → release</div></div>
+    <div class="count"><b class="mono" id="days">–</b><small>days to 1 Nov</small></div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="wide" role="tab" aria-selected="false" data-tab="today">Board</button>
+    <button class="col" role="tab" aria-selected="false" data-tab="backlog">Backlog<span class="n" id="n-backlog"></span></button>
+    <button class="col" role="tab" aria-selected="true" data-tab="today">Today<span class="n" id="n-today"></span></button>
+    <button class="col" role="tab" aria-selected="false" data-tab="done">Done<span class="n" id="n-done"></span></button>
+    <button role="tab" aria-selected="false" data-tab="dash">Releases</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div id="status" class="warn" hidden></div>
+
+  <div class="board" id="board">
+    <!-- BACKLOG -->
+    <div class="col-v" id="v-backlog" hidden>
+      <div class="colh"><h2>Backlog</h2><span class="wip" id="w-backlog"></span></div>
+      <form class="form panel" id="f-new">
+        <label for="n-title">Card <span class="mono" id="n-next"></span><input id="n-title" required maxlength="110" placeholder="what we do / test"></label>
+        <label for="n-hyp">Expected number (if it is a test)<input id="n-hyp" maxlength="200" placeholder="e.g. draft 42 mm ±3"></label>
+        <label for="n-note">Note<input id="n-note" maxlength="200" placeholder="how, with what (optional)"></label>
+        <div class="row"><button class="btn go" type="submit" id="b-new">Add</button><button class="btn" type="button" id="b-new-today">Add to Today</button></div>
+      </form>
+      <div class="col-list" id="l-backlog"></div>
+    </div>
+    <!-- TODAY -->
+    <div class="col-v" id="v-today">
+      <div class="colh"><h2>Today</h2><span class="wip" id="w-today"></span></div>
+      <div class="col-list" id="l-today"></div>
+    </div>
+    <!-- DONE -->
+    <div class="col-v" id="v-done" hidden>
+      <div class="colh"><h2>Done</h2><span class="wip" id="w-done"></span></div>
+      <div class="panel" id="cutbox">
+        <div class="row" style="justify-content:space-between"><span class="note">Enough to show? Cut a release from everything here.</span><button class="btn go sm" id="b-cut" type="button">Release ▾</button></div>
+        <form class="form" id="f-cut" hidden style="margin-top:10px">
+          <label for="c-rel">Release<select id="c-rel"></select></label>
+          <div class="grid2" id="c-newfields">
+            <label for="c-name">Name<input id="c-name" maxlength="12" placeholder="R1a"></label>
+            <label for="c-goal">Goal<input id="c-goal" maxlength="80" placeholder="one sentence"></label>
+          </div>
+          <div class="row"><button class="btn go sm" type="submit">Cut</button><button class="btn sm" type="button" id="b-cutcancel">Cancel</button></div>
+        </form>
+      </div>
+      <div class="col-list" id="l-done"></div>
+    </div>
+  </div>
+
+  <!-- DASH / RELEASES -->
+  <section id="v-dash" hidden style="display:grid;gap:12px;padding-top:14px">
+    <div class="kpis">
+      <div class="kpi"><b class="mono" id="k-rel">0</b><span>releases</span></div>
+      <div class="kpi"><b class="mono" id="k-n">0</b><span>cards done</span></div>
+      <div class="kpi"><b class="mono" id="k-loop">–</b><span>median time</span></div>
+      <div class="kpi"><b class="mono" id="k-week">0</b><span>last 7 days</span></div>
+    </div>
+    <div class="panel" style="display:grid;gap:10px">
+      <div class="row" style="justify-content:space-between"><h2 style="font-size:16px">Releases</h2><span class="row"><button class="btn sm" id="b-export" type="button" hidden>Export JSON</button><button class="btn sm" id="b-addrel" type="button">+ target</button></span></div>
+      <form class="form" id="f-rel" hidden>
+        <div class="grid2">
+          <label for="r-name">Name<input id="r-name" required maxlength="12" placeholder="R1a"></label>
+          <label for="r-date">Target date<input id="r-date" type="date"></label>
+        </div>
+        <label for="r-goal">Goal<input id="r-goal" required maxlength="80" placeholder="one sentence a test can check"></label>
+        <div class="row"><button class="btn go sm" type="submit">Save</button><button class="btn sm" type="button" id="b-relcancel">Cancel</button></div>
+      </form>
+      <div id="rel-list" style="display:grid;gap:8px"></div>
+      <p class="note">Target dates are a guide. A release is cut from Done when there is something to show.</p>
+    </div>
+    <div class="panel"><h2 style="font-size:16px;margin-bottom:8px">Cards done per day</h2><canvas id="c-day" height="160" aria-label="Cards per day"></canvas></div>
+    <div class="panel"><h2 style="font-size:16px;margin-bottom:8px">Time from Today to Done, hours</h2><canvas id="c-loop" height="160" aria-label="Time per card"></canvas></div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+const DEADLINE = new Date("2026-11-01T23:59:00+02:00");
+const WIP = 3;
+const PREFIX = "C";   // card number prefix: C001 (also the iCloud folder and the commit tag)
+const OUT = {pass:"Pass",partial:"Partial",fail:"Fail"};
+let db=null, user=null, me=null, cards=[], rels=[];
+const $=id=>document.getElementById(id);
+function h(tag,attrs,...kids){const e=document.createElement(tag);for(const k in attrs||{}){const v=attrs[k];if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v===true?"":v);}for(const c of kids.flat()){if(c==null||c===false)continue;e.append(c.nodeType?c:document.createTextNode(String(c)));}return e;}
+function toast(t){const e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2200);}
+function L(n){return PREFIX+String(n||0).padStart(3,"0");}
+function fmtT(ms){if(!ms)return"";const d=new Date(ms);return d.toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit"})+" "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+function dur(ms){if(ms==null)return"–";const m=Math.round(ms/60000);if(m<60)return m+" min";const hh=m/60;return(hh<10?hh.toFixed(1):Math.round(hh))+" h";}
+function safeUrl(u){try{const x=new URL(u);return(x.protocol==="https:"||x.protocol==="http:")?x.href:null;}catch(e){return null;}}
+function status(msg){const s=$("status");s.textContent=msg||"";s.hidden=!msg;}
+function todayIso(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dmy(iso){return iso?iso.slice(8,10)+"."+iso.slice(5,7):"";}
+function byCol(c){return cards.filter(x=>x.col===c).sort((a,b)=>(a.order||0)-(b.order||0)||(a.created||0)-(b.created||0));}
+function nextRel(){const t=todayIso();return rels.filter(r=>!r.cut).sort((a,b)=>(a.date||"9")<(b.date||"9")?-1:1)[0]||null;}
+function tick(){const d=Math.ceil((DEADLINE-Date.now())/86400000);$("days").textContent=d>0?d:"0";}
+tick();setInterval(tick,60000);
+
+// tabs (phone: one column; wide: board + dash toggle)
+const wide=()=>window.matchMedia("(min-width:860px)").matches;
+function showTab(t){
+  const onBoard=t!=="dash";
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",(x.classList.contains("wide")?onBoard:x.dataset.tab===t)?"true":"false"));
+  const dash=t==="dash";
+  $("board").hidden=dash;$("v-dash").hidden=!dash;
+  ["backlog","today","done"].forEach(c=>$("v-"+c).hidden=dash?true:(wide()?false:c!==t));
+  if(dash)dashRender();
+  try{localStorage.setItem("arloop-tab",t);}catch(e){}
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+let t0="today";try{t0=localStorage.getItem("arloop-tab")||"today";}catch(e){}
+render();showTab(t0);window.addEventListener("resize",()=>{const cur=document.querySelector('.tabs [aria-selected="true"]');showTab(cur?cur.dataset.tab:"today");});
+
+
+// ---------- cards ----------
+function nextSeq(){return cards.reduce((m,c)=>Math.max(m,c.seq||0),0)+1;}
+async function addCard(col){
+  if(!db){status("Writing is not available in this view. Sign in to Claude.");return;}
+  const title=$("n-title").value.trim();if(!title)return;
+  const data={seq:nextSeq(),title,hyp:$("n-hyp").value.trim(),note:$("n-note").value.trim(),col,order:Date.now(),created:Date.now(),from:"teddy",by:me||null,start:col==="today"?Date.now():null,end:null,outcome:null,result:"",photo:"",rel:""};
+  try{await db.collection("cards").add(data);$("n-title").value="";$("n-hyp").value="";$("n-note").value="";toast(L(data.seq)+" → "+(col==="today"?"Today":"Backlog"));}catch(e){writeErr(e);}
+}
+$("f-new").addEventListener("submit",ev=>{ev.preventDefault();addCard("backlog");});
+$("b-new-today").addEventListener("click",()=>{if($("f-new").reportValidity())addCard("today");});
+async function move(c,col,extra){if(!db)return;try{await db.doc("cards/"+c.id).update(Object.assign({col,order:Date.now()},extra||{}));}catch(e){writeErr(e);}}
+async function del(c,ev){const b=ev.currentTarget;if(b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="Sure?";setTimeout(()=>{b.dataset.arm="";b.textContent="Delete";},3000);return;}try{await db.doc("cards/"+c.id).delete();toast("Deleted");}catch(e){writeErr(e);}}
+
+function render(){
+  const cols={backlog:byCol("backlog"),today:byCol("today"),done:byCol("done")};
+  $("n-next").textContent=L(nextSeq());
+  for(const c in cols){
+    const n=cols[c].length;$("n-"+c).textContent=n||"";
+    const w=$("w-"+c);
+    if(c==="today"){w.textContent=n+" / "+WIP;w.classList.toggle("over",n>WIP);} else w.textContent=n?n+"":"";
+    const box=$("l-"+c);box.replaceChildren();
+    if(!n){box.append(h("div",{class:"empty"},c==="backlog"?"Empty. Claude or you add cards here.":c==="today"?"Pull 1–3 cards from Backlog. The clock starts when you pull.":"Nothing done yet."));}
+    else cols[c].forEach(x=>box.append(card(x,c)));
+  }
+  const nr=nextRel();$("relnow").textContent=nr?("next: "+nr.name+" · "+nr.goal+(nr.date?" · "+dmy(nr.date):"")):"backlog → today → done → release";
+}
+function head(c){
+  const running=c.col==="today"&&c.start&&!c.end;
+  const m=h("div",{class:"meta"});
+  m.append(h("span",{class:"mono"},L(c.seq)));
+  if(c.outcome)m.append(h("span",{class:"chip "+c.outcome},OUT[c.outcome]));
+  if(running)m.append(h("span",{class:"chip run"},"running · "+dur(Date.now()-c.start)));
+  else if(c.start&&c.end)m.append(h("span",{class:"mono"},c.end-c.start<60000?"time ?":dur(c.end-c.start)));
+  if(c.rel)m.append(h("span",{class:"chip"},c.rel));
+  if(c.from==="claude")m.append(h("span",{},"from Claude"));
+  return m;
+}
+function card(c,col){
+  const cls="it "+(c.outcome||(c.col==="today"&&!c.end?"run":"card"));
+  const el=h("article",{class:cls},head(c),h("h3",{},c.title||""));
+  if(c.hyp)el.append(h("div",{class:"hyp"},h("b",{},"expected"),c.hyp));
+  if(c.note)el.append(h("div",{class:"note"},c.note));
+  if(c.result)el.append(h("div",{class:"res"},h("b",{},"result"),c.result));
+  const u=c.photo&&safeUrl(c.photo);
+  if(c.fix||u)el.append(h("div",{class:"res"},c.fix?"→ "+c.fix+" ":"",u?h("a",{href:u,target:"_blank",rel:"noopener"},"photo / video ↗"):null));
+  const acts=h("div",{class:"row"});
+  if(col==="backlog"){acts.append(h("button",{class:"btn go sm",onclick:()=>move(c,"today",{start:Date.now()})},"→ Today"),h("button",{class:"btn sm",onclick:ev=>del(c,ev)},"Delete"));}
+  if(col==="today"){acts.append(h("button",{class:"btn sm",onclick:()=>move(c,"backlog",{start:null})},"← Backlog"));el.append(acts,closeForm(c,false));return el;}
+  if(col==="done"){acts.append(h("button",{class:"btn sm",onclick:()=>move(c,"today",{outcome:null,end:null,start:Date.now()})},"← Today"));el.append(acts,closeForm(c,true));return el;}
+  el.append(acts);return el;
+}
+function closeForm(c,edit){
+  const id="c-"+c.id;
+  const f=h("form",{class:"form",id:id},
+    edit?h("label",{for:id+"-hyp"},"Expected",h("input",{id:id+"-hyp",maxlength:"200",value:c.hyp||""})):null,
+    h("label",{for:id+"-res"},"Result"+(c.hyp?", with the number":""),h("input",{id:id+"-res",maxlength:"300",required:true,value:c.result||""})),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-out"},"Outcome",h("select",{id:id+"-out"},...["pass","fail"].map(v=>h("option",{value:v,selected:c.outcome===v},OUT[v])),c.outcome==="partial"?h("option",{value:"partial",selected:true},"Partial"):null)),
+      h("label",{for:id+"-ph"},"Photo / video link",h("input",{id:id+"-ph",type:"url",value:c.photo||"",placeholder:"https://…"}))),
+    h("div",{class:"row"},h("button",{class:"btn go sm",type:"submit"},edit?"Save":"Done"),h("button",{class:"btn sm",type:"button",onclick:ev=>del(c,ev)},"Delete")));
+  f.addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+    const patch={result:$(id+"-res").value.trim(),photo:$(id+"-ph").value.trim(),outcome:$(id+"-out").value};
+    if(edit)patch.hyp=$(id+"-hyp").value.trim();
+    else{patch.col="done";patch.order=Date.now();patch.end=Date.now();if(!c.start)patch.start=Date.now();}
+    try{await db.doc("cards/"+c.id).update(patch);toast(edit?"Saved":L(c.seq)+" → Done");}catch(e){writeErr(e);}});
+  return h("details",{},h("summary",{},edit?"Edit":"Done ▾"),f);
+}
+
+// ---------- cut a release ----------
+$("b-cut").addEventListener("click",()=>{const f=$("f-cut");f.hidden=!f.hidden;fillCutSel();});
+$("b-cutcancel").addEventListener("click",()=>{$("f-cut").hidden=true;});
+function fillCutSel(){const s=$("c-rel");s.replaceChildren();rels.filter(r=>!r.cut).forEach(r=>s.append(h("option",{value:r.id},r.name+" · "+r.goal)));s.append(h("option",{value:"__new"},"new release…"));s.onchange=()=>{$("c-newfields").hidden=s.value!=="__new";};s.onchange();}
+$("f-cut").addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+  const done=byCol("done");if(!done.length){status("Nothing in Done.");return;}
+  let rel;const sel=$("c-rel").value;
+  try{
+    if(sel==="__new"){const name=$("c-name").value.trim(),goal=$("c-goal").value.trim();if(!name||!goal){status("Name and goal for the new release.");return;}
+      const ref=await db.collection("releases").add({name,goal,date:todayIso(),cut:Date.now(),created:Date.now()});rel={id:ref.id,name};}
+    else{rel=rels.find(r=>r.id===sel);await db.doc("releases/"+rel.id).update({cut:Date.now()});}
+    for(const c of done)await db.doc("cards/"+c.id).update({col:"released",rel:rel.name});
+    $("f-cut").hidden=true;toast("Release "+rel.name+": "+done.length+" cards");
+  }catch(e){writeErr(e);}
+});
+
+// ---------- releases (targets + cut) ----------
+$("b-addrel").addEventListener("click",()=>{$("f-rel").hidden=false;delete $("f-rel").dataset.id;$("r-name").value="";$("r-goal").value="";$("r-date").value="";$("r-name").focus();});
+$("b-relcancel").addEventListener("click",()=>{$("f-rel").hidden=true;});
+$("f-rel").addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+  const data={name:$("r-name").value.trim(),date:$("r-date").value||null,goal:$("r-goal").value.trim()};const id=$("f-rel").dataset.id;
+  try{if(id)await db.doc("releases/"+id).update(data);else await db.collection("releases").add(Object.assign({created:Date.now(),cut:null},data));$("f-rel").hidden=true;toast("Saved");}catch(e){writeErr(e);}});
+function relRender(){
+  const R=$("rel-list");R.replaceChildren();
+  const list=rels.slice().sort((a,b)=>{if(!!a.cut!==!!b.cut)return a.cut?-1:1;if(a.cut)return b.cut-a.cut;return (a.date||"9")<(b.date||"9")?-1:1;});
+  const nr=nextRel();
+  if(!list.length)R.append(h("div",{class:"empty"},"Add a target: name, date (optional), one sentence."));
+  list.forEach(r=>{const its=cards.filter(c=>c.rel===r.name&&c.col==="released");
+    const box=h("div",{class:"relbox"+(r.cut?" cut":(nr&&nr.id===r.id?" next":""))},
+      h("div",{class:"row",style:"justify-content:space-between"},h("span",{class:"tag"},r.name),h("span",{class:"mono",style:"font-size:12px;color:var(--mute)"},r.cut?"cut "+fmtT(r.cut):(r.date?"target "+dmy(r.date):"no date"))),
+      h("div",{},r.goal),
+      its.length?h("div",{class:"items"},its.map(c=>L(c.seq)+" "+c.title+(c.outcome?" · "+OUT[c.outcome]:"")).join(" · ")):null,
+      h("div",{class:"row"},!r.cut?h("button",{class:"btn sm",onclick:()=>{$("r-name").value=r.name;$("r-date").value=r.date||"";$("r-goal").value=r.goal;$("f-rel").hidden=false;$("f-rel").dataset.id=r.id;}},"Edit"):null,
+        h("button",{class:"btn sm",onclick:async ev=>{const b=ev.currentTarget;if(b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="Sure?";setTimeout(()=>{b.dataset.arm="";b.textContent="Delete";},3000);return;}try{await db.doc("releases/"+r.id).delete();toast("Deleted");}catch(e){writeErr(e);}}},"Delete")));
+    R.append(box);});
+}
+
+function writeErr(e){const c=e&&e.code;
+  if(c==="permission_denied"||c==="not_granted")status("No write access in this view.");
+  else if(c==="quota_exceeded")status("The database is full.");
+  else status("Write failed ("+(c||"error")+"). Try again.");}
+
+// ---------- dashboard ----------
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function dayKey(ms){const d=new Date(ms);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dashRender(){
+  if($("v-dash").hidden)return;
+  const closed=cards.filter(c=>c.end&&(c.col==="done"||c.col==="released"));
+  const loops=closed.map(c=>c.end-c.start).filter(v=>v>=60000).sort((a,b)=>a-b);
+  $("k-rel").textContent=rels.filter(r=>r.cut).length;$("k-n").textContent=closed.length;
+  $("k-loop").textContent=loops.length?dur(loops[Math.floor(loops.length/2)]):"–";
+  $("k-week").textContent=closed.filter(c=>Date.now()-c.end<7*86400000).length;
+  const start=new Date("2026-10-08T00:00:00");const days=[];for(let d=new Date(start);d<=new Date();d.setDate(d.getDate()+1))days.push(dayKey(d));
+  const per={};closed.forEach(c=>{const k=dayKey(c.end);per[k]=per[k]||{pass:0,bad:0};per[k][c.outcome==="pass"?"pass":"bad"]++;});
+  bars($("c-day"),days.map(k=>({lab:k.slice(8,10)+"."+k.slice(5,7),a:(per[k]||{}).pass||0,b:(per[k]||{}).bad||0})));
+  line($("c-loop"),closed.filter(c=>c.end-c.start>=60000).sort((a,b)=>a.end-b.end).map(c=>({lab:L(c.seq),v:(c.end-c.start)/3600000,o:c.outcome})));
+  relRender();
+}
+function prep(c){const r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=Math.max(1,r.width*dpr);c.height=160*dpr;const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,r.width,160);x.font="11px "+css("--f-mono");return[x,r.width,160];}
+function niceStep(max){const raw=max/4,p=Math.pow(10,Math.floor(Math.log10(raw)));const n=raw/p;return(n<=1?1:n<=2?2:n<=5?5:10)*p;}
+function axes(x,W,H,max,unit){const Lx=34,B=22,T=10;x.strokeStyle=css("--line");x.fillStyle=css("--mute");x.lineWidth=1;x.textAlign="right";x.textBaseline="middle";
+  const step=niceStep(max);for(let v=0;v<=max+1e-9;v+=step){const y=T+(H-T-B)*(1-v/max);x.beginPath();x.moveTo(Lx,y);x.lineTo(W-4,y);x.stroke();x.fillText((Math.round(v*10)/10)+(unit||""),Lx-6,y);}return{L:Lx,B,T};}
+function bars(c,data){const[x,W,H]=prep(c);let max=Math.max(1,...data.map(d=>d.a+d.b));const s=niceStep(max);max=Math.ceil(max/s)*s;const{L:Lx,B,T}=axes(x,W,H,max);
+  const n=Math.max(data.length,1),bw=(W-Lx-8)/n;x.textAlign="center";x.textBaseline="top";
+  data.forEach((d,i)=>{const cx=Lx+bw*i+bw/2,w=Math.max(3,bw*.6),sc=(H-T-B)/max;let y=H-B;
+    if(d.a){x.fillStyle=css("--pass");x.fillRect(cx-w/2,y-d.a*sc,w,d.a*sc);y-=d.a*sc;}
+    if(d.b){x.fillStyle=css("--flare");x.fillRect(cx-w/2,y-d.b*sc,w,d.b*sc);}
+    if(n<=12||i%Math.ceil(n/8)===0||i===n-1){x.fillStyle=css("--mute");x.fillText(d.lab,cx,H-B+5);}});
+  x.textAlign="left";x.textBaseline="top";x.fillStyle=css("--pass");x.fillRect(W-120,2,8,8);x.fillStyle=css("--mute");x.fillText("pass",W-108,1);
+  x.fillStyle=css("--flare");x.fillRect(W-60,2,8,8);x.fillStyle=css("--mute");x.fillText("fail",W-48,1);}
+function line(c,data){const[x,W,H]=prep(c);if(!data.length){x.fillStyle=css("--mute");x.textAlign="center";x.fillText("Finish the first card to see the chart.",W/2,H/2);return;}
+  let max=Math.max(.5,...data.map(d=>d.v));const s=niceStep(max);max=Math.ceil(max/s)*s;const{L:Lx,B,T}=axes(x,W,H,max,"h");
+  const n=data.length,px=i=>n===1?(Lx+W)/2:Lx+8+(W-Lx-20)*i/(n-1),py=v=>T+(H-T-B)*(1-v/max);
+  x.beginPath();data.forEach((d,i)=>i?x.lineTo(px(i),py(d.v)):x.moveTo(px(i),py(d.v)));x.strokeStyle=css("--water");x.lineWidth=2;x.stroke();
+  x.lineTo(px(n-1),H-B);x.lineTo(px(0),H-B);x.closePath();x.globalAlpha=.12;x.fillStyle=css("--water");x.fill();x.globalAlpha=1;
+  x.textAlign="center";x.textBaseline="top";
+  data.forEach((d,i)=>{x.beginPath();x.arc(px(i),py(d.v),i===n-1?4.5:3,0,7);x.fillStyle=d.o==="pass"?css("--pass"):css("--flare");x.fill();
+    if(n<=12||i%Math.ceil(n/8)===0||i===n-1){x.fillStyle=css("--mute");x.fillText(d.lab,px(i),H-B+5);}});}
+let rt;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(dashRender,150);});
+setInterval(()=>{if(cards.some(c=>c.col==="today"&&c.start&&!c.end))render();},60000);
+
+// ---------- boot ----------
+(async()=>{
+  if(!window.claude||!window.claude.use){status("Open the page in Claude to write.");return;}
+  [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+  if(user){try{me=await user.id();}catch(e){}}
+  window.claude.use("downloads").then(dl=>{if(!dl)return;const b=$("b-export");b.hidden=false;
+    b.onclick=async()=>{const out={exported:new Date().toISOString(),prefix:PREFIX,deadline:DEADLINE.toISOString(),
+        releases:rels.map(r=>Object.assign({},r)),cards:cards.map(c=>Object.assign({label:L(c.seq)},c))};
+      try{await dl.save({filename:"board.json",data:JSON.stringify(out,null,2)});status("board.json saved.");}
+      catch(e){if(e&&e.code!=="declined")status("Export failed ("+(e.code||"error")+").");}};});
+  if(!db){status("Writing is not available in this view. Sign in to Claude.");$("b-new").disabled=true;return;}
+  const err=e=>status("Database connection lost ("+e.code+"). Reload the page.");
+  db.collection("releases").onSnapshot(s=>{rels=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();},err);
+  db.collection("cards").onSnapshot(s=>{cards=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();},err);
+})();
+})();
+</script>
