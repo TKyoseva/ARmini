@@ -29,3 +29,25 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C039 | 2026-10-12 | Print Pesho v3: head + lid in white PETG, then the body in red PLA (two plates) | Partial | C021_2026-10-12_pesho-warmer |
 | C040 | 2026-10-13 | Arrivals 13.10: the last Amazon batch: MLX90642-D45, soldering kit (fume extractor, third hand), wiring and prototyping parts | open | C040_2026-10-13_arrivals |
 | C041 | 2026-10-15 | Print the thruster kick-up mounts: 2 × thruster_bracket + 2 × thruster_arm, PETG (after the CAD fix) | Pass | C041_2026-10-15_thruster-mounts |
+
+## History cards (CH##)
+
+The story before the board (concept, research, CAD, simulation, MVP, courses, paper), for the portfolio. Board tab **History**; same folder rules (`CH##_NN.ext` + `captions.md`, ★ = portfolio pick). Cards with no files have no folder.
+
+| Card | When | What | iCloud folder |
+|---|---|---|---|
+| CH01 | September 2025 | First concept drawings: AR closed and open | CH01_2025-09-01_first-concept |
+| CH02 | September 2025 | Research begins with Horizon Academic | CH02_2025-09-02_horizon-research |
+| CH03 | from September 2025 | C++ at school | — |
+| CH04 | November 2025 | Fusion 360 CAD: AR closed and open | CH04_2025-11-01_fusion-cad |
+| CH05 | January 2026 | Simulation suite complete (Gazebo) | CH05_2026-01-01_gazebo-sim |
+| CH06 | January 2026 | Presented at UchIMI, Bulgarian Academy of Sciences | CH06_2026-01-14_uchimi |
+| CH07 | February 2026 | System architecture | CH07_2026-02-01_architecture |
+| CH08 | February 2026 | MVP design: hulls, joins, mechanical | CH08_2026-02-15_mvp |
+| CH09 | February to June 2026 | Revision requested by reviewers | — |
+| CH10 | March 2026 | Lego prototype | CH10_2026-03-01_lego-prototype |
+| CH11 | March 2026 | CS50 | — |
+| CH12 | June to August 2026 | Python: CS106A, Stanford University | — |
+| CH13 | June to August 2026 | Electronics: ENGR40M, Stanford University | — |
+| CH14 | June to September 2026 | Analysis rebuilt and traced to commits | — |
+| CH15 | 30 September 2026 | Revised manuscript submitted | — |

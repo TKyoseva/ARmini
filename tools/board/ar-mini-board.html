@@ -135,6 +135,7 @@ canvas{width:100%;height:160px;display:block}
     <button class="col" role="tab" aria-selected="false" data-tab="done">Done<span class="n" id="n-done"></span></button>
     <button role="tab" aria-selected="false" data-tab="dash">Releases</button>
     <button role="tab" aria-selected="false" data-tab="road">Roadmap<span class="n" id="n-road"></span></button>
+    <button role="tab" aria-selected="false" data-tab="hist">History<span class="n" id="n-hist"></span></button>
   </div>
 </div></div>
 
@@ -206,6 +207,12 @@ canvas{width:100%;height:160px;display:block}
     <div class="panel"><h2 style="font-size:16px;margin-bottom:8px">Time from Today to Done, hours</h2><canvas id="c-loop" height="160" aria-label="Time per card"></canvas></div>
   </section>
 
+  <!-- HISTORY: CH01, CH02 … the story before the board (concept, research, CAD, sim, MVP, courses), for the portfolio -->
+  <section id="v-hist" class="road" hidden>
+    <div class="panel note"><b>History.</b> The milestones before the board, in order. Each CH card has its iCloud folder <span class="mono">AR-Mini-Media/01_Loops/CH##_YYYY-MM-DD_name/</span> (files <span class="mono">CH##_NN.ext</span> + <span class="mono">captions.md</span>, ★ = portfolio pick) and, where they exist, repo files.</div>
+    <div id="hist-list" style="display:grid;gap:8px"></div>
+  </section>
+
   <!-- ROADMAP -->
   <section id="v-road" class="road" hidden>
     <div class="kpis">
@@ -266,11 +273,11 @@ tick();setInterval(tick,60000);
 // tabs (phone: one column; wide: board + dash/road toggle)
 const wide=()=>window.matchMedia("(min-width:860px)").matches;
 function showTab(t){
-  const onBoard=!(t==="dash"||t==="road");
+  const onBoard=!(t==="dash"||t==="road"||t==="hist");
   document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",(x.classList.contains("wide")?onBoard:x.dataset.tab===t)?"true":"false"));
-  $("board").hidden=!onBoard;$("goals").hidden=!onBoard;$("v-dash").hidden=t!=="dash";$("v-road").hidden=t!=="road";
+  $("board").hidden=!onBoard;$("goals").hidden=!onBoard;$("v-dash").hidden=t!=="dash";$("v-road").hidden=t!=="road";$("v-hist").hidden=t!=="hist";
   ["backlog","today","done"].forEach(c=>$("v-"+c).hidden=!onBoard?true:(wide()?false:c!==t));
-  if(t==="dash")dashRender();if(t==="road")roadRender();
+  if(t==="dash")dashRender();if(t==="road")roadRender();if(t==="hist")histRender();
   try{localStorage.setItem("arloop-tab",t);}catch(e){}
 }
 document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
@@ -279,7 +286,7 @@ render();showTab(t0);window.addEventListener("resize",()=>{const cur=document.qu
 
 
 // ---------- cards ----------
-function nextSeq(){return cards.reduce((m,c)=>Math.max(m,c.seq||0),0)+1;}
+function nextSeq(){return cards.filter(c=>c.kind!=="history").reduce((m,c)=>Math.max(m,c.seq||0),0)+1;}
 async function addCard(col){
   if(!db){status("Writing is not available in this view. Sign in to Claude.");return;}
   const title=$("n-title").value.trim();if(!title)return;
@@ -504,6 +511,39 @@ function writeErr(e){const c=e&&e.code;
   else status("Write failed ("+(c||"error")+"). Try again.");}
 
 // ---------- roadmap ----------
+// ---------- history (CH cards: kind "history", col "history", numbered by hseq) ----------
+function LH(c){return "CH"+String(c.hseq||0).padStart(2,"0");}
+function histRender(){
+  const list=cards.filter(c=>c.kind==="history").sort((a,b)=>(a.hseq||0)-(b.hseq||0));
+  $("n-hist").textContent=list.length||"";
+  if($("v-hist").hidden)return;
+  const H=$("hist-list");H.replaceChildren();
+  if(!list.length){H.append(h("div",{class:"empty"},"No history cards yet."));return;}
+  list.forEach(c=>{
+    const el=h("article",{class:"it card"},
+      h("div",{class:"meta"},h("span",{class:"mono"},LH(c)),c.when?h("span",{class:"chip dim"},c.when):h("span",{class:"chip partial"},"date ?"),c.type?h("span",{},c.type):null),
+      h("h3",{},c.title||""));
+    if(c.note)el.append(h("div",{class:"note"},c.note));
+    el.append(filesBlock(c),histForm(c));
+    H.append(el);});
+}
+function histForm(c){
+  const id="h-"+c.id;
+  const f=h("form",{class:"form"},
+    h("label",{for:id+"-t"},"Title",h("input",{id:id+"-t",maxlength:"110",required:true,value:c.title||""})),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-w"},"When (as shown)",h("input",{id:id+"-w",maxlength:"40",value:c.when||"",placeholder:"September 2025"})),
+      h("label",{for:id+"-d"},"Date (sorts, names the folder)",h("input",{id:id+"-d",type:"date",value:c.date||""}))),
+    h("label",{for:id+"-n"},"Note",h("textarea",{id:id+"-n",maxlength:"600"},c.note||"")),
+    h("label",{for:id+"-md"},"iCloud media folder (01_Loops/…)",h("input",{id:id+"-md",maxlength:"80",value:c.media||""})),
+    h("label",{for:id+"-fl"},"Files in the repo (one per line: path — what it is)",h("textarea",{id:id+"-fl",maxlength:"3000"},filesText(c))),
+    h("div",{class:"row"},h("button",{class:"btn go sm",type:"submit"},"Save")));
+  f.addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+    const patch={title:$(id+"-t").value.trim(),when:$(id+"-w").value.trim(),date:$(id+"-d").value||null,note:$(id+"-n").value.trim(),media:$(id+"-md").value.trim(),files:parseFiles($(id+"-fl").value)};
+    try{await db.doc("cards/"+c.id).update(patch);toast(LH(c)+" saved");}catch(e){writeErr(e);}});
+  return h("details",{},h("summary",{},"Edit"),f);
+}
+
 function roadRender(){
   if($("v-road").hidden)return;
   const list=Object.values(an);const closed=cards.filter(c=>c.col==="done"||c.col==="released");
@@ -582,7 +622,7 @@ setInterval(()=>{if(cards.some(c=>c.col==="today"&&c.start&&!c.end))render();},6
   if(user){try{me=await user.id();}catch(e){}}
   window.claude.use("downloads").then(dl=>{if(!dl)return;const b=$("b-export");b.hidden=false;
     b.onclick=async()=>{const out={exported:new Date().toISOString(),prefix:PREFIX,
-        goals:goals.map(g=>Object.assign({},g)),releases:rels.map(r=>Object.assign({},r)),cards:cards.map(c=>Object.assign({label:L(c.seq)},c)),analyses:Object.values(an)};
+        goals:goals.map(g=>Object.assign({},g)),releases:rels.map(r=>Object.assign({},r)),cards:cards.map(c=>Object.assign({label:c.kind==="history"?LH(c):L(c.seq)},c)),analyses:Object.values(an)};
       try{await dl.save({filename:"board.json",data:JSON.stringify(out,null,2)});status("board.json saved.");}
       catch(e){if(e&&e.code!=="declined")status("Export failed ("+(e.code||"error")+").");}};});
   if(!db){status("Writing is not available in this view. Sign in to Claude.");$("b-new").disabled=true;return;}
@@ -590,7 +630,7 @@ setInterval(()=>{if(cards.some(c=>c.col==="today"&&c.start&&!c.end))render();},6
   db.collection("goals").onSnapshot(s=>{goals=s.docs.map(d=>Object.assign({id:d.id},d.data()));tick();render();dashRender();roadRender();},err);
   db.collection("releases").onSnapshot(s=>{rels=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();roadRender();},err);
   db.collection("analyses").onSnapshot(s=>{an={};s.docs.forEach(d=>{an[d.id]=Object.assign({id:d.id},d.data());});render();roadRender();},err);
-  db.collection("cards").onSnapshot(s=>{cards=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();roadRender();},err);
+  db.collection("cards").onSnapshot(s=>{cards=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();roadRender();histRender();},err);
 })();
 })();
 </script>
