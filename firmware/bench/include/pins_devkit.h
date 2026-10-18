@@ -29,6 +29,8 @@
 // ---------------------------------------------------------------- BTS7960 L / R
 // Sheet 2b gives the pairs "GPIO39/40 · GPIO41/42" but not which one of a pair is RPWM.
 // Chosen here: the lower number is RPWM. If the motor runs the wrong way, swap the two wires, not the code.
+// GPIO39-42 each have a 10 k pull-down to GND (C015, 11.10): GPIO39 is weakly HIGH after boot and 39/40 in download mode.
+// setup() must drive all four LOW before anything else. The rocker (R_EN/L_EN) stays the hardware stop.
 #define PIN_BTS_L_RPWM 39 // VERIFY: sheet 2b "BTS7960 L GPIO39/40" — RPWM/LPWM order chosen, not on the sheet
 #define PIN_BTS_L_LPWM 40 // VERIFY: see PIN_BTS_L_RPWM
 #define PIN_BTS_R_RPWM 41 // VERIFY: sheet 2b "BTS7960 R GPIO41/42" — order chosen, not on the sheet

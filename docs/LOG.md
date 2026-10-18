@@ -34,3 +34,6 @@ Format: date · who · what I tried · what happened · what I change. Three lin
 - C003 ROB0154 plate: 151.82 × 134.8, slots land 10 mm off the beams with ch_x 290. Fail → CAD v2.0: ch_x 300.
 - CAD v2.0: kick-up thruster mount on the transom from the C001 numbers (decision 0004). The tracker became a kanban board with cards C###.
 - Specs for the parts agent (T4) and the release video agent (T5). Photos renamed to card IDs, captions written.
+
+## 2026-10-18 (Sun) · Teddy
+- Release R-1018 cut from Done (8 cards: C011, C015, C035, C037, C038, C039, C040, C041): R1b parts printed and fitted by hand, boot-safe motor pins, all parts in. Page: docs/releases/R-1018.md, tag r2026-10-18.

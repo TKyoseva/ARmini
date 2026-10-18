@@ -1,14 +1,75 @@
 {
-  "exported": "2026-10-11T12:50:31.201Z",
+  "exported": "2026-10-18T20:10:37.001Z",
   "prefix": "C",
-  "deadline": "2026-11-01T21:59:00.000Z",
+  "goals": [
+    {
+      "id": "g1",
+      "criteria": [
+        "R3b passes: the thermal camera finds Pesho, the boat approaches, the cradle lifts him — one continuous video ≤ 2 min",
+        "Portfolio PDF/site: 6–8 loops told as expected → measured → fixed, with the FAILS list and the board statistics",
+        "Repo public (C013): README, BOM without prices, CAD, firmware, no secrets",
+        "Every closed card has its result; the 5 strongest challenges have their analysis"
+      ],
+      "desc": "What MIT sees on 1 Nov: AR-Mini at R3b — the full cycle search → approach → lift in a pool, on video, with the numbers behind it.",
+      "due": "2026-10-30",
+      "hard": "2026-11-01",
+      "kind": "portfolio",
+      "name": "G1",
+      "order": 1,
+      "title": "Maker Portfolio v1 — Early Action"
+    },
+    {
+      "id": "g2",
+      "criteria": [
+        "Open-water test (lake or sea, cold): drive, kick-up on grounding, return — video + GPS/IMU log",
+        "Measured: bollard pull per thruster, drag vs speed, thermal detection range vs water temperature, battery runtime",
+        "Carrier rev B in the boat (no perfboard); the rev C decision taken",
+        "Releases R4 → R5 as a changelog; an analysis on every closed card; roadmap v1 written"
+      ],
+      "desc": "The same story with real-water evidence and measured numbers: what v1 could not show in October.",
+      "due": "2026-12-30",
+      "hard": "2027-01-05",
+      "kind": "portfolio",
+      "name": "G2",
+      "order": 2,
+      "title": "Portfolio v2 — Regular Decision"
+    },
+    {
+      "id": "g3",
+      "criteria": [
+        "Pick one activity from the roadmap by March 2027 (publication / competition / open-source release) and do it",
+        "Competition entry: the national Young Talents contest (EUCYS selection) or an affiliated fair — eligibility checked in January",
+        "AR-Mini v2: bare WROOM carrier rev C, waterproof pod, an autonomous mission on a lake",
+        "Open-source release with a paper-grade README; a follow-up write-up to the NHSJS paper with the measured data",
+        "University year 1 (autumn 2027): UROP / lab chosen from the roadmap; the first grant application sent"
+      ],
+      "desc": "After the applications: turn the strongest seeds into one real activity and keep the boat alive as a platform.",
+      "due": "2027-12-31",
+      "kind": "year",
+      "name": "G3",
+      "order": 3,
+      "title": "2027 — AR-Mini v2 and the first activity"
+    }
+  ],
   "releases": [
+    {
+      "id": "c9mz9s20i5ahc6ia920c",
+      "name": "R-1018",
+      "goal": "R1b parts printed and fitted by hand, boot-safe motor pins, all parts in",
+      "g": "g1",
+      "kind": "release",
+      "date": "2026-10-18",
+      "cut": 1792354181794,
+      "created": 1792354181794
+    },
     {
       "id": "r1a",
       "created": 1791511500000,
       "cut": 1791722938063,
       "date": "2026-10-11",
+      "g": "g1",
       "goal": "hull_fore floats: draft measured, no leak in 20 min",
+      "kind": "milestone",
       "name": "R1a"
     },
     {
@@ -16,7 +77,9 @@
       "created": 1791511501000,
       "cut": null,
       "date": "2026-10-13",
+      "g": "g1",
       "goal": "the arm lifts Pesho in the bathtub",
+      "kind": "milestone",
       "name": "R1b"
     },
     {
@@ -24,7 +87,9 @@
       "created": 1791511502000,
       "cut": null,
       "date": "2026-10-16",
+      "g": "g1",
       "goal": "thruster spins in a bucket from the DevKit; kick-up coupon fits",
+      "kind": "milestone",
       "name": "R2a"
     },
     {
@@ -32,7 +97,9 @@
       "created": 1791511503000,
       "cut": null,
       "date": "2026-10-19",
+      "g": "g1",
       "goal": "4 sections assembled, hull floats with the chassis",
+      "kind": "milestone",
       "name": "R2b"
     },
     {
@@ -40,7 +107,9 @@
       "created": 1791511504000,
       "cut": null,
       "date": "2026-10-22",
+      "g": "g1",
       "goal": "swims in the pool on remote control",
+      "kind": "milestone",
       "name": "R2c"
     },
     {
@@ -48,7 +117,9 @@
       "created": 1791511505000,
       "cut": null,
       "date": "2026-10-26",
+      "g": "g1",
       "goal": "thermal camera finds Pesho and turns toward him",
+      "kind": "milestone",
       "name": "R3a"
     },
     {
@@ -56,7 +127,9 @@
       "created": 1791511506000,
       "cut": null,
       "date": "2026-10-29",
+      "g": "g1",
       "goal": "full cycle: search → approach → lift",
+      "kind": "milestone",
       "name": "R3b"
     },
     {
@@ -64,11 +137,308 @@
       "created": 1791511507000,
       "cut": null,
       "date": "2026-10-31",
+      "g": "g1",
       "goal": "video + portfolio submitted",
+      "kind": "milestone",
       "name": "R4"
     }
   ],
   "cards": [
+    {
+      "label": "CH01",
+      "id": "h01-first-concept",
+      "col": "history",
+      "created": 1792142000001,
+      "date": "2025-09-01",
+      "files": [],
+      "from": "claude",
+      "hseq": 1,
+      "kind": "history",
+      "media": "CH01_2025-09-01_first-concept",
+      "note": "The first idea: twin hulls with a canopy over a rescue pod that lowers between them to take a casualty on board.",
+      "order": 1,
+      "src": [
+        "robot scetch_closed.svg",
+        "robot scetch_open.svg",
+        "closed AR (autodesk).png"
+      ],
+      "title": "First concept drawings: AR closed and open",
+      "type": "drawing",
+      "when": "September 2025"
+    },
+    {
+      "label": "CH02",
+      "id": "h02-horizon-research",
+      "col": "history",
+      "created": 1792142000002,
+      "date": "2025-09-02",
+      "files": [],
+      "from": "claude",
+      "hseq": 2,
+      "kind": "history",
+      "media": "CH02_2025-09-02_horizon-research",
+      "note": "Start of the AmphiReach research with Horizon Academic: the search-pattern logic for finding a person in open water.",
+      "order": 2,
+      "src": [
+        "Run search pattern.svg"
+      ],
+      "title": "Research begins with Horizon Academic",
+      "type": "research",
+      "when": "September 2025"
+    },
+    {
+      "label": "CH03",
+      "id": "h03-cpp-school",
+      "col": "history",
+      "created": 1792142000003,
+      "date": "2025-09-15",
+      "files": [],
+      "from": "claude",
+      "hseq": 3,
+      "kind": "history",
+      "media": "",
+      "note": "C++ course at school, from September 2025.",
+      "order": 3,
+      "src": [],
+      "title": "C++ at school",
+      "type": "course",
+      "when": "from September 2025"
+    },
+    {
+      "label": "CH04",
+      "id": "h04-fusion-cad",
+      "col": "history",
+      "created": 1792142000004,
+      "date": "2025-11-01",
+      "files": [],
+      "from": "claude",
+      "hseq": 4,
+      "kind": "history",
+      "media": "CH04_2025-11-01_fusion-cad",
+      "note": "The full-size AmphiReach modelled in Fusion 360, closed and open.",
+      "order": 4,
+      "src": [
+        "closed AR (autodesk).png",
+        "open AR(autodesk).png"
+      ],
+      "title": "Fusion 360 CAD: AR closed and open",
+      "type": "CAD",
+      "when": "November 2025"
+    },
+    {
+      "label": "CH05",
+      "id": "h05-gazebo-sim",
+      "col": "history",
+      "created": 1792142000005,
+      "date": "2026-01-01",
+      "files": [],
+      "from": "claude",
+      "hseq": 5,
+      "kind": "history",
+      "media": "CH05_2026-01-01_gazebo-sim",
+      "note": "Gazebo simulation suite complete: the AR model floating on a water surface with its hull components.",
+      "order": 5,
+      "src": [
+        "gazebo sim screenshot.png"
+      ],
+      "title": "Simulation suite complete (Gazebo)",
+      "type": "simulation",
+      "when": "January 2026"
+    },
+    {
+      "label": "CH06",
+      "id": "h06-uchimi",
+      "col": "history",
+      "created": 1792142000006,
+      "date": "2026-01-14",
+      "files": [],
+      "from": "claude",
+      "hseq": 6,
+      "kind": "history",
+      "media": "CH06_2026-01-14_uchimi",
+      "note": "Poster at the UchIMI student conference 2026. The PDF was created 14.01.2026.",
+      "order": 6,
+      "src": [
+        "AmphiReach Conference.pdf"
+      ],
+      "title": "Presented at UchIMI, Bulgarian Academy of Sciences",
+      "type": "talk",
+      "when": "January 2026"
+    },
+    {
+      "label": "CH07",
+      "id": "h07-architecture",
+      "col": "history",
+      "created": 1792142000007,
+      "date": "2026-02-01",
+      "files": [],
+      "from": "claude",
+      "hseq": 7,
+      "kind": "history",
+      "media": "CH07_2026-02-01_architecture",
+      "note": "Block diagram of the full-size vehicle: what lives in each hull and between them.",
+      "order": 7,
+      "src": [
+        "Architecture.png"
+      ],
+      "title": "System architecture",
+      "type": "design",
+      "when": "February 2026"
+    },
+    {
+      "label": "CH08",
+      "id": "h08-mvp",
+      "col": "history",
+      "created": 1792142000008,
+      "date": "2026-02-15",
+      "files": [],
+      "from": "claude",
+      "hseq": 8,
+      "kind": "history",
+      "media": "CH08_2026-02-15_mvp",
+      "note": "The MVP drawings: hull sections, the joints between pod, poles and net, and the mechanical layout.",
+      "order": 8,
+      "src": [
+        "hulls.svg",
+        "MVP Joins.pdf",
+        "MVP Mechanical.pdf"
+      ],
+      "title": "MVP design: hulls, joins, mechanical",
+      "type": "design",
+      "when": "February 2026"
+    },
+    {
+      "label": "CH09",
+      "id": "h09-reviewer-revision",
+      "col": "history",
+      "created": 1792142000009,
+      "date": "2026-02-20",
+      "files": [],
+      "from": "claude",
+      "hseq": 9,
+      "kind": "history",
+      "media": "",
+      "note": "Reviewers asked for a revision of the manuscript; the revision ran February to June 2026. No file (the manuscript stays out of the repo).",
+      "order": 9,
+      "src": [],
+      "title": "Revision requested by reviewers",
+      "type": "paper",
+      "when": "February to June 2026"
+    },
+    {
+      "label": "CH10",
+      "id": "h10-lego-prototype",
+      "col": "history",
+      "created": 1792142000010,
+      "date": "2026-03-01",
+      "files": [],
+      "from": "claude",
+      "hseq": 10,
+      "kind": "history",
+      "media": "CH10_2026-03-01_lego-prototype",
+      "note": "First physical model in Lego Technic: the twin-hull frame and the tilting rescue pod, with a minifigure as the casualty.",
+      "order": 10,
+      "src": [
+        "Prototype lego 1.jpg",
+        "Prototype lego 2.jpg",
+        "Prototype lego 3.jpg",
+        "Prototype lego 4.jpg",
+        "Prototype lego 5.jpg"
+      ],
+      "title": "Lego prototype",
+      "type": "prototype",
+      "when": "March 2026"
+    },
+    {
+      "label": "CH11",
+      "id": "h11-cs50",
+      "col": "history",
+      "created": 1792142000011,
+      "date": "2026-03-02",
+      "files": [],
+      "from": "claude",
+      "hseq": 11,
+      "kind": "history",
+      "media": "",
+      "note": "Harvard CS50, from March 2026.",
+      "order": 11,
+      "src": [],
+      "title": "CS50",
+      "type": "course",
+      "when": "March 2026"
+    },
+    {
+      "label": "CH12",
+      "id": "h12-cs106a",
+      "col": "history",
+      "created": 1792142000012,
+      "date": "2026-06-01",
+      "files": [],
+      "from": "claude",
+      "hseq": 12,
+      "kind": "history",
+      "media": "",
+      "note": "Stanford CS106A (Python), June to August 2026.",
+      "order": 12,
+      "src": [],
+      "title": "Python: CS106A, Stanford University",
+      "type": "course",
+      "when": "June to August 2026"
+    },
+    {
+      "label": "CH13",
+      "id": "h13-engr40m",
+      "col": "history",
+      "created": 1792142000013,
+      "date": "2026-06-02",
+      "files": [],
+      "from": "claude",
+      "hseq": 13,
+      "kind": "history",
+      "media": "",
+      "note": "Stanford ENGR40M (electronics engineering), June to August 2026.",
+      "order": 13,
+      "src": [],
+      "title": "Electronics: ENGR40M, Stanford University",
+      "type": "course",
+      "when": "June to August 2026"
+    },
+    {
+      "label": "CH14",
+      "id": "h14-analysis-rebuilt",
+      "col": "history",
+      "created": 1792142000014,
+      "date": "2026-06-03",
+      "files": [],
+      "from": "claude",
+      "hseq": 14,
+      "kind": "history",
+      "media": "",
+      "note": "The paper's analysis rebuilt so every number traces to a commit.",
+      "order": 14,
+      "src": [],
+      "title": "Analysis rebuilt and traced to commits",
+      "type": "research",
+      "when": "June to September 2026"
+    },
+    {
+      "label": "CH15",
+      "id": "h15-manuscript-submitted",
+      "col": "history",
+      "created": 1792142000015,
+      "date": "2026-09-30",
+      "files": [],
+      "from": "claude",
+      "hseq": 15,
+      "kind": "history",
+      "media": "",
+      "note": "Revised manuscript submitted on 30.09.2026.",
+      "order": 15,
+      "src": [],
+      "title": "Revised manuscript submitted",
+      "type": "paper",
+      "when": "30 September 2026"
+    },
     {
       "label": "C001",
       "id": "l001",
@@ -76,8 +446,19 @@
       "col": "released",
       "created": 1791419420584,
       "end": 1791424227196,
+      "files": [
+        {
+          "note": "thruster bolt pattern and mass as measured",
+          "path": "interfaces/interfaces.json"
+        },
+        {
+          "note": "Cuifati 12 V thruster row",
+          "path": "docs/bom/bom.csv"
+        }
+      ],
       "from": "teddy",
       "hyp": "Is the thruster a generic Chinese part, and are its listed dimensions real?",
+      "media": "C001_2026-10-08_thruster-measure",
       "note": "→ CAD v2.0: kick-up mount on the transom (decision 0004); coupon → C005",
       "notes": "FAILS_AND_FIXES draft: 143. The thruster is taller than the draft (C001, 08.10) → duct OD 72.27 mm (box drawing says 77 mm, 112 mm long), frame face → prop axis 47.10 mm, frame 9.68 mm thick, 4 brass inserts, screws M4 (thread 3.93 mm) × 28.4 mm from outside, cable Ø5.62 mm with 4 wires (black + red thick, white + yellow thin), mass 201 / 206 g. CAD v1.9 stern pad was a guess (44 × 44, tp_z 25, tp_pitch 20, M3): wrong screw size, wrong pattern, and a 72 mm duct cannot be fully under water at a 42 mm draft. Hole pitch c-c 34.8–35.3 × 15.2–16.0 from four readings. Decision (Teddy): kick-up mount on the transom, hinge above the waterline. Next: test coupon 50 × 30 × 5 PETG, 4 × Ø4.5 at 35.0 × 15.6. Lesson: measure the bought part before drawing its mount.",
       "order": 1,
@@ -96,8 +477,19 @@
       "col": "released",
       "created": 1791424227196,
       "end": 1791430029317,
+      "files": [
+        {
+          "note": "ESC wiring on the poster",
+          "path": "docs/diagrams/AR-Mini_hardware_poster_A3.pdf"
+        },
+        {
+          "note": "§8 ESC signal level, JP1/JP2",
+          "path": "pcb/carrier-revB/SPEC.md"
+        }
+      ],
       "from": "teddy",
       "hyp": "3 equal pairs under 1 Ω = motor phases (external ESC needed)",
+      "media": "C002_2026-10-08_thruster-wires",
       "note": "→ C006: 9 V with 0.10 A limit in a bucket",
       "notes": "From the listing (same text under other brands, not confirmed for this unit): PWM 50 Hz, 1500 µs = stop, 1500→2000 forward, 1500→1000 reverse; 12–14.8 V, up to 13 A, under 8 A average at 12 V; no BEC; do not run dry > 10 s. Logic level and arming not documented. Meter: EMOS MD-220.",
       "order": 2,
@@ -116,8 +508,19 @@
       "col": "released",
       "created": 1791503455378,
       "end": 1791503455378,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/decisions/0002-chassis-on-beams.md"
+        },
+        {
+          "note": "chassis hangers deleted after this test",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        }
+      ],
       "from": "teddy",
       "hyp": "plate 152.2 × 134.8, centred on the tracks; slots land under the beams at 385 / 500 (±2)",
+      "media": "C003_2026-10-09_rob0154-plate",
       "note": "→ CAD v2.0: ch_x 300, slots in the box, beams match-drilled through the plate slots; → C004",
       "notes": "Start time unknown; loop time not counted. Repeat caliper readings spread up to 0.8 mm. Lesson: a plate centred on the footprint is an assumption.",
       "order": 3,
@@ -135,8 +538,15 @@
       "col": "backlog",
       "created": 1791515005000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/decisions/0002-chassis-on-beams.md"
+        }
+      ],
       "from": "claude",
       "hyp": "plate centred: track front edge → plate front edge = 74.1 mm ±1, same aft; an M3 passes through both slots",
+      "media": "",
       "note": "Caliper or ruler from above, both sides. Photo with the ruler in frame. Result goes into CAD (plate_x).",
       "order": 22,
       "outcome": null,
@@ -153,27 +563,49 @@
       "col": "backlog",
       "created": 1791515004000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/decisions/0004-kick-up-thruster-mount.md"
+        },
+        {
+          "note": "the coupon that stood in for this test",
+          "path": "cad/stl/v1/thruster_coupon.stl"
+        }
+      ],
       "from": "claude",
       "hyp": "all 4 M4 screws go into the inserts by hand at 35.0 × 15.9 (Ø4.5 holes) — pattern measured 10.10 with inner/outer edges (35.02 × 15.88)",
-      "note": "Put the coupon on the thruster face, drive the 4 screws by hand. If not: which two and by how much (caliper). Also: (1) where the frame sits along the duct (th_frame_dx), (2) insert depth with a screw in (decides N001: M4 × 16 or × 20 for plate 5 + frame 9.68). Photo from above and from the side.",
+      "media": "",
+      "note": "Coupon skipped 11.10 (Teddy): print thruster_arm directly. Its plate is the coupon (50 × 30 × 5, 4 × Ø4.5 at 35.0 × 15.9). EXPORT: OpenSCAD part = \"thruster_arm\" → build/thruster_arm.stl (do not commit the part line OpenSCAD writes into the .scad). PRINT after the right hull (printer busy until ~22:00): plate flat on the bed as modelled (the bed side is the face that sits on the thruster), 6 walls, tree supports only under the cheek overhang next to the stop tab; white PLA for the fit test, PETG for the real pair. Same part for both sides. TEST: arm plate on the thruster face, 4 M4 screws by hand. If they do not go in: which two and by how much (caliper). Also (1) where the frame sits along the duct (th_frame_dx) and (2) insert depth with a screw in, which decides N001: M4 × 16 or × 20 for plate 5 + frame 9.68. Photo from above and from the side.",
       "order": 21,
       "outcome": null,
       "photo": "",
-      "rel": "",
+      "rel": "R2a",
       "result": "",
       "seq": 5,
       "start": null,
-      "title": "Coupon 50 × 30 × 5: do the 4 thruster M4 screws fit"
+      "title": "thruster_arm on the thruster: do the 4 M4 screws fit (coupon skipped)"
     },
     {
       "label": "C006",
       "id": "l006",
-      "col": "backlog",
+      "col": "today",
       "created": 1791515006000,
       "end": null,
+      "files": [
+        {
+          "note": "§8: this test sets the JP1/JP2 default",
+          "path": "pcb/carrier-revB/SPEC.md"
+        },
+        {
+          "note": "",
+          "path": "firmware/bench/README.md"
+        }
+      ],
       "from": "claude",
       "hyp": "yellow→black reads 3–5 V (signal input with pull-up), white→black < 0.5 V; current with no signal < 0.05 A",
-      "note": "Jesverty: 9 V, CC 0.10 A. Thruster in water. Red +, black −, nothing on yellow/white. Measure V and I, then yellow with 10 kΩ to ground. Smoke/heat → power off. Photo of the supply display and the meter.",
+      "media": "",
+      "note": "Jesverty: 9 V, CC 0.10 A. Thruster in water. Red +, black −, nothing on yellow/white. Measure V and I, then yellow with 10 kΩ to ground. Smoke/heat → power off. Photo of the supply display and the meter. 12.10 21:20: the supply arrived (it is the SPS-3010N, 0–30 V / 0–10 A, not the 60 V / 5 A of the order: fine here). Set 9.00 V and CC 0.10 A with the output OFF, check the voltage with the UT61E+ before connecting. The second thruster arrived too. This card now decides JP1/JP2 on rev B (C032): run it before ordering.",
       "order": 23,
       "outcome": null,
       "photo": "",
@@ -189,8 +621,23 @@
       "col": "released",
       "created": 1791515007000,
       "end": 1791722100000,
+      "files": [
+        {
+          "note": "hydrostatics: draft 42 mm predicted",
+          "path": "cad/fusion/AR_Mini_hull.py"
+        },
+        {
+          "note": "hull_fore",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
       "from": "claude",
       "hyp": "0 drops inside after 20 min (dry paper); floats upright, heel < 5°; draft at own mass and with +1 kg recorded (calibrates 8.9 mm/kg)",
+      "media": "C007_2026-10-11_bathtub",
       "note": "Weigh the section first (kitchen scale, brim peeled off). Paper on the floor inside. 20 min in the tub, then with a 1 kg weight in the middle. Mark the waterline, caliper afterwards. 4K video from the side, 5 s before/after. Target: R1a. PREDICTION (CAD, one hull_fore section): waterplane 255 cm² (bow 150 × 100 parabolic + 155 × 100 straight) → 39.2 mm/kg. Own mass 345 g → draft ~13.5 mm; +1 kg → ~53 mm. The 4 joint holes in the aft bulkhead sit at z 75 / 105 (Ø3.4, lowest edge 73.3) → 20 mm above the +1 kg waterline. Do NOT add more than 1.5 kg extra or they go under. Put the weight in the middle (heel). Check: two full hulls (2 × 610) = 1120 cm² → 8.9 mm/kg, so the measured mm/kg here × 255/1120 should come back to ~8.9.",
       "order": 24,
       "outcome": "pass",
@@ -204,17 +651,32 @@
     {
       "label": "C015",
       "id": "l015",
-      "col": "today",
+      "col": "released",
       "created": 1791595740000,
-      "end": null,
+      "end": 1791735300000,
+      "files": [
+        {
+          "note": "§3 R12–R15 pull-downs came from this",
+          "path": "pcb/carrier-revB/SPEC.md"
+        },
+        {
+          "note": "",
+          "path": "hardware/breadboard/AR-Mini_breadboard_2b_devkit-lipo.png"
+        },
+        {
+          "note": "",
+          "path": "firmware/bench/src/bts7960/PROTOCOL.md"
+        }
+      ],
       "from": "claude",
       "hyp": "Meter on GPIO39 (L RPWM) with RST held reads ≈ 3.3 V (ESP32-S3 boot pull-up); with 10 kΩ from GPIO39 to GND it reads < 0.8 V. GPIO40–42 read < 0.8 V in normal boot.",
+      "media": "C015_2026-10-11_gpio39-boot",
       "note": "Found in the T3 review. Do it BEFORE the first bts7960 bench run. DevKit on USB only, BTS7960 not connected. Meter DC V, GPIO39 → GND: (1) sketch running, (2) RST held, (3) BUT1 + RST held (download mode). Repeat for GPIO40, 41, 42. Then 10 kΩ GPIO39 → GND and repeat (2). Until this is closed: rocker in KILL whenever you flash or press reset, RUN only after the banner. The result decides 10 kΩ pull-downs on GPIO39–42 in pcb/carrier-revA/SPEC.md and on breadboards 1/2b (firmware/armini uses the same pins). Source: github.com/mcuw/esp32-s3-pinouts. Photo: meter display at each step, C015_NN.",
       "order": 25,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2c",
-      "result": "",
+      "outcome": "partial",
+      "photo": "iCloud 01_Loops/C015_2026-10-11_gpio39-boot: C015_01–04 + captions.md (meter UNI-T UT61E+)",
+      "rel": "R-1018",
+      "result": "STEP D 11.10 ~18:50. DevKit on USB only, `ladder` sketch, which does not touch 39–42. Meter DC V to EXT2 pin 1 GND. Readings (1) sketch running / (2) EN held low (reset) / (3) download mode (GPIO0 low + RST): GPIO39 (EXT2-9, L RPWM) 3.148 / 0.020 / 3.231 · GPIO40 (EXT2-8, L LPWM) 0.022 / 0.020 / 3.236 · GPIO41 (EXT2-7, R RPWM) 0.020 / 0.018 / 0.023 · GPIO42 (EXT2-6, R LPWM) 0.022 / 0.021 / 0.025. 10 kΩ GPIO39→GND in reset: 0, but that says nothing because 39 is already 0 in reset. HYPOTHESIS PARTLY WRONG: in reset all four pins are LOW. The danger is AFTER reset. (a) GPIO39 stays HIGH when the code does not drive it, so from reset until setup() drives it LOW the left BTS7960 sees RPWM = 1, LPWM = 0, which is FULL FORWARD if its EN pins are high. (b) In download mode (flashing) 39 AND 40 are HIGH: both half-bridges high = brake, but the order in which they rise is unknown. Right driver (41/42) stays LOW in all three states. NEXT (5 min): 10 kΩ GPIO39→GND in state 1 and state 3, and 10 kΩ GPIO40→GND in state 3. If it drops < 0.8 V, it is a weak pull-up and 10 k pull-downs fix it. If it stays ~3 V, the pin is DRIVEN, and only gating the BTS EN pins (low at boot) or moving the PWM pins fixes it. Until closed: rocker in KILL when flashing or resetting. 10 kΩ REDO 19:06: GPIO39 in state 1, GPIO39 in state 3 and GPIO40 in state 3 all read ~0 V. So the HIGH is very weak, and a 10 kΩ pull-down overrides it completely. A typical ~45 kΩ internal pull-up would still leave ~0.6 V, so the pins may simply be floating; a pull-down fixes both cases. DECISION (Teddy + Claude 11.10): 10 kΩ pull-downs to GND on GPIO39, 40, 41 and 42 on the breadboard now, on the perfboard (C031) and on carrier rev B (C032). Firmware drives the four pins LOW first thing in setup(). The rocker stays the hardware layer: R_EN/L_EN go through its RUN pole, so KILL cuts both drivers whatever the PWM pins do. SANITY CHECK 19:15: resistor out → 3.2 V, resistor in → 0, so the zeros are real. CLOSED 11.10 19:15 · Partial: the hypothesis was right about the 10 kΩ and about 40–42 in normal boot, but wrong about reset (all LOW in reset; the HIGH comes after it and in download mode). Written into hardware/wiring/PINOUT.md item 4, pins_devkit.h and STATE.md (for Cursor to commit). Was: (1) 1-min sanity check: resistor out in state 1 → ~3.1 V again, resistor in → ~0; (2) optional logic-analyzer capture of 39–42 through 3 × RST and one flash with the 4 pull-downs fitted, no BTS7960 connected, all lines LOW except when the sketch drives them (catches short pulses a meter misses).",
       "seq": 15,
       "start": 1791684000000,
       "title": "GPIO39 at reset: is the left BTS7960 RPWM pulled high during boot?"
@@ -225,8 +687,19 @@
       "col": "released",
       "created": 1791612840000,
       "end": 1791650400000,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/stl/v1/arm_drive.stl"
+        },
+        {
+          "note": "TD-8120MG horn numbers",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        }
+      ],
       "from": "claude",
       "hyp": "Disc horn bolt circle 16.0 mm (holes opposite, centre to centre), holes take M2 through d2.4; the horn hub passes the d6.5 centre hole; the arm sits flat on the disc with all 4 screws in by hand.",
+      "media": "C017_2026-10-10_arm-drive",
       "note": "PRINTED 10.10 ~18:40: 20 min, 13.0 g (printer screen), orange PLA, external spool; clean first layer (video IMG_1412). First good print after the heat-break jam and the 140 °C nozzle issue. Next: step 3 (fit). TD-8120MG BODY re-measured 10.10 ~19:00 (8 photos, servo in the vise): length 40.40 (CAD pocket 40.5 → too tight), width 20.17 (pocket 20.4 ok), height 40.85 (CAD 40.7), bottom → ear plane 28.51 (CAD depth 28.0 → servo would bottom out before the ears seat), ear hole d4.05 (old note 4.34), 2 holes on one ear 9.65 apart (CAD 10), hole to hole across the top 48.14 (method unclear; CAD span 50.2 → re-measure: A = outside jaws closed on the inner edges, B = inside jaws opened on the outer edges, c-c = (A+B)/2). CAD update waits for that number. Disc horn not measured yet (not on the servo in the photos). 1) Before printing (30 s): caliper on the TD-8120MG metal disc horn — centre-to-centre of two OPPOSITE holes (CAD: 16.0 = 2 x disc_r 8, MEASURE) and the hole / screw size (CAD d2.4). Different → tell Claude, change disc_r / disc_d, export again. 2) Print build/arm_drive.stl (130 x 28 x 6 mm, ~19 g, ~30 min): PLA orange from the external spool, CFS off, 0.2 mm, 4 walls, 5 top/bottom, 40 % infill, flat, no supports, no brim. One piece first; the second only after the first fits. 3) Fit: 4 screws by hand, hub through the centre, arm flat, no rocking. Photo: caliper on the disc, the arm on the horn from above and from the side. CAD preset is servo_sel = TD8120 (bathtub test); ST3215 later. Do not commit the part = \"arm_drive\" line OpenSCAD wrote into AR-Mini_v1.scad (git checkout -- cad/openscad/AR-Mini_v1.scad).",
       "order": 11,
       "outcome": "pass",
@@ -240,38 +713,80 @@
     {
       "label": "C019",
       "id": "l019",
-      "col": "backlog",
+      "col": "today",
       "created": 1791654120000,
       "end": null,
+      "files": [
+        {
+          "note": "how the bracket sits on the rim boss, cross-section",
+          "path": "docs/diagrams/AR-Mini_pivot_bracket_mount.png"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/pivot_bracket.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/arm_idler.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/coupler.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        }
+      ],
       "from": "claude",
       "hyp": "The TD-8120MG drops into the 40.7 × 20.4 pocket by hand and its ears sit flat on the block face; all 4 M3 ear screws reach their inserts (48.26 × 9.65); arm_drive (on the disc) and arm_idler (on the 20.5 mm idler boss) lie in one plane ±0.5 mm; the coupler joins both arm ends without forcing; the linkage swings 45° → 215° by hand without touching the bracket or the hull.",
-      "note": "Needs: both hull_fores (C008 + C022), the orange plate (C011). 1) STLs: Cursor, OpenSCAD command line -D part=\"pivot_bracket\" (left) and -D part=\"pivot_bracket\" -D side=-1 (right, mirrored) → build/; or the CI artifact (left only). 2) Black PLA (structure), 0.2 mm, 4 walls, 40 %, pocket facing up, no supports as in the print list — check the preview for floating bits. 3) Heat-set inserts (ruthex M3, d4.0 holes) with the soldering iron at ~220 °C for PLA: 4 in each bracket + 2 in each hull_fore boss at x 200. 4) Bracket onto the boss: 2 × M3. 5) Servo in, 4 × M3 × 8–10 through the ears. 6) arm_idler on the idler boss: M3 × 20 through the arm into the d2.6 hole (self-taps), not tight — it must turn. 7) Coupler: M3 × 20 + nyloc through each arm end, snug but free. 8) Swing slowly by hand, servos unpowered. Photos per side: bracket from above, servo in, linkage at 45° and at 215°, side view showing both arms in one plane.",
+      "media": "C019_2026-10-13_linkage-fit",
+      "note": "Needs: both hull_fores (C008 + C022), the orange plate (C011). 1) STLs: Cursor, OpenSCAD command line -D part=\"pivot_bracket\" (left) and -D part=\"pivot_bracket\" -D side=-1 (right, mirrored) → build/; or the CI artifact (left only). 2) Black PLA (structure), 0.2 mm, 4 walls, 40 %, pocket facing up, tree supports under the inner plate and the servo block (the print list's \"no supports\" was wrong). PRINTED 13.10 in C037 (5 h 45 min, 176.0 g with the 2 arch posts), so this loop can start at step 3. 3) Heat-set inserts (ruthex M3, d4.0 holes) with the soldering iron at ~220 °C for PLA: 4 in each bracket + 2 in each hull_fore boss at x 200. 4) Bracket onto the boss: 2 × M3. 5) Servo in, 4 × M3 × 8–10 through the ears. 6) arm_idler on the idler boss: M3 × 20 through the arm into the d2.6 hole (self-taps), not tight — it must turn. 7) Coupler: M3 × 20 + nyloc through each arm end, snug but free. 8) Swing slowly by hand, servos unpowered. Photos per side: bracket from above, servo in, linkage at 45° and at 215°, side view showing both arms in one plane.",
       "order": 28,
       "outcome": null,
       "photo": "",
       "rel": "R1b",
-      "result": "",
+      "result": "13.10 17:11 first dry fit (photo C019_01): the TD-8120MG does NOT drop in. It stops ~16 mm high (only ~12 of the 28.5 mm below the ears is in the pocket) because the cable outlet, the black block where the wire leaves the case at the spline end, sits on the pocket rim. The CAD pocket is a plain box (40.7 × 20.4 × 28.8) with no slot for the outlet, and even seated the wire would have no way out. First part of the hypothesis fails. The same closed pocket is in the camera-pan block on the arch (cam_plate), so it has the same miss. Spline at the end nearest the idler pin = correct orientation. NEXT: with the servo out, measure the outlet with the caliper (width across the 20 mm side, how far it sticks out of the end, ear underside → outlet top, ear underside → outlet bottom). Then the slot size. Between the two ear inserts at that end (d4 at ±4.83 from the shaft axis, 8 mm deep) there is only ~5.6 mm, so a wider outlet means those two inserts go, and the servo is held by the snug pocket + the 2 far inserts (enough for the unpowered swing). Prototype: cut the slot by hand in these two PLA brackets (card C038, t-cable-slot). 21:45 C038 DONE: hole drilled through the end wall (Dremel on the Workstation), servo seats with the ears flat (C019_04), arm_drive on the disc (C019_07) → hypothesis part 1 passes with the hole. MOUNTING (asked 21:52, sketch pivot_bracket_mount.png): hull upright; the bracket's flat 30 × 26 plate with the 2 counterbored holes lies ON TOP of the rim boss at x = 200 (the aft one of the two bosses on the inner wall; the x = 165 boss is for the arch post), its holes over the boss's 2 d4 holes; the 6 mm vertical plate goes down the OUTSIDE of the inner wall (gap side); the servo block hangs in the gap under the rim, shaft 15 mm below the rim pointing at the other hull, idler pin below the shaft, cable hole toward the bow. Fix: 2 × ruthex M3 inserts in the boss (HS-03 ~220 °C, PLA hull), 2 × M3 × 10 socket head, heads in the counterbores. Mirrored bracket → the other hull, same way. NEXT: inserts in both bosses + 2 far-end servo inserts per bracket; screws through the ears; arm_idler on the pin; coupler; swing by hand. CAD (Cursor): cable slot in pivot_bracket and in the cam pan block + a FAILS line. Do not force the servo in.",
       "seq": 19,
-      "start": null,
+      "start": 1791900660000,
       "title": "2 × pivot_bracket (black PLA) + 2 × TD-8120MG + linkages: do they assemble and swing?"
     },
     {
       "label": "C021",
       "id": "l021",
-      "col": "backlog",
+      "col": "today",
       "created": 1791654120000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/pesho/pesho.py"
+        },
+        {
+          "note": "",
+          "path": "cad/pesho/pesho_views.png"
+        },
+        {
+          "note": "floats head-out",
+          "path": "cad/pesho/pesho_float.png"
+        },
+        {
+          "note": "buoyancy numbers",
+          "path": "cad/pesho/float.txt"
+        }
+      ],
       "from": "claude",
-      "hyp": "dummy_head and dummy_lid print without supports; a Wedze hand warmer goes in through the d28 mouth and the lid closes; Pesho (head + body) weighs 100–150 g and floats upright with head and shoulders out of the water.",
-      "note": "1) STL: Cursor, OpenSCAD command line -D part=\"dummy_head\" and part=\"dummy_lid\" → build/. 2) Red PLA (colour code), 0.2 mm, 3–4 walls; the head prints on its flat neck — check the top of the sphere and the 6 d3 vents in the preview. 3) Warmer in, lid on. 4) Weigh Pesho (head + body; the body is not in the CAD — write down what you used). 5) In the tub (can share the C007 session): floats upright? head and shoulders out? Photo from the side at the waterline. Heat test with the IR thermometer belongs to r3a, not here.",
+      "hyp": "Pesho v3 (cad/pesho/pesho.py) prints without trouble; the rolled warmer fits the head and the lid closes; with 3 + 3 M12 nuts in the boots he floats almost upright (~10° back) with the whole head out; with 1 + 1 he floats on his back (~85°) with the face ~2 cm out; the vest stays dry (weight before/after 30 min in water within 2 g).",
+      "media": "C021_2026-10-12_pesho-warmer",
+      "note": "12.10 evening: Pesho redesigned as v3 in cad/pesho/pesho.py (signed-distance fields, the scad modules removed). Weighed 12.10: warmer 45 g in its wrapper (the model had guessed 30), M12 nut 16 g -> thermal ballast is now 3+3 (2+2 leaves him on his back at ~78°), the back pockets were removed (they put his face at the waterline). STLs in build/ (regenerated 20:34): pesho_body.stl (red PLA), pesho_head.stl + pesho_lid.stl (white PETG: the warmer gets ~50 °C). PRINT body: standing on the boots as in the file, 0.2 mm, 3 walls, 5 top / 5 bottom, 10 % gyroid (the vest is the float: no holes in it), brim outer 5 mm, tree supports on build plate only (only the two hands need them), ~100 g. Head: floor down, no supports. Lid: top face down, plug up, no supports. ASSEMBLY: glue the head into the cup on the ring, face to the same side as the cross on the vest. Warmer: open, wait 15 min, roll along the long side, push in on the ledge, lid on. Nuts: from the sole into the boot pockets (3 per boot fit), then a ~65 mm piece of 1.75 filament through the cross hole at the bottom of both boots. BALLAST: thermal 3+3 (268 g total), cradle 1+1 (205 g). Face-down is also stable when lying: put him in face-up. In the cradle: arms over both rods, head toward the closed end of the U. TEST: 1) weigh dry; 2) tub, 30 min, both ballast cases, side photos at the waterline; 3) weigh again (> 2 g more = the vest leaks: coat it). Heat test with the IR thermometer stays in r3a. Media so far: 01_Loops/C021_2026-10-12_pesho-warmer (C021_01–09: the warmer box, caliper 82.59 × 52.29, warmer 45 g, nut 16 g, two renders; captions.md). Print and tub photos go in the same folder.",
       "order": 30,
       "outcome": null,
       "photo": "",
       "rel": "R1b",
-      "result": "",
+      "result": "PRINTED 13/14.10 (C039): head + lid white PETG ~1 h 40; body red PLA 4 h 44 min, 143.0 g with trees and brim. Head seats in the cup, lid fits, face clean. Left arm broke off at the shoulder on removal (C021_18): glue it back (CA; pin with 1.75 filament if possible). Step 0 before the test: trees and brim off, weigh body / head / lid (model said ~100 / 23 / 5 g), photo on the scale. Then as in the note: nuts from the sole (3 + 3 for the thermal case, 1 + 1 for the cradle), filament pin through the cross hole, warmer in the head, lid on, tub 30 min both cases, side photos at the waterline, weigh again. Media so far C021_01–22.",
       "seq": 21,
-      "start": null,
-      "title": "Pesho's head (red PLA): the warmer fits, the lid closes, Pesho floats head and shoulders out"
+      "start": 1791929220000,
+      "title": "Pesho v3 printed: warmer fits, lid closes, floats head out (thermal) and face-up (cradle)"
     },
     {
       "label": "C025",
@@ -279,8 +794,19 @@
       "col": "backlog",
       "created": 1791654420000,
       "end": null,
+      "files": [
+        {
+          "note": "row 139: hanging scales 50 kg / 10 g ×2",
+          "path": "docs/bom/bom.csv"
+        },
+        {
+          "note": "where the table goes",
+          "path": "data/thrust-test/"
+        }
+      ],
       "from": "claude",
       "hyp": "After `arm` the ESC accepts 1500 µs within 3 s (beeps); 1550 µs spins forward, 1450 µs reverse; at 1650 µs the current from 12.0 V stays under 3 A; full forward (2000 µs, on the LiPo) draws ≤ 8 A (listing); KILL or the dead-man stops the prop in < 0.5 s.",
+      "media": "",
       "note": "Only after C006 and the `esc` env (C024). C006 tells whether the yellow wire idles above 3.6 V — if it does, do NOT connect it straight to GPIO1 (the ESP32-S3 is 3.3 V only): stop and ask Claude (level shifter). 1) Thruster in a bucket, duct fully under water, held down. 2) Jesverty 12.0 V, CC 3 A; meter in series (10 A jack). 3) `arm`, then 1550 / 1450 / 1600 / 1650 µs, 10 s each; write the current and the direction. 4) KILL rocker while spinning, time it on video. 5) Full power only on the LiPo through the inline fuse + 20 A slot, ≤ 5 s. Log with bench_log.py --card C025. Video from the side, 4K, prop visible.",
       "order": 34,
       "outcome": null,
@@ -297,8 +823,19 @@
       "col": "backlog",
       "created": 1791654420000,
       "end": null,
+      "files": [
+        {
+          "note": "power chain",
+          "path": "docs/diagrams/AR-Mini_hardware_poster_A3.pdf"
+        },
+        {
+          "note": "",
+          "path": "docs/bom/bom.csv"
+        }
+      ],
       "from": "claude",
       "hyp": "Main switch OFF: 0 V on every fuse slot. Main switch ON from the Jesverty (12.0 V, CC 0.5 A): every slot reads 12.0 ±0.1 V, the fuse-block LEDs stay dark (no blown fuse), the MZHOU buck gives 5.00–5.25 V, idle current < 50 mA. Same on the LiPo: slots = pack voltage ±0.1 V.",
+      "media": "",
       "note": "Wiring as in the hardware circuit diagram: XT60 → 30 A inline fuse → 50 A switch → fuse block (20 A ESCs, 15 A servo bus, 10 A BTS7960, 5 A logic/buck, 5 A spare), 14 AWG for everything above 10 A. Before any power: continuity meter — + to − must NOT beep anywhere; polarity marked on every lead. First power only from the Jesverty with CC 0.5 A (a short just limits, nothing burns). Then the LiPo. Nothing connected after the fuses yet. Photo of the wiring from above + the meter on each slot. Decides what goes into the power box later.",
       "order": 35,
       "outcome": null,
@@ -312,19 +849,38 @@
     {
       "label": "C027",
       "id": "l027",
-      "col": "backlog",
+      "col": "today",
       "created": 1791654420000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "hardware/breadboard/AR-Mini_breadboard_2b_ladder-step.png"
+        },
+        {
+          "note": "",
+          "path": "hardware/breadboard/src/ladder_step.py"
+        },
+        {
+          "note": "",
+          "path": "firmware/bench/src/ladder/PROTOCOL.md"
+        },
+        {
+          "note": "§6 KILL on the SPDT rocker",
+          "path": "pcb/carrier-revB/SPEC.md"
+        }
+      ],
       "from": "claude",
       "hyp": "The `ladder` env reads v_bat within ±2 % of the multimeter at 10.0, 11.1 and 12.6 V (Jesverty into the 100k/33k divider); the leak probe in a glass of tap water sets leak=1 within 100 ms; the rocker in KILL sets kill=1 and in RUN kill=0.",
+      "media": "",
       "note": "Sketch exists (T3, env `ladder`, PROTOCOL.md). Needs the 100k/33k 1 % resistors (BOM row 56, ordered). DevKit on USB, rocker wired GPIO14 ↔ GND with the 10k pull-up, leak probe 10k/4.7k on GPIO7, divider on GPIO4. Never connect the 3S pack to the DevKit's own LiPo connector (BAT_SENS GPIO6 is the board's 1S cell). Log with bench_log.py --card C027; the calibration factor it prints goes into the firmware config with // SOURCE: C027. This is the battery and leak half of the safety (T2).",
       "order": 36,
       "outcome": null,
       "photo": "",
       "rel": "R2c",
-      "result": "",
+      "result": "Started 11.10 20:05 on the breadboard (DevKit already on USB with the `ladder` env from the night session, 10 k pull-downs on GPIO39–42 in place). Protocol: firmware/bench/src/ladder/PROTOCOL.md. All three inputs are on EXT1: GPIO4 = pin 4, GPIO7 = pin 7, GPIO14 = pin 20; 3V3 = pin 1/2; GND = pin 22.",
       "seq": 27,
-      "start": null,
+      "start": 1791738300000,
       "title": "Ladder bench: battery divider, leak probe and KILL rocker on the DevKit"
     },
     {
@@ -333,8 +889,19 @@
       "col": "backlog",
       "created": 1791654420000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "firmware/bench/src/mlx90640/PROTOCOL.md"
+        },
+        {
+          "note": "head-out float, the target",
+          "path": "cad/pesho/pesho_float.png"
+        }
+      ],
       "from": "claude",
       "hyp": "With Pesho's head at 37 °C (50 ml bottle or warmer, checked with the Laserliner) 1.0 m in front of the camera in a room at ~22 °C, the `mlx90640` env shows max_C ≥ 30 °C at the hot pixel and hot_x/hot_y move when the head moves left/right; the hot spot is ≥ 2 pixels at 1 m.",
+      "media": "",
       "note": "When the camera arrives (BOM row 77, dispatched). Sketch exists (T3, env `mlx90640`, I2C-1 GPIO8/9 @0x33, 4 Hz). `scan` first: 0x33 must answer. Measure the head with the IR thermometer at the same time (12:1 → hold 30 cm for a 2.5 cm spot), write both numbers. Then 2 m and 3 m: at what distance does the hot spot fall under 2 px? That number goes into the mission search range. Log with bench_log.py --card C029; screenshot of the heat map. The D45 camera gets its own card when it arrives.",
       "order": 38,
       "outcome": null,
@@ -351,14 +918,29 @@
       "col": "today",
       "created": 1791654900000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "hardware/wiring/PINOUT.md"
+        },
+        {
+          "note": "",
+          "path": "hardware/breadboard/Olimex_DevKit-Lipo_pinout_manual-p7.png"
+        },
+        {
+          "note": "",
+          "path": "docs/decisions/0005-v1-controller-devkit-lipo.md"
+        }
+      ],
       "from": "claude",
       "hyp": "EXT1 and EXT2 are 2 × 22 pins at 2.54 mm; the row spacing measured with inner/outer edges matches the Olimex drawing within 0.1 mm; header pin 1 of EXT1 is 3V3 and pin 22 GND as in PINOUT.md; after C015 and C006 every VERIFY line in the DevKit-Lipo table is either SOURCE or deleted.",
+      "media": "C030_2026-10-11_devkit-pinout",
       "note": "Decision 0005. Everything the perfboard (C031) and the Aisler carrier (C032) need: 1) caliper on the DevKit: row spacing EXT1 ↔ EXT2 (pins of the same number, inner edges A + outer edges B, c-c = (A+B)/2), board outline, mounting holes, where USB-C and the LiPo connector sit (they must stay reachable). 2) Count the header pins with the meter: EXT1 pin 1 = 3V3? pin 22 = GND? 3) Results in: C015 (GPIO39 pull-downs yes/no), C006 (ESC signal level → level shifter yes/no), BTS IS pins used or not, PCA9685 channels for the 2 cradle servos (C023). 4) Claude updates PINOUT.md + pins_devkit.h (Cursor commits). Photo: caliper across the rows, top and bottom of the board.",
       "order": 39,
       "outcome": null,
       "photo": "",
       "rel": "R2c",
-      "result": "PART 1, 10.10 21:49 (6 photos, DevKit in the breadboard): rows EXT1↔EXT2 outer 26.69 / inner 24.50 → 25.6 by caliper; the board sits in a 2.54 breadboard across the channel, so the true spacing is on the grid: 25.40 (10 × 2.54). Along a row pin 1→pin 22: outer 53.77 / inner 52.84 → 53.31 = 21 × 2.54 (53.34) → 22 pins at 2.54 confirmed. Board 55.88 × 28.09 (2.2 × 1.1 in). Seen in the photos: 2 × USB-C (USB-OTG1, USB-UART1) on one short edge, the WROOM antenna on the other short edge (overhangs the PCB), LiPo BAT1 and pUEXT1 connectors and the RST1/BUT1 buttons on top, no mounting holes seen. PART 2, 11.10 03:38, continuity, unpowered, counted from the antenna end: EXT1 1↔EXT1 2 beep (3V3), EXT1 22↔EXT2 1 beep (GND), EXT2 1↔EXT2 22 beep (GND), EXT1 1↔EXT1 22 no beep (no 3V3–GND short) → header numbering anchors match PINOUT. PART 3, 04:01: `ladder` env flashed over USB-OTG1 (left USB-C, antenna up) → green LED (GPIO38) blinks 1 Hz — the first night-task bench sketch running on real hardware. PART 4, 04:05: meter DC V on EXT2 pin 10 ↔ GND swings with the LED → GPIO38 is EXT2 pin 10 as in PINOUT: signal-pin numbering confirmed (so GPIO39–42 = EXT2 9–6). Reference: screenshot 03:13 of the Olimex EXT1/EXT2 drawing → C030_01 in iCloud 01_Loops/C030_2026-10-11_devkit-pinout (Olimex's drawing, not for the portfolio). STILL OPEN: C015, C006.",
+      "result": "PART 1, 10.10 21:49 (6 photos, DevKit in the breadboard): rows EXT1↔EXT2 outer 26.69 / inner 24.50 → 25.6 by caliper; the board sits in a 2.54 breadboard across the channel, so the true spacing is on the grid: 25.40 (10 × 2.54). Along a row pin 1→pin 22: outer 53.77 / inner 52.84 → 53.31 = 21 × 2.54 (53.34) → 22 pins at 2.54 confirmed. Board 55.88 × 28.09 (2.2 × 1.1 in). Seen in the photos: 2 × USB-C (USB-OTG1, USB-UART1) on one short edge, the WROOM antenna on the other short edge (overhangs the PCB), LiPo BAT1 and pUEXT1 connectors and the RST1/BUT1 buttons on top, no mounting holes seen. PART 2, 11.10 03:38, continuity, unpowered, counted from the antenna end: EXT1 1↔EXT1 2 beep (3V3), EXT1 22↔EXT2 1 beep (GND), EXT2 1↔EXT2 22 beep (GND), EXT1 1↔EXT1 22 no beep (no 3V3–GND short) → header numbering anchors match PINOUT. PART 3, 04:01: `ladder` env flashed over USB-OTG1 (left USB-C, antenna up) → green LED (GPIO38) blinks 1 Hz — the first night-task bench sketch running on real hardware. PART 4, 04:05: meter DC V on EXT2 pin 10 ↔ GND swings with the LED → GPIO38 is EXT2 pin 10 as in PINOUT: signal-pin numbering confirmed (so GPIO39–42 = EXT2 9–6). Night photos C030_02–05 (03:30 continuity set-up, 03:59 before flashing, 04:00 video of the LED at 1 Hz ★, 04:05 probe on EXT2 pin 10). Reference: screenshot 03:13 of the Olimex EXT1/EXT2 drawing → C030_01 in iCloud 01_Loops/C030_2026-10-11_devkit-pinout (Olimex's drawing, not for the portfolio). STILL OPEN: C015, C006.",
       "seq": 30,
       "start": 1791658140000,
       "title": "Freeze the DevKit-Lipo pinout before the perfboard and the PCB"
@@ -369,8 +951,19 @@
       "col": "backlog",
       "created": 1791654900000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "hardware/breadboard/AR-Mini_breadboard_3_v1-all.png"
+        },
+        {
+          "note": "",
+          "path": "hardware/breadboard/src/v1_all.py"
+        }
+      ],
       "from": "claude",
       "hyp": "With the DevKit OUT: no short between 5V, 3V3 and GND (meter), every connector pin beeps through to the header pin in the layout; with 5.0 V from the bench supply the 3V3 rail stays absent (it comes from the DevKit). With the DevKit IN: the `ladder` and `pca9685` bench envs run unchanged and `scan` finds 0x40 (and 0x28 / 0x33 when fitted).",
+      "media": "",
       "note": "After C030. 1) Claude draws the layout (perfboard grid, top view, every wire) from the frozen pinout. 2) Female 2.54 headers for EXT1/EXT2; JST-XH on the board edge for: I2C-0 (D45, BNO055, PCA9685), I2C-1 (MLX 110°), servo UART (Waveshare driver), ESC L/R, BTS L/R (+ IS if used), VBAT divider in, LEAK probe, KILL rocker, 5 V in from the MZHOU buck. 3) On the board: 100k/33k divider, 10k pull-up on KILL, 10k/4.7k for the leak probe, I2C pull-ups 4.7k (if the modules have none), pull-downs on GPIO39–42 if C015 says so. 4) Solder (sandwich method for the headers), continuity table filled in on paper, photo of both sides. 5) Power test as in the hypothesis. Logs with bench_log.py --card C031.",
       "order": 40,
       "outcome": null,
@@ -384,29 +977,178 @@
     {
       "label": "C032",
       "id": "t-aisler-revB",
-      "col": "backlog",
+      "col": "today",
       "created": 1791654900000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "pcb/carrier-revB/SPEC.md"
+        },
+        {
+          "note": "writes the board",
+          "path": "pcb/carrier-revB/gen.py"
+        },
+        {
+          "note": "the file for Aisler",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB.kicad_pcb"
+        },
+        {
+          "note": "0 / 0 / 0",
+          "path": "pcb/carrier-revB/drc/2026-10-15_clean.rpt"
+        },
+        {
+          "note": "1:1 front",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB_1to1_F.pdf"
+        },
+        {
+          "note": "pads-only fit check",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB_fitcheck_1to1.pdf"
+        },
+        {
+          "note": "",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB_top_view_v2.png"
+        },
+        {
+          "note": "how it looks built",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB_assembled.png"
+        },
+        {
+          "note": "what to measure on the module",
+          "path": "pcb/carrier-revB/measure/U2_PCA9685_measure.png"
+        },
+        {
+          "note": "the board that failed the paper check",
+          "path": "pcb/carrier-revB/history/2026-10-13_U2-54.26_failed-paper-check.kicad_pcb"
+        },
+        {
+          "note": "the checking scripts",
+          "path": "pcb/carrier-revB/src/README.md"
+        },
+        {
+          "note": "datasheet check",
+          "path": "hardware/datasheets/PCA9685.md"
+        },
+        {
+          "note": "152",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "C032_2026-10-13_carrier-revB",
       "note": "Decision 0005, same nets as the perfboard (C031). 1) Claude writes pcb/carrier-revB/SPEC.md from the frozen pinout (C030): board size, DevKit on female headers, JST-XH on the edges, test points, silkscreen 'AR-Mini carrier rev B · <date>'. 2) KiCad 9: board generated like rev 0, then Teddy runs DRC until 0 errors (rev 0 took 3 rounds). 3) Pre-order ritual: print the board 1:1 on paper, lay the DevKit and a JST-XH housing on it — every pin on its pad. 4) Send the .kicad_pcb (not the .scad!) to Aisler, 3 pcs, 2 layers, 1.6 mm. Timing: standard ~8 working days + DHL to Sofia → order by Tue 13.10 to have it before r3b (29.10); 'Blitz' is much faster for a price — check at checkout. 5) Screenshots of the DRC, the paper check photo, the order confirmation (no prices or account details in the repo).",
       "order": 41,
       "outcome": null,
       "photo": "",
       "rel": "R3b",
-      "result": "",
+      "result": "Step 1 DONE 11.10 19:30: pcb/carrier-revB/SPEC.md written (130 lines, uncommitted). DevKit-Lipo on 2 × 1×22 female headers, rows 25.40 (measured C030), antenna end over the board edge with a 10 mm copper keep-out, USB-C end with 15 mm free. 10 k pull-downs on GPIO39–42 (C015). KILL = DPDT rocker: pole 1 switches EN of both BTS7960 between +5 V and GND, pole 2 grounds GPIO14; PCA9685 OE through a BC337 inverter from EN. The two open items are solder-jumper options so the order does not wait: ESC level (JP1/JP2 direct vs 74AHCT125 socket, DNP) and BTS IS dividers (DNP). Cradle servos plug straight into the PCA9685 module (CH10/11); its V+ comes from the 6 V servo buck, not the carrier. Bare WROOM modules = rev C, v2 (C033). 12.10 21:20: BNO055 breakout arrived → MEASURE U3 before the footprint is fixed; the lab supply arrived → C006 can run and set the JP1/JP2 default. Step 2 PART A DONE 12.10 21:05 (Cursor): pcb/carrier-revB/gen.py writes AR-Mini_carrier_revB.kicad_pcb (KiCad 10 format, the Mac has KiCad 10.0.6; the BOM's 'KiCad 9' is stale). Claude checked the file 13.10 18:45 without KiCad (parsed in Python): 73 footprints, fully routed (1907 tracks, 340 vias, 0.3 signal / 0.8 power / 0.5 3V3), every net connected, nothing inside the antenna keep-out, 4 holes on the 93 × 73 grid, DevKit rows 25.40 with pin 1 at the antenna edge and 24 mm free at the USB end; GND pour on the bottom. Still placeholders in the file: U2 PCA9685 header-to-header distance (46 = guess) and pin order, U3 BNO055 (1×6 guess), U4 buck +/−. FOUND 13.10: (a) the rocker in the BOM [82] has 2 terminals = SPST, the KILL path needs DPDT ON-ON → buy one (Vikiwat); (b) not in the BOM at all: Q1 IRF4905, D1 SMBJ15A, F1 polyfuse 1.1 A, U6 74AHCT125 + socket (DNP), BZ1 active 5 V buzzer (the ARD kit may have one), and Q2/Q3 'BC337' depends on which NPN the MOGAOPI kit has (BC337 = C-B-E, S8050/2N3904 = E-B-C: the footprint must match); (c) EXT1-21 VERIFY answered from the Olimex rev B schematic (github OLIMEX/ESP32-S3-DevKit-LiPo): pin 21 IS the +5V net; both USB-C VBUS lines reach +5V only through Schottky diodes D1/D3 (1N5819), the LiPo path is FET1 + D2. So feeding 5 V into pin 21 with USB plugged in is safe: the USB host cannot be back-fed. The other direction (USB on, 12 V off) puts ~4.7 V from USB onto the carrier rail and into the buck output through F1 → add D2 Schottky (SS14 / 1N5819) between F1 and +5V on the carrier; the rail then sits at ~4.7 V, which is what the DevKit itself gets from USB. (d) A BNO055 on a single-row header alone wobbles: after the measurement add its 2 mounting holes to the carrier (standoffs) and an orientation arrow on the silk. U2 MEASURED 13.10 19:14 (photos C032_01–08 + captions.md in iCloud 01_Loops/C032_2026-10-13_carrier-revB): board 58.98 × 25.92 (the BOM's 62.15 was wrong); mounting holes Ø ≈ 2.7 (M2.5), c-c 54.26 along × 17.36 across (jaw-tip readings 55.99 / 19.09 minus the 1.73 hole reading); the two 6-pin rows are IN LINE with the holes, so pin-row to pin-row = 54.26 (gen.py had 46), each row 2.36 from the board end, holes 2.33 beyond pin 1 / pin 6. Pin order both ends, from the long edge with the V+ screw terminal: GND, OE, SCL, SDA, VCC, V+ (same on both ends). The servo field and the terminal point up; the capacitor is 10 mm tall. SURPRISE: one end came with a RIGHT-ANGLE 6-pin header soldered (pins sideways), the other end's holes are empty → either desolder it (cut the plastic, pull the pins one by one with the HS-03) and fit straight pins down on both ends = plug-in as designed, or keep it and cable it (6 wires) to a connector on the carrier. Recommended: desolder, plug-in + 4 × M2.5 standoffs. FOR gen.py: the two U2 rows must run ALONG X (6 pins each, 12.7 long), 54.26 apart along Y, module 58.98 × 25.92 standing along Y; the current file has both rows as columns along Y at x 68 (wrong orientation) and 46 apart. Add 4 × Ø2.7 holes at the module corners (±8.68 across from the row centre, in line with the rows). Keep tall parts (screw terminals U4A/U4B, J1, JST, C1, Q1, buzzer) out of the 59 × 26 rectangle under the module; low parts (resistors, SMD) may stay. J6/J11/TP4–6 at y 6.5–10 and J1/TP1 at the bottom must move if the module end reaches them. U3 IDENTIFIED 13.10 19:30 (photos C032_09–14): genuine Adafruit BNO055 #2472 (classic, no STEMMA QT). Numbers from Adafruit's Eagle file (github adafruit/Adafruit-BNO055-Breakout-PCB), confirmed by the 21.45 caliper reading on the long hole pitch: board 26.67 × 20.32; 4 holes drill 2.5 at 2.54 from the edges → pitch 21.59 × 15.24; JP1 1×6 Vin/3Vo/GND/SDA/SCL/RST at 1.27 from one long edge, pins x 6.985…19.685; JP2 1×4 PS0/PS1/INT/ADR at 1.27 from the other long edge, x 9.525…17.145; rows 17.78 apart; headers loose in the bag (to solder, straight, pins down). BUG in gen.py U3: pin order shifted by one → must be 1 Vin=+3V3, 2 3Vo=NC, 3 GND, 4 SDA0, 5 SCL0, 6 RST=NC. Vin must be 3V3, never 5 V (the level shifters pull SDA/SCL up to Vin; ESP32-S3 is not 5 V tolerant). FOR gen.py: U3 = 1×6 female + 1×4 female (JP2 pins unconnected, mechanical only) 17.78 apart + 4 × Ø2.7 holes on 21.59 × 15.24 → the module stands straight on two rows and 4 M2.5 standoffs, no wobble; silk arrow 'BOW' for the IMU axis; keep it ≥ 20 mm from the U4 buck inductor (magnetometer). Firmware note: inside the box next to motors the mag will be noisy → IMUPLUS mode (relative heading) as fallback. U4 SEEN 13.10 19:52 (C032_15): the MZHOU buck is a potted block with bare 12 V leads (inline blade fuse on the red one, 3-way lever connector) and a captive USB-C PLUG on the output: not board-mountable. DECISION: the buck plugs into the DevKit's OTG USB-C (the CH340 port stays free for the Mac); the DevKit's own Schottky D3 feeds +5V and EXT1-21 becomes +5V OUT (~4.6–4.7 V) to the carrier. Carrier loads on 5 V (buzzer, BTS EN, U6 if ever fitted) are fine at 4.6 V; the DevKit's 3V3 buck (SY8089, 600 mA) feeds the ESP + BNO055 + 2 MLX + PCA9685 ≈ 350 mA peak, OK. FOR gen.py/SPEC: remove U4A, U4B, F1, Q1, D1, C1, C4 (and the D2 Schottky idea); keep C2 100 nF at EXT1-21; J1 becomes 'VBAT_SENSE' 2-pin for the 100 k / 33 k divider only (add a 100 k is enough protection); TP1 → 'VBAT'; SPEC §2 VERIFY closed: pin 21 is +5V OUT in this design; §4 U4 and §7 Q1/D1/C1/F1 deleted → nothing to buy for them at Vikiwat. Before the first plug-in: UT61E+ on the USB-C plug, expect 5.0–5.2 V. GAP FOUND in the spec: the BTS7960 modules have a VCC pin for their 74HC244 input buffer and J4/J5 (RPWM, LPWM, EN, GND, IS) carry none. With PCA9685 outputs at 3.3 V, the buffer must run at 3V3 (VIH 2.3 V), NOT 5 V (VIH 3.5 V → 3.3 V PWM is marginal). → J4/J5 become 6-pin: 1 RPWM, 2 LPWM, 3 EN, 4 VCC=+3V3, 5 GND, 6 IS (GND still not in the middle rule: GND at 5 next to IS; or put GND last and IS before it — Cursor picks, poster updated). SWITCHES SEEN 13.10 20:01 (C032_16/17): a black rocker with 3 blades = SPDT, and the metal 20 A toggle with 2 screws = SPST (BOM row 82, listed as a rocker). No DPDT on the table and none needed: KILL REDESIGNED for the SPDT: common → EN, RUN throw → +5V, KILL throw → GND; GPIO14 reads EN through a divider R22 10 k series + R25 20 k to GND (4.6 → 3.1 V RUN, 0 KILL) instead of a second pole → J10 becomes 3-pin (+5V, EN, GND), R22 pull-up to 3V3 gone. Better than the DPDT: the MCU reads the real EN wire, a broken wire = KILL on both. ON-OFF-ON rocker would also be fine (centre = KILL via R23). Nothing left to buy at Vikiwat for the carrier. Metal toggle → thruster 12 V arm switch or spare; BOM: row 82 → 'toggle SPST 20 A', new row for the SPDT rocker. Meter: find the common (beeps to one outer blade in each position). NPN 13.10 20:16 (C032_18): the MOGAOPI bag has S8050 (and 2N3904, 2N2222, S9013/14, C1815…) but no BC337 → Q2/Q3 = S8050, TO-92 pins E-B-C (gen.py had C-B-E for the BC337: flip it). ALL MEASUREMENTS DONE 20:20. SPEC.md rewritten the same evening with every change marked [13.10] (U2/U3 footprints, U4/Q1/D1/C1/F1 removed, J1 VBAT_SENSE, J4/J5 6-pin with VCC, J10 3-pin, KILL on SPDT + divider, S8050, TP1 VBAT, order 14.10); backup of the 11.10 spec in build/preview/. STEP 2 DONE 21:50 (Cursor, commit ca3154a on dev): board regenerated from the new SPEC, kicad-cli DRC 0 violations / 0 unconnected / 0 footprint errors (build/AR-Mini_carrier_revB_drc.rpt), 1:1 PDF of the front in build/AR-Mini_carrier_revB_1to1_F.pdf (A4 landscape, board at the top-left). Claude re-checked the file 22:05 in Python: 67 footprints, 1300 tracks, 235 vias, every net connected, nothing in the antenna keep-out; U2 rows 54.26 apart with holes 17.36 and only resistors under the module; U3 pin order Vin/NC/GND/SDA/SCL/NC + JP2 mechanical + 4 holes 21.59 × 15.24; J4/J5 6-pin with +3V3 on pin 4; J10 3-pin; J1 VBAT_SENSE; R22/R25 divider; Q2/Q3 S8050 E-B-C; silk 'BOW' on U3 (any direction is fine, the firmware maps the axes). STEP 3 = Teddy, 14.10 morning: print the PDF at 100 % (no fit-to-page), check the 100 × 80 outline with the ruler, DevKit 44 pins + PCA9685 + BNO055 on the sheet, a JST-XH housing on J6. If all pins land: Push to Aisler, 2 layer, 1.6 mm, 3 pcs, HASL, Bulgaria; screenshot of the order confirmation (no prices). (Earlier plan, done:) regenerate gen.py from the new SPEC (U2 rows along X 54.26 apart + 4 holes; U3 1×6 + 1×4 at 17.78 + 4 holes; parts removed; new connectors; S8050 E-B-C; no copper under U2 tall parts), kicad-cli DRC to 0, PDF 1:1, commit 'hw: carrier rev B measured (U2 54.26, U3 Adafruit 2472, buck → DevKit USB-C, SPDT kill) · C032'. Then Teddy: 1:1 print with DevKit + PCA9685 + BNO055 on it, Aisler order 14.10. → Claude gives the numbers → Cursor: gen.py update + D2 + commit → kicad-cli DRC to 0 → 1:1 PDF print with the real modules → Aisler order 14.10 (Blitz if needed) → Vikiwat list. 1:1 PRINT 14.10 04:28: sheet printed at 100 %, outline checked with the ruler, the PCA9685 and BNO055 laid on it (pins not plugged: the PCA9685 still has the right-angle header, the BNO055 headers are loose) → the pin fit is confirmed only by eye so far. DATASHEET CHECK 15.10 09:30 (Teddy found the NXP PCA9685 rev 4 data sheet + the Adafruit servo-driver guide; notes in hardware/datasheets/PCA9685.md, PDFs in build/datasheets/, uncommitted): NOTHING CHANGES ON THE COPPER. Confirmed: VCC 3V3 is mandatory (the module's 10 k SDA/SCL pull-ups go to VCC), OE active LOW with every output = 0 when HIGH (OUTNE 00) so KILL = no pulses / buzzer off / LEDs off, VIH(OE) = 0.7·VDD = 2.31 V vs 2.70 V from R10 2.2 k against the module's 10 k → fit R10 = 1 k at soldering (3.0 V); the module has 220 Ω in series with every output → R7–R9 100–150 Ω instead of 330 for visible LEDs; 470–1000 µF/16 V in the module's C2 slot for two TD-8120MG; address 0x40 + All Call 0x70 both ACK (one module); prescale 121 for 50 Hz and calibrate the oscillator with the UT61E+ (C023); LEDs/buzzer ON/OFF only at 50 Hz; SWRST in setup(). SPEC §5 wording fixed (BTS PWM comes from GPIO39–42, not the PCA9685). PINS DID NOT FIT 15.10 09:51 (Teddy, with real pins on the 14.10 print) → FOUND IN THE PHOTOS C032_02/03: the caliper tips in two holes read the centre distance directly (55.99 / 19.09), the 1.73 'single-hole' reading should never have been subtracted → the module is the Adafruit-derived 2.20\" × 0.75\" pattern: rows and holes 55.88 × 19.05, pin 1 / pin 6 to hole 3.175 (we had 54.26 × 17.36 = 1.6 mm short, ~0.8 mm per end). FIXED 15.10 10:05 in the VM: gen.py U2_ROW, U2_HOLE_DX, U2_INSET = 55.88, 19.05, 1.55; standoff holes Ø3.0 on U2 and U3; gen.py re-run (audit 0, unrouted 0, 1336 traces / 233 vias); SPEC §4 + §9.2 corrected; FAILS 152 written; pads-only fit-check PDF build/AR-Mini_carrier_revB_fitcheck_1to1.pdf (A4, 100 %, 100 mm bar + 50 × 50 square). UNCOMMITTED: gen.py, .kicad_pcb, SPEC.md, FAILS, hardware/datasheets/PCA9685.md → Cursor: kicad-cli DRC to 0 + official 1:1 PDF + commit 'hw: carrier rev B U2 footprint 54.26 → 55.88 × 19.05 (1:1 check failed), holes Ø3.0, PCA9685 datasheet notes · C032'. STILL OPEN = STEP 3: a real pin check (either desolder the right-angle header and fit straight pins on the PCA9685, or push the loose BNO055 header pins through the paper into the printed pads; DevKit all 44 pins) → then the Aisler upload: only AR-Mini_carrier_revB.kicad_pcb, 2 layer, 1.6 mm, 3 pcs, HASL, Bulgaria, Blitz if standard misses 29.10; screenshot without prices.",
       "seq": 32,
-      "start": null,
+      "start": 1791735900000,
       "title": "Carrier rev B (DevKit-Lipo) → KiCad → DRC → 1:1 paper check → order 3 at Aisler"
+    },
+    {
+      "label": "C035",
+      "id": "t-arrivals-1210",
+      "col": "released",
+      "created": 1791831900000,
+      "end": 1791831900000,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/bom/bom.csv"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C035_2026-10-12_arrivals",
+      "note": "Delivery record, no test. Media: 01_Loops/C035_2026-10-12_arrivals (C035_01–28 + captions.md, picks 04 / 05 / 12). BOM rows set to Delivered the same evening.",
+      "order": 43,
+      "outcome": null,
+      "photo": "",
+      "rel": "R-1018",
+      "result": "Arrived 12.10: Jesverty lab supply (the SPS-3010N 30 V / 10 A, not the 60 V / 5 A of the order), second thruster, LANUCN IP65 logic box, 4 × Waveshare ST3215, Hailege PCA9685 servo shield, FNIRSI HS-03 soldering pen, Raspberry Pi 5 8 GB + active cooler + SanDisk 64 GB (v2), XT60 pigtails 5 + 5, MZHOU 12→5 V buck, QIQIAZI 5 V 5 A buck, BNO055 breakout, MLX90640-D110 thermal camera, MG90S servos, ruthex M3S + 270-piece M2–M5 insert set, DSM 640-piece A2 screw set, M3 × 8 black screws, M2 kit 600 pcs, USB logic analyser 24 MHz 8 ch. Unblocks: C006 (lab supply), the U3 footprint on rev B (BNO055: measure), C029 (MLX90640 110°), the ST3215 servo preset in the CAD (measure before printing ST3215 brackets).",
+      "seq": 35,
+      "start": 1791831900000,
+      "title": "Arrivals 12.10: lab supply, 4 × ST3215, MLX90640 110°, BNO055, Pi 5, logic analyser, fasteners"
+    },
+    {
+      "label": "C040",
+      "id": "t-arrivals-1310",
+      "col": "released",
+      "created": 1791904800000,
+      "end": 1791904800000,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/bom/bom.csv"
+        },
+        {
+          "note": "",
+          "path": "hardware/datasheets/PCA9685.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C040_2026-10-13_arrivals",
+      "note": "Delivery record, no test. Media: 01_Loops/C040_2026-10-13_arrivals (C040_01–20 + captions.md, pick 18). BOM: 16 rows set to Delivered the same evening (uncommitted in docs/bom/bom.csv, for the next Cursor BOM commit). C040_19/20 show the shipping labels with the home address: not for the portfolio.",
+      "order": 48,
+      "outcome": null,
+      "photo": "",
+      "rel": "R-1018",
+      "result": "Arrived 13.10 (2 DHL parcels): Seengreat MLX90642-D45 thermal camera [76]; YIHUA 948DQ-I fume extractor [124]; Toolour third hand [42]; FLASLD LiPo safe bag [125]; MOGAOPI component kit [59] (with the 100 k / 33 k divider resistors [56]); VooGenzek PCB kit [57]; YIXISI screw terminals [58]; Glarks pin headers [60]; elechawk JST-XH kit [55]; Alkan ferrules 800 pcs [45]; Waveshare 5264 3-pin servo cables [51]; Hailege U-jumpers [68]; YYF U-jumpers 840 pcs [69]; Cleqee alligator → Dupont leads [67]; 2 packs of Eldraqth alligator clips [66, qty now 2]. After this the BOM has no row in Ordered or Dispatch: all Amazon orders are in. To check: VooGenzek qty 2 and Waveshare cables qty 2 in the BOM, one box of each in the photos. Unblocks: the front thermal camera (MLX90642, I2C-0), the perfboard carrier (C031), the ST3215 bus cables, safe soldering (extractor + third hand) and LiPo charging in the bag.",
+      "seq": 40,
+      "start": 1791904800000,
+      "title": "Arrivals 13.10: the last Amazon batch: MLX90642-D45, soldering kit (fume extractor, third hand), wiring and prototyping parts"
+    },
+    {
+      "label": "C038",
+      "id": "t-cable-slot",
+      "col": "released",
+      "created": 1791903780000,
+      "end": 1791917280000,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/diagrams/AR-Mini_pivot_bracket_mount.png"
+        },
+        {
+          "note": "",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C019_2026-10-13_linkage-fit",
+      "note": "For C019. The servo stops ~16 mm high: the cable outlet (the black block where the wire leaves the case, at the spline end) sits on the pocket rim, and the pocket has no slot for it (photo C019_01). This card = the prototype fix by hand in the two black PLA brackets from C037. The CAD fix (cable slot in pivot_bracket and in the cam pan block + a FAILS line) is a separate Cursor job.\n\n1) MEASURE, servo out, caliper on the outlet: a = width across the 20 mm side of the body; b = how far it sticks out of the end; c = ear underside → outlet top; d = ear underside → outlet bottom. Photo estimate: c ≈ 8–9, d ≈ 16 mm.\n\n2) MARK with a pencil. Where: the END WALL of the pocket at the end nearer the idler pin (= where the spline goes; same rule on the mirrored bracket). Centre: halfway between the two insert holes of that end. Width: a + 1 mm. Depth: from the top face down to d + 1 mm (≈ 17). Through the whole end wall (~9 mm) to the outside, so the wire leaves sideways and nothing gets pinched under the ear.\n\n3) CUT (Dremel 4000 is on the bench since 13.10 evening, BOM 136–138): bracket in the Multi-Vise 2500 by the servo block, soft jaws or a rag, never clamped on the idler pin. Thin cut-off wheel on the flex shaft, LOW speed (dial 10–15 k, PLA melts above that): two vertical cuts on the marks, stop 1 mm short of the depth line, break the tab out with the flush cutters, finish the bottom with a sanding drum or a file. Glasses on, the wheel throws PLA chips. Without the Dremel: junior hacksaw or a craft knife in several passes. No hot soldering tip for cutting: it smears, fumes, and softens the insert holes next to it.\n\n4) INSERT HOLES at that end: they are 9.65 apart (d4), so only ~5.6 mm of plastic between them. A slot wider than ~5 mm opens them: fine, no inserts at that end. The servo is then held by the snug pocket + the 2 inserts at the far end, enough for C019 (unpowered, swung by hand).\n\n5) DRY FIT: servo in by hand with the outlet in the slot. Pass if the ears lie flat on the block face (no gap you can see from the side) and the wire comes out of the slot freely. If it still stops: the slot is not deep enough, take 1 mm more off the bottom. Then the second bracket the same way.\n\n6) Only after both fit: inserts (ruthex M3, HS-03 ~220 °C). Then C019 goes on from step 4.\n\nPhotos: the pencil marks, the cut slot from above, the servo seated (side view, ears on the face). Write a b c d in the result.",
+      "order": 46,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "R-1018",
+      "result": "DONE 13.10 ~21:45 (photos C019_03–08, videos C019_09–11): instead of a slot, a hole drilled with the Dremel 4000 on the Workstation 220 through the END wall at the spline end; the cable and its 3-pin plug threaded through. The servo now seats with its ears on the block face (C019_04) and arm_drive is on the disc horn (C019_07). Edges of the hole are torn PLA: round them with the knife or a sanding drum so the cable insulation is not cut. a b c d were not measured (eyeballed hole). Note for next time: the bracket was held by hand on the drill base (C019_06, video): clamp it in the base slots or the Multi-Vise. The hole most likely clipped the two insert holes at that end: no inserts there, 2 screws at the far end + the pocket hold the servo (as planned). Second bracket: same hole.",
+      "seq": 38,
+      "start": 1791903780000,
+      "title": "Cut the cable slot in both pivot_brackets by hand, so the TD-8120MG seats with its ears flat"
     },
     {
       "label": "C020",
       "id": "t-cradle-bend",
-      "col": "backlog",
+      "col": "today",
       "created": 1791654120000,
       "end": null,
+      "files": [
+        {
+          "note": "cradle U, 112 between rod centres",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "",
+          "path": "interfaces/interfaces.json"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "DECIDED 10.10 (Teddy has 2 × TD-8120MG): full U, one driven linkage on each hull. Numbers from the CAD after C017: two legs along x, 220 + 8 mm (the 8 goes through the coupler rod boss), base 112 between rod centres (was 123 before 10.10). Cut ~580 mm (2 × 228 + 112 ≈ 568 plus margin), bend, then trim the leg ends. Bend in the vise around a ~20 mm round (pipe or socket) so the inside radius is ~10 mm; aluminium can crack on a tight bend — try one bend on a scrap end first. Check: both legs parallel and in one plane (lay it flat on the table), base 112 ±1 between centres, legs slide into the coupler holes (d5.3; drill if the print is tight) and lock with the M3 set screws. Photo flat on the table with the ruler.",
       "order": 29,
       "outcome": null,
@@ -423,8 +1165,23 @@
       "col": "released",
       "created": 1791515001000,
       "end": 1791551093565,
+      "files": [
+        {
+          "note": "v2.0",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "",
+          "path": "docs/decisions/0004-kick-up-thruster-mount.md"
+        },
+        {
+          "note": "",
+          "path": "docs/STATE.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "The files are already in the folder. Tell Cursor: “commit all current changes on dev: cad: v2.0 kick-up thruster mount + measured plate (C001, C003) · decision 0004 · STATE.md; run check.sh; push”. If OpenSCAD fails, send the error to Claude.",
       "order": 1791551093565,
       "outcome": "pass",
@@ -441,8 +1198,19 @@
       "col": "backlog",
       "created": 1791654420000,
       "end": null,
+      "files": [
+        {
+          "note": "§8",
+          "path": "pcb/carrier-revB/SPEC.md"
+        },
+        {
+          "note": "",
+          "path": "firmware/bench/README.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "The one module T3 left out (PINOUT: ESC_L GPIO1, ESC_R GPIO2, 'no bench sketch'). Same contract as the other bench envs: CSV `t_ms,l_us,r_us,kill` at 10 Hz, `?` help, `0` = both to 1500 µs. LEDC 50 Hz. `arm` holds 1500 µs for 3 s (listing: 50 Hz, 1500 µs = stop). `l <us>`, `r <us>`, `both <us>`, `diff <thrust> <turn>` (differential steering). Ramp 200 µs/s; soft limit 1350–1650 µs until `limit` widens it with a # WARN; dead-man 2 s and KILL (GPIO14 low) → 1500 µs immediately. Host tests for the clamp, the ramp and the diff mix; PROTOCOL.md like the others (wiring, what to measure before power, expected, pass). Daytime task, small; branch night/esc or directly a PR to dev.",
       "order": 33,
       "outcome": null,
@@ -454,14 +1222,46 @@
       "title": "Cursor: bench `esc` env — both thruster ESCs on LEDC GPIO1/2"
     },
     {
+      "label": "C036",
+      "id": "t-fea-arm-bracket",
+      "col": "backlog",
+      "created": 1791838260000,
+      "end": null,
+      "files": [
+        {
+          "note": "pivot_bracket 6 vs 8 mm plate",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        }
+      ],
+      "from": "claude",
+      "hyp": "arm_drive in printed PETG (E 2.1 GPa, yield 25 MPa) with 3 N at the pin hole: SF ≥ 3 and tip deflection < 1 mm. Hand calc to beat: M = 3 N × 110 mm = 0.33 N·m, section 6 × 12 (bending across the 12) → I = 864 mm⁴, σ = 2.3 MPa nominal (SF ≈ 11, the holes at the disc end will cut it to ~4–5), δ = FL³/3EI = 0.73 mm. pivot_bracket: SF ~2 with the 6 mm plate, ≥ 3 with 8 mm.",
+      "media": "",
+      "note": "FAILS #35. Set the study up on the Mac, solve it on the Lenovo (Solve → on this computer), keep working on the Mac; results sync through the Fusion cloud. Do not edit the same design on both machines at once. 3 N per arm tip is conservative: Pesho in the cradle config is ~205 g + the U rod ~30 g + couplers ≈ 2.5 N shared by two drive arms (~1.2 N each) → 2.4× margin for jerks. Screenshots: safety-factor plot, displacement plot, the hand-calc line next to them (the portfolio page is 'FEA checked by hand').",
+      "order": 44,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 36,
+      "start": null,
+      "title": "Fusion Static Stress on the Lenovo: arm_drive and pivot_bracket (6 vs 8 mm plate)"
+    },
+    {
       "label": "C014",
       "id": "t-mentor-sim",
       "by": null,
       "col": "released",
       "created": 1791532800000,
       "end": 1791566469677,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/decisions/0001-license.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "Decision 0001 keeps sim/ 'all rights reserved' until the mentor says the simulation code is not bound to Horizon Academic. One email; paste his answer into docs/decisions/0001-license.md.",
       "order": 1791566469677,
       "outcome": "pass",
@@ -478,8 +1278,35 @@
       "col": "released",
       "created": 1791515008000,
       "end": 1791566485614,
+      "files": [
+        {
+          "note": "",
+          "path": "tasks/night/2026-10-08_T2_safety.md"
+        },
+        {
+          "note": "",
+          "path": "tasks/night/2026-10-08_T3_bench.md"
+        },
+        {
+          "note": "",
+          "path": "docs/diagrams/AR-Mini_states_T2_safety.pdf"
+        },
+        {
+          "note": "",
+          "path": "docs/diagrams/AR-Mini_states_T3_bench.pdf"
+        },
+        {
+          "note": "",
+          "path": "firmware/armini/lib/core/Safety.cpp"
+        },
+        {
+          "note": "",
+          "path": "firmware/bench/README.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "The two lines are in tasks/night/PROMPTS.md (or night_kit/PROMPTS.md). Background agents, budget limit on. Morning: PRs.",
       "order": 1791566485614,
       "outcome": "pass",
@@ -496,8 +1323,23 @@
       "col": "released",
       "created": 1791630900000,
       "end": 1791648650000,
+      "files": [
+        {
+          "note": "",
+          "path": "tasks/night/2026-10-10_T6_thruster-watch.md"
+        },
+        {
+          "note": "",
+          "path": "tools/parts/watch.py"
+        },
+        {
+          "note": "",
+          "path": "parts/watch.yaml"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "Night task T6: the parts agent also follows parts/watch.yaml — first list thruster_v2 (v2 after 1.11, ranked by 'looks impressive', no budget). Seeded 10.10: W003 TFL jet drive (wow 5), W001 Hydromea DiskDrive 50 rim-driven (3), W002 Blue Robotics T200 (3), W004 ApisQueen U2 mini (0, baseline). Once a day: refresh price/stock, search robotshop_eu / bluerobotics / hydromea / rc_terminal for new ones (unrated), rank, Watch section in REPORT.md, digest-only Telegram. 1) Cursor: commit parts/watch.yaml + tasks/night/2026-10-10_T6_thruster-watch.md to dev and push. 2) Start a Background agent in Worktree mode on dev with the T6 line. 3) Morning: PR → CI green → read → merge only what you understand. Done when: PR merged and `agent.py --dry-run --offline --watch` shows W003 first.",
       "order": 27,
       "outcome": "pass",
@@ -514,8 +1356,23 @@
       "col": "backlog",
       "created": 1791605700000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "tools/parts/agent.py"
+        },
+        {
+          "note": "",
+          "path": "parts/needs.yaml"
+        },
+        {
+          "note": "",
+          "path": "tasks/night/2026-10-09_T4_parts-agent.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "T4 is merged (PR #6). 1) parts/needs.yaml: N001 is only an example and already OVERDUE → replace it with a real need or set status: skip; add the real needs for R2a–R4 (Cursor: \"add need …\"). 2) Telegram: @BotFather → /newbot → copy the token; send the bot any message; open api.telegram.org/bot<TOKEN>/getUpdates → copy message.chat.id. 3) GitHub → Settings → Secrets and variables → Actions: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID (TME_TOKEN/TME_SECRET, MOUSER_API_KEY later, optional). Never in the repo or the chat. 4) Actions → parts → Run workflow → branch dev, dry_run = true → read the log; then again with dry_run = false. Done when: Telegram digest received and branch parts-bot has parts/REPORT.md. Hourly runs start after the next dev → main merge (cron runs only from main). Steps also in parts/README.md.",
       "order": 26,
       "outcome": null,
@@ -529,20 +1386,64 @@
     {
       "label": "C011",
       "id": "t-print-coupon",
-      "col": "today",
+      "col": "released",
       "created": 1791515003000,
-      "end": null,
+      "end": 1791725220000,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/stl/v1/thruster_coupon.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/arm_idler.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/coupler.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/arm_drive.stl"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "C011_2026-10-11_orange-plate",
       "note": "10.10 evening, one plate. thruster_coupon x1: build/thruster_coupon.stl RE-GENERATED 20:30 at 35.0 x 15.9 (measured A/B 10.10; was 15.6) - re-add it to the plate, flat, no supports. arm_idler x2 + coupler x2: export with OpenSCAD (-D part=...), same for left and right (the right coupler is the same part turned over). arm_drive x1 more (build/arm_drive.stl, same file as C017) for the second TD-8120MG. Coupler needs tree supports from the bed only (rod boss sticks out 3 mm each side; CAD fix later). 0.2 mm, 4 walls, 40 % infill, Enable CFS OFF. After: Ø5 rod into the coupler hole (drill 5.3 if tight), coupon goes to C005.",
       "order": 20,
-      "outcome": null,
+      "outcome": "partial",
       "photo": "",
-      "rel": "",
-      "result": "Plate printed (photo 11.10 07:49): 1 h 12 min, 41.0 g — arm_drive ×1, arm_idler ×2, coupler ×2 (supports still on the couplers). The thruster_coupon was NOT on the plate → still to print (20 min, orange, 35.0 × 15.9) before C005. Print ran ~04:26–05:40 (EXIF). Media: C011_01–16 + captions.md in iCloud 01_Loops/C011_2026-10-11_orange-plate (★ 01 printer-camera timelapse, 07 tree supports under the coupler boss, 08 K2 Pro + external spool, 11 finished plate, 15 screen 1 h 12 / 41.0 g, 16 the 5 parts off the bed). In the videos the orange looks yellow (white balance) → use the photos for the portfolio.",
+      "rel": "R-1018",
+      "result": "Plate printed (photo 11.10 07:49): 1 h 12 min, 41.0 g: arm_drive ×1, arm_idler ×2, coupler ×2 (tree supports on the couplers). Print ran ~04:26–05:40 (EXIF). Media: C011_01–16 + captions.md in iCloud 01_Loops/C011_2026-10-11_orange-plate (★ 01 printer-camera timelapse, 07 tree supports under the coupler boss, 08 K2 Pro + external spool, 11 finished plate, 15 screen 1 h 12 / 41.0 g, 16 the 5 parts off the bed). In the videos the orange looks yellow (white balance), so use the photos for the portfolio. thruster_coupon SKIPPED (Teddy, 11.10 16:27): the thruster_arm itself is the test, because its plate is the same 50 × 30 × 5 with 4 × Ø4.5 at 35.0 × 15.9 → C005. The risk she accepted: a wrong pattern costs an arm reprint instead of a 20 min coupon.",
       "seq": 11,
       "start": 1791608580000,
       "title": "Print the orange plate: thruster_coupon + 2 arm_idler + 2 coupler + 1 arm_drive (PLA orange, external spool, ~1 h 20)"
+    },
+    {
+      "label": "C034",
+      "id": "t-print-hull-aft",
+      "col": "today",
+      "created": 1791771900000,
+      "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/stl/v1/hull_aft.stl"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C034_2026-10-12_hull-aft-print",
+      "note": "For R2b (4 sections + chassis float). STL: build/hull_aft.stl exported 12.10 05:18 from CAD v2.0 (305 + 6 mm transom pad = 311 long, 100 x 120). White PLA, NEW spool (the first one ran out after two hull_fore), fit prototype: the whole v1 boat is PLA, PETG after 1.11. Same as C008/C022: 0.2 mm, 4 walls, 10 bottom layers, diagonal on the bed, brim outer only, external spool, Enable CFS off. Tree supports (on build plate only OFF) in THREE places: the two beam bosses inside at x 385 / 500 and the transom pad outside the stern (flat underside at z 44, sticks out 6 mm). Left first; the right one = same file, Mirror along Y in Creality Print (as the right hull_fore). After each: peel the brim, cut the supports, weigh, photo next to the fore section. Check: the 4 joint holes in the bulkhead line up with the fore section's (M3 through both), the transom pad has its 4 blind insert holes at z 59 / 99.",
+      "order": 42,
+      "outcome": null,
+      "photo": "",
+      "rel": "R2b",
+      "result": "First try in white PLA 05:24 stopped after ~16 min: the new white spool had only ~100 g. Switched to PETG. LEFT DONE 12.10 (photos 16:46): screen 7 h 30 min, 410.0 g white PETG. PLA hull_fore was 345 g; the difference is the denser PETG plus the transom pad and its supports. Clean walls and bosses, but a lot of PETG stringing inside the compartments and on the bed, plus a few blobs on the outer wall: cosmetic, clean off with flush cutters or a quick pass of a heat gun. Check the blobs are not holes before any water test. Mock-up photo on the desk: left hull = PETG aft + PLA fore end to end (610), bosses of both sections on the inner side as designed; the thruster laid at the transom; chassis, orange arms and both TD-8120MG next to it. RIGHT (mirror Y) still to print, ~7.5 h, ~410 g PETG. Spool gauge photo 16:52 (window marks 0.22 / 0.66 / 1.32 / 1.98 lbs = 0.1 / 0.3 / 0.6 / 0.9 kg): the layers at the flange end just past 0.66 lbs = ~300-350 g, maybe up to ~450 g if the pack is higher in the middle. But the photo at 06:07 (C034_01) shows the spool was a full new 1 kg in the morning, so by the numbers 1000 - 410 = ~570 g are left; the gauge only sees the layers next to the wall. Settle it on the kitchen scale: whole spool 700 g or more = go; under 600 g = new spool. Media: 01_Loops/C034_2026-10-12_hull-aft-print (C034_01-19 + captions.md, picks 10 / 14 / 17). No printer timelapse yet: the mp4 in the inbox was C022's again (moved to _to_delete); the real one is ~17917740xx.mp4. RIGHT DONE 13.10 ~00:26 (started 12.10 16:52 from the same spool): screen 7 h 34 min, 410.0 g white PETG. Both aft sections printed, ~160 g PETG left on that spool. Media C034_20-34 (incl. the printer timelapse C034_34, 11 s). LEFT timelapse still missing (~17917740xx.mp4). TO CLOSE: supports off and strings cleaned (the cut-support pile next to the printer in C037_02, 13.10 07:08, is most likely the LEFT hull's, already there in C034_29; in C037_07 a hull_aft still has strings inside the compartments); both aft sections side by side, beam bosses facing each other (= the right one is mirrored); M3 through the 4 joint holes into each fore section; 4 blind insert holes in each transom pad; one photo of the whole boat, both hulls 610 long.",
+      "seq": 34,
+      "start": 1791771900000,
+      "title": "Print hull_aft x2 in PETG (left, then right mirrored): 2 x ~7-8 h, tree supports under 2 bosses + the transom pad"
     },
     {
       "label": "C008",
@@ -550,8 +1451,15 @@
       "col": "released",
       "created": 1791515000000,
       "end": 1791719700000,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/stl/v1/hull_fore.stl"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "C008_2026-10-10_hull-fore-print",
       "note": "for C007. STL: build/hull_fore.stl (09.10 17:39, from CAD v2.0, 304 x 100 x 120). PLA white = fit prototype (colour code v1); the real hull stays PETG. Bottom 10 layers so the 2 mm floor is solid. Found while slicing: the CAD print list says 'no supports', but the two rim bosses (x 150-215) have a flat 24 mm underside at z = 100 -> tree supports for this print; CAD fix later: 45 deg gusset under the bosses so the PETG hull prints without supports. Photo of the first layer and of the finished part next to a ruler; weigh it. The printer runs while you sleep. 10.10: slicer 6 h 13 min, 344.79 g. First attempt blocked: TR2852 / FR0122, then no extrusion; cause = old red PLA stuck in the heat-break inlet, cleared with the Creality K2 Pro jammed-filament procedure (photos C008_01-21 in iCloud, captions.md). Print from the external spool, CFS off.",
       "order": 10,
       "outcome": "pass",
@@ -563,14 +1471,136 @@
       "title": "Print hull_fore (PLA white fit prototype, 4 walls, 0.2, diagonal; tree supports under the 2 rim bosses)"
     },
     {
+      "label": "C039",
+      "id": "t-print-pesho",
+      "col": "released",
+      "created": 1791903960000,
+      "end": 1791929220000,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/pesho/pesho.py"
+        },
+        {
+          "note": "",
+          "path": "cad/pesho/pesho_views.png"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C021_2026-10-12_pesho-warmer",
+      "note": "Feeds C021 (warmer fit, lid, float test). STLs in build/ from cad/pesho/pesho.py (12.10 20:34): pesho_head.stl, pesho_lid.stl, pesho_body.stl (big files, 9–34 MB: Creality Print takes a few seconds to load them). Put each part on the bed as it is in the file, no rotating. External spool, Enable CFS off.\n\nPLATE A (now, ~30 g): pesho_head + pesho_lid, white PETG = the hull_aft spool (~160 g left, so enough). Creality PETG profile as for C034 (nozzle 240–250 °C). 0.2 mm, 3 walls (the head wall is 1.2 mm = 3 lines), 5 top / 5 bottom, 15 % infill, no supports, no brim. Head: floor on the bed; the inner ledge has a 45° underside and the 6 air inlets are 3 mm holes, both print without supports. Lid: flat top on the bed, plug ring up. Check the preview: no supports generated, the face engraving (eyes + smile) visible on the head.\n\nPLATE B (before bed, ~100 g): pesho_body, red PLA. The red spool is in the CFS: move it to the external holder; check it has well over 100 g. 0.2 mm, 3 walls, 5 top / 5 bottom, 10 % gyroid (the vest is the float: it must come out sealed, no holes), brim outer 5 mm, tree supports auto, threshold 30°, on build plate only ON: only the two hands should get trees (the arms and the ring underside are 45°). Standing on the boots; the M12 pockets open at the sole. Check the preview for trees under the hands only.\n\nAfter each plate: screen time + grams, photo on the bed, timelapse → inbox. Then C021: warmer in the head, lid on, ballast, tub.",
+      "order": 47,
+      "outcome": "partial",
+      "photo": "",
+      "rel": "R-1018",
+      "result": "BOTH PLATES PRINTED. Plate A (head + lid, white PETG) 13.10 18:28 → ~20:10 (timelapse C021_10; no screen photo, so no time/grams). Plate B (body, red PLA) 13.10 20:23 → 14.10 01:07: screen 4 h 44 min, 143.0 g (body + trees + brim). Head and lid clean: face engraved, 6 vent slots, lid fits, head seats in the ring cup (C021_20/21). Body: ring, vest with the cross, boots with flood holes all good; trees under the hands AND under the ring/torso (a 30° threshold supports the 45° faces too, my note said hands only: wrong, harmless). FAIL: the left arm snapped off at the shoulder when the part came off the bed, the tree cone still on its hand (C021_18); the timelapse shows it intact at the end, so it is a removal break, not a print break. The arm meets the chest wall at 45° through a small ellipse = weak joint + the trees held it to the bed. Fix now: trees off first, CA glue the arm (filament pin if a 2 mm bit is around). CAD for Cursor: shoulder boss / smin blend at the arm root, FAILS line, print note 'cut trees before lifting'. Media C021_10–22 + captions.md. Next = C021: clean, weigh, glue, nuts, warmer, tub.",
+      "seq": 39,
+      "start": 1791905259000,
+      "title": "Print Pesho v3: head + lid in white PETG, then the body in red PLA (two plates)"
+    },
+    {
+      "label": "C037",
+      "id": "t-print-r1b-black",
+      "col": "released",
+      "created": 1791863400000,
+      "end": 1791885000000,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/stl/v1/pivot_bracket.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/arch_post.stl"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C037_2026-10-13_r1b-black-print",
+      "note": "Feeds C019 (linkages swing) and C022 step 2 (arch). Black PLA, 0.2 mm, 4 walls, 40 % infill (inserts go in), external spool, Enable CFS off. pivot_bracket: build/pivot_bracket.stl is the LEFT one with the 6 mm plate (exported 12.10 23:55 for the FEA; y −45..6) → put it on the plate twice and mirror the second along Y in Creality Print (= side −1). Orientation as in the file (pocket faces up), BUT it needs supports: the bracket stands on the 30 × 6 mm edge of the boss plate, and the inner plate (30 × 45 mm, ~26 mm above the bed) and the servo block (sticks out ~24 mm to one side) hang in the air → Tree supports auto, 30°, on build plate only ON, brim ~5 mm. The CAD print list says \"as modelled, no supports\" → wrong; Cursor: fix that note in AR-Mini_v1.scad (\"pocket up, tree supports under the inner plate and the servo-block ledge, brim 5\"). Do NOT print pivot_bracket_vp8.stl: the 8 mm plate moves the arm plane 2 mm inward and the cradle would become 108 instead of 112 (C020 bends the U at 112). The FEA (C036) decides 6 vs 8 for the PETG version later. arch_post: export from OpenSCAD (part = \"arch_post\", F6, Export STL → build/arch_post.stl), same part for both sides, lying on its side as exported, 2 copies, no supports needed. Second plate: 1 × arm_drive (orange PLA, build/arm_drive.stl, flat): C011 printed only one, the linkage on the right hull needs a second. After: inserts (ruthex M3, the HS-03 at ~220 °C): 4 in each bracket, 2 in each hull_fore boss at x 200 and at x 165.",
+      "order": 45,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "R-1018",
+      "result": "STARTED 13.10 ~07:05 (message 07:08): black PLA from the external spool, plate = 2 × pivot_bracket (2nd mirrored Y) + 2 × arch_post, as on the Creality Print screenshots 06:56 plus the tree supports + brim. Photos 07:08: the black spool on the side holder is well wound, far more than this plate needs; the bed still empty, printer in its pre-print routine. Watch: the first layer of the 30 × 6 feet (brim stuck), and around ~26 mm height that the trees reach the underside of the inner plate before it starts. PRINTED 13.10 07:05 → ~12:50: screen 5 h 45 min, 176.0 g black PLA (both brackets + both arch posts + trees + brim). The timelapse name 1791864304 = 07:05:04 confirms the start. From the photos: all four parts complete; the two brackets are mirror images (the bolt column on opposite sides); pockets, the 4 insert holes round each pocket and the idler pins clean; tree supports under the brackets plus small ones at the arch-post ends; one long string between the arch posts (snip). Media: C037_01–08 + captions.md in iCloud 01_Loops/C037_2026-10-13_r1b-black-print (★ 04 the plate from above, ★ 08 timelapse 10 s). Supports off, servo fit and inserts moved to C038 (cable slot, the servo did not seat) and C019. The \\\"second plate: 1 × arm_drive in orange\\\" in the note was WRONG: two arm_drives already exist, one from C017 (10.10) and one from C011 (11.10, \\\"for the second TD-8120MG\\\"), so no orange plate. CLOSED 13.10 18:06.",
+      "seq": 37,
+      "start": 1791864300000,
+      "title": "Print the black R1b plate: 2 × pivot_bracket (left + mirrored) + 2 × arch_post"
+    },
+    {
+      "label": "C041",
+      "id": "t-print-thruster-mounts",
+      "col": "released",
+      "created": 1791978120000,
+      "end": 1792013067000,
+      "files": [
+        {
+          "note": "",
+          "path": "cad/stl/v1/thruster_bracket.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/thruster_arm.stl"
+        },
+        {
+          "note": "side and end views, the collision and the fix",
+          "path": "docs/diagrams/AR-Mini_thruster_kickup_mount.png"
+        },
+        {
+          "note": "",
+          "path": "docs/diagrams/src/thruster_kickup_mount.py"
+        },
+        {
+          "note": "th_pin_dx 19",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "151",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "",
+      "media": "C041_2026-10-15_thruster-mounts",
+      "note": "Feeds C005 (M4 pattern on the real thruster) and the thruster saga. BLOCKER FOUND 14.10 while reading the CAD: the arm's pin boss (circle r 12 round the hinge) sits 14 mm aft of the transom pad, the bracket plate is 6 thick, so the boss reaches x = 2 and cuts 4 mm INTO the plate at |y| 12.5–18.5. As drawn the arm cannot be mounted. The 'stop tab' at x = −8 is inside that circle, so it does nothing. FIX (Cursor, 5 min): th_pin_dx 14 → 19 (boss front at x = 7, 1 mm off the plate; lugs 5 mm longer; the duct moves 5 mm aft, fine) + an assert(th_pin_dx - 6 >= 12 + 1); FAILS line 'arm boss collides with the bracket plate (r 12 > pin–plate 8)'. Alternative kept out: circle r 7.5 (4.85 mm wall round a 5.3 pin on a kick-up hinge that takes the grounding hits: no). Then export part = \"thruster_bracket\" and \"thruster_arm\" → build/. Both are symmetric: the same STL for left and right.\n\nPLATE (one, all four, ~70–90 g PETG, ~3–4 h): Hyper PETG, nozzle 240–250 °C as for the hulls, 0.2 mm, external spool, CFS off. A fresh PETG spool unless the slicer says ≤ 110 g (the white hull_aft spool has ~130 g). • thruster_bracket × 2: in Creality Print rotate it so the big 50 × 64 plate lies FLAT on the bed with the two lugs pointing up; the four counterbores (6.2 mm) must be on the TOP face, the smooth pad face on the bed. 4 walls, 40 %, no supports, no brim (the pin and lock holes are horizontal through the lugs: fine). • thruster_arm × 2: as modelled (the 50 × 30 thruster plate is the bottom, the two cheeks rise to the pin boss). 6 walls (print list), 40 %, tree supports auto on build plate only: they go under the pin boss, which hangs forward of the plate 17 mm up; the cheek underside rises at ~37° and needs none. Check the preview: trees under the two bosses only.\n\nAFTER (= C005): 4 × M4 through the arm plate into the thruster's brass inserts by hand; the stock screws are 28.4 long and the plate + frame is only ~14.7 → measure how deep an M4 goes into an insert first; if blind and shallow, M4 × 12 from the DSM set. Ø5 rod through lug–cheek–cheek–lug: must turn freely (ream 5.3 with the rod if tight). M3 lock pin through lug + cheek in the deployed hole. Bracket on the transom pad: 4 × M3 into the pad's blind inserts (same insert routine as the rim bosses). Photos: the plate from above, the arm on the thruster with the 4 screws, the swing deployed → stowed.",
+      "order": 49,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "R-1018",
+      "result": "CAD FIX DONE 14.10 (Cursor 1f2523c): th_pin_dx 14 → 19 + assert, FAILS 151; STLs thruster_bracket.stl / thruster_arm.stl exported 15:16. PRINTED 14.10 21:32 → 15.10 ~00:24 (timelapse name 1792002747 = 21:32:27): screen 2 h 52 min, 96.0 g white PETG, one plate: 2 brackets flat with the lugs up + 2 arms as modelled, trees under the two pin bosses only. Photos 15.10 06:41: all four parts complete, no stringing, the cheek undersides (~37°) clean without support; bracket offered up to the transom pad and the arm plate to the thruster frame — the hole patterns line up by eye, M4 screws beside. Media: C041_01–04 jpg, 05 mp4 (chat video, re-encoded from the 37 MB HEVC), 06 mp4 (printer timelapse 8 s) + captions.md in iCloud 01_Loops/C041_2026-10-15_thruster-mounts (★ 03 the four parts, ★ 04 offered up, ★ 06 timelapse). NEXT = card t-thruster-fit (C005). CLOSED 15.10 06:55.",
+      "seq": 41,
+      "start": 1792002747000,
+      "title": "Print the thruster kick-up mounts: 2 × thruster_bracket + 2 × thruster_arm, PETG (after the CAD fix)"
+    },
+    {
       "label": "C013",
       "id": "t-public-ready",
       "by": null,
       "col": "backlog",
       "created": 1791532800000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "README.md"
+        },
+        {
+          "note": "",
+          "path": "LICENSE"
+        },
+        {
+          "note": "",
+          "path": "CONTRIBUTORS.md"
+        },
+        {
+          "note": "",
+          "path": "docs/decisions/0001-license.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "1) Commit email → GitHub noreply address (Settings → Emails: Keep my email addresses private + Block command line pushes that expose my email); set it with git config user.email in the repo. 2) Mentor OK on sim/ (C014). 3) No Bulgarian left in README/docs; images regenerated in English. 4) Decide if the iCloud links in media/LINKS.md and board.json stay public. 5) Export board → commit. 6) Tag portfolio-2026-11-01 on main. 7) Settings → General → Change visibility → Public. 8) SlideRoom: link to the tag in the first attachment and the code attachment.",
       "order": 1791540000000,
       "outcome": null,
@@ -584,11 +1614,26 @@
     {
       "label": "C023",
       "id": "t-r1b-drive",
-      "col": "backlog",
+      "col": "today",
       "created": 1791654240000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "firmware/bench/src/pca9685/main.cpp"
+        },
+        {
+          "note": "",
+          "path": "firmware/bench/src/pca9685/PROTOCOL.md"
+        },
+        {
+          "note": "prescale 121, calibrate the oscillator",
+          "path": "hardware/datasheets/PCA9685.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "For R1b both cradle servos must move together, the right one mirrored. Task for Cursor (daytime, small): in firmware/bench pca9685 add `pair <chA> <chB> <deg> [deg_per_s]` — chB gets the mirrored pulse (us_B = 3000 − us_A around 1500), ramp default 20°/s, `dm` dead-man and `kill` work as for the other commands; host test for the mirror math; README + PROTOCOL updated. Channels: CH0/1 ESCs, CH2–5 BTS7960, CH6 buzzer, CH7–9 LEDs → use CH10/CH11, VERIFY in hardware/wiring/PINOUT.md. TD-8120MG: 500–2500 µs, 180°. Servo power from the Jesverty at 6.0 V, CC 3 A — NOT 12 V. First run with the linkages off the servos, then with the arms on and the U empty, then Pesho.",
       "order": 32,
       "outcome": null,
@@ -605,14 +1650,25 @@
       "col": "today",
       "created": 1791654240000,
       "end": null,
+      "files": [
+        {
+          "note": "right hull = mirrored along Y",
+          "path": "cad/stl/v1/hull_fore.stl"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/arch_post.stl"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "C022_2026-10-11_r1b-frame",
       "note": "For the full U both hulls are needed. 1) Right hull_fore: Cursor, OpenSCAD -D part=\"hull_fore\" -D side=-1 → build/hull_fore_R.stl; print exactly like C008 (white PLA, 0.2, 4 walls, diagonal, tree supports under the 2 rim bosses only, ~6 h 13). Best slot: 11.10 after the C007 tub test. 2) 2 × arch_post: -D part=\"arch_post\" (same part both sides), black PLA, lying on its side. Inserts M3 in both hull_fore bosses at x 165. 3) Arch tube: 15 × 15 × 1 aluminium, cut 304 mm (same as the beams), M3 bolt through post + tube on each side (square tube in a square saddle, so the hulls cannot twist). Check: gap between the hulls 250 ±2 at the front and at x 200, hulls parallel. Photo from above with a tape measure across.",
       "order": 31,
       "outcome": null,
       "photo": "",
       "rel": "R1b",
-      "result": "Step 1 started 11.10 15:45: right hull_fore printing, ETA ~22:00 (slicer ~6 h 13). It was mirrored in Creality Print (Mirror → Along Y axis) instead of exporting build/hull_fore_R.stl. That is the same geometry, because side = -1 in the CAD is mir() = a Y mirror. Same settings as C008: white PLA, 0.2, 4 walls, bottom 10, diagonal, tree supports under the 2 rim bosses, external spool. Steps 2 (arch_post × 2) and 3 (arch tube) still open.",
+      "result": "Step 1 started 11.10 15:45: right hull_fore printing, ETA ~22:00 (slicer ~6 h 13). It was mirrored in Creality Print (Mirror → Along Y axis) instead of exporting build/hull_fore_R.stl. That is the same geometry, because side = -1 in the CAD is mir() = a Y mirror. Same settings as C008: white PLA, 0.2, 4 walls, bottom 10, diagonal, tree supports under the 2 rim bosses, external spool. Step 1 DONE 12.10 ~05:00: right hull_fore printed, 6 h 17 min, 345.0 g (the left was 6 h 16 / 345.0). Photo of both: the rim bosses face each other across the gap, so the mirror is right. The white PLA spool is nearly empty after it (a thin layer left): the hull_aft pair must be PETG (as planned) or a new spool. Media: C022_01–13 + captions.md in iCloud 01_Loops/C022_2026-10-11_r1b-frame (★ 01 timelapse, 05 tree support growing inside the hull, 10 screen 6 h 17 / 345.0 g, 13 both hulls, bosses facing each other). Step 2 PRINTED 13.10: arch_post × 2 in black PLA, on one plate with the two pivot_brackets (C037: 5 h 45 min · 176.0 g for the plate); still to do in step 2: M3 inserts in both hull_fore bosses at x 165. Step 3 (arch tube) still open.",
       "seq": 22,
       "start": 1791722700000,
       "title": "R1b frame: right hull_fore (mirrored, white) + 2 × arch_post (black) + the arch tube"
@@ -623,8 +1679,10 @@
       "col": "backlog",
       "created": 1791654420000,
       "end": null,
+      "files": [],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "For r2c 'swims on remote'. The DevKit makes its own WiFi (access point), the phone opens a small page: throttle + turn sliders (differential mix to ESC_L/ESC_R), a big STOP, telemetry line (v_bat, kill, leak, heading when the BNO055 is there). Heartbeat from the page every 200 ms; no heartbeat for 500 ms → SAFE (the T2 safety rule) → both ESCs 1500 µs. WiFi password only in the gitignored include/secrets.h (secrets.h.example in the repo), never in git or the chat. Claude writes the spec in tasks/night/ first; Teddy starts it when C025 has passed.",
       "order": 37,
       "outcome": null,
@@ -641,8 +1699,15 @@
       "col": "backlog",
       "created": 1791659820000,
       "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/decisions/0005-v1-controller-devkit-lipo.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "",
       "note": "Step 3 of the controller ladder: 1) DevKit-Lipo (WROOM-1-N8R8 on a ready board) → 2) carrier rev B, DevKit on female headers (C031 perfboard, C032 Aisler) → 3) rev C, the module itself on the carrier. Have: 3 × ESP32-S3-WROOM-1-N16R8 (Comet, 05.10) — same chip as the DevKit, 16 MB flash instead of 8: the firmware only changes the flash size in platformio.ini. Rev C adds what the DevKit gives for free: 3.3 V LDO (AP2112K-3.3), 10/22 µF decoupling, EN RC 10 kΩ + 1 µF, BOOT button on GPIO0, USB-C with ESD (USBLC6-2SC6) and 2 × 5.1 kΩ on CC, polyfuse 1.1 A + SMBJ5.0A (list in FAILS_AND_FIXES numbers register, 05.10). Copper keep-out under the PCB antenna. Soldering: castellated edge pads ~1.27 mm + a large GND pad underneath → flux, fine tip, loupe/USB microscope, and hot air or via holes for the bottom pad — or Aisler assembly. One module for practice first. Storage until then: back in the antistatic bag with desiccant; Espressif MSL 3 — bake per J-STD-033 before hot air/reflow if they stayed out long. Not before the portfolio (1.11): the hardest joint of the project.",
       "order": 42,
       "outcome": null,
@@ -659,8 +1724,23 @@
       "col": "released",
       "created": 1791515002000,
       "end": 1791566497724,
+      "files": [
+        {
+          "note": "",
+          "path": "tasks/night/2026-10-08_T1_state-machine.md"
+        },
+        {
+          "note": "",
+          "path": "firmware/armini/lib/core/StateMachine.cpp"
+        },
+        {
+          "note": "",
+          "path": "docs/diagrams/AR-Mini_states_T1_mission.pdf"
+        }
+      ],
       "from": "claude",
       "hyp": "",
+      "media": "C010_2026-10-09_devkit-module",
       "note": "Branch night/state-machine is pushed. If there is no PR, open one (base: dev). Read the description and the VERIFY list. Unclear → ask Claude.",
       "order": 1791566497724,
       "outcome": "pass",
@@ -670,6 +1750,287 @@
       "seq": 10,
       "start": 1791515002000,
       "title": "GitHub: PR for T1 (state machine) → CI green? → merge into dev"
+    },
+    {
+      "label": "C042",
+      "id": "t-thruster-fit",
+      "col": "today",
+      "created": 1792046400000,
+      "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/decisions/0004-kick-up-thruster-mount.md"
+        },
+        {
+          "note": "",
+          "path": "docs/diagrams/AR-Mini_thruster_kickup_mount.png"
+        },
+        {
+          "note": "",
+          "path": "cad/stl/v1/thruster_arm.stl"
+        }
+      ],
+      "from": "claude",
+      "hyp": "The Ø5 rod turns freely in lug–cheek–cheek–lug; the arm swings −32° deployed → +100° stowed by hand; the M3 lock pin goes through lug + cheek in the deployed hole; 4 × M4 hold the thruster on the arm plate with no gap.",
+      "media": "",
+      "note": "C005 with the printed C041 parts (PETG). ORDER: (1) M4 depth: screw one stock M4 (28.4 long) into a thruster insert by hand and count turns / measure how far it goes; if it bottoms before ~10 mm the insert is blind → M4 × 12 from the DSM set (plate 5 + frame ~9.7). Never force a long screw into a blind insert: it cracks the thruster boss. (2) Thruster on the arm: 4 × M4 through the 50 × 30 plate, cross pattern, hand-tight. (3) Hinge: push the Ø5 rod (60 mm, 5 mm aluminium) through lug – cheek – cheek – lug. It must turn freely; if the 5.3 holes are tight, ream by twisting the rod with a drop of water, or run the 5 mm bit through each hole. R-clip (or a 2 mm pin) at both ends. (4) Lock pin: M3 × 20 (or the 3 mm rod) through lug + cheek at r 10 in the deployed hole (−32°); the stowed hole is +68°. Check both. (5) Bracket on the hull: 4 × ruthex M3 into the transom pad's blind holes (HS-03 at 220 °C, chamfer first, flush), then 4 × M3 × 10 through the 6.2 × 3 counterbores. The bracket plate must sit flat on the pad; if it rocks, find the high spot (brim remnant / elephant foot) and scrape. (6) Swing test by hand: deployed against the stop, kick up to +100°, back down; the duct must clear the hull bottom and the transom at every angle. Then the same on the other hull. Photos: screw depth with the caliper, hinge with the rod, deployed + stowed from the side (★), both hulls from behind.",
+      "order": 50,
+      "outcome": null,
+      "photo": "",
+      "rel": "R2a",
+      "result": "",
+      "seq": 42,
+      "start": null,
+      "title": "Fit the thruster mounts (C005): M4 depth check, Ø5 hinge rod, M3 lock pin, 4 inserts in the transom pad, swing by hand"
+    },
+    {
+      "label": "C043",
+      "id": "t-v2-perception-compute",
+      "col": "backlog",
+      "created": 1792081260000,
+      "end": null,
+      "files": [],
+      "from": "claude",
+      "hyp": "",
+      "media": "",
+      "note": "G3, decide in January 2027 — not before RD. Question: does v2 perception need CUDA (RGB + thermal fusion at ≥ 10 fps on board, stereo range to the casualty, Isaac ROS sim-to-real from the Isaac Sim stack), or is the Pi 5 we already own enough (MLX arrays + Pi camera + Hailo AI HAT+ 13/26 TOPS, ~3 W, ~€80–120)? Inputs: the C029 detection numbers (range vs temperature), the G2 water-test video, the power budget (Pi 5 5–8 W vs Orin Nano 7–25 W on a 5 V 3 A buck and 2 × 2200 mAh 3S ≈ 49 Wh). Market as of Oct 2026: Orin Nano Super dev kit $249 → $399 since July 2026 (EU with VAT ~€450–500), Jetson module supply tight; Orin Nano 2 announced 25.08.2026 (≈2× inference at −40 % power, 78 TOPS, 8 GB, 8-core CPU), module + dev kit expected H1 2027. Rule: buy the Orin only when a named card is measured too slow on the Pi 5 — and then the Orin Nano 2, not the Super. Meanwhile CUDA / Isaac ROS can be learned on the NVIDIA laptop.",
+      "order": 51,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 43,
+      "start": null,
+      "title": "v2 perception compute: Pi 5 (+ AI HAT) vs Jetson Orin Nano 2 — decide from the C029 numbers, January 2027"
+    }
+  ],
+  "analyses": [
+    {
+      "id": "l021",
+      "activity": "research",
+      "by": "claude",
+      "card": "l021",
+      "challenge": "The boat's whole premise is finding a person in water with a low-cost thermal array (MLX90640 / 90642). Testing it needs a repeatable target: a 1:9 figure that floats head-out, stays near 37 °C at the head for 20+ minutes in cold water, survives the lift, and is cheap to rebuild. Scaling is the catch — a 1:9 head has 1/81 of the area, so at 1 m the camera sees a few warm pixels, not a face.",
+      "decision": "Warm pack now (the v1 video) and a measured bench test (C029: Pesho at 37 °C from 1 m) with the angular size written down. For the real-water phase add a full-size warm target, so the detection numbers mean something at 1:1.",
+      "horizon": "2027",
+      "impact": {
+        "fin": 2,
+        "note": "Drowning is a leading cause of accidental death; a cheap detector that works at night is direct nature & people impact. Financial: a real product niche. Scientific: new numbers for low-cost arrays.",
+        "np": 3,
+        "sci": 2
+      },
+      "lesson": "A scaled demonstrator scales geometry, not physics: thermal contrast, pixel size and water cooling do not scale with the hull. Say which numbers are 1:9 and which are 1:1.",
+      "options": [
+        {
+          "pick": true,
+          "src": "ours (C021 warmer)",
+          "what": "Hot-water bottle / warm gel pack inside the head — cheap, 10–15 min of useful contrast, no electronics"
+        },
+        {
+          "pick": false,
+          "src": "standard thermal-manikin practice",
+          "what": "Resistive heater + thermistor + a small controller at 37 °C — stable for hours, needs a battery and a seal"
+        },
+        {
+          "pick": false,
+          "src": "consumer hand warmers",
+          "what": "Phase-change hand warmer (sodium acetate) — a flat plateau near 50 °C: too hot for a 'human', but a clean, repeatable source"
+        },
+        {
+          "pick": true,
+          "src": "thermal SAR literature uses real-size targets",
+          "what": "A full-scale target instead of a scaled one (a warm 20 cm sphere, or a volunteer's head in the real-water phase) — the camera then sees the real angular size; the boat stays 1:9"
+        },
+        {
+          "pick": false,
+          "src": "MLX90640 datasheet (NETD); SAR thermal-imaging studies",
+          "what": "Modelling instead of a physical target — detection range from emissivity, water temperature and the sensor's NETD"
+        }
+      ],
+      "path": {
+        "competitions": [
+          "EUCYS 2027 via the national Young Talents contest (Bulgaria, spring)",
+          "Regeneron ISEF 2027 — only if a Bulgarian affiliated fair exists (check in January)",
+          "OCEANS student poster",
+          "James Dyson Award (as a student)"
+        ],
+        "grants": [
+          "MIT UROP + IDEAS Social Innovation Challenge",
+          "Stanford UAR major grant / Haas Center",
+          "MIT Sandbox (if it turns into a product)"
+        ],
+        "uni": [
+          {
+            "school": "MIT",
+            "what": "6.8300 Advances in Computer Vision + a perception UROP; MIT D-Lab for the humanitarian framing; Sea Grant for the water tests"
+          },
+          {
+            "school": "Stanford",
+            "what": "CS 231N / EE 367 Computational Imaging; the Stanford Robotics Center; Hopkins Marine Station for cold-water tests"
+          },
+          {
+            "school": "UK",
+            "what": "Imperial robotics / Edinburgh Centre for Robotics; the RNLI as a partner for field data"
+          }
+        ]
+      },
+      "seed": true,
+      "seq": 21,
+      "status": "draft",
+      "title": "Pesho — a 1:9 warm dummy for testing thermal detection of a person in water",
+      "why": "The research thread with the most people-impact: how far can a sub-100 € thermal array detect a head in water at night, as a function of water temperature, wind and sea state? The AmphiReach paper assumed it; AR-Mini can measure it. It is also the one line that could become a product (a thermal person-in-water alarm for lifeguard boats) — judge that after the numbers. Patent: unlikely (prior art in SAR imaging). Publication and a competition entry: yes.",
+      "written": "2026-10-15"
+    },
+    {
+      "id": "t-aisler-revB",
+      "activity": "opensource",
+      "by": "claude",
+      "card": "t-aisler-revB",
+      "challenge": "A 100 × 80 carrier that must fit four off-the-shelf boards (DevKit-Lipo, a PCA9685 clone, BNO055, two JST fields) with no vendor footprint for the clone, in one order, with no time for a second spin before 29.10. Four real-part measurements changed the design on 13.10; on 15.10 real pins did not fit the 1:1 print — the PCA9685 rows were 1.6 mm short because a caliper reading had been 'corrected' wrongly (FAILS 152).",
+      "decision": "Measure, cross-check with a photo, print 1:1, push pins — only then order; standoff holes Ø3.0 so M2.5 screws tolerate ±0.2 mm. The datasheets (NXP + Adafruit) changed nothing on the copper, only solder-time values (R10 1 k, LED resistors, the V+ capacitor).",
+      "horizon": "uni1",
+      "impact": {
+        "fin": 1,
+        "note": "Fewer scrapped boards and re-orders in student labs; tiny but positive.",
+        "np": 1,
+        "sci": 0
+      },
+      "lesson": "Every number that becomes copper needs two independent routes to it. 'Looks right' is not a check; pins through paper is.",
+      "options": [
+        {
+          "pick": false,
+          "src": "Adafruit GitHub, KiCad libraries",
+          "what": "Vendor footprints and 3D models (Adafruit publishes Eagle/KiCad sources) — exact for the original, wrong for a clone with another outline"
+        },
+        {
+          "pick": true,
+          "src": "ours; now the rule in FAILS 152",
+          "what": "Caliper on the real part — tips in two holes read the centre distance directly, no correction"
+        },
+        {
+          "pick": false,
+          "src": "ours, C032_02/03",
+          "what": "Photo with a ruler + pixel measurement — found the error (holes 3.4 mm from the edges) when the caliper notes were ambiguous"
+        },
+        {
+          "pick": true,
+          "src": "standard pre-order check",
+          "what": "1:1 print and real pins through the paper — the ritual that caught it; by eye it looked fine"
+        },
+        {
+          "pick": false,
+          "src": "Aisler, 3-pcs minimum",
+          "what": "Order a cheap footprint-coupon board first — correct, but 8 days we did not have"
+        },
+        {
+          "pick": false,
+          "src": "ours, plan B",
+          "what": "Perfboard carrier as the fallback (C031) — slower to wire, zero footprint risk"
+        }
+      ],
+      "path": {
+        "competitions": [
+          "Hackaday — a small project page"
+        ],
+        "grants": [],
+        "uni": [
+          {
+            "school": "MIT",
+            "what": "2.678 Electronics for Mechanical Systems / 6.200 Circuits; any UROP that builds hardware"
+          },
+          {
+            "school": "Stanford",
+            "what": "ME 210 Mechatronics lab; the EE 101 sequence"
+          }
+        ]
+      },
+      "seed": true,
+      "seq": 32,
+      "status": "final",
+      "title": "Carrier rev B — a one-off PCB from measured modules, checked on paper before ordering",
+      "why": "Worth a small tool, not a paper: a script that turns a .kicad_pcb into a pads-only 1:1 fit-check sheet with a scale bar, plus a caliper checklist for module footprints. Useful to every student lab that orders one-off carriers. No research, patent or business potential.",
+      "written": "2026-10-15"
+    },
+    {
+      "id": "t-print-thruster-mounts",
+      "activity": "publication",
+      "by": "claude",
+      "card": "t-print-thruster-mounts",
+      "challenge": "Two 12 V thrusters hang below the hull of a boat that is meant to drive onto a shore. They must hold full forward thrust rigidly, allow reverse, and survive grounding without breaking the hull or the mount. v1 has no actuator budget for them and the parts must print in PETG. The first CAD had the hinge boss cutting 4 mm into the bracket plate (FAILS 151) — caught before printing.",
+      "decision": "Option 3 for v1: the only one that costs no mass, no electronics and no seal, and it tells the story (grounding → kick-up) on video. The price: autonomous runs are forward-only with the pins out. A spring (option 2) is the natural v2 upgrade — it keeps the passive kick-up and buys reverse without a pin.",
+      "horizon": "2027",
+      "impact": {
+        "fin": 1,
+        "note": "A rescue craft that survives beaching finishes more missions — real but indirect nature & people impact. Scientific: incremental. Financial: a parts kit at best.",
+        "np": 2,
+        "sci": 1
+      },
+      "lesson": "Mechanisms first, actuators last: a passive hinge that uses the thrust itself as the clamping force solved three requirements at once. And every hinge gets a clearance assert in CAD before it gets a print.",
+      "options": [
+        {
+          "pick": false,
+          "src": "common on small ROV/ASV frames",
+          "what": "Rigid mount with a sacrificial shear pin — simplest, but a sheared pin ends the mission and the duct still takes the hit"
+        },
+        {
+          "pick": false,
+          "src": "outboard tilt and trolling-motor breakaway mounts",
+          "what": "Spring-loaded tilt (outboard-motor style): a spring holds the leg down, grounding overcomes it, it returns by itself; reverse works up to the spring preload"
+        },
+        {
+          "pick": true,
+          "src": "ours (C041); same idea as a kick-up rudder on sailing dinghies",
+          "what": "Passive kick-up with a lock pin: forward thrust presses the arm on a stop, grounding lifts it, a pin locks it for reverse, stowed by hand — no spring, no actuator, 96 g PETG"
+        },
+        {
+          "pick": false,
+          "src": "amphibious USV / hovercraft-hybrid papers",
+          "what": "Retractable thrusters on a linear actuator or servo — fully controlled, but heavy, one more seal and one more failure point"
+        },
+        {
+          "pick": false,
+          "src": "tunnel thrusters on larger vessels",
+          "what": "Tunnel or ducted thrusters inside the hull — nothing exposed, but poor low-speed efficiency and a much more complex hull print"
+        },
+        {
+          "pick": false,
+          "src": "jet-drive RC hulls",
+          "what": "Water-jet drive — no exposed propeller at all, but cost, weight and efficiency do not fit a 1:9 demonstrator"
+        }
+      ],
+      "path": {
+        "competitions": [
+          "RoboBoat (RoboNation, spring) with a university team",
+          "OCEANS student poster (IEEE OES)",
+          "Hackaday Prize (open hardware)"
+        ],
+        "grants": [
+          "MIT UROP direct funding",
+          "Stanford UAR small / major grant",
+          "RAEng Engineering Leaders Scholarship (UK)"
+        ],
+        "uni": [
+          {
+            "school": "MIT",
+            "what": "2.017 Design of Electromechanical Robotic Systems (ocean projects) → 2.680 Unmanned Marine Vehicle Autonomy; UROP at the Sea Grant AUV Lab"
+          },
+          {
+            "school": "Stanford",
+            "what": "ME 210 Introduction to Mechatronics; a UAR grant project with the Stanford Robotics Center; summer internship at MBARI (Monterey)"
+          },
+          {
+            "school": "UK (Imperial / Edinburgh)",
+            "what": "Dyson School design project or an Edinburgh Centre for Robotics undergraduate project"
+          }
+        ]
+      },
+      "seed": true,
+      "seq": 41,
+      "status": "final",
+      "title": "Thruster kick-up mount — a passive hinge with a lock pin (C041 → C005)",
+      "why": "Small but real: a measured study — kick-up angle vs forward thrust, grounding at three speeds, spring vs pin — is the kind of data amphibious-USV papers cite and nobody publishes for sub-1 m craft. Open source comes free with it (CAD + FAILS). Patent: no — outboard tilt and breakaway mounts are prior art. Business: a niche hobby market, not worth the time.",
+      "written": "2026-10-15"
     }
   ]
 }

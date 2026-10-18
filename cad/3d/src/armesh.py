@@ -47,7 +47,8 @@ COL = dict(
     alu=(196, 200, 206), alu_dk=(150, 155, 162),
     rubber=(30, 30, 32), wheel=(85, 88, 92), chassis=(70, 74, 80), motor=(200, 170, 70),
     blue=(40, 105, 200), blue_lt=(95, 150, 225),   # PLA blue = enclosures
-    red=(205, 35, 35), red_dk=(160, 25, 25),       # Pesho
+    red=(205, 35, 35), red_dk=(160, 25, 25),       # Pesho body, red PLA
+    white=(245, 242, 236),                          # Pesho head + lid, white PETG
     servo=(30, 30, 34), servo_horn=(220, 220, 220),
     pcb_green=(30, 110, 60), pcb_blue=(30, 70, 170), lens=(15, 15, 15),
     ip65=(28, 28, 30), gland=(20, 20, 20), brass=(200, 160, 60), toggle=(200, 200, 205),
@@ -404,18 +405,46 @@ def cam_pan():
     out.append(('lens', 'lens', lens))
     return out
 
-# ---------------- Pesho ----------------
+# ---------------- Pesho v3 (cad/pesho/pesho.py, 12.10) ----------------
+# Standing frame in pesho.py: x right, y front, z up. Drawn here on his back on the cradle,
+# head toward -x, face up: (x, y, z) -> (-z, x, y), then shifted so the back of the
+# shoulder ring (the low point) is at z = 0 and the torso centre is at x = 0.
+# SOURCE: pesho.py — head Ø46 × 68 (HD, HH), ring Ø84 at z 104–128 (RING_RO, RING_Z0, RING_TOP),
+# vest 56 × 44 × 72 (2·CHEST_H[0], 2·CHEST_H[1], chest span), legs 55 wide × 50 tall (2·(LEG_X+LEG_H[0]), LEG_TOP),
+# arms 45° out and down, span 155 (ARM_A 135°, ARM_L 62, HAND_R 8.5).
+def _pesho_lay(tris, shift):
+    t = np.asarray(tris, float).reshape(-1, 3)
+    laid = np.column_stack([-t[:, 2], t[:, 0], t[:, 1]]) + np.array(shift, float)
+    return laid.reshape(-1, 3, 3)
+
 def pesho_local():
-    """lying along x, centred on (0,0,0): head toward -x"""
-    torso = apply(T(-50, 0, 0) @ Ry(90), cyl(19, 105, 32))
-    tc0 = apply(T(-50, 0, 0), sphere(19, 24, 12, sx=0.5))
-    tc1 = apply(T(55, 0, 0), sphere(19, 24, 12, sx=0.5))
-    head = apply(T(-75, 0, 2), sphere(23, 28, 16))
-    neck = apply(T(-62, 0, 0) @ Ry(90), cyl(11, 14, 20))
-    legs = np.concatenate([apply(T(55, s * 9, -2) @ Ry(90), cyl(8, 45, 20)) for s in (1, -1)])
-    arms = np.concatenate([apply(T(-42, s * 22, 0) @ Ry(90), cyl(6.5, 70, 18)) for s in (1, -1)])
-    return [('Pesho — rescue dummy (red PLA head, hand warmer inside)', 'red', np.concatenate([head])),
-            ('Pesho body (foam)', 'red_dk', np.concatenate([torso, tc0, tc1, neck, legs, arms]))]
+    """capsule head on the shoulder ring; no sphere head (that one could not take the warmer)"""
+    # vest 56 × 44 × 72, chest centre y = 2.5, z 48…120 (overlaps the 50 mm legs)
+    vest = box(-28, 2.5 - 22, 48, 28, 2.5 + 22, 120)
+    # legs 55 wide × 28 deep × 50 tall (depth = 2·LEG_H[1])
+    legs = box(-27.5, -14, 0, 27.5, 14, 50)
+    # shoulder float ring, outer Ø84, z 104…128, 5 mm section (pesho.py er)
+    ring = apply(T(0, 2, 104), tube(42, 32, 24, 40))
+    # arms out and down at 45° (ARM_A = 135°), span 155 including the hands
+    a = radians(135)
+    arms = []
+    for s in (1, -1):
+        sh = (s * 25.0, 4.0, 108.0)
+        hd = (sh[0] + s * 62.0 * sin(a), sh[1], sh[2] + 62.0 * cos(a))
+        arms.append(cyl_between(sh, hd, 7.0, 16))
+        arms.append(apply(T(*hd), sphere(8.5, 16, 10)))
+    body = np.concatenate([vest, legs, ring] + arms)
+    # head capsule Ø46 × 68, floor at HEAD_Z0 = 126.4; lid is the top disc
+    r, z0, z1 = 23.0, 126.4, 126.4 + 68.0
+    barrel = apply(T(0, 0, z0 + r), cyl(r, (z1 - z0) - 2 * r, 28))
+    cap0 = apply(T(0, 0, z0 + r), sphere(r, 24, 12))
+    cap1 = apply(T(0, 0, z1 - r), sphere(r, 24, 12))
+    lid = apply(T(0, 0, z1 - 1.0), cyl(r + 1.4, 2.0, 28))
+    head = np.concatenate([barrel, cap0, cap1, lid])
+    # ring back (y = 2 − 42) -> z = 0; torso z-centre 84 -> x = 0
+    shift = (84.0, 0.0, 40.0)
+    return [('Pesho head + lid (white PETG, capsule Ø46 × 68)', 'white', _pesho_lay(head, shift)),
+            ('Pesho body (red PLA, vest + ring + arms + legs)', 'red', _pesho_lay(body, shift))]
 
 # ---------------- MLX90640 110° on the cradle ----------------
 def cradle_cam_local(cx, rod_z):
@@ -485,7 +514,8 @@ def build(alpha=deploy_a, box_fix=True, with_dummy=True, dummy_follows=True):
     # dummy, placed on the deployed cradle
     if with_dummy:
         for n, c, t in pesho_local():
-            add(n, c, apply(T(cx0 - cradle_L / 2 + 5, 0, rz0 + 2.5 + 19), t), xf=('cradle',) if dummy_follows else ('fixed',))
+            # back of the shoulder ring is local z = 0; the rod top is rz0 + 2.5
+            add(n, c, apply(T(cx0 - cradle_L / 2 + 5, 0, rz0 + 2.5), t), xf=('cradle',) if dummy_follows else ('fixed',))
     return parts
 
 def world(parts, alpha):

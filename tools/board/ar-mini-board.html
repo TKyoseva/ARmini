@@ -1,0 +1,636 @@
+<title>AR-Mini Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Kanban, one kind of card: Backlog → Today (WIP 3, clock starts) → Done → Release.
+   Goals (G1 EA 30.10 · G2 RD 30.12 · G3 2027) sit above the board; releases are cut from Done every few days and belong to a goal.
+   Every card can carry an Analysis (challenge → options → decision → lesson → activity + impact + path); the seeds make the Roadmap.
+   Every card links its evidence: `files` = paths in the GitHub repo (drawings, PDFs, CAD, PCB, data), `media` = the iCloud folder with the photos and videos.
+   Source of this page: tools/board/ar-mini-board.html in the repo; the live copy is a Claude artifact whose database holds cards, releases, goals, analyses. */
+:root{
+  --bg:#eef2f3; --panel:#ffffff; --ink:#122129; --mute:#5b6d75; --line:#d3dde0;
+  --water:#0f5f73; --water-2:#d9ebef; --flare:#e8590c; --flare-2:#fde6d8;
+  --pass:#2f7d4f; --pass-2:#dcefe3; --fail:#b42318; --fail-2:#f8dcd9; --part:#a46a00; --part-2:#f6ead0;
+  --seed:#5b3fa6; --seed-2:#e9e3f7;
+  --f-disp:"Chakra Petch","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c161b; --panel:#13222a; --ink:#e3edf0; --mute:#8fa3ab; --line:#24363f;
+  --water:#58b4c9; --water-2:#16323b; --flare:#ff7a33; --flare-2:#3a2216;
+  --pass:#5cc58a; --pass-2:#173326; --fail:#ff7b6e; --fail-2:#3b1a17; --part:#e6b14a; --part-2:#352a12;
+  --seed:#b9a4f0; --seed-2:#2a2340; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c161b; --panel:#13222a; --ink:#e3edf0; --mute:#8fa3ab; --line:#24363f;
+  --water:#58b4c9; --water-2:#16323b; --flare:#ff7a33; --flare-2:#3a2216;
+  --pass:#5cc58a; --pass-2:#173326; --fail:#ff7b6e; --fail-2:#3b1a17; --part:#e6b14a; --part-2:#352a12;
+  --seed:#b9a4f0; --seed-2:#2a2340; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+h1,h2,h3{font-family:var(--f-disp);letter-spacing:.01em;text-wrap:balance;margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px 0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.top h1{font-size:24px;line-height:1}
+.top h1 span{color:var(--flare)}
+.sub{color:var(--mute);font-size:12px;margin-top:4px}
+.count{text-align:right;white-space:nowrap}
+.count b{font:700 28px/1 var(--f-disp);color:var(--flare)}
+.count small{display:block;color:var(--mute);font-size:11px}
+.tabs{display:flex;gap:2px;margin-top:10px}
+.tabs button{flex:1;border:0;background:none;padding:9px 2px;font:600 12px var(--f-disp);color:var(--mute);border-bottom:3px solid transparent;cursor:pointer;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--flare)}
+.tabs .n{font:500 11px var(--f-mono);margin-left:3px;color:var(--flare)}
+.board{display:grid;gap:14px;padding-top:14px}
+.tabs .wide{display:none}
+@media (min-width:860px){.board{grid-template-columns:1fr 1fr 1fr}.tabs .col{display:none}.tabs .wide{display:block}}
+.col-v{display:grid;gap:8px;align-content:start}
+.colh{display:flex;justify-content:space-between;align-items:baseline;padding:0 2px}
+.colh h2{font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.colh .wip{font:500 12px var(--f-mono);color:var(--mute)}
+.colh .wip.over{color:var(--fail)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+label{display:grid;gap:3px;font-size:11px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+input,select,textarea{font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
+textarea{min-height:56px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--flare);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.form{display:grid;gap:10px}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 12px;font:600 14px var(--f-body);cursor:pointer}
+.btn.go{background:var(--flare);border-color:var(--flare);color:#fff}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.it{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:var(--r);padding:10px 12px;display:grid;gap:5px}
+.it.card{border-left-color:var(--water)} .it.run{border-left-color:var(--flare)}
+.it.pass{border-left-color:var(--pass)} .it.fail{border-left-color:var(--fail)} .it.partial{border-left-color:var(--part)}
+.it h3{font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--mute)}
+.chip{display:inline-block;padding:1px 8px;border-radius:99px;font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.04em;background:var(--water-2);color:var(--water)}
+.chip.pass{background:var(--pass-2);color:var(--pass)} .chip.fail{background:var(--fail-2);color:var(--fail)} .chip.partial{background:var(--part-2);color:var(--part)} .chip.run{background:var(--flare-2);color:var(--flare)}
+.chip.seed{background:var(--seed-2);color:var(--seed)} .chip.dim{background:var(--bg);color:var(--mute)}
+.hyp{font-size:14px;color:var(--ink)} .hyp b,.res b,.an b.k{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-right:6px}
+.res{font-size:14px;overflow-wrap:anywhere}
+.note{font-size:13px;color:var(--mute);overflow-wrap:anywhere}
+a{color:var(--water)}
+.empty{color:var(--mute);text-align:center;padding:20px 12px;border:1px dashed var(--line);border-radius:var(--r);font-size:14px}
+.warn{background:var(--flare-2);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:12px}
+details summary{cursor:pointer;font:600 12px var(--f-disp);letter-spacing:.03em;text-transform:uppercase;color:var(--mute)}
+details.an{border-top:1px dashed var(--line);padding-top:6px;margin-top:2px}
+details.an summary{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+details.an summary .chip{text-transform:none;letter-spacing:0}
+.an .body{display:grid;gap:6px;font-size:14px;padding-top:6px}
+.an ul{margin:0;padding-left:18px} .an li{margin:2px 0}
+.an .path{font-size:13px;color:var(--mute)}
+.files{display:grid;gap:2px;font-size:12px}
+.files .file{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;overflow-wrap:anywhere}
+.files .file a{font-size:12px}
+.files .ic{width:16px;text-align:center}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px}
+.kpi b{display:block;font:600 22px/1.1 var(--f-disp)}
+.kpi span{font-size:11px;color:var(--mute)}
+canvas{width:100%;height:160px;display:block}
+.relbox{border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;display:grid;gap:6px}
+.relbox.cut{background:var(--pass-2);border-color:var(--pass)}
+.relbox.next{border-color:var(--flare)}
+.relbox .tag{font:700 16px var(--f-disp)}
+.relbox .items{font-size:13px;color:var(--mute)}
+/* goals strip */
+.goals{display:grid;gap:8px;padding-top:12px}
+@media (min-width:700px){.goals{grid-template-columns:repeat(3,1fr)}}
+.goal{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--water);border-radius:var(--r);padding:8px 12px;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:center}
+.goal.next{border-left-color:var(--flare)} .goal.past{border-left-color:var(--pass);opacity:.85}
+.goal b.days{font:700 26px/1 var(--f-disp);color:var(--flare);grid-row:span 2;min-width:44px;text-align:center}
+.goal.past b.days,.goal:not(.next) b.days{color:var(--water)}
+.goal .ttl{font:600 14px var(--f-body);line-height:1.2}
+.goal .ms{font:500 11px var(--f-mono);color:var(--mute)}
+.goal .ms i{font-style:normal;color:var(--pass)}
+/* roadmap */
+.road{display:grid;gap:12px;padding-top:14px}
+.seedbox{border:1px solid var(--line);border-left:5px solid var(--seed);border-radius:var(--r);padding:10px 12px;display:grid;gap:5px;background:var(--panel)}
+.seedbox h3{font-size:15px}
+.imp{display:inline-flex;gap:4px;align-items:center;font:500 11px var(--f-mono);color:var(--mute)}
+.imp b{display:inline-block;min-width:22px;text-align:center;padding:0 5px;border-radius:6px;background:var(--bg);color:var(--ink);font-weight:600}
+.imp b.hi{background:var(--seed-2);color:var(--seed)}
+.crit{margin:0;padding-left:18px;font-size:13px;color:var(--mute)} .crit li{margin:2px 0}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;z-index:9}
+</style>
+
+<div class="bar"><div class="wrap">
+  <div class="top">
+    <div><h1>AR-Mini <span>Board</span></h1><div class="sub" id="relnow">backlog → today → done → release</div></div>
+    <div class="count"><b class="mono" id="days">–</b><small id="days-lab">days to 1 Nov</small></div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="wide" role="tab" aria-selected="false" data-tab="today">Board</button>
+    <button class="col" role="tab" aria-selected="false" data-tab="backlog">Backlog<span class="n" id="n-backlog"></span></button>
+    <button class="col" role="tab" aria-selected="true" data-tab="today">Today<span class="n" id="n-today"></span></button>
+    <button class="col" role="tab" aria-selected="false" data-tab="done">Done<span class="n" id="n-done"></span></button>
+    <button role="tab" aria-selected="false" data-tab="dash">Releases</button>
+    <button role="tab" aria-selected="false" data-tab="road">Roadmap<span class="n" id="n-road"></span></button>
+    <button role="tab" aria-selected="false" data-tab="hist">History<span class="n" id="n-hist"></span></button>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div id="status" class="warn" hidden></div>
+
+  <!-- GOALS -->
+  <div class="goals" id="goals"></div>
+
+  <div class="board" id="board">
+    <!-- BACKLOG -->
+    <div class="col-v" id="v-backlog" hidden>
+      <div class="colh"><h2>Backlog</h2><span class="wip" id="w-backlog"></span></div>
+      <form class="form panel" id="f-new">
+        <label for="n-title">Card <span class="mono" id="n-next"></span><input id="n-title" required maxlength="110" placeholder="what we do / test"></label>
+        <label for="n-hyp">Expected number (if it is a test)<input id="n-hyp" maxlength="200" placeholder="e.g. draft 42 mm ±3"></label>
+        <label for="n-note">Note<input id="n-note" maxlength="200" placeholder="how, with what (optional)"></label>
+        <div class="row"><button class="btn go" type="submit" id="b-new">Add</button><button class="btn" type="button" id="b-new-today">Add to Today</button></div>
+      </form>
+      <div class="col-list" id="l-backlog"></div>
+    </div>
+    <!-- TODAY -->
+    <div class="col-v" id="v-today">
+      <div class="colh"><h2>Today</h2><span class="wip" id="w-today"></span></div>
+      <div class="col-list" id="l-today"></div>
+    </div>
+    <!-- DONE -->
+    <div class="col-v" id="v-done" hidden>
+      <div class="colh"><h2>Done</h2><span class="wip" id="w-done"></span></div>
+      <div class="panel" id="cutbox">
+        <div class="row" style="justify-content:space-between"><span class="note" id="relhint">Enough to show? Cut a release from everything here.</span><button class="btn go sm" id="b-cut" type="button">Release ▾</button></div>
+        <form class="form" id="f-cut" hidden style="margin-top:10px">
+          <label for="c-rel">Release<select id="c-rel"></select></label>
+          <div class="grid2" id="c-newfields">
+            <label for="c-name">Name<input id="c-name" maxlength="12" placeholder="R-1018"></label>
+            <label for="c-goal">What it shows<input id="c-goal" maxlength="80" placeholder="one sentence"></label>
+          </div>
+          <label for="c-g" id="c-g-lab">Belongs to goal<select id="c-g"></select></label>
+          <div class="row"><button class="btn go sm" type="submit">Cut</button><button class="btn sm" type="button" id="b-cutcancel">Cancel</button></div>
+        </form>
+      </div>
+      <div class="col-list" id="l-done"></div>
+    </div>
+  </div>
+
+  <!-- DASH / RELEASES -->
+  <section id="v-dash" hidden style="display:grid;gap:12px;padding-top:14px">
+    <div class="kpis">
+      <div class="kpi"><b class="mono" id="k-rel">0</b><span>releases</span></div>
+      <div class="kpi"><b class="mono" id="k-n">0</b><span>cards done</span></div>
+      <div class="kpi"><b class="mono" id="k-loop">–</b><span>median time</span></div>
+      <div class="kpi"><b class="mono" id="k-week">0</b><span>last 7 days</span></div>
+    </div>
+    <div class="panel" style="display:grid;gap:10px">
+      <div class="row" style="justify-content:space-between"><h2 style="font-size:16px">Releases &amp; milestones</h2><span class="row"><button class="btn sm" id="b-export" type="button" hidden>Export JSON</button><button class="btn sm" id="b-addrel" type="button">+ target</button></span></div>
+      <form class="form" id="f-rel" hidden>
+        <div class="grid3">
+          <label for="r-name">Name<input id="r-name" required maxlength="12" placeholder="R2b"></label>
+          <label for="r-date">Target date<input id="r-date" type="date"></label>
+          <label for="r-g">Goal<select id="r-g"></select></label>
+        </div>
+        <label for="r-goal">What a test can check<input id="r-goal" required maxlength="80" placeholder="one sentence"></label>
+        <div class="row"><button class="btn go sm" type="submit">Save</button><button class="btn sm" type="button" id="b-relcancel">Cancel</button></div>
+      </form>
+      <div id="rel-list" style="display:grid;gap:8px"></div>
+      <p class="note">A milestone is a target with a sentence a test can check. A release is cut from Done every few days — whatever is finished, named by date (R-1018) or by the milestone it completes. Both belong to a goal.</p>
+    </div>
+    <div class="panel"><h2 style="font-size:16px;margin-bottom:8px">Cards done per day</h2><canvas id="c-day" height="160" aria-label="Cards per day"></canvas></div>
+    <div class="panel"><h2 style="font-size:16px;margin-bottom:8px">Time from Today to Done, hours</h2><canvas id="c-loop" height="160" aria-label="Time per card"></canvas></div>
+  </section>
+
+  <!-- HISTORY: CH01, CH02 … the story before the board (concept, research, CAD, sim, MVP, courses), for the portfolio -->
+  <section id="v-hist" class="road" hidden>
+    <div class="panel note"><b>History.</b> The milestones before the board, in order. Each CH card has its iCloud folder <span class="mono">AR-Mini-Media/01_Loops/CH##_YYYY-MM-DD_name/</span> (files <span class="mono">CH##_NN.ext</span> + <span class="mono">captions.md</span>, ★ = portfolio pick) and, where they exist, repo files.</div>
+    <div id="hist-list" style="display:grid;gap:8px"></div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="v-road" class="road" hidden>
+    <div class="kpis">
+      <div class="kpi"><b class="mono" id="rk-an">0</b><span>analyses written</span></div>
+      <div class="kpi"><b class="mono" id="rk-seed">0</b><span>seeds</span></div>
+      <div class="kpi"><b class="mono" id="rk-cards">0</b><span>cards closed</span></div>
+      <div class="kpi"><b class="mono" id="rk-cov">–</b><span>closed cards analysed</span></div>
+    </div>
+    <div class="panel" style="display:grid;gap:10px">
+      <h2 style="font-size:16px">Goals</h2>
+      <div id="road-goals" style="display:grid;gap:8px"></div>
+    </div>
+    <div class="panel" style="display:grid;gap:10px">
+      <div class="row" style="justify-content:space-between"><h2 style="font-size:16px">Seeds — what a card could become</h2><span class="note">order: nature &amp; people → financial → scientific</span></div>
+      <div id="road-seeds" style="display:grid;gap:8px"></div>
+      <p class="note" id="road-foot"></p>
+    </div>
+    <div class="panel note">
+      <b>How an analysis is written.</b> At card close (or while it runs, as a draft): the challenge we hit → the solutions that exist, with where they come from → what we chose and why → the transferable lesson → is it a seed for a next activity (research · publication · patent · open source · business) → impact 0–3 on three axes, nature &amp; people first, then financial, then scientific → where it would be done once admitted (course or lab) and which grant or competition fits. University, grant and competition lines are suggestions as known in October 2026: verify names, eligibility and dates when applying.
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+const FALLBACK_DEADLINE = new Date("2026-11-01T23:59:00+02:00");
+const WIP = 3;
+const PREFIX = "C";   // card number prefix: C001 (also the iCloud folder and the commit tag)
+const OUT = {pass:"Pass",partial:"Partial",fail:"Fail"};
+const ACT = {research:"Research",publication:"Publication",patent:"Patent",opensource:"Open source",business:"Business idea",none:"No activity"};
+const ACT_ORDER = ["research","publication","patent","opensource","business"];
+const HOR = {now:"now",ea:"by 30.10",rd:"by 30.12","2027":"2027","uni1":"university year 1","uni2":"university year 2+"};
+const REPO = "https://github.com/TKyoseva/ARmini/blob/dev/";   // card files are repo paths; photos and videos stay in iCloud AR-Mini-Media/01_Loops/<media>
+const KIND = {pdf:"📄",png:"🖼",jpg:"🖼",svg:"🖼",md:"📝",py:"🐍",scad:"📐",stl:"🧊",kicad_pcb:"🟩",rpt:"🧾",json:"🗂",csv:"🗂",html:"🌐",ino:"🐍",cpp:"🐍",h:"🐍",yaml:"🗂",txt:"📝"};
+function fileIcon(path){const m=String(path).toLowerCase().match(/\.([a-z0-9_]+)$/);return (m&&KIND[m[1]])||"📎";}
+let db=null, user=null, me=null, cards=[], rels=[], goals=[], an={};
+const $=id=>document.getElementById(id);
+function h(tag,attrs,...kids){const e=document.createElement(tag);for(const k in attrs||{}){const v=attrs[k];if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v===true?"":v);}for(const c of kids.flat()){if(c==null||c===false)continue;e.append(c.nodeType?c:document.createTextNode(String(c)));}return e;}
+function toast(t){const e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2200);}
+function L(n){return PREFIX+String(n||0).padStart(3,"0");}
+function fmtT(ms){if(!ms)return"";const d=new Date(ms);return d.toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit"})+" "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+function dur(ms){if(ms==null)return"–";const m=Math.round(ms/60000);if(m<60)return m+" min";const hh=m/60;return(hh<10?hh.toFixed(1):Math.round(hh))+" h";}
+function safeUrl(u){try{const x=new URL(u);return(x.protocol==="https:"||x.protocol==="http:")?x.href:null;}catch(e){return null;}}
+function status(msg){const s=$("status");s.textContent=msg||"";s.hidden=!msg;}
+function todayIso(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dmy(iso){return iso?iso.slice(8,10)+"."+iso.slice(5,7):"";}
+function dmyy(iso){return iso?iso.slice(8,10)+"."+iso.slice(5,7)+"."+iso.slice(0,4):"";}
+function byCol(c){return cards.filter(x=>x.col===c).sort((a,b)=>(a.order||0)-(b.order||0)||(a.created||0)-(b.created||0));}
+function nextRel(){return rels.filter(r=>!r.cut).sort((a,b)=>(a.date||"9")<(b.date||"9")?-1:1)[0]||null;}
+function goalsSorted(){return goals.slice().sort((a,b)=>{const d=(a.order||0)-(b.order||0);if(d)return d;return (a.due||"9")<(b.due||"9")?-1:1;});}
+function daysTo(iso){return Math.ceil((new Date(iso+"T23:59:00")-Date.now())/86400000);}
+function nextGoal(){const t=todayIso();return goalsSorted().filter(g=>g.due&&g.due>=t)[0]||null;}
+function tick(){const g=nextGoal();if(g){const d=daysTo(g.due);$("days").textContent=d>0?d:"0";$("days-lab").textContent="days to "+g.name+" · "+dmy(g.due);}
+  else{const d=Math.ceil((FALLBACK_DEADLINE-Date.now())/86400000);$("days").textContent=d>0?d:"0";$("days-lab").textContent="days to 1 Nov";}}
+tick();setInterval(tick,60000);
+
+// tabs (phone: one column; wide: board + dash/road toggle)
+const wide=()=>window.matchMedia("(min-width:860px)").matches;
+function showTab(t){
+  const onBoard=!(t==="dash"||t==="road"||t==="hist");
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",(x.classList.contains("wide")?onBoard:x.dataset.tab===t)?"true":"false"));
+  $("board").hidden=!onBoard;$("goals").hidden=!onBoard;$("v-dash").hidden=t!=="dash";$("v-road").hidden=t!=="road";$("v-hist").hidden=t!=="hist";
+  ["backlog","today","done"].forEach(c=>$("v-"+c).hidden=!onBoard?true:(wide()?false:c!==t));
+  if(t==="dash")dashRender();if(t==="road")roadRender();if(t==="hist")histRender();
+  try{localStorage.setItem("arloop-tab",t);}catch(e){}
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+let t0="today";try{t0=localStorage.getItem("arloop-tab")||"today";}catch(e){}
+render();showTab(t0);window.addEventListener("resize",()=>{const cur=document.querySelector('.tabs [aria-selected="true"]');showTab(cur?cur.dataset.tab:"today");});
+
+
+// ---------- cards ----------
+function nextSeq(){return cards.filter(c=>c.kind!=="history").reduce((m,c)=>Math.max(m,c.seq||0),0)+1;}
+async function addCard(col){
+  if(!db){status("Writing is not available in this view. Sign in to Claude.");return;}
+  const title=$("n-title").value.trim();if(!title)return;
+  const data={seq:nextSeq(),title,hyp:$("n-hyp").value.trim(),note:$("n-note").value.trim(),col,order:Date.now(),created:Date.now(),from:"teddy",by:me||null,start:col==="today"?Date.now():null,end:null,outcome:null,result:"",photo:"",rel:""};
+  try{await db.collection("cards").add(data);$("n-title").value="";$("n-hyp").value="";$("n-note").value="";toast(L(data.seq)+" → "+(col==="today"?"Today":"Backlog"));}catch(e){writeErr(e);}
+}
+$("f-new").addEventListener("submit",ev=>{ev.preventDefault();addCard("backlog");});
+$("b-new-today").addEventListener("click",()=>{if($("f-new").reportValidity())addCard("today");});
+async function move(c,col,extra){if(!db)return;try{await db.doc("cards/"+c.id).update(Object.assign({col,order:Date.now()},extra||{}));}catch(e){writeErr(e);}}
+async function del(c,ev){const b=ev.currentTarget;if(b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="Sure?";setTimeout(()=>{b.dataset.arm="";b.textContent="Delete";},3000);return;}try{await db.doc("cards/"+c.id).delete();toast("Deleted");}catch(e){writeErr(e);}}
+
+function render(){
+  const cols={backlog:byCol("backlog"),today:byCol("today"),done:byCol("done")};
+  $("n-next").textContent=L(nextSeq());
+  for(const c in cols){
+    const n=cols[c].length;$("n-"+c).textContent=n||"";
+    const w=$("w-"+c);
+    if(c==="today"){w.textContent=n+" / "+WIP;w.classList.toggle("over",n>WIP);} else w.textContent=n?n+"":"";
+    const box=$("l-"+c);box.replaceChildren();
+    if(!n){box.append(h("div",{class:"empty"},c==="backlog"?"Empty. Claude or you add cards here.":c==="today"?"Pull 1–3 cards from Backlog. The clock starts when you pull.":"Nothing done yet."));}
+    else cols[c].forEach(x=>box.append(card(x,c)));
+  }
+  const nr=nextRel();$("relnow").textContent=nr?("next: "+nr.name+" · "+nr.goal+(nr.date?" · "+dmy(nr.date):"")):"backlog → today → done → release";
+  relHint(cols.done.length);goalsRender();
+  const seeds=Object.values(an).filter(a=>a.seed).length;$("n-road").textContent=seeds||"";
+}
+function relHint(nDone){
+  const cuts=rels.filter(r=>r.cut).map(r=>r.cut);const last=cuts.length?Math.max(...cuts):0;
+  const ago=last?Math.floor((Date.now()-last)/86400000):null;
+  const due=nDone>=5||(ago!=null&&ago>=4&&nDone>0);
+  $("relhint").textContent=nDone?(nDone+" done · "+(ago==null?"no release yet":"last release "+ago+" d ago")+(due?" → cut one":"")):"Enough to show? Cut a release from everything here.";
+}
+function head(c){
+  const running=c.col==="today"&&c.start&&!c.end;
+  const m=h("div",{class:"meta"});
+  m.append(h("span",{class:"mono"},L(c.seq)));
+  if(c.outcome)m.append(h("span",{class:"chip "+c.outcome},OUT[c.outcome]));
+  if(running)m.append(h("span",{class:"chip run"},"running · "+dur(Date.now()-c.start)));
+  else if(c.start&&c.end)m.append(h("span",{class:"mono"},c.end-c.start<60000?"time ?":dur(c.end-c.start)));
+  if(c.rel)m.append(h("span",{class:"chip"},c.rel));
+  if(c.from==="claude")m.append(h("span",{},"from Claude"));
+  const a=an[c.id];if(a&&a.seed)m.append(h("span",{class:"chip seed"},"seed · "+(ACT[a.activity]||a.activity)));
+  return m;
+}
+function card(c,col){
+  const cls="it "+(c.outcome||(c.col==="today"&&!c.end?"run":"card"));
+  const el=h("article",{class:cls},head(c),h("h3",{},c.title||""));
+  if(c.hyp)el.append(h("div",{class:"hyp"},h("b",{},"expected"),c.hyp));
+  if(c.note)el.append(h("div",{class:"note"},c.note));
+  if(c.result)el.append(h("div",{class:"res"},h("b",{},"result"),c.result));
+  const u=c.photo&&safeUrl(c.photo);
+  if(c.fix||u)el.append(h("div",{class:"res"},c.fix?"→ "+c.fix+" ":"",u?h("a",{href:u,target:"_blank",rel:"noopener"},"photo / video ↗"):null));
+  el.append(filesBlock(c));
+  const acts=h("div",{class:"row"});
+  if(col==="backlog"){acts.append(h("button",{class:"btn go sm",onclick:()=>move(c,"today",{start:Date.now()})},"→ Today"),h("button",{class:"btn sm",onclick:ev=>del(c,ev)},"Delete"));el.append(acts,anBlock(c));return el;}
+  if(col==="today"){acts.append(h("button",{class:"btn sm",onclick:()=>move(c,"backlog",{start:null})},"← Backlog"));el.append(acts,closeForm(c,false),anBlock(c));return el;}
+  if(col==="done"){acts.append(h("button",{class:"btn sm",onclick:()=>move(c,"today",{outcome:null,end:null,start:Date.now()})},"← Today"));el.append(acts,closeForm(c,true),anBlock(c));return el;}
+  el.append(acts,anBlock(c));return el;
+}
+function filesBlock(c){
+  const fl=Array.isArray(c.files)?c.files:[];const media=c.media||"";
+  if(!fl.length&&!media)return h("span",{hidden:true});
+  const d=h("div",{class:"files"});
+  if(media)d.append(h("div",{class:"note"},"📁 iCloud · AR-Mini-Media/01_Loops/"+media+(u2(c)?" · ":""),u2(c)?h("a",{href:u2(c),target:"_blank",rel:"noopener"},"open ↗"):null));
+  fl.forEach(f=>{const path=typeof f==="string"?f:(f.path||"");const note=typeof f==="string"?"":(f.note||"");if(!path)return;
+    const ext=safeUrl(path);const href=ext||(REPO+path.replace(/^\/+/,""));
+    d.append(h("div",{class:"file"},h("span",{class:"ic"},fileIcon(path)),h("a",{href,target:"_blank",rel:"noopener",class:"mono"},path),note?h("span",{class:"note"}," — "+note):null));});
+  return d;
+  function u2(x){return x.photo&&safeUrl(x.photo);}
+}
+function filesText(c){return (Array.isArray(c.files)?c.files:[]).map(f=>typeof f==="string"?f:(f.path+(f.note?" — "+f.note:""))).join("\n");}
+function parseFiles(t){return lines(t).map(l=>{const m=l.split(" — ");return{path:m[0].trim(),note:m.slice(1).join(" — ").trim()};}).filter(f=>f.path);}
+function closeForm(c,edit){
+  const id="c-"+c.id;
+  const f=h("form",{class:"form",id:id},
+    edit?h("label",{for:id+"-hyp"},"Expected",h("input",{id:id+"-hyp",maxlength:"200",value:c.hyp||""})):null,
+    h("label",{for:id+"-res"},"Result"+(c.hyp?", with the number":""),h("input",{id:id+"-res",maxlength:"300",required:true,value:c.result||""})),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-out"},"Outcome",h("select",{id:id+"-out"},...["pass","fail"].map(v=>h("option",{value:v,selected:c.outcome===v},OUT[v])),c.outcome==="partial"?h("option",{value:"partial",selected:true},"Partial"):null)),
+      h("label",{for:id+"-ph"},"Photo / video link",h("input",{id:id+"-ph",type:"url",value:c.photo||"",placeholder:"https://…"}))),
+    h("label",{for:id+"-md"},"iCloud media folder (01_Loops/…)",h("input",{id:id+"-md",maxlength:"80",value:c.media||"",placeholder:"C041_2026-10-15_thruster-mounts"})),
+    h("label",{for:id+"-fl"},"Files in the repo (one per line: path — what it is)",h("textarea",{id:id+"-fl",maxlength:"3000"},filesText(c))),
+    h("div",{class:"row"},h("button",{class:"btn go sm",type:"submit"},edit?"Save":"Done"),h("button",{class:"btn sm",type:"button",onclick:ev=>del(c,ev)},"Delete")));
+  f.addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+    const patch={result:$(id+"-res").value.trim(),photo:$(id+"-ph").value.trim(),outcome:$(id+"-out").value,media:$(id+"-md").value.trim(),files:parseFiles($(id+"-fl").value)};
+    if(edit)patch.hyp=$(id+"-hyp").value.trim();
+    else{patch.col="done";patch.order=Date.now();patch.end=Date.now();if(!c.start)patch.start=Date.now();}
+    try{await db.doc("cards/"+c.id).update(patch);toast(edit?"Saved":L(c.seq)+" → Done");}catch(e){writeErr(e);}});
+  return h("details",{},h("summary",{},edit?"Edit":"Done ▾"),f);
+}
+
+// ---------- analysis per card ----------
+function impChips(a){const i=a.impact||{};const b=(k,lab)=>h("span",{class:"imp"},lab,h("b",{class:(i[k]||0)>=2?"hi":""},String(i[k]==null?"–":i[k])));
+  return h("span",{class:"row",style:"gap:6px"},b("np","N&P"),b("fin","fin"),b("sci","sci"));}
+function lines(s){return String(s||"").split("\n").map(x=>x.trim()).filter(Boolean);}
+function anBlock(c){
+  const a=an[c.id];
+  const d=h("details",{class:"an"});
+  const sum=h("summary",{},"Analysis");
+  if(a){sum.append(h("span",{class:"chip "+(a.seed?"seed":"dim")},(ACT[a.activity]||a.activity||"–")+(a.status==="draft"?" · draft":"")),impChips(a));}
+  else sum.append(h("span",{class:"chip dim"},"none yet"));
+  d.append(sum);
+  if(a){
+    const b=h("div",{class:"body"});
+    const add=(...xs)=>xs.forEach(x=>{if(x)b.append(x);});
+    const kv=(k,v)=>v?h("div",{},h("b",{class:"k"},k),v):null;
+    add(kv("challenge",a.challenge));
+    if(a.options&&a.options.length)add(h("div",{},h("b",{class:"k"},"solutions that exist"),h("ul",{},...a.options.map(o=>h("li",{},typeof o==="string"?o:(o.what+(o.src?" — "+o.src:""))+(o.pick?" ✓":""))))));
+    add(kv("we chose",a.decision),kv("lesson",a.lesson),kv("as an activity",(a.activity?ACT[a.activity]+". ":"")+(a.why||"")));
+    if(a.impact&&a.impact.note)add(kv("impact",a.impact.note));
+    const p=a.path||{};const pl=[];
+    (p.uni||[]).forEach(u=>pl.push(h("div",{},"🎓 "+(typeof u==="string"?u:(u.school+": "+u.what)))));
+    if(p.grants&&p.grants.length)pl.push(h("div",{},"💶 "+p.grants.join(" · ")));
+    if(p.competitions&&p.competitions.length)pl.push(h("div",{},"🏁 "+p.competitions.join(" · ")));
+    if(pl.length)add(h("div",{class:"path"},h("b",{class:"k"},"path"),...pl));
+    add(h("div",{class:"note"},(a.horizon?HOR[a.horizon]||a.horizon:"")+(a.written?" · written "+dmyy(a.written):"")+(a.by?" · "+a.by:"")));
+    d.append(b);
+  }
+  d.append(anForm(c,a));
+  return d;
+}
+function anForm(c,a){
+  a=a||{};const id="a-"+c.id;const i=a.impact||{};const p=a.path||{};
+  const sel=(idd,opts,val)=>h("select",{id:idd},...opts.map(([v,t])=>h("option",{value:v,selected:String(val)===String(v)},t)));
+  const nums=[["0","0 none"],["1","1 small"],["2","2 real"],["3","3 big"]];
+  const f=h("form",{class:"form",style:"padding-top:8px"},
+    h("label",{for:id+"-ch"},"Challenge we hit",h("textarea",{id:id+"-ch",maxlength:"900"},a.challenge||"")),
+    h("label",{for:id+"-op"},"Solutions that exist (one per line: what — where it comes from; end with ✓ for the one we chose)",h("textarea",{id:id+"-op",maxlength:"2000"},(a.options||[]).map(o=>typeof o==="string"?o:o.what+(o.src?" — "+o.src:"")+(o.pick?" ✓":"")).join("\n"))),
+    h("label",{for:id+"-de"},"What we chose and why",h("textarea",{id:id+"-de",maxlength:"900"},a.decision||"")),
+    h("label",{for:id+"-le"},"Lesson that transfers",h("textarea",{id:id+"-le",maxlength:"500"},a.lesson||"")),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-ac"},"Next activity",sel(id+"-ac",Object.entries(ACT),a.activity||"none")),
+      h("label",{for:id+"-ho"},"When",sel(id+"-ho",Object.entries(HOR),a.horizon||"2027"))),
+    h("label",{for:id+"-wh"},"Why that activity (or why none)",h("textarea",{id:id+"-wh",maxlength:"700"},a.why||"")),
+    h("div",{class:"grid3"},
+      h("label",{for:id+"-np"},"Nature & people",sel(id+"-np",nums,i.np==null?0:i.np)),
+      h("label",{for:id+"-fi"},"Financial",sel(id+"-fi",nums,i.fin==null?0:i.fin)),
+      h("label",{for:id+"-sc"},"Scientific",sel(id+"-sc",nums,i.sci==null?0:i.sci))),
+    h("label",{for:id+"-in"},"Impact note",h("input",{id:id+"-in",maxlength:"300",value:i.note||""})),
+    h("label",{for:id+"-un"},"University: course or lab (one per line: School: what)",h("textarea",{id:id+"-un",maxlength:"900"},(p.uni||[]).map(u=>typeof u==="string"?u:u.school+": "+u.what).join("\n"))),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-gr"},"Grants (comma)",h("input",{id:id+"-gr",maxlength:"300",value:(p.grants||[]).join(", ")})),
+      h("label",{for:id+"-co"},"Competitions (comma)",h("input",{id:id+"-co",maxlength:"300",value:(p.competitions||[]).join(", ")}))),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-se"},"Seed for the roadmap",sel(id+"-se",[["1","yes"],["0","no"]],a.seed?"1":"0")),
+      h("label",{for:id+"-st"},"Status",sel(id+"-st",[["draft","draft"],["final","final"]],a.status||"draft"))),
+    h("div",{class:"row"},h("button",{class:"btn go sm",type:"submit"},a.written?"Save analysis":"Write analysis")));
+  f.addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+    const v=x=>$(id+"-"+x).value.trim();
+    const options=lines(v("op")).map(l=>{const pick=/✓\s*$/.test(l);l=l.replace(/✓\s*$/,"").trim();const m=l.split(" — ");return{what:m[0].trim(),src:m.slice(1).join(" — ").trim(),pick};});
+    const uni=lines(v("un")).map(l=>{const m=l.split(":");return{school:m[0].trim(),what:m.slice(1).join(":").trim()};});
+    const data={card:c.id,seq:c.seq||0,title:c.title||"",challenge:v("ch"),options,decision:v("de"),lesson:v("le"),activity:v("ac"),horizon:v("ho"),why:v("wh"),
+      impact:{np:+v("np"),fin:+v("fi"),sci:+v("sc"),note:v("in")},
+      path:{uni,grants:v("gr").split(",").map(s=>s.trim()).filter(Boolean),competitions:v("co").split(",").map(s=>s.trim()).filter(Boolean)},
+      seed:v("se")==="1",status:v("st"),written:todayIso(),by:a.by||"teddy"};
+    try{if(an[c.id])await db.doc("analyses/"+c.id).update(data);else await db.doc("analyses/"+c.id).set(data);toast("Analysis saved");}catch(e){writeErr(e);}});
+  return h("details",{},h("summary",{},a.written?"Edit analysis":"Write analysis ▾"),f);
+}
+
+// ---------- goals ----------
+function goalsRender(){
+  const G=$("goals");G.replaceChildren();const gs=goalsSorted();if(!gs.length){G.hidden=true;return;}
+  const ng=nextGoal();const t=todayIso();
+  gs.forEach(g=>{
+    const ms=rels.filter(r=>r.g===g.id);const cut=ms.filter(r=>r.cut).length;
+    const shipped=cards.filter(c=>c.col==="released"&&ms.some(m=>m.name===c.rel)).length;
+    const d=g.due?daysTo(g.due):null;const past=g.due&&g.due<t;
+    const msEl=h("div",{class:"ms"});
+    if(g.due)msEl.append(dmyy(g.due)+" · ");
+    if(ms.length)msEl.append(h("i",{},cut+"/"+ms.length)," milestones · ");
+    msEl.append(shipped?shipped+" cards shipped":"no cards shipped yet");
+    G.append(h("div",{class:"goal"+(ng&&ng.id===g.id?" next":"")+(past?" past":"")},
+      h("b",{class:"days mono"},past?"✓":(d==null?"–":String(Math.max(d,0)))),
+      h("div",{class:"ttl"},g.name+" · "+g.title),
+      msEl));
+  });
+}
+
+// ---------- cut a release ----------
+$("b-cut").addEventListener("click",()=>{const f=$("f-cut");f.hidden=!f.hidden;fillCutSel();});
+$("b-cutcancel").addEventListener("click",()=>{$("f-cut").hidden=true;});
+function goalOpts(sel,val){sel.replaceChildren();goalsSorted().forEach(g=>sel.append(h("option",{value:g.id,selected:g.id===val},g.name+" · "+g.title)));sel.append(h("option",{value:"",selected:!val},"no goal"));}
+function fillCutSel(){const s=$("c-rel");s.replaceChildren();rels.filter(r=>!r.cut).forEach(r=>s.append(h("option",{value:r.id},r.name+" · "+r.goal)));s.append(h("option",{value:"__new",selected:true},"new release (by date)…"));
+  const ng=nextGoal();goalOpts($("c-g"),ng?ng.id:"");if(!$("c-name").value)$("c-name").value="R-"+todayIso().slice(5,7)+todayIso().slice(8,10);
+  s.onchange=()=>{const nw=s.value==="__new";$("c-newfields").hidden=!nw;$("c-g-lab").hidden=!nw;};s.onchange();}
+$("f-cut").addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+  const done=byCol("done");if(!done.length){status("Nothing in Done.");return;}
+  let rel;const sel=$("c-rel").value;
+  try{
+    if(sel==="__new"){const name=$("c-name").value.trim(),goal=$("c-goal").value.trim();if(!name||!goal){status("Name and one sentence for the new release.");return;}
+      const ref=await db.collection("releases").add({name,goal,g:$("c-g").value||null,kind:"release",date:todayIso(),cut:Date.now(),created:Date.now()});rel={id:ref.id,name};}
+    else{rel=rels.find(r=>r.id===sel);await db.doc("releases/"+rel.id).update({cut:Date.now()});}
+    for(const c of done)await db.doc("cards/"+c.id).update({col:"released",rel:rel.name});
+    $("f-cut").hidden=true;$("c-name").value="";$("c-goal").value="";toast("Release "+rel.name+": "+done.length+" cards");
+  }catch(e){writeErr(e);}
+});
+
+// ---------- releases (targets + cut) ----------
+$("b-addrel").addEventListener("click",()=>{$("f-rel").hidden=false;delete $("f-rel").dataset.id;$("r-name").value="";$("r-goal").value="";$("r-date").value="";const ng=nextGoal();goalOpts($("r-g"),ng?ng.id:"");$("r-name").focus();});
+$("b-relcancel").addEventListener("click",()=>{$("f-rel").hidden=true;});
+$("f-rel").addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+  const data={name:$("r-name").value.trim(),date:$("r-date").value||null,goal:$("r-goal").value.trim(),g:$("r-g").value||null};const id=$("f-rel").dataset.id;
+  try{if(id)await db.doc("releases/"+id).update(data);else await db.collection("releases").add(Object.assign({created:Date.now(),cut:null,kind:"milestone"},data));$("f-rel").hidden=true;toast("Saved");}catch(e){writeErr(e);}});
+function relRender(){
+  const R=$("rel-list");R.replaceChildren();
+  const list=rels.slice().sort((a,b)=>{if(!!a.cut!==!!b.cut)return a.cut?-1:1;if(a.cut)return b.cut-a.cut;return (a.date||"9")<(b.date||"9")?-1:1;});
+  const nr=nextRel();const gname=id=>{const g=goals.find(x=>x.id===id);return g?g.name:null;};
+  if(!list.length)R.append(h("div",{class:"empty"},"Add a target: name, date (optional), one sentence."));
+  list.forEach(r=>{const its=cards.filter(c=>c.rel===r.name&&c.col==="released");
+    const box=h("div",{class:"relbox"+(r.cut?" cut":(nr&&nr.id===r.id?" next":""))},
+      h("div",{class:"row",style:"justify-content:space-between"},h("span",{class:"row"},h("span",{class:"tag"},r.name),gname(r.g)?h("span",{class:"chip dim"},gname(r.g)):null,r.kind==="release"?h("span",{class:"chip dim"},"release"):null),h("span",{class:"mono",style:"font-size:12px;color:var(--mute)"},r.cut?"cut "+fmtT(r.cut):(r.date?"target "+dmy(r.date):"no date"))),
+      h("div",{},r.goal),
+      its.length?h("div",{class:"items"},its.map(c=>L(c.seq)+" "+c.title+(c.outcome?" · "+OUT[c.outcome]:"")).join(" · ")):null,
+      h("div",{class:"row"},!r.cut?h("button",{class:"btn sm",onclick:()=>{$("r-name").value=r.name;$("r-date").value=r.date||"";$("r-goal").value=r.goal;goalOpts($("r-g"),r.g||"");$("f-rel").hidden=false;$("f-rel").dataset.id=r.id;}},"Edit"):null,
+        h("button",{class:"btn sm",onclick:async ev=>{const b=ev.currentTarget;if(b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="Sure?";setTimeout(()=>{b.dataset.arm="";b.textContent="Delete";},3000);return;}try{await db.doc("releases/"+r.id).delete();toast("Deleted");}catch(e){writeErr(e);}}},"Delete")));
+    R.append(box);});
+}
+
+function writeErr(e){const c=e&&e.code;
+  if(c==="permission_denied"||c==="not_granted")status("No write access in this view.");
+  else if(c==="quota_exceeded")status("The database is full.");
+  else status("Write failed ("+(c||"error")+"). Try again.");}
+
+// ---------- roadmap ----------
+// ---------- history (CH cards: kind "history", col "history", numbered by hseq) ----------
+function LH(c){return "CH"+String(c.hseq||0).padStart(2,"0");}
+function histRender(){
+  const list=cards.filter(c=>c.kind==="history").sort((a,b)=>(a.hseq||0)-(b.hseq||0));
+  $("n-hist").textContent=list.length||"";
+  if($("v-hist").hidden)return;
+  const H=$("hist-list");H.replaceChildren();
+  if(!list.length){H.append(h("div",{class:"empty"},"No history cards yet."));return;}
+  list.forEach(c=>{
+    const el=h("article",{class:"it card"},
+      h("div",{class:"meta"},h("span",{class:"mono"},LH(c)),c.when?h("span",{class:"chip dim"},c.when):h("span",{class:"chip partial"},"date ?"),c.type?h("span",{},c.type):null),
+      h("h3",{},c.title||""));
+    if(c.note)el.append(h("div",{class:"note"},c.note));
+    el.append(filesBlock(c),histForm(c));
+    H.append(el);});
+}
+function histForm(c){
+  const id="h-"+c.id;
+  const f=h("form",{class:"form"},
+    h("label",{for:id+"-t"},"Title",h("input",{id:id+"-t",maxlength:"110",required:true,value:c.title||""})),
+    h("div",{class:"grid2"},
+      h("label",{for:id+"-w"},"When (as shown)",h("input",{id:id+"-w",maxlength:"40",value:c.when||"",placeholder:"September 2025"})),
+      h("label",{for:id+"-d"},"Date (sorts, names the folder)",h("input",{id:id+"-d",type:"date",value:c.date||""}))),
+    h("label",{for:id+"-n"},"Note",h("textarea",{id:id+"-n",maxlength:"600"},c.note||"")),
+    h("label",{for:id+"-md"},"iCloud media folder (01_Loops/…)",h("input",{id:id+"-md",maxlength:"80",value:c.media||""})),
+    h("label",{for:id+"-fl"},"Files in the repo (one per line: path — what it is)",h("textarea",{id:id+"-fl",maxlength:"3000"},filesText(c))),
+    h("div",{class:"row"},h("button",{class:"btn go sm",type:"submit"},"Save")));
+  f.addEventListener("submit",async ev=>{ev.preventDefault();if(!db)return;
+    const patch={title:$(id+"-t").value.trim(),when:$(id+"-w").value.trim(),date:$(id+"-d").value||null,note:$(id+"-n").value.trim(),media:$(id+"-md").value.trim(),files:parseFiles($(id+"-fl").value)};
+    try{await db.doc("cards/"+c.id).update(patch);toast(LH(c)+" saved");}catch(e){writeErr(e);}});
+  return h("details",{},h("summary",{},"Edit"),f);
+}
+
+function roadRender(){
+  if($("v-road").hidden)return;
+  const list=Object.values(an);const closed=cards.filter(c=>c.col==="done"||c.col==="released");
+  const seeds=list.filter(a=>a.seed);
+  $("rk-an").textContent=list.length;$("rk-seed").textContent=seeds.length;$("rk-cards").textContent=closed.length;
+  const cov=closed.filter(c=>an[c.id]).length;$("rk-cov").textContent=closed.length?Math.round(100*cov/closed.length)+" %":"–";
+  const G=$("road-goals");G.replaceChildren();
+  goalsSorted().forEach(g=>{const ms=rels.filter(r=>r.g===g.id).sort((a,b)=>(a.date||"9")<(b.date||"9")?-1:1);
+    G.append(h("div",{class:"relbox"+(g.due&&g.due<todayIso()?" cut":"")},
+      h("div",{class:"row",style:"justify-content:space-between"},h("span",{class:"tag"},g.name+" · "+g.title),h("span",{class:"mono",style:"font-size:12px;color:var(--mute)"},g.due?dmyy(g.due):"")),
+      g.desc?h("div",{},g.desc):null,
+      g.criteria&&g.criteria.length?h("ul",{class:"crit"},...g.criteria.map(x=>h("li",{},"☐ "+x))):null,
+      ms.length?h("div",{class:"items"},ms.map(m=>(m.cut?"✓ ":"○ ")+m.name+" "+(m.date?dmy(m.date):"")+" · "+m.goal).join("  ·  ")):null));});
+  const S=$("road-seeds");S.replaceChildren();
+  const key=a=>{const i=a.impact||{};return[(i.np||0),(i.fin||0),(i.sci||0)];};
+  const cmp=(a,b)=>{const x=key(a),y=key(b);for(let k=0;k<3;k++){if(x[k]!==y[k])return y[k]-x[k];}return (a.seq||0)-(b.seq||0);};
+  if(!seeds.length)S.append(h("div",{class:"empty"},"No seeds yet. Mark one in a card's analysis."));
+  ACT_ORDER.forEach(act=>{const grp=seeds.filter(a=>a.activity===act).sort(cmp);if(!grp.length)return;
+    S.append(h("h3",{style:"font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);padding-top:4px"},ACT[act]+" · "+grp.length));
+    grp.forEach(a=>{const p=a.path||{};const c=cards.find(x=>x.id===a.card);
+      S.append(h("div",{class:"seedbox"},
+        h("div",{class:"meta"},h("span",{class:"mono"},L(a.seq)),h("span",{class:"chip seed"},HOR[a.horizon]||a.horizon||""),a.status==="draft"?h("span",{class:"chip dim"},"draft"):null,impChips(a)),
+        h("h3",{},a.title||(c&&c.title)||a.card),
+        a.why?h("div",{style:"font-size:14px"},a.why):null,
+        (a.impact&&a.impact.note)?h("div",{class:"note"},a.impact.note):null,
+        c?filesBlock(c):null,
+        h("div",{class:"path"},...(p.uni||[]).map(u=>h("div",{},"🎓 "+(typeof u==="string"?u:u.school+": "+u.what))),
+          p.grants&&p.grants.length?h("div",{},"💶 "+p.grants.join(" · ")):null,
+          p.competitions&&p.competitions.length?h("div",{},"🏁 "+p.competitions.join(" · ")):null)));});});
+  const none=list.filter(a=>!a.seed).length;$("road-foot").textContent=none?none+" analysed card"+(none>1?"s":"")+" with no activity potential — that is a fine answer too.":"";
+}
+
+// ---------- dashboard ----------
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function dayKey(ms){const d=new Date(ms);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dashRender(){
+  if($("v-dash").hidden)return;
+  const closed=cards.filter(c=>c.end&&(c.col==="done"||c.col==="released"));
+  const loops=closed.map(c=>c.end-c.start).filter(v=>v>=60000).sort((a,b)=>a-b);
+  $("k-rel").textContent=rels.filter(r=>r.cut).length;$("k-n").textContent=closed.length;
+  $("k-loop").textContent=loops.length?dur(loops[Math.floor(loops.length/2)]):"–";
+  $("k-week").textContent=closed.filter(c=>Date.now()-c.end<7*86400000).length;
+  const start=new Date("2026-10-08T00:00:00");const days=[];for(let d=new Date(start);d<=new Date();d.setDate(d.getDate()+1))days.push(dayKey(d));
+  const per={};closed.forEach(c=>{const k=dayKey(c.end);per[k]=per[k]||{pass:0,bad:0};per[k][c.outcome==="pass"?"pass":"bad"]++;});
+  bars($("c-day"),days.map(k=>({lab:k.slice(8,10)+"."+k.slice(5,7),a:(per[k]||{}).pass||0,b:(per[k]||{}).bad||0})));
+  line($("c-loop"),closed.filter(c=>c.end-c.start>=60000).sort((a,b)=>a.end-b.end).map(c=>({lab:L(c.seq),v:(c.end-c.start)/3600000,o:c.outcome})));
+  relRender();
+}
+function prep(c){const r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=Math.max(1,r.width*dpr);c.height=160*dpr;const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,r.width,160);x.font="11px "+css("--f-mono");return[x,r.width,160];}
+function niceStep(max){const raw=max/4,p=Math.pow(10,Math.floor(Math.log10(raw)));const n=raw/p;return(n<=1?1:n<=2?2:n<=5?5:10)*p;}
+function axes(x,W,H,max,unit){const Lx=34,B=22,T=10;x.strokeStyle=css("--line");x.fillStyle=css("--mute");x.lineWidth=1;x.textAlign="right";x.textBaseline="middle";
+  const step=niceStep(max);for(let v=0;v<=max+1e-9;v+=step){const y=T+(H-T-B)*(1-v/max);x.beginPath();x.moveTo(Lx,y);x.lineTo(W-4,y);x.stroke();x.fillText((Math.round(v*10)/10)+(unit||""),Lx-6,y);}return{L:Lx,B,T};}
+function bars(c,data){const[x,W,H]=prep(c);let max=Math.max(1,...data.map(d=>d.a+d.b));const s=niceStep(max);max=Math.ceil(max/s)*s;const{L:Lx,B,T}=axes(x,W,H,max);
+  const n=Math.max(data.length,1),bw=(W-Lx-8)/n;x.textAlign="center";x.textBaseline="top";
+  data.forEach((d,i)=>{const cx=Lx+bw*i+bw/2,w=Math.max(3,bw*.6),sc=(H-T-B)/max;let y=H-B;
+    if(d.a){x.fillStyle=css("--pass");x.fillRect(cx-w/2,y-d.a*sc,w,d.a*sc);y-=d.a*sc;}
+    if(d.b){x.fillStyle=css("--flare");x.fillRect(cx-w/2,y-d.b*sc,w,d.b*sc);}
+    if(n<=12||i%Math.ceil(n/8)===0||i===n-1){x.fillStyle=css("--mute");x.fillText(d.lab,cx,H-B+5);}});
+  x.textAlign="left";x.textBaseline="top";x.fillStyle=css("--pass");x.fillRect(W-120,2,8,8);x.fillStyle=css("--mute");x.fillText("pass",W-108,1);
+  x.fillStyle=css("--flare");x.fillRect(W-60,2,8,8);x.fillStyle=css("--mute");x.fillText("fail",W-48,1);}
+function line(c,data){const[x,W,H]=prep(c);if(!data.length){x.fillStyle=css("--mute");x.textAlign="center";x.fillText("Finish the first card to see the chart.",W/2,H/2);return;}
+  let max=Math.max(.5,...data.map(d=>d.v));const s=niceStep(max);max=Math.ceil(max/s)*s;const{L:Lx,B,T}=axes(x,W,H,max,"h");
+  const n=data.length,px=i=>n===1?(Lx+W)/2:Lx+8+(W-Lx-20)*i/(n-1),py=v=>T+(H-T-B)*(1-v/max);
+  x.beginPath();data.forEach((d,i)=>i?x.lineTo(px(i),py(d.v)):x.moveTo(px(i),py(d.v)));x.strokeStyle=css("--water");x.lineWidth=2;x.stroke();
+  x.lineTo(px(n-1),H-B);x.lineTo(px(0),H-B);x.closePath();x.globalAlpha=.12;x.fillStyle=css("--water");x.fill();x.globalAlpha=1;
+  x.textAlign="center";x.textBaseline="top";
+  data.forEach((d,i)=>{x.beginPath();x.arc(px(i),py(d.v),i===n-1?4.5:3,0,7);x.fillStyle=d.o==="pass"?css("--pass"):css("--flare");x.fill();
+    if(n<=12||i%Math.ceil(n/8)===0||i===n-1){x.fillStyle=css("--mute");x.fillText(d.lab,px(i),H-B+5);}});}
+let rt;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(dashRender,150);});
+setInterval(()=>{if(cards.some(c=>c.col==="today"&&c.start&&!c.end))render();},60000);
+
+// ---------- boot ----------
+(async()=>{
+  if(!window.claude||!window.claude.use){status("Open the page in Claude to write.");return;}
+  [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+  if(user){try{me=await user.id();}catch(e){}}
+  window.claude.use("downloads").then(dl=>{if(!dl)return;const b=$("b-export");b.hidden=false;
+    b.onclick=async()=>{const out={exported:new Date().toISOString(),prefix:PREFIX,
+        goals:goals.map(g=>Object.assign({},g)),releases:rels.map(r=>Object.assign({},r)),cards:cards.map(c=>Object.assign({label:c.kind==="history"?LH(c):L(c.seq)},c)),analyses:Object.values(an)};
+      try{await dl.save({filename:"board.json",data:JSON.stringify(out,null,2)});status("board.json saved.");}
+      catch(e){if(e&&e.code!=="declined")status("Export failed ("+(e.code||"error")+").");}};});
+  if(!db){status("Writing is not available in this view. Sign in to Claude.");$("b-new").disabled=true;return;}
+  const err=e=>status("Database connection lost ("+e.code+"). Reload the page.");
+  db.collection("goals").onSnapshot(s=>{goals=s.docs.map(d=>Object.assign({id:d.id},d.data()));tick();render();dashRender();roadRender();},err);
+  db.collection("releases").onSnapshot(s=>{rels=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();roadRender();},err);
+  db.collection("analyses").onSnapshot(s=>{an={};s.docs.forEach(d=>{an[d.id]=Object.assign({id:d.id},d.data());});render();roadRender();},err);
+  db.collection("cards").onSnapshot(s=>{cards=s.docs.map(d=>Object.assign({id:d.id},d.data()));render();dashRender();roadRender();histRender();},err);
+})();
+})();
+</script>

@@ -1,0 +1,11 @@
+no nuts            total  172.5 g (prints 127.5 g)  CG z 109.9 y   1.1
+    stable at  -99.7 deg (0 upright, 90 on the back)  head surface out  36 %  face -33.1 mm  head lowest  -39.5 mm  stiffness 54
+    stable at   99.9 deg (0 upright, 90 on the back)  head surface out  21 %  face  +4.4 mm  head lowest  -47.4 mm  stiffness 55
+cradle 1+1         total  204.5 g (prints 127.5 g)  CG z  94.1 y   0.9
+    stable at  -87.6 deg (0 upright, 90 on the back)  head surface out  51 %  face -21.7 mm  head lowest  -24.7 mm  stiffness 267
+    stable at   85.3 deg (0 upright, 90 on the back)  head surface out  45 %  face +19.4 mm  head lowest  -30.9 mm  stiffness 75
+2+2                total  236.5 g (prints 127.5 g)  CG z  84.1 y   0.8
+    stable at  -82.3 deg (0 upright, 90 on the back)  head surface out  57 %  face -17.6 mm  head lowest  -24.1 mm  stiffness 218
+    stable at   78.4 deg (0 upright, 90 on the back)  head surface out  50 %  face +23.7 mm  head lowest  -30.4 mm  stiffness 209
+thermal 3+3        total  268.5 g (prints 127.5 g)  CG z  77.7 y   0.7
+    stable at    8.5 deg (0 upright, 90 on the back)  head surface out 100 %  face +44.8 mm  head lowest   +0.2 mm  stiffness 9
