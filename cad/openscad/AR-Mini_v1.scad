@@ -22,7 +22,7 @@
 //   pivot_bracket x2 (one mirrored)  as modelled (pocket faces up, no supports)
 //   arm_drive x2, arm_idler x2    flat
 //   coupler x2                    plate flat
-//   cam_pan_mount x1              as modelled (slide onto the arch tube first)
+//   cam_pan_mount x1              upside down (servo face on the bed), no supports (slide onto the arch tube first)
 //   cam_plate x1                  flat, tab prints at 75 deg without supports
 //   Pesho (dummy)                 → cad/pesho/pesho.py (body red PLA, head + lid white PETG)
 //   power_box x1, power_lid x1    PETG, 4 perimeters; sits ON the two cross-beams (v1.9), holds fuse block + 2x BTS7960 + bus bars
@@ -157,6 +157,8 @@ servo_ear_dx    = servo_sel == "TD8120" ? 3.78 : 5;       // ear holes beyond th
 servo_ear_dz    = servo_sel == "TD8120" ? 4.825 : 8;      // ear holes +/- from the shaft axis (TD MEASURED 10.10: 9.65 apart, hole d4.05 -> M3)
 servo_top       = servo_sel == "TD8120" ? 12.34 : 0;      // case top past the ear plane (TD MEASURED 10.10: 40.85 - 28.51)
 servo_disc_h    = servo_sel == "TD8120" ? 8.84 : 4;       // case top -> disc top face, disc pushed fully onto the spline (TD MEASURED 10.10: 14.84 to the arm top - arm_t 6). ST3215: MEASURE
+servo_cable_w   = 10;     // cable-outlet slot width in the pocket end wall at the spline end (FAILS 158; outlet not measured, eyeballed from C019_01 + margin). MEASURE
+servo_cable_d   = 18;     // slot depth from the ear face down (C019 photo estimate: outlet bottom ~16 below the ears, + 2). MEASURE
 disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle. TD FITTED 10.10 (C017): black plastic 25T disc from the bag, ring c-c ~16 (inner edges 13.75); the bag screws bite in the disc
 
 // ---------------- thermal camera pan (4th servo, on top of the arch tube) ----------------
@@ -374,6 +376,7 @@ module cam_pan_mount() {
         translate([-servo[0]/2, -servo[1]/2, c + bz - servo[2]]) cube([servo[0], servo[1], servo[2] + 1]);   // pocket, open top
         for (sx = [-1, 1], sy = [-1, 1])
             translate([sx*(servo[0]/2 + servo_ear_dx), sy*servo_ear_dz, c + bz - 8]) cylinder(d = insert_d, h = 9);   // ear inserts
+        translate([-bx/2 - 1, -servo_cable_w/2, c + bz - servo_cable_d]) cube([(bx - servo[0])/2 + 2, servo_cable_w, servo_cable_d + 1]);   // cable slot, -x = spline end (FAILS 158); opens the 2 ear inserts there
     }
 }
 
