@@ -23,7 +23,7 @@
 //   arm_drive x2, arm_idler x2    flat
 //   coupler x2                    plate flat
 //   cam_pan_mount x1              upside down (servo face on the bed), no supports (slide onto the arch tube first)
-//   cam_plate x1                  flat, tab prints at 75 deg without supports
+//   cam_plate x1                  flat, tab prints at 75 deg without supports. NOT YET for the MG90S: hole pattern is the TD disc, needs the MG90S horn measured
 //   Pesho (dummy)                 → cad/pesho/pesho.py (body red PLA, head + lid white PETG)
 //   power_box x1, power_lid x1    PETG, 4 perimeters; sits ON the two cross-beams (v1.9), holds fuse block + 2x BTS7960 + bus bars
 //                                 4 x M3x30 + washers: box floor slot -> beam tube (match-drilled on assembly) -> ROB0154 plate slot -> nut
@@ -157,13 +157,19 @@ servo_ear_dx    = servo_sel == "TD8120" ? 3.78 : 5;       // ear holes beyond th
 servo_ear_dz    = servo_sel == "TD8120" ? 4.825 : 8;      // ear holes +/- from the shaft axis (TD MEASURED 10.10: 9.65 apart, hole d4.05 -> M3)
 servo_top       = servo_sel == "TD8120" ? 12.34 : 0;      // case top past the ear plane (TD MEASURED 10.10: 40.85 - 28.51)
 servo_disc_h    = servo_sel == "TD8120" ? 8.84 : 4;       // case top -> disc top face, disc pushed fully onto the spline (TD MEASURED 10.10: 14.84 to the arm top - arm_t 6). ST3215: MEASURE
-servo_cable_w   = 10;     // cable-outlet slot width in the pocket end wall at the spline end (FAILS 158; outlet not measured, eyeballed from C019_01 + margin). MEASURE
-servo_cable_d   = 18;     // slot depth from the ear face down (C019 photo estimate: outlet bottom ~16 below the ears, + 2). MEASURE
 disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle. TD FITTED 10.10 (C017): black plastic 25T disc from the bag, ring c-c ~16 (inner edges 13.75); the bag screws bite in the disc
 
 // ---------------- thermal camera pan (4th servo, on top of the arch tube) ----------------
 cam_tilt    = 15;     // camera looks this far below horizontal
 cam_hole_dx = 20;     // MLX90640 board hole spacing (board 28 x 16 mm, 2 mm holes).  MEASURE
+// Camera pan servo: MG90S (chosen 20.10), not the TD-8120MG of the pivot brackets. Values = catalogue drawing + clearance.
+cam_servo     = [22.8, 12.4, 16.3];   // pocket L (x), W (y), depth bottom→ear plane (z). Catalogue 22.4 x 12 x 16 + 0.4 / 0.4 / 0.3. MEASURE
+cam_ear_dx    = 2.45;    // ear hole centre beyond the pocket end: c-c = 22.8 + 2*2.45 = 27.7 (catalogue). One hole per ear, on the axis. MEASURE
+cam_ear_d     = 1.6;     // M2 self-tapping screw (M2 kit), no inserts in a 20 mm block
+cam_shaft_off = 5.9;     // shaft centre from the pocket end, -x (not on the drawing). MEASURE
+cam_horn_h    = 16;      // ear plane → horn top face (catalogue 32 - 16). MEASURE
+cam_cable_w   = 7;       // cable window at the bottom of both end walls (outlet side not known yet); the 3-pin plug (7.6 x 2.6) threads through on edge
+cam_cable_h   = 8;       // window height from the pocket floor; its top is 8.3 below the ear face, the 6 mm deep M2 holes end 2.3 above it
 
 // ---------------- derived ----------------
 boss_y    = gap/2 + wall + boss_w/2;              // global y of the boss holes (left hull)
@@ -360,12 +366,13 @@ module coupler() {
 // ============================================================
 //  THERMAL CAMERA PAN
 // ============================================================
-// Slides onto the arch tube before the tube goes into the posts. Servo pocket on top, shaft up.
+// Slides onto the arch tube before the tube goes into the posts. MG90S pocket on top, shaft up (at -x).
 module cam_pan_mount() {
     c  = beam/2 + 5;
-    bx = servo[0] + 2*(servo_ear_dx + 5);
-    by = servo[1] + 12;
-    bz = servo[2] + 4;
+    sv = cam_servo;
+    bx = sv[0] + 2*(cam_ear_dx + 5);
+    by = sv[1] + 12;
+    bz = sv[2] + 4;
     difference() {
         union() {
             translate([-c, -by/2, -c]) cube([2*c, by, 2*c]);                          // clamp round the tube
@@ -373,10 +380,11 @@ module cam_pan_mount() {
         }
         cube([beam + 0.4, by + 2, beam + 0.4], center = true);                         // tube channel along y
         translate([0, 0, -c - 1]) cylinder(d = 2.6, h = c);                            // set screw from below (tap M3)
-        translate([-servo[0]/2, -servo[1]/2, c + bz - servo[2]]) cube([servo[0], servo[1], servo[2] + 1]);   // pocket, open top
-        for (sx = [-1, 1], sy = [-1, 1])
-            translate([sx*(servo[0]/2 + servo_ear_dx), sy*servo_ear_dz, c + bz - 8]) cylinder(d = insert_d, h = 9);   // ear inserts
-        translate([-bx/2 - 1, -servo_cable_w/2, c + bz - servo_cable_d]) cube([(bx - servo[0])/2 + 2, servo_cable_w, servo_cable_d + 1]);   // cable slot, -x = spline end (FAILS 158); opens the 2 ear inserts there
+        translate([-sv[0]/2, -sv[1]/2, c + bz - sv[2]]) cube([sv[0], sv[1], sv[2] + 1]);   // pocket, open top
+        for (sx = [-1, 1])
+            translate([sx*(sv[0]/2 + cam_ear_dx), 0, c + bz - 6]) cylinder(d = cam_ear_d, h = 7);   // ear screws, M2 self-tapping
+        for (sx = [-1, 1])
+            translate([sx > 0 ? sv[0]/2 - 1 : -bx/2 - 1, -cam_cable_w/2, c + bz - sv[2]]) cube([(bx - sv[0])/2 + 2, cam_cable_w, cam_cable_h]);   // cable windows, both ends (FAILS 158)
     }
 }
 
@@ -521,7 +529,7 @@ module assembly() {
     for (bx = beam_x) translate([bx, 0, hull_H + 6 + beam/2]) color("silver") cube([beam, 2*(boss_y + 13), beam], center = true);
     translate([arch_x, 0, arch_z + beam/2]) color("silver") cube([beam, 2*(boss_y + 13), beam], center = true);
     translate([arch_x, 0, arch_z + beam/2]) color("dimgray") cam_pan_mount();
-    translate([arch_x - servo[0]/2 + servo_shaft_off, 0, arch_z + beam/2 + beam/2 + 5 + servo[2] + 4 + 3]) color("darkgoldenrod") cam_plate();
+    translate([arch_x - cam_servo[0]/2 + cam_shaft_off, 0, arch_z + beam/2 + beam/2 + 5 + cam_servo[2] + 4 + cam_horn_h]) color("darkgoldenrod") cam_plate();
     // cradle rod (buy: 5 mm aluminium, bend the front corners)
     color("red") {
         for (s = [-1, 1]) translate([cx - cradle_L, s*coupler_y, rod_z]) rotate([0, 90, 0]) cylinder(d = 5, h = cradle_L + 8);
