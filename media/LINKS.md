@@ -11,6 +11,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C001 | 2026-10-08 | Cuifati thruster: dimensions, bolt pattern, mass | Partial | [C001_2026-10-08_thruster-measure](https://www.icloud.com/iclouddrive/08aBlD2PmWlmLUKzUCxIMDYVw) |
 | C002 | 2026-10-08 | Thruster: the 4 wires, ESC or phases (no 12 V) | Pass | [C002_2026-10-08_thruster-wires](https://www.icloud.com/iclouddrive/003fqj7BXTbCD54QjDjdgEcww) |
 | C003 | 2026-10-09 | ROB0154 plate: slots vs beams, size, mass | Fail | [C003_2026-10-09_rob0154-plate](https://www.icloud.com/iclouddrive/0d0WTgwnKRnblAFmnYWTkLQ8w) |
+| C006 | 2026-10-21 | Thruster ESC: 9 V with 0.10 A limit, in a bucket | Pass | C006_2026-10-21_esc-bucket |
 | C007 | 2026-10-11 | hull_fore in the bathtub: floats, leaks, draft | Pass | C007_2026-10-11_bathtub |
 | C008 | 2026-10-10 | Print hull_fore (PLA white fit prototype, 4 walls, 0.2, diagonal; tree supports under the 2 rim bosses) | Pass | C008_2026-10-10_hull-fore-print |
 | C010 | 2026-10-09 | GitHub: PR for T1 (state machine) → CI green? → merge into dev | Pass | C010_2026-10-09_devkit-module |
@@ -29,6 +30,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C039 | 2026-10-12 | Print Pesho v3: head + lid in white PETG, then the body in red PLA (two plates) | Partial | C021_2026-10-12_pesho-warmer |
 | C040 | 2026-10-13 | Arrivals 13.10: the last Amazon batch: MLX90642-D45, soldering kit (fume extractor, third hand), wiring and prototyping parts | open | C040_2026-10-13_arrivals |
 | C041 | 2026-10-15 | Print the thruster kick-up mounts: 2 × thruster_bracket + 2 × thruster_arm, PETG (after the CAD fix) | Pass | C041_2026-10-15_thruster-mounts |
+| C045 | 2026-10-20 | Print + dry-fit the beam brackets: 4 × beam_bracket (identical both sides) with the 15 × 15 aluminium beams | open | C045_2026-10-20_beam-brackets |
 
 ## History cards (CH##)
 
