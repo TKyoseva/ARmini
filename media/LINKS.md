@@ -30,6 +30,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C039 | 2026-10-12 | Print Pesho v3: head + lid in white PETG, then the body in red PLA (two plates) | Partial | C021_2026-10-12_pesho-warmer |
 | C040 | 2026-10-13 | Arrivals 13.10: the last Amazon batch: MLX90642-D45, soldering kit (fume extractor, third hand), wiring and prototyping parts | open | C040_2026-10-13_arrivals |
 | C041 | 2026-10-15 | Print the thruster kick-up mounts: 2 × thruster_bracket + 2 × thruster_arm, PETG (after the CAD fix) | Pass | C041_2026-10-15_thruster-mounts |
+| C042 | 2026-10-21 | Fit the thruster mounts (C005): M4 depth check, Ø5 hinge rod, M3 lock pin, 4 inserts in the transom pad, swing by hand | open | C042_2026-10-21_thruster-fit |
 | C045 | 2026-10-20 | Print + dry-fit the beam brackets: 4 × beam_bracket (identical both sides) with the 15 × 15 aluminium beams | open | C045_2026-10-20_beam-brackets |
 
 ## History cards (CH##)
