@@ -1,7 +1,7 @@
 {
   "name": "benchcore",
   "version": "0.1.0",
-  "description": "AR-Mini bench helpers: Ramp, Deadman, SoftLimit, CsvRow. Pure C++11, no Arduino, unit-tested on the host.",
+  "description": "AR-Mini bench helpers: Ramp, Deadman, SoftLimit, CsvRow, PairMath. Pure C++11, no Arduino, unit-tested on the host.",
   "frameworks": "*",
   "platforms": "*",
   "build": {

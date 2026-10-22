@@ -12,7 +12,7 @@ every number in a PROTOCOL marked `expected: record` or `VERIFY` is Teddy's to m
 ```
 cd firmware/bench
 pio run                            # build all six module envs
-pio test -e native                 # host unit tests of lib/benchcore (Unity, 17 cases)
+pio test -e native                 # host unit tests of lib/benchcore (Unity, 21 cases)
 pio run -e bts7960 -t upload       # flash one sketch over USB-C (hold BUT1 + RST if the port does not appear)
 pio device monitor                 # 115200; `?` help, `0` stop
 python3 scripts/bench_log.py --port /dev/tty.usbmodem* --card C005 --name bts-bench   # from the repo root: save the CSV
@@ -29,6 +29,8 @@ hold RST → `expected: record` ([bts7960 protocol §3](src/bts7960/PROTOCOL.md)
 |---|---|---|---|---|
 | `bts7960` | BTS7960 H-bridge (74) + ROB0154 motor (27) | LEDC PWM GPIO39/40 (L) or 41/42 (R) | `t_ms,cmd,pwm_r,pwm_l,is_r_mV,is_l_mV,kill` | [src/bts7960/PROTOCOL.md](src/bts7960/PROTOCOL.md) |
 | `pca9685` | PCA9685 16-ch PWM (72) + hobby servo (30/31) | I2C-0 GPIO48/47 @0x40 | `t_ms,ch,us,sweep,kill` | [src/pca9685/PROTOCOL.md](src/pca9685/PROTOCOL.md) |
+
+`pair <chA> <chB> <deg> [deg_per_s]` (pca9685, C023): both TD-8120MG move together from one degree, chB mirrored (`us_B = 3000 − us_A`), default 20 °/s. Not yet run on hardware.
 | `st3215` | ST3215 bus servo (29) via Waveshare driver (75) | UART1 GPIO17 TX / 18 RX, 1 Mbps | `t_ms,id,cmd_deg,pos_deg,load_permille,temp_C,volt_V,ok` | [src/st3215/PROTOCOL.md](src/st3215/PROTOCOL.md) |
 | `mlx90640` | MLX90640 110° thermal camera (77) | I2C-1 GPIO8/9 @0x33 | `t_ms,min_C,max_C,mean_C,hot_x,hot_y` (4 Hz) | [src/mlx90640/PROTOCOL.md](src/mlx90640/PROTOCOL.md) |
 | `bno055` | BNO055 IMU breakout (78) | I2C-0 GPIO48/47 @0x28 | `t_ms,heading_deg,roll_deg,pitch_deg,cal_sys,cal_gyro,cal_acc,cal_mag` | [src/bno055/PROTOCOL.md](src/bno055/PROTOCOL.md) |
@@ -62,10 +64,10 @@ The same table is in [hardware/wiring/PINOUT.md](../../hardware/wiring/PINOUT.md
 |---|---|
 | `platformio.ini` | one env per module (`build_src_filter = +<common/> +<module/>`), `[env:native]` for the host tests, exact library pins |
 | `include/pins_devkit.h` | every GPIO, with SOURCE/VERIFY |
-| `lib/benchcore/` | `Ramp.h`, `Deadman.h`, `SoftLimit.h`, `Csv.h` — pure C++11, no Arduino, tested on the host |
+| `lib/benchcore/` | `Ramp.h`, `Deadman.h`, `SoftLimit.h`, `Csv.h`, `PairMath.h` — pure C++11, no Arduino, tested on the host |
 | `src/common/` | `Cli.h/.cpp` (line parser), `Bench.h` (banner, `# ` messages, `Periodic`, `KillInput`, `Heartbeat`), `I2cScan.h` |
 | `src/<module>/main.cpp` + `PROTOCOL.md` | the sketch and its one-page test protocol |
-| `test/test_benchcore/` | Unity tests: Ramp rate/target/sign change/stop, Deadman trip once/reset/wrap-around, CSV formatting, SoftLimit refuse-until-unlocked, pipeline |
+| `test/test_benchcore/` | Unity tests: Ramp rate/target/sign change/stop, Deadman trip once/reset/wrap-around, CSV formatting, SoftLimit refuse-until-unlocked, pipeline, PairMath mirror / 4.5 s ramp |
 
 Task T3 listed `Csv.h`, `Ramp.h`, `Deadman.h` under `src/common/`; they live in `lib/benchcore/` instead so that the
 `native` env can test them without Arduino (the task's "Tests" section asks for exactly that).

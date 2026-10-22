@@ -52,6 +52,24 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 
 Header pin numbers are from the manual drawing (EXT1 pin 1 = 3V3 at the antenna end, pin 22 = GND; EXT2 pin 1 = GND) and were **confirmed on the board 11.10 (C030)**: continuity EXT1 1↔2 (3V3), EXT1 22 ↔ EXT2 1 ↔ EXT2 22 (GND), no 3V3–GND short; GPIO38 (LED1) found on EXT2 10 with the meter. Rows 25.40 apart, 22 pins at 2.54 per row.
 
+## PCA9685 channels
+
+These are the 16 PWM outputs on the PCA9685 module. They are not ESP32 GPIO numbers: GPIO10 and GPIO11 in the table above are the optional BTS7960 current-sense pins.
+
+| CH | Function | Source |
+|---|---|---|
+| 0 | ESC_L | carrier rev A SPEC §5. On the DevKit bench and carrier rev B the ESC signal is GPIO1, not this output. |
+| 1 | ESC_R | rev A SPEC §5. Bench and rev B: GPIO2. |
+| 2, 3 | BTS_L RPWM, LPWM | rev A SPEC §5. Rev B drives the BTS from GPIO39/40. |
+| 4, 5 | BTS_R RPWM, LPWM | rev A SPEC §5. Rev B: GPIO41/42. |
+| 6 | buzzer | rev A SPEC §5; rev B SPEC (Q3 from CH6) |
+| 7–9 | LED1–3 (status / armed / fault) | rev A SPEC §5; rev B SPEC |
+| 10 | cradle servo A, TD-8120MG | C023; rev B SPEC (U2): the two cradle servos plug into CH10 / CH11 |
+| 11 | cradle servo B, TD-8120MG, mirrored (`us_B = 3000 − us_A`) | C023; rev B SPEC |
+| 12–15 | not assigned | — |
+
+`pair` in the pca9685 bench sketch uses CH10 and CH11 (C023). Not yet run on hardware.
+
 ## VERIFY (DevKit-Lipo)
 
 1. **BTS7960 RPWM/LPWM order** — sheet 2b lists "GPIO39/40 · GPIO41/42" as pairs; the lower number is taken as RPWM.

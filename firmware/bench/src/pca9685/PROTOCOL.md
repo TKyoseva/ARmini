@@ -51,3 +51,19 @@ Servo follows `ch 0 <us>` with a visible ramp, out-of-window values are refused,
 
 ## 6. Photos (card folder, `C###_NN.jpg`)
 `_01` wiring with the OE pull-up and rocker · `_02` meter OE↔3V3 (2.2 k) · `_03` supply at step 3 · `_04` servo at 1000 / 2000 µs (two frames, ruler for the horn angle) · `_05` analyser screenshot if step 10 done.
+
+## 7. Pair (C023)
+
+Two TD-8120MG, facing each other, on **CH10** and **CH11** (see `hardware/wiring/PINOUT.md`). chB is the mirror of chA around 1500 µs: `us_A = 500 + deg/180 × 2000`, `us_B = 3000 − us_A`. Both channels follow **one** degree ramp (default 20 °/s). The first `pair` after boot, `0`, dead-man or KILL snaps (no pulse to ramp from); the next `pair` ramps. `dm` and the rocker drop **both** pulses, same as `ch` / `sweep`.
+
+Servo power for this section: Jesverty bench supply at **6.0 V, current limit 3 A**. That is not the 5.0 V / 1 A of §3.
+
+The default soft window is 1000–2000 µs, which is about 45°–135° on this map. `pair 10 11 90` and `pair 10 11 45` fit. A command whose either pulse falls outside the window is refused (`limit 500 2500` opens the full TD-8120MG range). `215` is refused (outside 0–180).
+
+CSV `ch` / `us` follow channel A while the pair runs. `?` prints `pair=<chA>/<chB> deg=… usA=… usB=…`. **Not yet run on hardware.**
+
+| # | Action / command | Watch | Expected |
+|---|---|---|---|
+| 1 | Linkages OFF. `dm 10000`, then `pair 10 11 90` | both horns | centre (1500 / 1500 µs). Then `pair 10 11 45` → mirrored (1000 / 2000 µs), ramped. Rocker → KILL drops both pulses |
+| 2 | Arms ON, empty U. `pair 10 11 <lift>` | Jesverty current | moves slowly (20 °/s unless you pass a rate). `expected: record` the current |
+| 3 | Pesho (C021) in the U. Same `pair` | current, photos | `expected: record` current and photos |

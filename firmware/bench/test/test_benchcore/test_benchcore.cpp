@@ -5,13 +5,17 @@
 
 #include "Csv.h"
 #include "Deadman.h"
+#include "PairMath.h"
 #include "Ramp.h"
 #include "SoftLimit.h"
 
 using bench::CsvRow;
 using bench::Deadman;
+using bench::PairPulses;
 using bench::Ramp;
 using bench::SoftLimit;
+using bench::pairFromDeg;
+using bench::pairInWindow;
 
 void setUp() {}
 void tearDown() {}
@@ -201,6 +205,66 @@ static void test_softlimit_clamps_to_unit_range() {
   TEST_ASSERT_FLOAT_WITHIN(1e-6f, 0.2f, lim.clamp(0.2f));
 }
 
+// ------------------------------------------------------------------ 5. Pair (C023): mirrored TD-8120MG, one shared degree
+static void test_pair_endpoints_and_out_of_range() {
+  const PairPulses z = pairFromDeg(0.0f);
+  TEST_ASSERT_TRUE(z.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, z.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, z.us_b);
+
+  const PairPulses mid = pairFromDeg(90.0f);
+  TEST_ASSERT_TRUE(mid.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, mid.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, mid.us_b);
+
+  const PairPulses full = pairFromDeg(180.0f);
+  TEST_ASSERT_TRUE(full.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, full.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, full.us_b);
+
+  TEST_ASSERT_FALSE(pairFromDeg(215.0f).ok);
+  TEST_ASSERT_FALSE(pairFromDeg(-0.1f).ok);
+  TEST_ASSERT_FALSE(pairFromDeg(180.1f).ok);
+}
+
+static void test_pair_sum_is_3000_for_every_degree() {
+  for (int deg = 0; deg <= 180; ++deg) {
+    const PairPulses p = pairFromDeg(static_cast<float>(deg));
+    TEST_ASSERT_TRUE(p.ok);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, 3000.0f, p.us_a + p.us_b);
+  }
+}
+
+static void test_pair_ramp_0_to_90_at_20_deg_per_s() {
+  // 90° at 20 °/s = 4.5 s. Tick is 100 ms, so 45 ticks, tolerance ± 1 tick.
+  // Both pulses come from that one degree (lock-step), not from two ramps.
+  Ramp deg(20.0f, 0.0f);
+  deg.setTarget(90.0f);
+  int ticks = 0;
+  while (!deg.atTarget() && ticks < 60) {
+    const float now = deg.update(100);
+    const PairPulses p = pairFromDeg(now);
+    TEST_ASSERT_TRUE(p.ok);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, 3000.0f, p.us_a + p.us_b);
+    ++ticks;
+  }
+  TEST_ASSERT_INT_WITHIN(1, 45, ticks);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 90.0f, deg.value());
+  const PairPulses end = pairFromDeg(deg.value());
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, end.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, end.us_b);
+}
+
+static void test_pair_window_refuses_a_pulse_outside_it() {
+  const PairPulses centre = pairFromDeg(90.0f);
+  TEST_ASSERT_TRUE(pairInWindow(centre, 1000.0f, 2000.0f));
+  const PairPulses ends = pairFromDeg(0.0f);  // 500 / 2500, outside the default window
+  TEST_ASSERT_FALSE(pairInWindow(ends, 1000.0f, 2000.0f));
+  const PairPulses edge = pairFromDeg(45.0f);  // 1000 / 2000, on the edge
+  TEST_ASSERT_TRUE(pairInWindow(edge, 1000.0f, 2000.0f));
+  TEST_ASSERT_FALSE(pairInWindow(pairFromDeg(215.0f), 500.0f, 2500.0f));
+}
+
 // ------------------------------------------------------------------ Integration: command → limit → ramp → deadman
 static void test_pipeline_deadman_stops_ramp() {
   SoftLimit lim;
@@ -243,5 +307,9 @@ int main() {
   RUN_TEST(test_softlimit_refuses_until_unlocked);
   RUN_TEST(test_softlimit_clamps_to_unit_range);
   RUN_TEST(test_pipeline_deadman_stops_ramp);
+  RUN_TEST(test_pair_endpoints_and_out_of_range);
+  RUN_TEST(test_pair_sum_is_3000_for_every_degree);
+  RUN_TEST(test_pair_ramp_0_to_90_at_20_deg_per_s);
+  RUN_TEST(test_pair_window_refuses_a_pulse_outside_it);
   return UNITY_END();
 }
