@@ -38,7 +38,7 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 | 42 | EXT2 6 | BTS_R_LPWM `PIN_BTS_R_LPWM` | right BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 10 | EXT1 16 | `PIN_BTS_IS_R` (ADC1_CH9) | BTS7960 IS_R, optional | **VERIFY** (not on the sheet, proposed) |
 | 11 | EXT1 17 | `PIN_BTS_IS_L` (ADC2_CH0) | BTS7960 IS_L, optional | **VERIFY** (not on the sheet, proposed) |
-| 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/33k from F4 | SOURCE 2b |
+| 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/30k from F4 | SOURCE C027 (measured 30 k; sheet 2b and carrier rev A say 33 k) |
 | 7 | EXT1 7 | LEAK `PIN_LEAK` | 10k to 3V3, 4.7k to the probe → GND | SOURCE 2b |
 | 14 | EXT1 20 | KILL `PIN_KILL` | 10k to 3V3, rocker C → GPIO14, KILL → GND (low = KILL) | SOURCE 2b |
 | 5 | EXT1 5 | PWR_SENS (board) | — never for modules | SOURCE manual p7 |

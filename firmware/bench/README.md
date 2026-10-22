@@ -98,7 +98,7 @@ calls in `bts7960` are guarded for both Arduino core 2.x and 3.x.
 | st3215 speed 1000 steps/s, acc 50, ramp 60 °/s | bench choices from the Waveshare examples | protocol steps 3–4 (± 2°) |
 | bno055 `xtal 0` default, which pin is VIN vs 3V3, roll/pitch column | breakout from GoTo (bom row 78) is unknown | protocol steps 2, 7 |
 | ladder `leakth` 2000 mV | midpoint of 3.3 V dry / ≈ 1.06 V wet from sheet 2b | protocol step 7 |
-| ladder ADC saturation near 12.6 V | 3.13 V at the top of the 11 dB range | protocol step 4 |
+| ladder ADC at 12.6 V | 2.91 V (100 k / 30 k, C027); the 11 dB range is characterised to ≈ 3.1 V | protocol step 4 |
 | mlx90640 `hot_x`/`hot_y` orientation | which edge is x = 0 | protocol steps 3–4 |
 
 ## Not done / open

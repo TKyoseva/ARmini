@@ -3,7 +3,8 @@
 // On the DevKit-Lipo there is no resistor ladder on one ADC (that is the XIAO design): each signal has
 // its own pin (breadboard 2b). The sketch keeps the name so the card / CSV match the XIAO version.
 //
-//   VBAT  GPIO4  ← 100 k / 33 k divider from the fuse block (F4): v_bat = v_adc × (100 + 33) / 33 ≈ v_adc × 4.03
+//   VBAT  GPIO4  ← 100 k / 30 k divider from the fuse block (F4): v_bat = v_adc × (100 + 30) / 30 ≈ v_adc × 4.33
+//   SOURCE: C027 bench, measured 30 k on the bottom leg (carrier rev A keeps 33 k)
 //   LEAK  GPIO7  ← 10 k to 3V3, 4.7 k to the probe, probe to GND when wet: ≈ 3.3 V dry, ≈ 1.06 V wet (sheet 2b)
 //   KILL  GPIO14 ← 10 k to 3V3, rocker C → GPIO14, KILL → GND: 3.3 V in RUN, 0 V in KILL (sheet 2b)
 //
@@ -16,7 +17,7 @@
 
 namespace {
 
-const float kDivGain = (VBAT_DIV_R_TOP_OHM + VBAT_DIV_R_BOT_OHM) / VBAT_DIV_R_BOT_OHM;  // 4.03 from the nominal resistors
+const float kDivGain = (VBAT_DIV_R_TOP_OHM + VBAT_DIV_R_BOT_OHM) / VBAT_DIV_R_BOT_OHM;  // 4.33 from the nominal resistors (130/30)
 const int kLeakThresholdMv = 2000;  // VERIFY: midpoint between 3.3 V dry and ~1.06 V wet (sheet 2b); `leakth <mV>` to change
 const int kAdcSamples = 16;         // average per reading to tame the ESP32 ADC noise
 
@@ -36,7 +37,7 @@ int readMv(int pin) {
 void help() {
   bench::msg("ladder commands:");
   bench::msg("  cal <V>       set the gain so v_bat equals the multimeter reading <V> (prints the factor; not stored)");
-  bench::msg("  cal 1         reset the gain to the nominal 100k/33k divider");
+  bench::msg("  cal 1         reset the gain to the nominal 100k/30k divider");
   bench::msg("  leakth <mV>   leak threshold, default %d mV (leak = 1 when leak_mV < threshold)", kLeakThresholdMv);
   bench::msg("  read          one line with all values now");
   bench::msg("  0             nothing to stop (no actuators)");
@@ -102,7 +103,7 @@ void setup() {
   pinMode(PIN_VBAT_ADC, INPUT);
   pinMode(PIN_LEAK, INPUT);
   analogReadResolution(12);
-  analogSetAttenuation(ADC_11db);  // full 0..~3.1 V range; 12.6 V × 33/133 = 3.13 V sits at the very top. VERIFY saturation near a full pack
+  analogSetAttenuation(ADC_11db);  // full 0..~3.1 V range; 12.6 V × 30/130 = 2.91 V. VERIFY the reading still follows a full pack
   bench::begin("ladder", "t_ms,v_adc_mV,v_bat_V,leak_mV,leak,kill");
   bench::msg("pins: VBAT GPIO%d (÷%.2f) · LEAK GPIO%d (th %d mV) · KILL GPIO%d (low = KILL)", PIN_VBAT_ADC, kDivGain, PIN_LEAK,
              leakTh, PIN_KILL);
