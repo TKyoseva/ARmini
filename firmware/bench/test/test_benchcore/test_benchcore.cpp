@@ -15,7 +15,9 @@ using bench::PairPulses;
 using bench::Ramp;
 using bench::SoftLimit;
 using bench::pairFromDeg;
+using bench::pairFromDegTrim;
 using bench::pairInWindow;
+using bench::trimInRange;
 
 void setUp() {}
 void tearDown() {}
@@ -265,6 +267,53 @@ static void test_pair_window_refuses_a_pulse_outside_it() {
   TEST_ASSERT_FALSE(pairInWindow(pairFromDeg(215.0f), 500.0f, 2500.0f));
 }
 
+// ------------------------------------------------------------------ 6. Pair trim (T9): offset after the mirror
+static void test_pair_trim_zero_is_identity() {
+  const float degs[] = {0.0f, 90.0f, 180.0f, 37.5f};
+  for (int i = 0; i < 4; ++i) {
+    const PairPulses a = pairFromDeg(degs[i]);
+    const PairPulses b = pairFromDegTrim(degs[i], 0.0f, 0.0f);
+    TEST_ASSERT_TRUE(b.ok);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, a.us_a, b.us_a);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, a.us_b, b.us_b);
+  }
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, pairFromDegTrim(0.0f, 0.0f, 0.0f).us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, pairFromDegTrim(0.0f, 0.0f, 0.0f).us_b);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, pairFromDegTrim(90.0f, 0.0f, 0.0f).us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, pairFromDegTrim(90.0f, 0.0f, 0.0f).us_b);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, pairFromDegTrim(180.0f, 0.0f, 0.0f).us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, pairFromDegTrim(180.0f, 0.0f, 0.0f).us_b);
+}
+
+static void test_pair_trim_b_minus_60_at_90() {
+  const PairPulses p = pairFromDegTrim(90.0f, 0.0f, -60.0f);
+  TEST_ASSERT_TRUE(p.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1440.0f, p.us_b);
+  const PairPulses q = pairFromDegTrim(90.0f, 25.0f, -60.0f);  // A trimmed too, independent of B
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1525.0f, q.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1440.0f, q.us_b);
+}
+
+static void test_pair_trim_out_of_range_refused() {
+  TEST_ASSERT_TRUE(trimInRange(200.0f));
+  TEST_ASSERT_TRUE(trimInRange(-200.0f));
+  TEST_ASSERT_FALSE(trimInRange(200.5f));
+  TEST_ASSERT_FALSE(trimInRange(-201.0f));
+  TEST_ASSERT_FALSE(pairFromDegTrim(90.0f, 201.0f, 0.0f).ok);
+  TEST_ASSERT_FALSE(pairFromDegTrim(90.0f, 0.0f, -201.0f).ok);
+  TEST_ASSERT_FALSE(pairFromDegTrim(215.0f, 0.0f, 0.0f).ok);  // degree check still first
+}
+
+static void test_pair_trim_pushes_pulse_out_of_window() {
+  // 45° → 1000 / 2000, on the default window edge. Any trim outward leaves the window.
+  TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, 0.0f, 0.0f), 1000.0f, 2000.0f));
+  TEST_ASSERT_FALSE(pairInWindow(pairFromDegTrim(45.0f, -10.0f, 0.0f), 1000.0f, 2000.0f));
+  TEST_ASSERT_FALSE(pairInWindow(pairFromDegTrim(45.0f, 0.0f, 10.0f), 1000.0f, 2000.0f));
+  TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, 10.0f, -10.0f), 1000.0f, 2000.0f));  // inward is fine
+  TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, -10.0f, 10.0f), 500.0f, 2500.0f));   // wider window accepts
+}
+
 // ------------------------------------------------------------------ Integration: command → limit → ramp → deadman
 static void test_pipeline_deadman_stops_ramp() {
   SoftLimit lim;
@@ -311,5 +360,9 @@ int main() {
   RUN_TEST(test_pair_sum_is_3000_for_every_degree);
   RUN_TEST(test_pair_ramp_0_to_90_at_20_deg_per_s);
   RUN_TEST(test_pair_window_refuses_a_pulse_outside_it);
+  RUN_TEST(test_pair_trim_zero_is_identity);
+  RUN_TEST(test_pair_trim_b_minus_60_at_90);
+  RUN_TEST(test_pair_trim_out_of_range_refused);
+  RUN_TEST(test_pair_trim_pushes_pulse_out_of_window);
   return UNITY_END();
 }

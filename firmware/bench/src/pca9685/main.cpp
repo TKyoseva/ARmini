@@ -5,15 +5,18 @@
 // `pair <chA> <chB> <deg> [deg_per_s]` moves both servos from one shared degree; chB is mirrored
 // (us_B = 3000 − us_A). The first pair after the pulses are off snaps (there is no angle to ramp
 // from); a later pair ramps that one degree at deg_per_s (default 20).
+// `trim <ch> <us>` adds a signed offset (±200 µs) to that channel after the mirror, so two arms
+// clocked a few degrees apart on their splines can be matched (T9, FAILS 172). RAM only.
 // Every single-channel pulse-width change goes through the Ramp (µs/s), so a servo never jumps.
 // The soft limit is a pulse-width window: 1000–2000 µs by default (the standard hobby range;
 // bench_v1 used 20–160°), anything outside is refused until `limit <min_us> <max_us>` widens it.
 // A `pair` is refused when either computed pulse is outside that window.
 // Dead-man (2 s) or KILL (GPIO14 low) → every channel is set to "no pulse" (both pair pulses drop).
 //
-// OE per pcb/carrier-revA/SPEC.md §5 R10: OE is HARDWARE — 2.2 kΩ pull-up to 3V3, the rocker pulls
-// OE to GND in RUN. In KILL (or with a broken wire) OE floats high → all outputs off regardless of
-// what this sketch does. This sketch does not drive OE; it only reads the rocker's other pole on GPIO14.
+// OE: on the breadboard it is left open (module 10 k OE → GND = outputs enabled), so the rocker on
+// GPIO14 is a SOFTWARE stop and the bench supply OUTPUT button is the hardware one (T9, C023 22.10).
+// A hardware OE kill (Q2 inverter from the BTS EN line) comes with carrier rev B. This sketch never
+// drives OE.
 //
 // CSV: t_ms,ch,us,sweep,kill   (ch/us = last channel written and the pulse now on it; sweep 0/1)
 #include <Adafruit_PWMServoDriver.h>
@@ -59,6 +62,13 @@ bool sweeping = false;
 bool pairing = false;
 int pairA = -1, pairB = -1;
 int lastUsA = 0, lastUsB = 0;
+float trimUs[16] = {0};  // per-channel pulse offset, µs, RAM only (T9). Used by `pair`, not by `ch`/`sweep`.
+
+bench::PairPulses pairPulses(float deg) {
+  const float ta = pairA >= 0 ? trimUs[pairA] : 0.0f;
+  const float tb = pairB >= 0 ? trimUs[pairB] : 0.0f;
+  return bench::pairFromDegTrim(deg, ta, tb);
+}
 bool sweepUp = true;
 uint32_t sweepHoldUntil = 0;
 bool pcaOk = false;
@@ -109,6 +119,8 @@ void help() {
   bench::msg("  sweep 0|1            sweep CH%d between the limit window ends", kSweepCh);
   bench::msg("  pair <chA> <chB> <deg> [deg_per_s]  both servos, chB mirrored (us_B = 3000-us_A); default %.0f deg/s",
              bench::kPairDefaultDegPerS);
+  bench::msg("  trim <ch> <us>       pulse offset for a pair channel, -%.0f..+%.0f us (RAM only); `trim` alone prints them",
+             bench::kPairTrimMaxUs, bench::kPairTrimMaxUs);
   bench::msg("  limit <min_us> <max_us>  window, default %.0f–%.0f; max %.0f–%.0f (prints a warning when widened)",
              kDefaultMinUs, kDefaultMaxUs, kAbsMinUs, kAbsMaxUs);
   bench::msg("  rate <us_per_s>      ramp rate, default %.0f us/s", kRampUsPerS);
@@ -119,9 +131,9 @@ void help() {
   bench::msg("  scan                 I2C scan on Wire (SDA GPIO%d, SCL GPIO%d)", PIN_I2C0_SDA, PIN_I2C0_SCL);
   bench::msg("  0                    all channels off now");
   if (pairing) {
-    bench::msg("state: pca=%s ch=%d us=%d window=%.0f–%.0f rate=%.0f sweep=%d pair=%d/%d deg=%.1f->%.1f usA=%d usB=%d kill=%d",
+    bench::msg("state: pca=%s ch=%d us=%d window=%.0f–%.0f rate=%.0f sweep=%d pair=%d/%d deg=%.1f->%.1f usA=%d usB=%d trimA=%+.0f trimB=%+.0f kill=%d",
                pcaOk ? "ok" : "MISSING", curCh, lastUs, minUs, maxUs, ramp.rate(), sweeping ? 1 : 0, pairA, pairB,
-               degRamp.value(), degRamp.target(), lastUsA, lastUsB, killIn.active() ? 1 : 0);
+               degRamp.value(), degRamp.target(), lastUsA, lastUsB, trimUs[pairA], trimUs[pairB], killIn.active() ? 1 : 0);
   } else {
     bench::msg("state: pca=%s ch=%d us=%d window=%.0f–%.0f rate=%.0f sweep=%d pair=off kill=%d", pcaOk ? "ok" : "MISSING",
                curCh, lastUs, minUs, maxUs, ramp.rate(), sweeping ? 1 : 0, killIn.active() ? 1 : 0);
@@ -195,8 +207,10 @@ void handleCommand(uint32_t now) {
     const float deg = shell.argf(3, -1.0f, &okD);
     float dps = bench::kPairDefaultDegPerS;
     if (shell.argc() >= 5) dps = shell.argf(4, 0.0f, &okR);
-    const bench::PairPulses pulses = bench::pairFromDeg(deg);
-    if (!okA || !okB || !okD || chA < 0 || chA > 15 || chB < 0 || chB > 15 || chA == chB) {
+    const bool chOk = okA && okB && chA >= 0 && chA <= 15 && chB >= 0 && chB <= 15 && chA != chB;
+    const bench::PairPulses pulses =
+        chOk ? bench::pairFromDegTrim(deg, trimUs[chA], trimUs[chB]) : bench::pairFromDeg(deg);
+    if (!chOk || !okD) {
       bench::err("pair (want: pair <chA> <chB> <deg> [deg_per_s])");
     } else if (!okR || dps <= 0.0f || dps > kMaxDegPerS) {
       bench::err("pair (deg_per_s want > 0 and <= 180)");
@@ -205,8 +219,8 @@ void handleCommand(uint32_t now) {
     } else if (killIn.active()) {
       bench::msg("WARN KILL active (GPIO%d low): command refused", PIN_KILL);
     } else if (!bench::pairInWindow(pulses, minUs, maxUs)) {
-      bench::msg("WARN pair %.0f/%.0f us outside the soft window %.0f–%.0f — send `limit <min> <max>` first", pulses.us_a,
-                 pulses.us_b, minUs, maxUs);
+      bench::msg("WARN pair %.0f/%.0f us (trim %+.0f/%+.0f) outside the soft window %.0f–%.0f — send `limit <min> <max>` first",
+                 pulses.us_a, pulses.us_b, trimUs[chA], trimUs[chB], minUs, maxUs);
     } else {
       sweeping = false;
       if (lastUs > 0 && curCh != chA && curCh != chB) writeUs(curCh, 0);
@@ -225,8 +239,42 @@ void handleCommand(uint32_t now) {
       degRamp.setTarget(deg);
       pairing = true;
       curCh = pairA;
-      bench::msg("OK pair %d/%d -> %.1f deg (%.0f / %.0f us) at %.0f deg/s", pairA, pairB, deg, pulses.us_a, pulses.us_b,
-                 dps);
+      bench::msg("OK pair %d/%d -> %.1f deg (%.0f / %.0f us, trim %+.0f/%+.0f) at %.0f deg/s", pairA, pairB, deg,
+                 pulses.us_a, pulses.us_b, trimUs[pairA], trimUs[pairB], dps);
+    }
+  } else if (shell.is("trim")) {
+    if (shell.argc() == 1) {
+      if (pairA >= 0 && pairB >= 0) {
+        bench::msg("trim: CH%d %+.0f us, CH%d %+.0f us", pairA, trimUs[pairA], pairB, trimUs[pairB]);
+      } else {
+        bench::msg("trim: no pair yet — `trim <ch> <us>` sets one, `pair` uses it");
+      }
+    } else {
+      bool okCh = false, okUs = false;
+      const long ch = shell.argl(1, -1, &okCh);
+      const float us = shell.argf(2, 0.0f, &okUs);
+      if (!okCh || ch < 0 || ch > 15 || !okUs) {
+        bench::err("trim (want: trim <0..15> <us>)");
+      } else if (!bench::trimInRange(us)) {
+        bench::msg("WARN trim %.0f us outside -%.0f..+%.0f — refused", us, bench::kPairTrimMaxUs, bench::kPairTrimMaxUs);
+      } else {
+        bool applied = false;
+        if (pairing && (ch == pairA || ch == pairB)) {
+          const bench::PairPulses trial = bench::pairFromDegTrim(
+              degRamp.target(), ch == pairA ? us : trimUs[pairA], ch == pairB ? us : trimUs[pairB]);
+          if (!bench::pairInWindow(trial, minUs, maxUs)) {
+            bench::msg("WARN trim %+.0f would put the pair at %.0f/%.0f us, outside %.0f–%.0f — refused", us, trial.us_a,
+                       trial.us_b, minUs, maxUs);
+          } else {
+            trimUs[ch] = us;
+            applied = true;
+          }
+        } else {
+          trimUs[ch] = us;
+          applied = true;
+        }
+        if (applied) bench::msg("OK trim CH%ld %+.0f us (RAM only — write it on the card)", ch, us);
+      }
     }
   } else if (shell.is("limit")) {
     bool okA = false, okB = false;
@@ -286,7 +334,7 @@ void setup() {
   heartbeat.begin();
   Wire.begin(PIN_I2C0_SDA, PIN_I2C0_SCL, kI2cHz);
   bench::begin("pca9685", "t_ms,ch,us,sweep,kill");
-  bench::msg("pins: SDA GPIO%d SCL GPIO%d · PCA9685 @0x%02X · KILL GPIO%d · OE: 2.2k to 3V3 + rocker to GND (hardware, SPEC §5 R10)",
+  bench::msg("pins: SDA GPIO%d SCL GPIO%d · PCA9685 @0x%02X · KILL GPIO%d (rocker C, software stop) · OE open (rev B adds the hardware kill)",
              PIN_I2C0_SDA, PIN_I2C0_SCL, kPcaAddr, PIN_KILL);
   pcaOk = pca.begin();
   if (pcaOk) {
@@ -324,10 +372,10 @@ void loop() {
 
   if (pairing && dt > 0) {
     const float deg = degRamp.update(dt);
-    const bench::PairPulses p = bench::pairFromDeg(deg);
+    const bench::PairPulses p = pairPulses(deg);
     if (p.ok) {
       const int ua = static_cast<int>(p.us_a + 0.5f);
-      const int ub = static_cast<int>(bench::kPairMirrorSumUs + 0.5f) - ua;  // mirror the rounded pulse so A+B stays 3000
+      const int ub = static_cast<int>(p.us_b + 0.5f);
       if (ua != lastUsA) {
         lastUsA = ua;
         writeUs(pairA, ua);
