@@ -5,6 +5,7 @@
 
 #include "Csv.h"
 #include "Deadman.h"
+#include "EscMath.h"
 #include "PairMath.h"
 #include "Ramp.h"
 #include "SoftLimit.h"
@@ -314,6 +315,51 @@ static void test_pair_trim_pushes_pulse_out_of_window() {
   TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, -10.0f, 10.0f), 500.0f, 2500.0f));   // wider window accepts
 }
 
+// ------------------------------------------------------------------ 7. ESC (T10): diff mix, clamp, ramp
+static void test_esc_diff_mix_narrow() {
+  const float lo = bench::kEscNarrowLoUs, hi = bench::kEscNarrowHiUs;
+  bench::EscPulses p = bench::escDiff(0.0f, 0.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+  p = bench::escDiff(100.0f, 0.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.r_us);
+  p = bench::escDiff(0.0f, 100.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, p.r_us);
+  p = bench::escDiff(100.0f, 100.0f, lo, hi);  // l would be 1800 → clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+}
+
+static void test_esc_clamp_narrow_and_wide() {
+  const float nlo = bench::kEscNarrowLoUs, nhi = bench::kEscNarrowHiUs;
+  const float wlo = bench::kEscWideLoUs, whi = bench::kEscWideHiUs;
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, bench::escClamp(1700.0f, nlo, nhi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, bench::escClamp(1200.0f, nlo, nhi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2000.0f, bench::escClamp(2100.0f, wlo, whi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1000.0f, bench::escClamp(900.0f, wlo, whi));
+  TEST_ASSERT_TRUE(bench::escInLimit(1650.0f, nlo, nhi));
+  TEST_ASSERT_FALSE(bench::escInLimit(1700.0f, nlo, nhi));
+  TEST_ASSERT_TRUE(bench::escInLimit(1700.0f, wlo, whi));
+  bench::EscPulses p = bench::escDiff(100.0f, 0.0f, wlo, whi);  // 100 = the wide limit
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2000.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2000.0f, p.r_us);
+  p = bench::escDiff(-100.0f, -100.0f, wlo, whi);  // l would be 500 → clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1000.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+}
+
+static void test_esc_ramp_1500_to_1650_in_0_75_s() {
+  Ramp r(200.0f, 1500.0f);
+  r.setTarget(1650.0f);
+  for (int i = 0; i < 14; ++i) r.update(50);  // 0.70 s
+  TEST_ASSERT_FALSE(r.atTarget());
+  r.update(50);  // 0.75 s
+  TEST_ASSERT_TRUE(r.atTarget());
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, r.value());
+}
+
 // ------------------------------------------------------------------ Integration: command → limit → ramp → deadman
 static void test_pipeline_deadman_stops_ramp() {
   SoftLimit lim;
@@ -364,5 +410,8 @@ int main() {
   RUN_TEST(test_pair_trim_b_minus_60_at_90);
   RUN_TEST(test_pair_trim_out_of_range_refused);
   RUN_TEST(test_pair_trim_pushes_pulse_out_of_window);
+  RUN_TEST(test_esc_diff_mix_narrow);
+  RUN_TEST(test_esc_clamp_narrow_and_wide);
+  RUN_TEST(test_esc_ramp_1500_to_1650_in_0_75_s);
   return UNITY_END();
 }

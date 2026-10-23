@@ -22,7 +22,7 @@
 #define PIN_PI_TX 15 // SOURCE: breadboard 2b (UART2 TX GPIO15)
 #define PIN_PI_RX 16 // SOURCE: breadboard 2b (UART2 RX GPIO16)
 
-// ---------------------------------------------------------------- ESC L / R (LEDC 50 Hz) — no bench sketch (thrusters need water)
+// ---------------------------------------------------------------- ESC L / R (LEDC 50 Hz) — bench env `esc` (C024)
 #define PIN_ESC_L 1 // SOURCE: breadboard 2b (ESC L GPIO1)
 #define PIN_ESC_R 2 // SOURCE: breadboard 2b (ESC R GPIO2)
 
