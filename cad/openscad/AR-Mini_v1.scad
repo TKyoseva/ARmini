@@ -22,7 +22,9 @@
 //   pivot_bracket x2 (one mirrored)  as modelled (pocket faces up, no supports)
 //   arm_drive x2, arm_idler x2    flat
 //   coupler x2                    plate flat
-//   cam_pan_mount x1              upside down (servo face on the bed), no supports (slide onto the arch tube first)
+//   cam_fixed_mount x1            v1 (23.10): as modelled, clamp on the bed, plate leans 15° (no supports); slide onto the arch tube first
+//                                 2 boards on M2 self-tapping screws with one M2 nut each as a spacer; XIAO Sense in the frame above, USB-C up, one cable tie
+//   cam_pan_mount x1              LATER (C046 pan tracking): upside down (servo face on the bed), no supports
 //   cam_plate x1                  flat, tab prints at 75 deg without supports. NOT YET for the MG90S: hole pattern is the TD disc, needs the MG90S horn measured
 //   Pesho (dummy)                 → cad/pesho/pesho.py (body red PLA, head + lid white PETG)
 //   power_box x1, power_lid x1    PETG, 4 perimeters; sits ON the two cross-beams (v1.9), holds fuse block + 2x BTS7960 + bus bars
@@ -38,7 +40,7 @@
 //   waterline, thruster folds up on shore. No holes below the waterline.
 // ============================================================
 
-part = "assembly";   // assembly | hull_fore | hull_aft | plate_check | beam_bracket | arch_post | pivot_bracket | arm_drive | arm_idler | coupler | cam_pan_mount | cam_plate | power_box | power_lid | thruster_bracket | thruster_arm | thruster_coupon
+part = "assembly";   // assembly | hull_fore | hull_aft | plate_check | beam_bracket | arch_post | pivot_bracket | arm_drive | arm_idler | coupler | cam_fixed_mount | cam_pan_mount | cam_plate | power_box | power_lid | thruster_bracket | thruster_arm | thruster_coupon
 side = 1;            // 1 = left (port), -1 = right (mirrored)
 pose = "deployed";   // deployed | stowed   (assembly only)
 
@@ -161,7 +163,20 @@ disc_r = 8; disc_n = 4; disc_d = 2.4;   // servo disc bolt circle. TD FITTED 10.
 
 // ---------------- thermal camera pan (4th servo, on top of the arch tube) ----------------
 cam_tilt    = 15;     // camera looks this far below horizontal
-cam_hole_dx = 20;     // MLX90640 board hole spacing (board 28 x 16 mm, 2 mm holes).  MEASURE
+cam_hole_dx = 20;     // (old pan cam_plate) MLX90640 board hole spacing guess; the fixed mount below uses the catalogue boards
+// Fixed camera mount (v1, decided 23.10; pan tracking moved to C046). Two thermal boards side by side, lens sides together.
+// Board = [width, height, hole c-c (vertical), hole centre from the lens-side edge, hole centre from the bottom edge]
+cam_board_A   = [28, 16, 12, 2, 2];     // Waveshare MLX90640 110° (blue): catalogue 28 x 16, holes 12 apart, 2 / 2 from the lens-side corner. MEASURE C
+cam_board_B   = [20, 18, 14, 2, 2];     // Seengreat MLX9064X (black): catalogue 20 x 18, holes 14 apart, 2 / 2. C = 14 MEASURED 23.10 (caliper)
+cam_board_gap = 3;       // between the two boards' lens-side edges
+cam_fix_t     = 4;       // camera plate thickness
+cam_fix_m     = 3;       // plate margin round the boards
+cam_xiao      = [18.2, 21.6];  // XIAO ESP32-S3 Sense pocket: W (across) x H (along, USB-C up). Seeed 17.8 x 21 (Teddy's drawing 18 x 22) + clearance. MEASURE
+cam_xiao_wall = 1.6;     // frame wall
+cam_xiao_h    = 5;       // frame wall height off the plate (grips the board edges; the stack is thicker)
+cam_xiao_usb  = 10;      // gap in the top wall for the USB-C plug
+cam_xiao_gap  = 6;       // thermal boards' top → frame bottom (room for the 45° gusset under the frame)
+cam_fix_hole  = 1.6;     // M2 self-tapping through the plate; one M2 nut (1.6 mm) under each board as a spacer for the parts on its back
 // Camera pan servo: MG90S (chosen 20.10), not the TD-8120MG of the pivot brackets. Values = catalogue drawing + clearance.
 cam_servo     = [22.8, 12.4, 16.3];   // pocket L (x), W (y), depth bottom→ear plane (z). Catalogue 22.4 x 12 x 16 + 0.4 / 0.4 / 0.3. MEASURE
 cam_ear_dx    = 2.45;    // ear hole centre beyond the pocket end: c-c = 22.8 + 2*2.45 = 27.7 (catalogue). One hole per ear, on the axis. MEASURE
@@ -388,6 +403,47 @@ module cam_pan_mount() {
     }
 }
 
+// v1 FIXED thermal camera mount: slides onto the arch tube (same clamp + M3 set screw as the pan mount), a plate on the front
+// edge leans 15° forward so both lenses look forward (-x) and cam_tilt below horizontal. Boards: A on +y, B on -y, lens sides together.
+module cam_fixed_mount() {
+    c  = beam/2 + 5;
+    A = cam_board_A; B = cam_board_B; m = cam_fix_m; g = cam_board_gap;
+    u0 = -(g/2 + B[0] + m);  u1 = g/2 + A[0] + m;      // plate extent along y (B side negative)
+    W  = u1 - u0;
+    xw = cam_xiao_wall; xs = cam_xiao; xh = cam_xiao_h;
+    vb = m + max(A[1], B[1]) + cam_xiao_gap;            // XIAO frame bottom, centred over the lens gap
+    H  = vb + xs[1] + 2*xw + m;
+    yc = (u0 + u1)/2;                                   // plate centre, the clamp is centred on it
+    translate([0, -yc, 0]) difference() {
+        union() {
+            translate([-c, u0, -c]) cube([2*c, W, 2*c]);                                        // clamp round the tube, as long as the plate
+            translate([-c, 0, c]) rotate([0, -cam_tilt, 0]) translate([0, u0, 0]) cube([cam_fix_t, W, H]);   // camera plate, pivots on the clamp's front top edge, front face = -x
+            translate([-c, 0, c]) rotate([0, -cam_tilt, 0]) {                                   // XIAO frame on the plate front, USB-C up
+                difference() {
+                    translate([-xh, -xs[0]/2 - xw, vb]) cube([xh + 0.01, xs[0] + 2*xw, xs[1] + 2*xw]);
+                    translate([-xh - 1, -xs[0]/2, vb + xw]) cube([xh + 2, xs[0], xs[1]]);
+                    translate([-xh - 1, -cam_xiao_usb/2, vb + xw + xs[1] - 1]) cube([xh + 2, cam_xiao_usb, xw + 2]);
+                }
+                hull() {                                                                        // 45° gusset under the bottom wall, prints without supports
+                    translate([-xh, -xs[0]/2 - xw, vb]) cube([xh, xs[0] + 2*xw, 0.01]);
+                    translate([-0.01, -xs[0]/2 - xw, vb - xh]) cube([0.01, xs[0] + 2*xw, 0.01]);
+                }
+            }
+            hull() {                                                                            // fill the wedge under the plate foot
+                translate([-c, u0, c - 0.01]) cube([cam_fix_t*cos(cam_tilt), W, 0.01]);
+                translate([-c, 0, c]) rotate([0, -cam_tilt, 0]) translate([0, u0, 0]) cube([cam_fix_t, W, 0.01]);
+            }
+        }
+        translate([0, yc, 0]) cube([beam + 0.4, W + 2 + 2*abs(yc), beam + 0.4], center = true);   // tube channel along y
+        translate([0, yc, -c - 1]) cylinder(d = 2.6, h = c);                                   // set screw from below (tap M3)
+        translate([-c, 0, c]) rotate([0, -cam_tilt, 0]) {
+            for (dv = [0, A[2]]) translate([-1, g/2 + A[3], m + A[4] + dv]) rotate([0, 90, 0]) cylinder(d = cam_fix_hole, h = cam_fix_t + 2);
+            for (dv = [0, B[2]]) translate([-1, -(g/2 + B[3]), m + B[4] + dv]) rotate([0, 90, 0]) cylinder(d = cam_fix_hole, h = cam_fix_t + 2);
+            for (s = [-1, 1]) translate([-1, s*(xs[0]/2 + xw + 2.5) - 1, vb + xw + 3]) cube([cam_fix_t + 2, 2, 4]);   // cable-tie slots: one tie across the lower part of the XIAO
+        }
+    }
+}
+
 // Bolts to the servo disc; the MLX90640 sits on the tilted tab, lens forward (-x).
 module cam_plate() {
     difference() {
@@ -528,8 +584,7 @@ module assembly() {
     // beams and arch tube
     for (bx = beam_x) translate([bx, 0, hull_H + 6 + beam/2]) color("silver") cube([beam, 2*(boss_y + 13), beam], center = true);
     translate([arch_x, 0, arch_z + beam/2]) color("silver") cube([beam, 2*(boss_y + 13), beam], center = true);
-    translate([arch_x, 0, arch_z + beam/2]) color("dimgray") cam_pan_mount();
-    translate([arch_x - cam_servo[0]/2 + cam_shaft_off, 0, arch_z + beam/2 + beam/2 + 5 + cam_servo[2] + 4 + cam_horn_h]) color("darkgoldenrod") cam_plate();
+    translate([arch_x, 0, arch_z + beam/2]) color("dimgray") cam_fixed_mount();   // v1 fixed; the pan version (cam_pan_mount + cam_plate) is C046
     // cradle rod (buy: 5 mm aluminium, bend the front corners)
     color("red") {
         for (s = [-1, 1]) translate([cx - cradle_L, s*coupler_y, rod_z]) rotate([0, 90, 0]) cylinder(d = 5, h = cradle_L + 8);
@@ -568,6 +623,7 @@ else if (part == "pivot_bracket")  mir() rotate([-90, 0, 0]) pivot_bracket();
 else if (part == "arm_drive")      arm(true);
 else if (part == "arm_idler")      arm(false);
 else if (part == "coupler")        rotate([90, 0, 0]) coupler();
+else if (part == "cam_fixed_mount") cam_fixed_mount();
 else if (part == "cam_pan_mount")  cam_pan_mount();
 else if (part == "cam_plate")      cam_plate();
 else if (part == "power_box")      power_box();
