@@ -360,6 +360,18 @@ static void test_esc_ramp_1500_to_1650_in_0_75_s() {
   TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, r.value());
 }
 
+static void test_esc_duty_normal_and_inverted() {
+  TEST_ASSERT_EQUAL_UINT32(1229, bench::escDuty(1500.0f, 14, false));          // 1500 / 20000 × 16384 = 1228.8
+  TEST_ASSERT_EQUAL_UINT32(16384 - 1229, bench::escDuty(1500.0f, 14, true));   // 15155
+  TEST_ASSERT_EQUAL_UINT32(16384, bench::escDuty(0.0f, 14, true));             // pin always HIGH → ESC input always LOW
+  TEST_ASSERT_EQUAL_UINT32(0, bench::escDuty(0.0f, 14, false));
+  TEST_ASSERT_EQUAL_UINT32(16384, bench::escDuty(20000.0f, 14, false) + bench::escDuty(0.0f, 14, false));
+  for (int us = 1000; us <= 2000; us += 50) {
+    TEST_ASSERT_EQUAL_UINT32(16384, bench::escDuty(static_cast<float>(us), 14, false) +
+                                        bench::escDuty(static_cast<float>(us), 14, true));
+  }
+}
+
 // ------------------------------------------------------------------ Integration: command → limit → ramp → deadman
 static void test_pipeline_deadman_stops_ramp() {
   SoftLimit lim;
@@ -413,5 +425,6 @@ int main() {
   RUN_TEST(test_esc_diff_mix_narrow);
   RUN_TEST(test_esc_clamp_narrow_and_wide);
   RUN_TEST(test_esc_ramp_1500_to_1650_in_0_75_s);
+  RUN_TEST(test_esc_duty_normal_and_inverted);
   return UNITY_END();
 }

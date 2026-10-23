@@ -5,6 +5,7 @@
 // k chosen so 100 reaches the current soft limit, then both clamped into the limit.
 // SOURCE: tasks/night/2026-10-23_T10_esc.md (limits 1350–1650 narrow, 1000–2000 wide).
 #pragma once
+#include <stdint.h>
 
 namespace bench {
 
@@ -34,6 +35,18 @@ inline float escMixGain(float lo_us, float hi_us) {
   const float down = kEscNeutralUs - lo_us;
   const float span = up < down ? up : down;
   return span > 0.0f ? span / kEscMixMax : 0.0f;
+}
+
+// LEDC duty for a pulse of `us` in a frame of `frame_us`, `bits` resolution. full = 1 << bits (= always on).
+// inverted (T11, C006): the pin drives an S8050 NPN that pulls the ESC input low, so the pin must be
+// LOW for `us` and HIGH for the rest → duty = full − normal. 0 µs inverted = pin always HIGH = input always LOW.
+inline uint32_t escDuty(float us, uint8_t bits, bool inverted, float frame_us = 20000.0f) {
+  const uint32_t full = 1UL << bits;
+  float d = us / frame_us * static_cast<float>(full);
+  if (d < 0.0f) d = 0.0f;
+  if (d > static_cast<float>(full)) d = static_cast<float>(full);
+  const uint32_t normal = static_cast<uint32_t>(d + 0.5f);
+  return inverted ? full - normal : normal;
 }
 
 inline EscPulses escDiff(float thrust, float turn, float lo_us, float hi_us) {

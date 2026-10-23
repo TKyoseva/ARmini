@@ -9,8 +9,9 @@
 // KILL here is SOFTWARE only (the sketch writes 1500 µs). The hardware stop for the thrusters is the
 // bench supply OUTPUT button, later the 20 A fuse slot / main switch.
 //
-// C006 is open: whether the ESC signal input idles above 3.3 V is not measured yet. PROTOCOL.md
-// step 1 measures it BEFORE GPIO1/2 are connected.
+// C006 (23.10): the ESC signal input idles at 4.98 V (≈ 3.9 kΩ pull-up to 5 V), so it never touches
+// GPIO1/2. Each pin drives an S8050 NPN (1 k to the base, 10 k base → GND, collector → yellow), which
+// inverts: the output is INVERTED here so the pulse at the collector is right (T11).
 //
 // CSV: t_ms,l_us,r_us,kill,armed   (l_us/r_us = the ramped pulses on the pins now)
 #include <Arduino.h>
@@ -27,6 +28,7 @@ namespace {
 const uint32_t kEscHz = 50;              // SOURCE: C002 thruster listing (PWM 50 Hz); breadboard 2b "ESC L/R (LEDC 50 Hz)"
 const uint8_t kEscBits = 14;             // SOURCE: T10 (≥ 14-bit): 20 ms / 16384 ≈ 1.22 µs per step
 const float kFrameUs = 1000000.0f / kEscHz;
+const bool kEscInvert = true;  // SOURCE: C006 (ESC input pulled up to 5 V, driven through S8050 NPN)
 const float kRampUsPerS = 200.0f;        // SOURCE: T10 (ramp 200 µs/s)
 const uint32_t kArmHoldMs = 3000;        // SOURCE: T10 (arm holds 1500 µs for 3 s). VERIFY: ESC arming not documented (C002)
 const uint8_t kLedcChL = 0;
@@ -48,21 +50,14 @@ uint32_t armDoneMs = 0;
 int lastL = -1, lastR = -1;  // µs last written to the pins
 uint32_t lastLoopMs = 0;
 
-uint32_t dutyFromUs(float us) {
-  const uint32_t full = (1UL << kEscBits) - 1;
-  float d = us / kFrameUs * static_cast<float>(1UL << kEscBits);
-  if (d < 0.0f) d = 0.0f;
-  if (d > static_cast<float>(full)) d = static_cast<float>(full);
-  return static_cast<uint32_t>(d + 0.5f);
-}
-
 void writeUs(int pin, uint8_t ch, int us) {
+  const uint32_t duty = bench::escDuty(static_cast<float>(us), kEscBits, kEscInvert, kFrameUs);
 #if ESP_ARDUINO_VERSION_MAJOR >= 3
   (void)ch;
-  ledcWrite(pin, dutyFromUs(static_cast<float>(us)));  // core 3.x: ledcWrite takes the pin
+  ledcWrite(pin, duty);  // core 3.x: ledcWrite takes the pin
 #else
   (void)pin;
-  ledcWrite(ch, dutyFromUs(static_cast<float>(us)));
+  ledcWrite(ch, duty);
 #endif
 }
 
@@ -216,8 +211,9 @@ void setup() {
   bench::begin("esc", "t_ms,l_us,r_us,kill,armed");
   bench::msg("pins: ESC_L GPIO%d · ESC_R GPIO%d (LEDC %lu Hz, %u bit) · KILL GPIO%d (software stop; supply OUTPUT = hardware)",
              PIN_ESC_L, PIN_ESC_R, static_cast<unsigned long>(kEscHz), kEscBits, PIN_KILL);
-  bench::msg("both 1500 us, NOT armed. limit %.0f–%.0f us, ramp %.0f us/s, dead-man %lu ms. C006: measure the signal wire first. Type `?`.",
-             loUs, hiUs, kRampUsPerS, static_cast<unsigned long>(deadman.timeout()));
+  if (kEscInvert) bench::msg("ESC output INVERTED (NPN level shifter, C006)");
+  bench::msg("both 1500 us, NOT armed. limit %.0f–%.0f us, ramp %.0f us/s, dead-man %lu ms. Type `?`.", loUs, hiUs,
+             kRampUsPerS, static_cast<unsigned long>(deadman.timeout()));
   lastLoopMs = millis();
 }
 

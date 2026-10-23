@@ -12,7 +12,7 @@ every number in a PROTOCOL marked `expected: record` or `VERIFY` is Teddy's to m
 ```
 cd firmware/bench
 pio run                            # build all seven module envs
-pio test -e native                 # host unit tests of lib/benchcore (Unity, 28 cases)
+pio test -e native                 # host unit tests of lib/benchcore (Unity, 29 cases)
 pio run -e bts7960 -t upload       # flash one sketch over USB-C (hold BUT1 + RST if the port does not appear)
 pio device monitor                 # 115200; `?` help, `0` stop
 python3 scripts/bench_log.py --port /dev/tty.usbmodem* --card C005 --name bts-bench   # from the repo root: save the CSV
@@ -37,7 +37,7 @@ hold RST → `expected: record` ([bts7960 protocol §3](src/bts7960/PROTOCOL.md)
 
 `pair <chA> <chB> <deg> [deg_per_s]` (pca9685, C023): both TD-8120MG move together from one degree, chB mirrored (`us_B = 3000 − us_A`), default 20 °/s. First lift 22–23.10 (empty U, level). `trim <ch> <us>` (T9): ±200 µs per-channel offset after the mirror, RAM only, to match arms clocked a tooth apart on the splines — not yet run on hardware.
 
-`esc` (T10, C024): both outputs at 1500 µs from the first line of `setup()`; `arm` (3 s at 1500) before anything moves; `l` / `r` / `both` / `diff`, ramped at 200 µs/s; soft limit 1350–1650, `limit wide` 1000–2000. **C006 first:** measure the ESC signal wire before connecting GPIO1 ([protocol §1](src/esc/PROTOCOL.md)). Not yet run on hardware.
+`esc` (T10, C024): both outputs at 1500 µs from the first line of `setup()`; `arm` (3 s at 1500) before anything moves; `l` / `r` / `both` / `diff`, ramped at 200 µs/s; soft limit 1350–1650, `limit wide` 1000–2000. C006 (23.10): the ESC input idles at 5 V, so each pin drives an S8050 NPN and the output is **inverted** (T11, [protocol §1–2](src/esc/PROTOCOL.md)). Not yet run on hardware.
 
 Pins: **only** in [include/pins_devkit.h](include/pins_devkit.h) (every line `// SOURCE: breadboard 2b` or `// VERIFY`).
 The same table is in [hardware/wiring/PINOUT.md](../../hardware/wiring/PINOUT.md) ("DevKit-Lipo").
@@ -70,7 +70,7 @@ The same table is in [hardware/wiring/PINOUT.md](../../hardware/wiring/PINOUT.md
 | `lib/benchcore/` | `Ramp.h`, `Deadman.h`, `SoftLimit.h`, `Csv.h`, `PairMath.h`, `EscMath.h` — pure C++11, no Arduino, tested on the host |
 | `src/common/` | `Cli.h/.cpp` (line parser), `Bench.h` (banner, `# ` messages, `Periodic`, `KillInput`, `Heartbeat`), `I2cScan.h` |
 | `src/<module>/main.cpp` + `PROTOCOL.md` | the sketch and its one-page test protocol |
-| `test/test_benchcore/` | Unity tests: Ramp rate/target/sign change/stop, Deadman trip once/reset/wrap-around, CSV formatting, SoftLimit refuse-until-unlocked, pipeline, PairMath mirror / 4.5 s ramp / trim, EscMath diff mix / clamp / 0.75 s ramp |
+| `test/test_benchcore/` | Unity tests: Ramp rate/target/sign change/stop, Deadman trip once/reset/wrap-around, CSV formatting, SoftLimit refuse-until-unlocked, pipeline, PairMath mirror / 4.5 s ramp / trim, EscMath diff mix / clamp / 0.75 s ramp / inverted duty |
 
 Task T3 listed `Csv.h`, `Ramp.h`, `Deadman.h` under `src/common/`; they live in `lib/benchcore/` instead so that the
 `native` env can test them without Arduino (the task's "Tests" section asks for exactly that).
