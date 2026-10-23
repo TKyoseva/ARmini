@@ -12,7 +12,8 @@ every number in a PROTOCOL marked `expected: record` or `VERIFY` is Teddy's to m
 ```
 cd firmware/bench
 pio run                            # build all seven module envs
-pio test -e native                 # host unit tests of lib/benchcore (Unity, 29 cases)
+pio test -e native                 # host unit tests of lib/benchcore (Unity, 34 cases)
+pio run -e remote                  # WiFi env, not in `pio run`: needs include/secrets.h (cp include/secrets.example.h)
 pio run -e bts7960 -t upload       # flash one sketch over USB-C (hold BUT1 + RST if the port does not appear)
 pio device monitor                 # 115200; `?` help, `0` stop
 python3 scripts/bench_log.py --port /dev/tty.usbmodem* --card C005 --name bts-bench   # from the repo root: save the CSV
@@ -34,10 +35,13 @@ hold RST → `expected: record` ([bts7960 protocol §3](src/bts7960/PROTOCOL.md)
 | `bno055` | BNO055 IMU breakout (78) | I2C-0 GPIO48/47 @0x28 | `t_ms,heading_deg,roll_deg,pitch_deg,cal_sys,cal_gyro,cal_acc,cal_mag` | [src/bno055/PROTOCOL.md](src/bno055/PROTOCOL.md) |
 | `ladder` | VBAT divider, LEAK probe, KILL rocker | ADC GPIO4, GPIO7; GPIO14 | `t_ms,v_adc_mV,v_bat_V,leak_mV,leak,kill` | [src/ladder/PROTOCOL.md](src/ladder/PROTOCOL.md) |
 | `esc` | 2 × thruster ESC (C002, C024) | LEDC 50 Hz GPIO1 (L) / GPIO2 (R) | `t_ms,l_us,r_us,kill,armed` | [src/esc/PROTOCOL.md](src/esc/PROTOCOL.md) |
+| `remote` | 2 × thruster ESC from a phone (C028) | WiFi AP `AR-Mini` ch 6, 192.168.4.1; WebSocket :81; GPIO1/2, KILL GPIO14, VBAT GPIO4 | `t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms` | [src/remote/PROTOCOL.md](src/remote/PROTOCOL.md) |
 
 `pair <chA> <chB> <deg> [deg_per_s]` (pca9685, C023): both TD-8120MG move together from one degree, chB mirrored (`us_B = 3000 − us_A`), default 20 °/s. First lift 22–23.10 (empty U, level). `trim <ch> <us>` (T9): ±200 µs per-channel offset after the mirror, RAM only, to match arms clocked a tooth apart on the splines — not yet run on hardware.
 
 `esc` (T10, C024): both outputs at 1500 µs from the first line of `setup()`; `arm` (3 s at 1500) before anything moves; `l` / `r` / `both` / `diff`, ramped at 200 µs/s; soft limit 1350–1650, `limit wide` 1000–2000. C006 (23.10): the ESC input idles at 5 V, so each pin drives an S8050 NPN and the output is **inverted** (T11, [protocol §1–2](src/esc/PROTOCOL.md)). Not yet run on hardware.
+
+`remote` (T12, C028): same ESC safety as `esc`, driven from one phone page (thrust + turn sliders, ARM, STOP). Any valid WebSocket message is a heartbeat; > 500 ms without one, KILL, STOP or a disconnect → both 1500 µs at once, disarmed, `# SAFE <reason>`, re-ARM needed. Dead band: slider ±1..100 → 1580..1650 / 1420..1350 µs (C025: 1550 does not spin). WPA2 password only in the gitignored `include/secrets.h`, never printed. `ladder` and `remote` read VBAT with the C027 fit (`VBAT_GAIN`, `VBAT_OFFSET_V`). Not yet run on hardware.
 
 Pins: **only** in [include/pins_devkit.h](include/pins_devkit.h) (every line `// SOURCE: breadboard 2b` or `// VERIFY`).
 The same table is in [hardware/wiring/PINOUT.md](../../hardware/wiring/PINOUT.md) ("DevKit-Lipo").
@@ -58,7 +62,7 @@ The same table is in [hardware/wiring/PINOUT.md](../../hardware/wiring/PINOUT.md
   centred on 180°). Anything beyond is **refused** with a `# WARN` until `limit …` raises it explicitly, which also prints a warning.
 - **KILL**: GPIO14 read with the internal pull-up in every actuator sketch (low = KILL) → stop + refuse commands.
   It is the software half of the kill; the hardware half is the rocker on R_EN/L_EN (BTS) or OE (PCA9685), see the protocols.
-- No WiFi, no secrets, nothing stored on the board (calibration factors are printed for the card).
+- No WiFi, no secrets, nothing stored on the board (calibration factors are printed for the card). Exception: `remote` (WiFi AP, `include/secrets.h`).
 - On-board green LED (GPIO38) flashes once a second = sketch alive.
 
 ## Layout

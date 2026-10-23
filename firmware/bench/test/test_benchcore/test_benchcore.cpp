@@ -8,7 +8,9 @@
 #include "EscMath.h"
 #include "PairMath.h"
 #include "Ramp.h"
+#include "Remote.h"
 #include "SoftLimit.h"
+#include "Vbat.h"
 
 using bench::CsvRow;
 using bench::Deadman;
@@ -372,6 +374,71 @@ static void test_esc_duty_normal_and_inverted() {
   }
 }
 
+// ------------------------------------------------------------------ Remote (T12): dead band, mix, link, message
+static void test_remote_deadband_map() {
+  const float lo = bench::kEscNarrowLoUs, hi = bench::kEscNarrowHiUs;
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, bench::escDeadbandUs(0.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1580.0f, bench::escDeadbandUs(1.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, bench::escDeadbandUs(100.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1420.0f, bench::escDeadbandUs(-1.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, bench::escDeadbandUs(-100.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, bench::escDeadbandUs(250.0f, lo, hi));   // clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, bench::escDeadbandUs(-250.0f, lo, hi));  // clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, bench::escDeadbandUs(0.5f, lo, hi));     // below one step → neutral
+  for (int c = -100; c <= 100; ++c) {
+    const float us = bench::escDeadbandUs(static_cast<float>(c), lo, hi);
+    TEST_ASSERT_TRUE(bench::escInLimit(us, lo, hi));
+  }
+}
+
+static void test_remote_mix() {
+  const float lo = bench::kEscNarrowLoUs, hi = bench::kEscNarrowHiUs;
+  bench::EscPulses p = bench::escMixDeadband(50.0f, 0.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, p.l_us, p.r_us);
+  TEST_ASSERT_TRUE(p.l_us > 1580.0f && p.l_us < 1650.0f);
+  p = bench::escMixDeadband(0.0f, 100.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);  // left forward
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, p.r_us);  // right reverse
+  p = bench::escMixDeadband(100.0f, 100.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+}
+
+static void test_remote_link_timeout() {
+  TEST_ASSERT_FALSE(bench::linkLost(1000, 1000));
+  TEST_ASSERT_FALSE(bench::linkLost(1000, 1500));  // exactly 500 ms: still alive
+  TEST_ASSERT_TRUE(bench::linkLost(1000, 1501));
+  TEST_ASSERT_FALSE(bench::linkLost(0xFFFFFF00u, 0x000000F0u));  // 496 ms across millis() wrap
+  TEST_ASSERT_TRUE(bench::linkLost(0xFFFFFF00u, 0x00000200u));   // 768 ms across wrap
+}
+
+static void test_remote_parse_message() {
+  bench::RemoteMsg m;
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":-100,\"r\":100,\"arm\":0}", &m));
+  TEST_ASSERT_EQUAL_INT(-100, m.t);
+  TEST_ASSERT_EQUAL_INT(100, m.r);
+  TEST_ASSERT_FALSE(m.arm);
+  TEST_ASSERT_FALSE(m.stop);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\": 5, \"r\": -3, \"arm\": 1}", &m));
+  TEST_ASSERT_EQUAL_INT(5, m.t);
+  TEST_ASSERT_EQUAL_INT(-3, m.r);
+  TEST_ASSERT_TRUE(m.arm);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"stop\":1}", &m));
+  TEST_ASSERT_TRUE(m.stop);
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":101,\"r\":0,\"arm\":0}", &m));  // out of range
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0}", &m));                      // no r
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":x,\"r\":0}", &m));              // not a number
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":2}", &m));
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("hello", &m));
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg(nullptr, &m));
+}
+
+static void test_vbat_corrected() {
+  const float div = (100000.0f + 30000.0f) / 30000.0f;
+  TEST_ASSERT_FLOAT_WITHIN(1e-4f, 2.769f * div, bench::vbatCorrected(2.769f, div, 1.0f, 0.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 0.965f * 2.769f * div + 0.57f, bench::vbatCorrected(2.769f, div, 0.965f, 0.57f));
+}
+
 // ------------------------------------------------------------------ Integration: command → limit → ramp → deadman
 static void test_pipeline_deadman_stops_ramp() {
   SoftLimit lim;
@@ -426,5 +493,10 @@ int main() {
   RUN_TEST(test_esc_clamp_narrow_and_wide);
   RUN_TEST(test_esc_ramp_1500_to_1650_in_0_75_s);
   RUN_TEST(test_esc_duty_normal_and_inverted);
+  RUN_TEST(test_remote_deadband_map);
+  RUN_TEST(test_remote_mix);
+  RUN_TEST(test_remote_link_timeout);
+  RUN_TEST(test_remote_parse_message);
+  RUN_TEST(test_vbat_corrected);
   return UNITY_END();
 }

@@ -14,6 +14,7 @@
 #include "Bench.h"
 #include "Cli.h"
 #include "Csv.h"
+#include "Vbat.h"
 
 namespace {
 
@@ -46,7 +47,7 @@ void help() {
 
 void readAll(int& vAdc, float& vBat, int& leakMv, bool& leak, bool& kill) {
   vAdc = readMv(PIN_VBAT_ADC);
-  vBat = vAdc / 1000.0f * kDivGain * calGain;
+  vBat = bench::vbatCorrected(vAdc / 1000.0f, kDivGain, VBAT_GAIN, VBAT_OFFSET_V) * calGain;  // C027 fit, then `cal`
   leakMv = readMv(PIN_LEAK);
   leak = leakMv < leakTh;
   kill = killIn.active();
@@ -67,7 +68,7 @@ void handleCommand() {
       bench::msg("OK cal reset, gain %.3f", kDivGain);
     } else {
       const int vAdc = readMv(PIN_VBAT_ADC);
-      const float nominal = vAdc / 1000.0f * kDivGain;
+      const float nominal = bench::vbatCorrected(vAdc / 1000.0f, kDivGain, VBAT_GAIN, VBAT_OFFSET_V);
       if (nominal < 0.1f) {
         bench::msg("WARN v_adc is %d mV — is the divider connected?", vAdc);
       } else {
