@@ -410,6 +410,7 @@ static void test_remote_link_timeout() {
   TEST_ASSERT_TRUE(bench::linkLost(1000, 1501));
   TEST_ASSERT_FALSE(bench::linkLost(0xFFFFFF00u, 0x000000F0u));  // 496 ms across millis() wrap
   TEST_ASSERT_TRUE(bench::linkLost(0xFFFFFF00u, 0x00000200u));   // 768 ms across wrap
+  TEST_ASSERT_FALSE(bench::linkLost(1001, 1000));  // heartbeat stamped 1 ms after loop()'s now (bench 23.10)
 }
 
 static void test_remote_parse_message() {

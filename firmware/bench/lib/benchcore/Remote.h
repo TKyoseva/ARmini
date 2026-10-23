@@ -10,8 +10,10 @@ namespace bench {
 static const uint32_t kLinkTimeoutMs = 500;  // SOURCE: safety rule T2 (no heartbeat for 500 ms → SAFE)
 
 // True when more than `timeout_ms` have passed since the last heartbeat. Survives millis() wrap-around.
+// A heartbeat stamped after `now_ms` (the WebSocket callback reads millis() later than loop() did) is not lost.
 inline bool linkLost(uint32_t last_hb_ms, uint32_t now_ms, uint32_t timeout_ms = kLinkTimeoutMs) {
-  return static_cast<uint32_t>(now_ms - last_hb_ms) > timeout_ms;
+  const int32_t age = static_cast<int32_t>(now_ms - last_hb_ms);
+  return age > static_cast<int32_t>(timeout_ms);
 }
 
 // Page → board, every 100 ms:  {"t":<-100..100>,"r":<-100..100>,"arm":0|1}   or   {"stop":1}
