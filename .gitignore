@@ -4,6 +4,7 @@ build/
 *.elf
 include/secrets.h
 firmware/xiao/include/secrets.h
+firmware/bench/include/secrets.h
 .DS_Store
 Thumbs.db
 .vscode/

@@ -30,15 +30,15 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 | 18 | EXT1 11 | SRV_RX `PIN_SRV_RX` (U1RXD) | bus servo driver TX | SOURCE 2b |
 | 15 | EXT1 8 | PI_TX `PIN_PI_TX` (UART2, v2) | Raspberry Pi 5 — not used on the bench | SOURCE 2b |
 | 16 | EXT1 9 | PI_RX `PIN_PI_RX` (UART2, v2) | " | SOURCE 2b |
-| 1 | EXT2 4 | ESC_L `PIN_ESC_L` (LEDC 50 Hz) | left thruster ESC — bench env `esc` (C024) via S8050 NPN, inverted (C006); rev B: JP1/JP2 → B + 74AHCT125 | SOURCE 2b · C006 |
-| 2 | EXT2 5 | ESC_R `PIN_ESC_R` (LEDC 50 Hz) | right thruster ESC — bench env `esc` (C024) via S8050 NPN, inverted (C006); rev B: JP1/JP2 → B + 74AHCT125 | SOURCE 2b · C006 |
+| 1 | EXT2 4 | ESC_L `PIN_ESC_L` (LEDC 50 Hz) | left thruster ESC — bench envs `esc` (C024) and `remote` (C028, phone over WiFi) via S8050 NPN, inverted (C006); rev B: JP1/JP2 → B + 74AHCT125 | SOURCE 2b · C006 |
+| 2 | EXT2 5 | ESC_R `PIN_ESC_R` (LEDC 50 Hz) | right thruster ESC — bench envs `esc` (C024) and `remote` (C028) via S8050 NPN, inverted (C006); rev B: JP1/JP2 → B + 74AHCT125 | SOURCE 2b · C006 |
 | 39 | EXT2 9 | BTS_L_RPWM `PIN_BTS_L_RPWM` | left BTS7960 RPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 40 | EXT2 8 | BTS_L_LPWM `PIN_BTS_L_LPWM` | left BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 41 | EXT2 7 | BTS_R_RPWM `PIN_BTS_R_RPWM` | right BTS7960 RPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 42 | EXT2 6 | BTS_R_LPWM `PIN_BTS_R_LPWM` | right BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 10 | EXT1 16 | `PIN_BTS_IS_R` (ADC1_CH9) | BTS7960 IS_R, optional | **VERIFY** (not on the sheet, proposed) |
 | 11 | EXT1 17 | `PIN_BTS_IS_L` (ADC2_CH0) | BTS7960 IS_L, optional | **VERIFY** (not on the sheet, proposed) |
-| 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/30k from F4 | SOURCE C027 (measured 30 k; sheet 2b and carrier rev A say 33 k) |
+| 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/30k from F4; fit `v_bat = 0.965 × v_nominal + 0.57` (`VBAT_GAIN`/`VBAT_OFFSET_V`); ADC1, so it reads with WiFi on (`remote`) | SOURCE C027 (measured 30 k; sheet 2b and carrier rev A say 33 k) |
 | 7 | EXT1 7 | LEAK `PIN_LEAK` | 10k to 3V3, 4.7k to the probe → GND | SOURCE 2b |
 | 14 | EXT1 20 | KILL `PIN_KILL` | 10k to 3V3, rocker C → GPIO14, KILL → GND (low = KILL) | SOURCE 2b |
 | 5 | EXT1 5 | PWR_SENS (board) | — never for modules | SOURCE manual p7 |

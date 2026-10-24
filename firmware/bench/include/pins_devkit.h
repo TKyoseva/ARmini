@@ -58,5 +58,7 @@
 // ---------------------------------------------------------------- Divider / ladder values (for the ladder sketch)
 #define VBAT_DIV_R_TOP_OHM 100000.0f // SOURCE: breadboard 2b + pcb/carrier-revA/SPEC.md (R1 100 k, 1 %)
 #define VBAT_DIV_R_BOT_OHM 30000.0f  // SOURCE: C027 bench, measured 30 k
+#define VBAT_GAIN 0.965f             // SOURCE: C027 (23.10) fit against the meter: v_bat = 0.965 × v_nominal + 0.57
+#define VBAT_OFFSET_V 0.57f          // SOURCE: C027 (23.10), same fit
 #define LEAK_PULLUP_OHM 10000.0f     // SOURCE: breadboard 2b (10 k to 3V3)
 #define LEAK_SERIES_OHM 4700.0f      // SOURCE: breadboard 2b (4.7 k to the probe)

@@ -49,6 +49,34 @@ inline uint32_t escDuty(float us, uint8_t bits, bool inverted, float frame_us = 
   return inverted ? full - normal : normal;
 }
 
+// Dead band (T12, C025 23.10 at 12 V: 1550 µs does not spin, 1600 → 0.22 A, 1650 → 0.58 A, 1400 reverse).
+// A command 1..100 maps linearly to db_fwd..hi_us, −1..−100 to db_rev..lo_us, 0 → 1500, so the first
+// step of a slider already spins the prop. |cmd| > 100 is clamped.
+static const float kEscDeadbandFwdUs = 1580.0f;  // SOURCE: C025 (1550 no spin, 1600 spins); T12
+static const float kEscDeadbandRevUs = 1420.0f;  // SOURCE: T12 (mirror of 1580; C025 1400 reverse spins)
+
+inline float escDeadbandUs(float cmd, float lo_us, float hi_us, float db_fwd_us = kEscDeadbandFwdUs,
+                           float db_rev_us = kEscDeadbandRevUs) {
+  if (cmd > kEscMixMax) cmd = kEscMixMax;
+  if (cmd < -kEscMixMax) cmd = -kEscMixMax;
+  float us = kEscNeutralUs;
+  if (cmd >= 1.0f) {
+    us = db_fwd_us + (cmd - 1.0f) * (hi_us - db_fwd_us) / (kEscMixMax - 1.0f);
+  } else if (cmd <= -1.0f) {
+    us = db_rev_us - (-cmd - 1.0f) * (db_rev_us - lo_us) / (kEscMixMax - 1.0f);
+  }
+  return escClamp(us, lo_us, hi_us);
+}
+
+// Same mix as escDiff (l = thrust + turn, r = thrust − turn, each clamped to ±100), but each side goes
+// through the dead-band map instead of the linear gain. Used by the `remote` env.
+inline EscPulses escMixDeadband(float thrust, float turn, float lo_us, float hi_us) {
+  EscPulses p;
+  p.l_us = escDeadbandUs(thrust + turn, lo_us, hi_us);
+  p.r_us = escDeadbandUs(thrust - turn, lo_us, hi_us);
+  return p;
+}
+
 inline EscPulses escDiff(float thrust, float turn, float lo_us, float hi_us) {
   const float k = escMixGain(lo_us, hi_us);
   EscPulses p;
