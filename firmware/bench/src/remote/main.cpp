@@ -61,8 +61,9 @@ const char kPage[] PROGMEM = R"HTML(<!doctype html><html><head><meta charset="ut
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html,body{margin:0;height:100%;background:#111;color:#eee;font:16px -apple-system,Helvetica,sans-serif;overflow:hidden;touch-action:none}
 #bar{padding:8px;text-align:center;background:#222}#bar.bad{background:#a00}
-#row{display:flex;justify-content:space-around;align-items:center;height:calc(100% - 200px)}
-.trk{position:relative;width:90px;height:90%;background:#333;border-radius:45px;touch-action:none}
+#row{display:flex;justify-content:space-around;align-items:stretch;height:calc(100% - 200px);padding:12px 0}
+#row>div{display:flex;flex-direction:column;align-items:center}
+.trk{position:relative;width:90px;flex:1;background:#333;border-radius:45px;touch-action:none}
 .knob{position:absolute;left:5px;width:80px;height:80px;border-radius:40px;background:#ccc;top:calc(50% - 40px)}
 .lbl{text-align:center;margin-top:4px}
 #btns{display:flex;gap:10px;padding:10px;height:150px}
@@ -76,7 +77,7 @@ button{flex:1;font-size:28px;font-weight:bold;border:0;border-radius:16px;color:
 <script>
 var t=0,r=0,armReq=0,stopped=1,ws=null,lastRx=0,st={};
 function slider(trk,knob,lab,set){var id=null;
- function mv(e){var b=trk.getBoundingClientRect();var y=(e.clientY-b.top)/b.height;y=Math.max(0,Math.min(1,y));
+ function mv(e){var b=trk.getBoundingClientRect();if(!(b.height>0))return;var y=(e.clientY-b.top)/b.height;y=Math.max(0,Math.min(1,y));
   var v=Math.round((0.5-y)*200);v=Math.max(-100,Math.min(100,v));set(v);lab.textContent=v;knob.style.top=(y*b.height-40)+'px';}
  function up(e){if(e.pointerId!==id)return;id=null;set(0);lab.textContent=0;knob.style.top='calc(50% - 40px)';}
  trk.addEventListener('pointerdown',function(e){id=e.pointerId;trk.setPointerCapture(id);mv(e);e.preventDefault();});
