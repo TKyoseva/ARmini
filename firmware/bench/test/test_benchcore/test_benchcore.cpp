@@ -5,13 +5,22 @@
 
 #include "Csv.h"
 #include "Deadman.h"
+#include "EscMath.h"
+#include "PairMath.h"
 #include "Ramp.h"
+#include "Remote.h"
 #include "SoftLimit.h"
+#include "Vbat.h"
 
 using bench::CsvRow;
 using bench::Deadman;
+using bench::PairPulses;
 using bench::Ramp;
 using bench::SoftLimit;
+using bench::pairFromDeg;
+using bench::pairFromDegTrim;
+using bench::pairInWindow;
+using bench::trimInRange;
 
 void setUp() {}
 void tearDown() {}
@@ -201,6 +210,236 @@ static void test_softlimit_clamps_to_unit_range() {
   TEST_ASSERT_FLOAT_WITHIN(1e-6f, 0.2f, lim.clamp(0.2f));
 }
 
+// ------------------------------------------------------------------ 5. Pair (C023): mirrored TD-8120MG, one shared degree
+static void test_pair_endpoints_and_out_of_range() {
+  const PairPulses z = pairFromDeg(0.0f);
+  TEST_ASSERT_TRUE(z.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, z.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, z.us_b);
+
+  const PairPulses mid = pairFromDeg(90.0f);
+  TEST_ASSERT_TRUE(mid.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, mid.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, mid.us_b);
+
+  const PairPulses full = pairFromDeg(180.0f);
+  TEST_ASSERT_TRUE(full.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, full.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, full.us_b);
+
+  TEST_ASSERT_FALSE(pairFromDeg(215.0f).ok);
+  TEST_ASSERT_FALSE(pairFromDeg(-0.1f).ok);
+  TEST_ASSERT_FALSE(pairFromDeg(180.1f).ok);
+}
+
+static void test_pair_sum_is_3000_for_every_degree() {
+  for (int deg = 0; deg <= 180; ++deg) {
+    const PairPulses p = pairFromDeg(static_cast<float>(deg));
+    TEST_ASSERT_TRUE(p.ok);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, 3000.0f, p.us_a + p.us_b);
+  }
+}
+
+static void test_pair_ramp_0_to_90_at_20_deg_per_s() {
+  // 90° at 20 °/s = 4.5 s. Tick is 100 ms, so 45 ticks, tolerance ± 1 tick.
+  // Both pulses come from that one degree (lock-step), not from two ramps.
+  Ramp deg(20.0f, 0.0f);
+  deg.setTarget(90.0f);
+  int ticks = 0;
+  while (!deg.atTarget() && ticks < 60) {
+    const float now = deg.update(100);
+    const PairPulses p = pairFromDeg(now);
+    TEST_ASSERT_TRUE(p.ok);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, 3000.0f, p.us_a + p.us_b);
+    ++ticks;
+  }
+  TEST_ASSERT_INT_WITHIN(1, 45, ticks);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 90.0f, deg.value());
+  const PairPulses end = pairFromDeg(deg.value());
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, end.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, end.us_b);
+}
+
+static void test_pair_window_refuses_a_pulse_outside_it() {
+  const PairPulses centre = pairFromDeg(90.0f);
+  TEST_ASSERT_TRUE(pairInWindow(centre, 1000.0f, 2000.0f));
+  const PairPulses ends = pairFromDeg(0.0f);  // 500 / 2500, outside the default window
+  TEST_ASSERT_FALSE(pairInWindow(ends, 1000.0f, 2000.0f));
+  const PairPulses edge = pairFromDeg(45.0f);  // 1000 / 2000, on the edge
+  TEST_ASSERT_TRUE(pairInWindow(edge, 1000.0f, 2000.0f));
+  TEST_ASSERT_FALSE(pairInWindow(pairFromDeg(215.0f), 500.0f, 2500.0f));
+}
+
+// ------------------------------------------------------------------ 6. Pair trim (T9): offset after the mirror
+static void test_pair_trim_zero_is_identity() {
+  const float degs[] = {0.0f, 90.0f, 180.0f, 37.5f};
+  for (int i = 0; i < 4; ++i) {
+    const PairPulses a = pairFromDeg(degs[i]);
+    const PairPulses b = pairFromDegTrim(degs[i], 0.0f, 0.0f);
+    TEST_ASSERT_TRUE(b.ok);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, a.us_a, b.us_a);
+    TEST_ASSERT_FLOAT_WITHIN(1e-3f, a.us_b, b.us_b);
+  }
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, pairFromDegTrim(0.0f, 0.0f, 0.0f).us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, pairFromDegTrim(0.0f, 0.0f, 0.0f).us_b);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, pairFromDegTrim(90.0f, 0.0f, 0.0f).us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, pairFromDegTrim(90.0f, 0.0f, 0.0f).us_b);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2500.0f, pairFromDegTrim(180.0f, 0.0f, 0.0f).us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 500.0f, pairFromDegTrim(180.0f, 0.0f, 0.0f).us_b);
+}
+
+static void test_pair_trim_b_minus_60_at_90() {
+  const PairPulses p = pairFromDegTrim(90.0f, 0.0f, -60.0f);
+  TEST_ASSERT_TRUE(p.ok);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1440.0f, p.us_b);
+  const PairPulses q = pairFromDegTrim(90.0f, 25.0f, -60.0f);  // A trimmed too, independent of B
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1525.0f, q.us_a);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1440.0f, q.us_b);
+}
+
+static void test_pair_trim_out_of_range_refused() {
+  TEST_ASSERT_TRUE(trimInRange(200.0f));
+  TEST_ASSERT_TRUE(trimInRange(-200.0f));
+  TEST_ASSERT_FALSE(trimInRange(200.5f));
+  TEST_ASSERT_FALSE(trimInRange(-201.0f));
+  TEST_ASSERT_FALSE(pairFromDegTrim(90.0f, 201.0f, 0.0f).ok);
+  TEST_ASSERT_FALSE(pairFromDegTrim(90.0f, 0.0f, -201.0f).ok);
+  TEST_ASSERT_FALSE(pairFromDegTrim(215.0f, 0.0f, 0.0f).ok);  // degree check still first
+}
+
+static void test_pair_trim_pushes_pulse_out_of_window() {
+  // 45° → 1000 / 2000, on the default window edge. Any trim outward leaves the window.
+  TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, 0.0f, 0.0f), 1000.0f, 2000.0f));
+  TEST_ASSERT_FALSE(pairInWindow(pairFromDegTrim(45.0f, -10.0f, 0.0f), 1000.0f, 2000.0f));
+  TEST_ASSERT_FALSE(pairInWindow(pairFromDegTrim(45.0f, 0.0f, 10.0f), 1000.0f, 2000.0f));
+  TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, 10.0f, -10.0f), 1000.0f, 2000.0f));  // inward is fine
+  TEST_ASSERT_TRUE(pairInWindow(pairFromDegTrim(45.0f, -10.0f, 10.0f), 500.0f, 2500.0f));   // wider window accepts
+}
+
+// ------------------------------------------------------------------ 7. ESC (T10): diff mix, clamp, ramp
+static void test_esc_diff_mix_narrow() {
+  const float lo = bench::kEscNarrowLoUs, hi = bench::kEscNarrowHiUs;
+  bench::EscPulses p = bench::escDiff(0.0f, 0.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+  p = bench::escDiff(100.0f, 0.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.r_us);
+  p = bench::escDiff(0.0f, 100.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, p.r_us);
+  p = bench::escDiff(100.0f, 100.0f, lo, hi);  // l would be 1800 → clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+}
+
+static void test_esc_clamp_narrow_and_wide() {
+  const float nlo = bench::kEscNarrowLoUs, nhi = bench::kEscNarrowHiUs;
+  const float wlo = bench::kEscWideLoUs, whi = bench::kEscWideHiUs;
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, bench::escClamp(1700.0f, nlo, nhi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, bench::escClamp(1200.0f, nlo, nhi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2000.0f, bench::escClamp(2100.0f, wlo, whi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1000.0f, bench::escClamp(900.0f, wlo, whi));
+  TEST_ASSERT_TRUE(bench::escInLimit(1650.0f, nlo, nhi));
+  TEST_ASSERT_FALSE(bench::escInLimit(1700.0f, nlo, nhi));
+  TEST_ASSERT_TRUE(bench::escInLimit(1700.0f, wlo, whi));
+  bench::EscPulses p = bench::escDiff(100.0f, 0.0f, wlo, whi);  // 100 = the wide limit
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2000.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 2000.0f, p.r_us);
+  p = bench::escDiff(-100.0f, -100.0f, wlo, whi);  // l would be 500 → clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1000.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+}
+
+static void test_esc_ramp_1500_to_1650_in_0_75_s() {
+  Ramp r(200.0f, 1500.0f);
+  r.setTarget(1650.0f);
+  for (int i = 0; i < 14; ++i) r.update(50);  // 0.70 s
+  TEST_ASSERT_FALSE(r.atTarget());
+  r.update(50);  // 0.75 s
+  TEST_ASSERT_TRUE(r.atTarget());
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, r.value());
+}
+
+static void test_esc_duty_normal_and_inverted() {
+  TEST_ASSERT_EQUAL_UINT32(1229, bench::escDuty(1500.0f, 14, false));          // 1500 / 20000 × 16384 = 1228.8
+  TEST_ASSERT_EQUAL_UINT32(16384 - 1229, bench::escDuty(1500.0f, 14, true));   // 15155
+  TEST_ASSERT_EQUAL_UINT32(16384, bench::escDuty(0.0f, 14, true));             // pin always HIGH → ESC input always LOW
+  TEST_ASSERT_EQUAL_UINT32(0, bench::escDuty(0.0f, 14, false));
+  TEST_ASSERT_EQUAL_UINT32(16384, bench::escDuty(20000.0f, 14, false) + bench::escDuty(0.0f, 14, false));
+  for (int us = 1000; us <= 2000; us += 50) {
+    TEST_ASSERT_EQUAL_UINT32(16384, bench::escDuty(static_cast<float>(us), 14, false) +
+                                        bench::escDuty(static_cast<float>(us), 14, true));
+  }
+}
+
+// ------------------------------------------------------------------ Remote (T12): dead band, mix, link, message
+static void test_remote_deadband_map() {
+  const float lo = bench::kEscNarrowLoUs, hi = bench::kEscNarrowHiUs;
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, bench::escDeadbandUs(0.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1580.0f, bench::escDeadbandUs(1.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, bench::escDeadbandUs(100.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1420.0f, bench::escDeadbandUs(-1.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, bench::escDeadbandUs(-100.0f, lo, hi));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, bench::escDeadbandUs(250.0f, lo, hi));   // clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, bench::escDeadbandUs(-250.0f, lo, hi));  // clamped
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, bench::escDeadbandUs(0.5f, lo, hi));     // below one step → neutral
+  for (int c = -100; c <= 100; ++c) {
+    const float us = bench::escDeadbandUs(static_cast<float>(c), lo, hi);
+    TEST_ASSERT_TRUE(bench::escInLimit(us, lo, hi));
+  }
+}
+
+static void test_remote_mix() {
+  const float lo = bench::kEscNarrowLoUs, hi = bench::kEscNarrowHiUs;
+  bench::EscPulses p = bench::escMixDeadband(50.0f, 0.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, p.l_us, p.r_us);
+  TEST_ASSERT_TRUE(p.l_us > 1580.0f && p.l_us < 1650.0f);
+  p = bench::escMixDeadband(0.0f, 100.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);  // left forward
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1350.0f, p.r_us);  // right reverse
+  p = bench::escMixDeadband(100.0f, 100.0f, lo, hi);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1650.0f, p.l_us);
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
+}
+
+static void test_remote_link_timeout() {
+  TEST_ASSERT_FALSE(bench::linkLost(1000, 1000));
+  TEST_ASSERT_FALSE(bench::linkLost(1000, 1500));  // exactly 500 ms: still alive
+  TEST_ASSERT_TRUE(bench::linkLost(1000, 1501));
+  TEST_ASSERT_FALSE(bench::linkLost(0xFFFFFF00u, 0x000000F0u));  // 496 ms across millis() wrap
+  TEST_ASSERT_TRUE(bench::linkLost(0xFFFFFF00u, 0x00000200u));   // 768 ms across wrap
+  TEST_ASSERT_FALSE(bench::linkLost(1001, 1000));  // heartbeat stamped 1 ms after loop()'s now (bench 23.10)
+}
+
+static void test_remote_parse_message() {
+  bench::RemoteMsg m;
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":-100,\"r\":100,\"arm\":0}", &m));
+  TEST_ASSERT_EQUAL_INT(-100, m.t);
+  TEST_ASSERT_EQUAL_INT(100, m.r);
+  TEST_ASSERT_FALSE(m.arm);
+  TEST_ASSERT_FALSE(m.stop);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\": 5, \"r\": -3, \"arm\": 1}", &m));
+  TEST_ASSERT_EQUAL_INT(5, m.t);
+  TEST_ASSERT_EQUAL_INT(-3, m.r);
+  TEST_ASSERT_TRUE(m.arm);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"stop\":1}", &m));
+  TEST_ASSERT_TRUE(m.stop);
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":101,\"r\":0,\"arm\":0}", &m));  // out of range
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0}", &m));                      // no r
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":x,\"r\":0}", &m));              // not a number
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":2}", &m));
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("hello", &m));
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg(nullptr, &m));
+}
+
+static void test_vbat_corrected() {
+  const float div = (100000.0f + 30000.0f) / 30000.0f;
+  TEST_ASSERT_FLOAT_WITHIN(1e-4f, 2.769f * div, bench::vbatCorrected(2.769f, div, 1.0f, 0.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 0.965f * 2.769f * div + 0.57f, bench::vbatCorrected(2.769f, div, 0.965f, 0.57f));
+}
+
 // ------------------------------------------------------------------ Integration: command → limit → ramp → deadman
 static void test_pipeline_deadman_stops_ramp() {
   SoftLimit lim;
@@ -243,5 +482,22 @@ int main() {
   RUN_TEST(test_softlimit_refuses_until_unlocked);
   RUN_TEST(test_softlimit_clamps_to_unit_range);
   RUN_TEST(test_pipeline_deadman_stops_ramp);
+  RUN_TEST(test_pair_endpoints_and_out_of_range);
+  RUN_TEST(test_pair_sum_is_3000_for_every_degree);
+  RUN_TEST(test_pair_ramp_0_to_90_at_20_deg_per_s);
+  RUN_TEST(test_pair_window_refuses_a_pulse_outside_it);
+  RUN_TEST(test_pair_trim_zero_is_identity);
+  RUN_TEST(test_pair_trim_b_minus_60_at_90);
+  RUN_TEST(test_pair_trim_out_of_range_refused);
+  RUN_TEST(test_pair_trim_pushes_pulse_out_of_window);
+  RUN_TEST(test_esc_diff_mix_narrow);
+  RUN_TEST(test_esc_clamp_narrow_and_wide);
+  RUN_TEST(test_esc_ramp_1500_to_1650_in_0_75_s);
+  RUN_TEST(test_esc_duty_normal_and_inverted);
+  RUN_TEST(test_remote_deadband_map);
+  RUN_TEST(test_remote_mix);
+  RUN_TEST(test_remote_link_timeout);
+  RUN_TEST(test_remote_parse_message);
+  RUN_TEST(test_vbat_corrected);
   return UNITY_END();
 }

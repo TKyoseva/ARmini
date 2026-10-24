@@ -22,7 +22,7 @@
 #define PIN_PI_TX 15 // SOURCE: breadboard 2b (UART2 TX GPIO15)
 #define PIN_PI_RX 16 // SOURCE: breadboard 2b (UART2 RX GPIO16)
 
-// ---------------------------------------------------------------- ESC L / R (LEDC 50 Hz) — no bench sketch (thrusters need water)
+// ---------------------------------------------------------------- ESC L / R (LEDC 50 Hz) — bench env `esc` (C024)
 #define PIN_ESC_L 1 // SOURCE: breadboard 2b (ESC L GPIO1)
 #define PIN_ESC_R 2 // SOURCE: breadboard 2b (ESC R GPIO2)
 
@@ -42,7 +42,7 @@
 #define PIN_BTS_IS_L 11 // VERIFY: not on sheet 2b; proposed free ADC pin, decide + measure before wiring
 
 // ---------------------------------------------------------------- ADC
-#define PIN_VBAT_ADC 4 // SOURCE: breadboard 2b (ADC VBAT GPIO4 ← divider 100k/33k from F4)
+#define PIN_VBAT_ADC 4 // SOURCE: breadboard 2b (ADC VBAT GPIO4 ← divider from F4). C027 bench, measured 100 k / 30 k.
 #define PIN_LEAK 7     // SOURCE: breadboard 2b (ADC LEAK GPIO7 ← 10k to 3V3, 4.7k to the probe → GND)
 
 // ---------------------------------------------------------------- KILL (software kill; the 50 A main switch is the hardware one)
@@ -57,6 +57,8 @@
 
 // ---------------------------------------------------------------- Divider / ladder values (for the ladder sketch)
 #define VBAT_DIV_R_TOP_OHM 100000.0f // SOURCE: breadboard 2b + pcb/carrier-revA/SPEC.md (R1 100 k, 1 %)
-#define VBAT_DIV_R_BOT_OHM 33000.0f  // SOURCE: breadboard 2b + pcb/carrier-revA/SPEC.md (R2 33 k, 1 %)
+#define VBAT_DIV_R_BOT_OHM 30000.0f  // SOURCE: C027 bench, measured 30 k
+#define VBAT_GAIN 0.965f             // SOURCE: C027 (23.10) fit against the meter: v_bat = 0.965 × v_nominal + 0.57
+#define VBAT_OFFSET_V 0.57f          // SOURCE: C027 (23.10), same fit
 #define LEAK_PULLUP_OHM 10000.0f     // SOURCE: breadboard 2b (10 k to 3V3)
 #define LEAK_SERIES_OHM 4700.0f      // SOURCE: breadboard 2b (4.7 k to the probe)

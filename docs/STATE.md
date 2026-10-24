@@ -2,12 +2,14 @@
 
 The current state on one page. Updated in the workshop chat after every decision. The truth is in the repository; this is the summary.
 
-**Date:** 2026-10-11 · **CAD:** v2.0 + measured TD-8120MG pocket, thruster pattern 35.0 × 15.9, cradle 112 · **Releases:** R1a cut 11.10 ✓ · R1b 13.10 · R2a 16.10 · R2b 19.10 · R2c 22.10 · R3a 26.10 · R3b 29.10 · R4 31.10 · submit 01.11
+**Date:** 2026-10-24 · **CAD:** v2.0 + measured TD-8120MG pocket, thruster pattern 35.0 × 15.9, cradle 112 · **Releases:** R1a cut 11.10 ✓ · R-1018 ✓ · R-1024 ✓ (24.10) · R2a criteria met (cut pending) · R2c half-way · R3a 26.10 · R3b 29.10 · R4 31.10 · submit 01.11
 **Where things are:** decisions and files → workshop chat (Claude) · code and commits → Cursor (branch `dev`, night tasks `night/*`) · test cards → AR-Mini Board (export in `data/board/board.json`) · photos and video → iCloud `AR-Mini-Media/01_Loops/C###_…` · missing parts → `parts/needs.yaml` · v2 thrusters → `parts/watch.yaml`
 
 ## Closed cards
 | Card | Result | What it changed |
 |---|---|---|
+| **R-1024 (24.10), 13 cards** · see docs/releases/R-1024.md | frame built: both hulls (PETG aft + PLA fore) on 2 beams at x 385 / 500, arch, arm, cradle; `pair` lifts Pesho at ~0.24 A (C019–C023, C034, C045); thruster mounts fitted, M4 × 12 (C005, C042); ESC input 5 V pulled up → S8050 shifter, inverted output (C006, C024); thruster from the DevKit: 1600 µs 0.22 A, 1650 µs 0.58 A, KILL 40 ms (C025); v_bat ±0.02 V (C027) | right thruster faulty (FAILS 173) → replacement; R2a met |
+| C028 phone remote + first float of the whole robot (24.10) · Partial | bathtub, tethered: stable, **draft 20 mm**, dry hulls; left thruster 1640 µs · 0.58 A at 12 V moves and turns it; SAFE on stop / kill / disconnect / heartbeat | env `remote` still only on `night/remote` → merge to dev; next: both thrusters, range walk, pool (R2c) |
 | C001 thruster measured (08.10) · Partial | duct Ø72.27 × 112 (box says 77), mounting face 47.10 above the axis, M4 pattern, 206 g, 4 wires | CAD v2.0: kick-up mount, nothing below the waterline (decision 0004) |
 | C002 thruster wires (08.10) · Pass | no shorts; red +, black −; yellow probably signal, white probably signal ground; ESC inside (listing: 50 Hz, 1500 µs stop) | next: test at 9 V with a 0.10 A limit (C006) |
 | C003 ROB0154 plate (09.10) · Fail | 151.82 × 134.8; slots 11.3 / 26.4 from the edges (≈114 apart); chassis 1175 g → draft 41.8 | CAD v2.0: ch_x 300, 3.4 × 7 slots in the power box |
@@ -25,9 +27,11 @@ The current state on one page. Updated in the workshop chat after every decision
 - C003 · the octagonal hole of the plate faces forward; the beams are drilled through the slots at assembly; `pb_beam_y` 30 stays.
 
 ## Open (VERIFY / MEASURE)
-- Thruster bolt pattern 35.0 × 15.9 → C005: `thruster_arm` printed directly (coupon skipped 11.10, Teddy's call); with it: insert depth → M4 × 16 or × 20 (N001), and `th_frame_dx`.
+- ~~Thruster bolt pattern 35.0 × 15.9~~ → CONFIRMED C005 (M4 × 12 by hand).
 - Is the plate centred on the tracks (CAD: 74.1 from the front edge)? → C004. Length of the plate slots (drawn as 100).
-- ESC: logic level and arming → C006 (9 V, 0.10 A, in a bucket).
+- ~~ESC: logic level and arming~~ → DONE C006/C025: input pulled up to 5 V, S8050 shifter, dead band ≈ 1450–1550 µs.
+- Right thruster faulty (FAILS 173): claim + replacement; both-thruster test after it arrives.
+- Robot mass as floated: draft 20 mm × ~996 cm² waterplane (C007, 4 sections) ≈ 2.0 kg → weigh to confirm.
 - ~~GPIO39–42 at boot~~ → DECIDED 11.10 (C015): 10 kΩ pull-down to GND on each; GPIO39 is weakly HIGH after boot, 39/40 in download mode (PINOUT.md item 4).
 - DevKit-Lipo pinout freeze → C030 (rows 25.40, EXT1/EXT2 anchors and GPIO38 confirmed 11.10) → PINOUT.md + `pins_devkit.h`.
 - Firmware `armini` Safety still reads the old ADC ladder (`Ladder.h`, `Safety.cpp`, `hal_devkit`) → separate KILL / LEAK pins (0005).
@@ -37,18 +41,11 @@ The current state on one page. Updated in the workshop chat after every decision
 ## Next cards
 | Card | What | Release |
 |---|---|---|
-| C022 | frame: right `hull_fore` (printing 11.10 15:45 → ~22:00, mirrored in the slicer) + 2 × `arch_post` + arch tube | R1b |
-| C019 | 2 × `pivot_bracket` + 2 × TD-8120MG + linkages: assemble and swing | R1b |
-| C020 | bend the cradle: Ø5 rod U, legs 228, base 112 | R1b |
-| C021 | Pesho's head: warmer fits, lid closes, floats head and shoulders out | R1b |
-| C023 | bench `pca9685` 'pair' command: two TD-8120MG mirrored, slow ramp 45° → 215° | R1b |
-| C005 | `thruster_arm` on the thruster: do the 4 M4 screws go in by hand (coupon skipped) | R2a |
-| C006 · C024 · C025 | ESC at 9 V / 0.10 A · bench `esc` env · thruster spins in a bucket from the DevKit | R2a |
+| C021 · C030 · C032 · C047 | Pesho v3 floats · pinout freeze · carrier rev B · fixed camera mount (in Today) | R3a / R3b |
+| — | right thruster replacement → both thrusters from the phone, range walk, pool run | R2c |
 | C004 | assembled chassis: track → plate edge, M3 through the slots | R2b |
-| C030 · C031 | pinout freeze (left: C006 ESC level) · perfboard carrier with the 4 pull-downs | R2c |
-| C026 · C027 · C028 | power chain on the bench · ladder bench (KILL, leak, battery) · T7 remote over WiFi | R2c |
+| C026 · C031 | power chain on the bench · perfboard carrier | R2c |
 | C029 | MLX90640 sees Pesho at 37 °C from 1 m | R3a |
-| C032 | carrier rev B → KiCad → DRC → order at Aisler (order by Tue 13.10) | R3b |
 | C013 · C016 · C033 | public-ready check (29–30.10) · parts agent first run · v2 carrier rev C (after 1.11) | — |
 
 ## Agents (Cursor background agents and tools)

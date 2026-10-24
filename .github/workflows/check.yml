@@ -36,7 +36,7 @@ jobs:
         run: |
           mkdir -p build/stl
           for part in hull_fore hull_aft thruster_coupon thruster_bracket thruster_arm power_box power_lid \
-                      beam_bracket arch_post pivot_bracket arm_drive arm_idler coupler cam_pan_mount cam_plate dummy_head dummy_lid; do
+                      beam_bracket arch_post pivot_bracket arm_drive arm_idler coupler cam_fixed_mount cam_pan_mount cam_plate dummy_head dummy_lid; do
             openscad -D "part=\"$part\"" -o "build/stl/$part.stl" cad/openscad/AR-Mini_v1.scad 2>> build/stl/openscad.log \
               && echo "STL ok: $part" || echo "STL FAILED: $part"
           done

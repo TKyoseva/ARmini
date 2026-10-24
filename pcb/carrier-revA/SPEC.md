@@ -64,7 +64,7 @@ Goal: one 2-layer THT board, 100 × 80 mm, with the modules plugged into female 
 | C1 | electrolytic | 470 µF / 25 V | 12 V input |
 | C2, C3 | ceramic | 100 nF | 5 V and 3V3 at U1 |
 | C4 | electrolytic | 100 µF / 10 V | 5 V rail |
-| R1, R2 | resistors | 100 kΩ / 33 kΩ, 1 % | VBAT divider (+ C5 100 nF to GND) |
+| R1, R2 | resistors | 100 kΩ / 33 kΩ, 1 % | VBAT divider (+ C5 100 nF to GND). Bench C027 uses 30 kΩ on the breadboard bottom leg (measured); this PCB keeps R2 at 33 kΩ. |
 | R3–R6 | resistors | 4.7 kΩ | pull-ups SDA0/SCL0/SDA1/SCL1 to 3V3 |
 | R7, R8, R9 | resistors | 10 kΩ / 4.7 kΩ / 1 kΩ | ADC ladder: A1 through R7 to 3V3; LEAK pulls through R8 to GND; KILL pulls through R9 to GND → three different levels |
 | R10 | resistor | **2.2 kΩ to 3V3** (changed 07.10, was 10 k to GND) | OE pull-up: in RUN the rocker pulls OE to GND (outputs active); in KILL or with a broken wire OE stays high → all PWM outputs off. 2.2 k because the module has a 10 k pull-down on OE (10 k / 10 k would give 1.65 V — undefined) |

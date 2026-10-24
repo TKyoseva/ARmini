@@ -30,15 +30,15 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 | 18 | EXT1 11 | SRV_RX `PIN_SRV_RX` (U1RXD) | bus servo driver TX | SOURCE 2b |
 | 15 | EXT1 8 | PI_TX `PIN_PI_TX` (UART2, v2) | Raspberry Pi 5 — not used on the bench | SOURCE 2b |
 | 16 | EXT1 9 | PI_RX `PIN_PI_RX` (UART2, v2) | " | SOURCE 2b |
-| 1 | EXT2 4 | ESC_L `PIN_ESC_L` (LEDC 50 Hz) | left thruster ESC — no bench sketch | SOURCE 2b |
-| 2 | EXT2 5 | ESC_R `PIN_ESC_R` (LEDC 50 Hz) | right thruster ESC — no bench sketch | SOURCE 2b |
+| 1 | EXT2 4 | ESC_L `PIN_ESC_L` (LEDC 50 Hz) | left thruster ESC — bench envs `esc` (C024) and `remote` (C028, phone over WiFi) via S8050 NPN, inverted (C006); rev B: JP1/JP2 → B + 74AHCT125 | SOURCE 2b · C006 |
+| 2 | EXT2 5 | ESC_R `PIN_ESC_R` (LEDC 50 Hz) | right thruster ESC — bench envs `esc` (C024) and `remote` (C028) via S8050 NPN, inverted (C006); rev B: JP1/JP2 → B + 74AHCT125 | SOURCE 2b · C006 |
 | 39 | EXT2 9 | BTS_L_RPWM `PIN_BTS_L_RPWM` | left BTS7960 RPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 40 | EXT2 8 | BTS_L_LPWM `PIN_BTS_L_LPWM` | left BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 41 | EXT2 7 | BTS_R_RPWM `PIN_BTS_R_RPWM` | right BTS7960 RPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 42 | EXT2 6 | BTS_R_LPWM `PIN_BTS_R_LPWM` | right BTS7960 LPWM · **10 k to GND** | pull-down DECIDED (C015) · order **VERIFY** (item 1) |
 | 10 | EXT1 16 | `PIN_BTS_IS_R` (ADC1_CH9) | BTS7960 IS_R, optional | **VERIFY** (not on the sheet, proposed) |
 | 11 | EXT1 17 | `PIN_BTS_IS_L` (ADC2_CH0) | BTS7960 IS_L, optional | **VERIFY** (not on the sheet, proposed) |
-| 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/33k from F4 | SOURCE 2b |
+| 4 | EXT1 4 | VBAT_S `PIN_VBAT_ADC` | divider 100k/30k from F4; fit `v_bat = 0.965 × v_nominal + 0.57` (`VBAT_GAIN`/`VBAT_OFFSET_V`); ADC1, so it reads with WiFi on (`remote`) | SOURCE C027 (measured 30 k; sheet 2b and carrier rev A say 33 k) |
 | 7 | EXT1 7 | LEAK `PIN_LEAK` | 10k to 3V3, 4.7k to the probe → GND | SOURCE 2b |
 | 14 | EXT1 20 | KILL `PIN_KILL` | 10k to 3V3, rocker C → GPIO14, KILL → GND (low = KILL) | SOURCE 2b |
 | 5 | EXT1 5 | PWR_SENS (board) | — never for modules | SOURCE manual p7 |
@@ -51,6 +51,24 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 | EXT1 22, EXT2 1 / 22 | — | GND | common ground | SOURCE manual p7 |
 
 Header pin numbers are from the manual drawing (EXT1 pin 1 = 3V3 at the antenna end, pin 22 = GND; EXT2 pin 1 = GND) and were **confirmed on the board 11.10 (C030)**: continuity EXT1 1↔2 (3V3), EXT1 22 ↔ EXT2 1 ↔ EXT2 22 (GND), no 3V3–GND short; GPIO38 (LED1) found on EXT2 10 with the meter. Rows 25.40 apart, 22 pins at 2.54 per row.
+
+## PCA9685 channels
+
+These are the 16 PWM outputs on the PCA9685 module. They are not ESP32 GPIO numbers: GPIO10 and GPIO11 in the table above are the optional BTS7960 current-sense pins.
+
+| CH | Function | Source |
+|---|---|---|
+| 0 | ESC_L | carrier rev A SPEC §5. On the DevKit bench and carrier rev B the ESC signal is GPIO1, not this output. |
+| 1 | ESC_R | rev A SPEC §5. Bench and rev B: GPIO2. |
+| 2, 3 | BTS_L RPWM, LPWM | rev A SPEC §5. Rev B drives the BTS from GPIO39/40. |
+| 4, 5 | BTS_R RPWM, LPWM | rev A SPEC §5. Rev B: GPIO41/42. |
+| 6 | buzzer | rev A SPEC §5; rev B SPEC (Q3 from CH6) |
+| 7–9 | LED1–3 (status / armed / fault) | rev A SPEC §5; rev B SPEC |
+| 10 | cradle servo A, TD-8120MG | C023; rev B SPEC (U2): the two cradle servos plug into CH10 / CH11 |
+| 11 | cradle servo B, TD-8120MG, mirrored (`us_B = 3000 − us_A`) | C023; rev B SPEC |
+| 12–15 | not assigned | — |
+
+`pair` in the pca9685 bench sketch uses CH10 and CH11 (C023). Not yet run on hardware.
 
 ## VERIFY (DevKit-Lipo)
 
