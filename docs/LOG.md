@@ -40,3 +40,5 @@ Format: date · who · what I tried · what happened · what I change. Three lin
 
 ## 2026-10-24 (Sat) · Teddy
 - C025 right thruster: it only clicks, on either channel (FAILS 173). The left thruster on the right channel (GPIO2, row 13) spins with no clicking → GPIO2 stage OK, the right thruster (ESC or motor inside) is faulty → claim with the seller.
+- C028 first float of the whole robot (bathtub, tethered): stable, draft 20 mm, dry hulls; driven from the phone over WiFi on the left thruster only, 1640 µs · 0.58 A at 12 V. Partial (second thruster, range walk, pool still open).
+- Release R-1024 cut from Done (13 cards: C005, C006, C019, C020, C022, C023, C024, C025, C027, C028, C034, C042, C045): frame with beams, arch and arm; arm lifts Pesho; thruster from the DevKit and the phone; the robot floats and moves. Page: docs/releases/R-1024.md, tag r2026-10-24.
