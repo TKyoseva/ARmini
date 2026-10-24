@@ -37,3 +37,6 @@ Format: date · who · what I tried · what happened · what I change. Three lin
 
 ## 2026-10-18 (Sun) · Teddy
 - Release R-1018 cut from Done (8 cards: C011, C015, C035, C037, C038, C039, C040, C041): R1b parts printed and fitted by hand, boot-safe motor pins, all parts in. Page: docs/releases/R-1018.md, tag r2026-10-18.
+
+## 2026-10-24 (Sat) · Teddy
+- C025 right thruster: it only clicks, on either channel (FAILS 173). The left thruster on the right channel (GPIO2, row 13) spins with no clicking → GPIO2 stage OK, the right thruster (ESC or motor inside) is faulty → claim with the seller.
