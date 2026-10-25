@@ -2,17 +2,32 @@
 //
 // The XIAO is its own WPA2 access point (CAM_AP_SSID / CAM_AP_PASS from include/secrets.h, gitignored) and
 // serves the OV3660 at VGA 640x480 JPEG:
-//   /        one page with <img src="/stream">
-//   /stream  multipart MJPEG (one client at a time; the handler returns when the client leaves)
-//   /jpg     one JPEG snapshot
-// Serial (USB-C, 115200) every 2 s: `# fps <n> size <WxH> heap <n> psram <n>`; fps = frames sent on /stream.
+//   /            one page with <img src="/stream">
+//   /stream      multipart MJPEG (one client at a time; the handler returns when the client leaves)
+//   /jpg         one JPEG snapshot
+//   /rec?on=1|0  start / stop recording to the microSD
+// Serial (USB-C, 115200), commands `rec 1`, `rec 0`, `?`. Every 2 s:
+//   `# fps <n> size <WxH> heap <n> psram <n>`      fps = frames sent on /stream
+//   `# rec <on|off> frames <n> free <MB>`          or `# WARN no SD` when no card is mounted
+//
+// Recording (microSD in the slot of the Sense expansion board, FAT32, ≤ 32 GB): each run is a new folder
+// /C049_<n>/ with frame_00001.jpg … and index.csv (frame,t_ms). Every file is closed after each frame, so a power
+// cut loses at most one frame. Frames are the ones the stream sends (same rate); with no viewer, loop() captures
+// them itself. If recording pulls the stream under 8 fps, every 2nd frame is recorded and that is printed.
+// A file /autorec on the card starts recording 5 s after boot (water test without the phone).
 //
 // Decision 0005 (25.10, Teddy): the XIAO Sense = OV3660 camera node only, powered from its own USB-C / 5 V.
 // Nothing else is soldered to it; the thermal cameras are on the DevKit-Lipo (bench env `thermal`).
 #include <Arduino.h>
+#include <FS.h>
+#include <SD.h>
+#include <SPI.h>
 #include <WiFi.h>
 #include <esp_camera.h>
 #include <esp_http_server.h>
+
+#include <freertos/FreeRTOS.h>
+#include <freertos/semphr.h>
 
 #if __has_include("secrets.h")
 #include "secrets.h"
@@ -31,16 +46,25 @@ const int kPwdn = -1, kReset = -1, kXclk = 10, kSiod = 40, kSioc = 39;
 const int kY9 = 48, kY8 = 11, kY7 = 12, kY6 = 14, kY5 = 16, kY4 = 18, kY3 = 17, kY2 = 15;
 const int kVsync = 38, kHref = 47, kPclk = 13;
 
+// microSD on the Sense expansion board: SPI SCK GPIO7 / MISO GPIO8 / MOSI GPIO9 (board variant XIAO_ESP32S3
+// pins_arduino.h), CS GPIO21. SOURCE: Seeed wiki "XIAO ESP32S3 Sense – microSD", `SD.begin(21)`.
+const int kSdCs = 21;
+const uint32_t kSdHz = 20000000;  // VERIFY: 20 MHz SPI; drop to 4 MHz (SD.begin default) if the card does not mount
+
 const int kXclkHz = 20000000;             // SOURCE: CameraWebServer example (20 MHz)
 const framesize_t kSize = FRAMESIZE_VGA;  // SOURCE: handoff 25.10 (640x480)
 const int kJpegQuality = 12;              // SOURCE: CameraWebServer example (0 = best, 63 = worst); VERIFY: fps vs quality on the phone
 const uint8_t kApChannel = 1;             // VERIFY: the DevKit `remote` AP is on channel 6; keep the two apart
 const uint32_t kReportMs = 2000;          // SOURCE: handoff (serial every 2 s)
+const uint32_t kAutorecDelayMs = 5000;    // SOURCE: handoff (/autorec → start 5 s after boot)
+const float kMinStreamFps = 8.0f;         // SOURCE: handoff (recording must not drop the stream below 8 fps at VGA)
+const char kRunPrefix[] = "/C049_";
 
 const char kPage[] =
     "<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-    "<title>AR-Mini cam</title><style>html,body{margin:0;background:#111;height:100%}img{width:100%;height:auto;display:block}</style>"
-    "</head><body><img src=\"/stream\"></body></html>";
+    "<title>AR-Mini cam</title><style>html,body{margin:0;background:#111;height:100%}img{width:100%;height:auto;display:block}"
+    "a{color:#9cf;font:16px sans-serif;margin:8px;display:inline-block}</style>"
+    "</head><body><img src=\"/stream\"><a href=\"/rec?on=1\">rec on</a><a href=\"/rec?on=0\">rec off</a></body></html>";
 
 const char kStreamContentType[] = "multipart/x-mixed-replace;boundary=frame";
 const char kStreamBoundary[] = "\r\n--frame\r\n";
@@ -48,9 +72,143 @@ const char kStreamPart[] = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r
 
 httpd_handle_t server = nullptr;
 volatile uint32_t framesSent = 0;
+volatile int streamClients = 0;
 bool camOk = false;
 int frameW = 0, frameH = 0;
+float streamFps = 0.0f;
 
+// ---- recording state (guarded by recMutex: loop() task and the httpd task both touch it)
+SemaphoreHandle_t recMutex = nullptr;
+bool sdOk = false;
+bool recOn = false;
+int recRun = 0;          // <n> of the current /C049_<n>/
+uint32_t recFrames = 0;  // frames written in this run
+uint32_t recSeen = 0;    // frames offered to the recorder in this run (for every-2nd)
+int recEvery = 1;        // 1 = every frame, 2 = every 2nd (stream fell under kMinStreamFps)
+char recDir[24] = "";
+float sdFreeMb = 0.0f;
+bool autorecPending = false;
+
+struct Lock {
+  explicit Lock(SemaphoreHandle_t m) : m_(m) { xSemaphoreTake(m_, portMAX_DELAY); }
+  ~Lock() { xSemaphoreGive(m_); }
+  SemaphoreHandle_t m_;
+};
+
+// ---- SD helpers
+void sdUpdateFree() {
+  if (!sdOk) return;
+  const uint64_t total = SD.totalBytes(), used = SD.usedBytes();
+  sdFreeMb = total > used ? (total - used) / 1.0e6f : 0.0f;
+}
+
+bool sdMount() {
+  if (!SD.begin(kSdCs, SPI, kSdHz)) return false;
+  if (SD.cardType() == CARD_NONE) return false;
+  sdOk = true;
+  sdUpdateFree();
+  Serial.printf("# OK microSD %llu MB, %.0f MB free, CS GPIO%d\n", SD.cardSize() / 1000000ULL, sdFreeMb, kSdCs);
+  return true;
+}
+
+// Highest existing /C049_<n> + 1.
+int sdNextRun() {
+  int next = 1;
+  File root = SD.open("/");
+  if (!root) return next;
+  for (File f = root.openNextFile(); f; f = root.openNextFile()) {
+    const char* name = f.name();
+    if (name[0] == '/') ++name;
+    if (strncmp(name, kRunPrefix + 1, strlen(kRunPrefix) - 1) == 0) {
+      const int n = atoi(name + strlen(kRunPrefix) - 1);
+      if (n >= next) next = n + 1;
+    }
+    f.close();
+  }
+  root.close();
+  return next;
+}
+
+// Writes one JPEG + one index line, closing both files. Returns false on a write error (recording stops).
+bool sdWriteFrame(const camera_fb_t* fb, uint32_t t_ms) {
+  char path[48];
+  snprintf(path, sizeof path, "%s/frame_%05lu.jpg", recDir, static_cast<unsigned long>(recFrames + 1));
+  File jpg = SD.open(path, FILE_WRITE);
+  if (!jpg) return false;
+  const size_t n = jpg.write(fb->buf, fb->len);
+  jpg.close();
+  if (n != fb->len) return false;
+  snprintf(path, sizeof path, "%s/index.csv", recDir);
+  File idx = SD.open(path, FILE_APPEND);
+  if (!idx) return false;
+  idx.printf("%lu,%lu\n", static_cast<unsigned long>(recFrames + 1), static_cast<unsigned long>(t_ms));
+  idx.close();
+  return true;
+}
+
+// ---- recording control (callers hold no lock)
+bool recStart(const char* who) {
+  Lock l(recMutex);
+  if (!sdOk) {
+    Serial.println("# WARN no SD — rec refused");
+    return false;
+  }
+  if (recOn) return true;
+  recRun = sdNextRun();
+  snprintf(recDir, sizeof recDir, "%s%d", kRunPrefix, recRun);
+  if (!SD.mkdir(recDir)) {
+    Serial.printf("# WARN mkdir %s failed — rec refused\n", recDir);
+    return false;
+  }
+  char path[48];
+  snprintf(path, sizeof path, "%s/index.csv", recDir);
+  File idx = SD.open(path, FILE_WRITE);
+  if (idx) {
+    idx.println("frame,t_ms");
+    idx.close();
+  }
+  recFrames = 0;
+  recSeen = 0;
+  recEvery = 1;
+  recOn = true;
+  Serial.printf("# OK rec on (%s) -> %s/\n", who, recDir);
+  return true;
+}
+
+void recStop(const char* why) {
+  Lock l(recMutex);
+  if (!recOn) return;
+  recOn = false;
+  Serial.printf("# OK rec off (%s): %lu frames in %s/\n", why, static_cast<unsigned long>(recFrames), recDir);
+  sdUpdateFree();
+}
+
+// Offers a frame to the recorder. Called by the stream handler for every frame it sends, or by loop() when
+// nobody is streaming.
+void recOffer(const camera_fb_t* fb, uint32_t t_ms) {
+  Lock l(recMutex);
+  if (!recOn) return;
+  ++recSeen;
+  if (recEvery == 2 && (recSeen & 1) == 0) return;
+  if (!sdWriteFrame(fb, t_ms)) {
+    recOn = false;
+    Serial.printf("# WARN SD write failed after %lu frames — rec off\n", static_cast<unsigned long>(recFrames));
+    return;
+  }
+  ++recFrames;
+}
+
+// Every 2 s: if a viewer is streaming and the stream fell under 8 fps while recording every frame, record every 2nd.
+void recAdapt() {
+  Lock l(recMutex);
+  if (!recOn || streamClients == 0 || recEvery != 1) return;
+  if (streamFps > 0.0f && streamFps < kMinStreamFps) {
+    recEvery = 2;
+    Serial.printf("# WARN stream %.1f fps < %.0f while recording — now recording every 2nd frame\n", streamFps, kMinStreamFps);
+  }
+}
+
+// ---- HTTP
 esp_err_t handleIndex(httpd_req_t* req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, kPage, HTTPD_RESP_USE_STRLEN);
@@ -69,10 +227,31 @@ esp_err_t handleJpg(httpd_req_t* req) {
   return res;
 }
 
+esp_err_t handleRec(httpd_req_t* req) {
+  char query[32] = "";
+  char on[4] = "";
+  httpd_req_get_url_query_str(req, query, sizeof query);
+  if (httpd_query_key_value(query, "on", on, sizeof on) != ESP_OK) {
+    httpd_resp_set_status(req, "400 Bad Request");
+    return httpd_resp_send(req, "use /rec?on=1 or /rec?on=0", HTTPD_RESP_USE_STRLEN);
+  }
+  char reply[64];
+  if (on[0] == '1') {
+    const bool ok = recStart("http");
+    snprintf(reply, sizeof reply, ok ? "rec on %s/" : "rec refused (no SD?)", recDir);
+  } else {
+    recStop("http");
+    snprintf(reply, sizeof reply, "rec off, %lu frames", static_cast<unsigned long>(recFrames));
+  }
+  httpd_resp_set_type(req, "text/plain");
+  return httpd_resp_send(req, reply, HTTPD_RESP_USE_STRLEN);
+}
+
 esp_err_t handleStream(httpd_req_t* req) {
   esp_err_t res = httpd_resp_set_type(req, kStreamContentType);
   if (res != ESP_OK) return res;
   httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+  ++streamClients;
   char part[64];
   while (true) {
     camera_fb_t* fb = esp_camera_fb_get();
@@ -81,16 +260,19 @@ esp_err_t handleStream(httpd_req_t* req) {
       res = ESP_FAIL;
       break;
     }
+    const uint32_t t = millis();
     const size_t n = snprintf(part, sizeof part, kStreamPart, static_cast<unsigned>(fb->len));
     res = httpd_resp_send_chunk(req, kStreamBoundary, strlen(kStreamBoundary));
     if (res == ESP_OK) res = httpd_resp_send_chunk(req, part, n);
     if (res == ESP_OK) res = httpd_resp_send_chunk(req, reinterpret_cast<const char*>(fb->buf), fb->len);
     frameW = fb->width;
     frameH = fb->height;
+    if (res == ESP_OK) recOffer(fb, t);
     esp_camera_fb_return(fb);
     if (res != ESP_OK) break;  // client gone
     ++framesSent;
   }
+  --streamClients;
   return res;
 }
 
@@ -159,6 +341,43 @@ void startServer() {
   uri.uri = "/jpg";
   uri.handler = handleJpg;
   httpd_register_uri_handler(server, &uri);
+  uri.uri = "/rec";
+  uri.handler = handleRec;
+  httpd_register_uri_handler(server, &uri);
+}
+
+// ---- serial CLI: `rec 1`, `rec 0`, `?`
+void handleLine(char* line) {
+  while (*line == ' ') ++line;
+  char* end = line + strlen(line);
+  while (end > line && (end[-1] == ' ' || end[-1] == '\r')) *--end = '\0';
+  if (strcmp(line, "?") == 0) {
+    Serial.println("# cam: `rec 1` start recording to microSD, `rec 0` stop, `?` this help. HTTP: /, /stream, /jpg, /rec?on=1|0");
+    Serial.printf("# state: cam=%s sd=%s rec=%s run=%d frames=%lu every=%d clients=%d\n", camOk ? "ok" : "MISSING",
+                  sdOk ? "ok" : "none", recOn ? "on" : "off", recRun, static_cast<unsigned long>(recFrames), recEvery,
+                  static_cast<int>(streamClients));
+  } else if (strcmp(line, "rec 1") == 0) {
+    recStart("serial");
+  } else if (strcmp(line, "rec 0") == 0) {
+    recStop("serial");
+  } else if (*line) {
+    Serial.printf("# ERR %s\n", line);
+  }
+}
+
+void pollSerial() {
+  static char buf[32];
+  static size_t len = 0;
+  while (Serial.available()) {
+    const char c = static_cast<char>(Serial.read());
+    if (c == '\n') {
+      buf[len] = '\0';
+      handleLine(buf);
+      len = 0;
+    } else if (len < sizeof buf - 1) {
+      buf[len++] = c;
+    }
+  }
 }
 
 }  // namespace
@@ -169,7 +388,15 @@ void setup() {
   Serial.println("# AR-Mini cam · XIAO ESP32-S3 Sense · OV3660 (C049)");
   Serial.printf("# psram %s, heap %u\n", psramFound() ? "found" : "MISSING (fb_count 1, DRAM)", ESP.getFreeHeap());
 
+  recMutex = xSemaphoreCreateMutex();
   camOk = startCamera();
+
+  if (!sdMount()) {
+    Serial.println("# WARN no SD — stream only, `rec` refused (card ≤ 32 GB, FAT32, in the Sense board slot)");
+  } else if (SD.exists("/autorec")) {
+    autorecPending = true;
+    Serial.printf("# /autorec found: recording starts %lu ms after boot\n", static_cast<unsigned long>(kAutorecDelayMs));
+  }
 
   if (strlen(CAM_AP_PASS) < 8) {
     Serial.println("# WARN CAM_AP_PASS shorter than 8 characters (WPA2) — AP NOT started; fix include/secrets.h");
@@ -177,27 +404,55 @@ void setup() {
     WiFi.mode(WIFI_AP);
     WiFi.softAPConfig(IPAddress(192, 168, 5, 1), IPAddress(192, 168, 5, 1), IPAddress(255, 255, 255, 0));
     if (WiFi.softAP(CAM_AP_SSID, CAM_AP_PASS, kApChannel, 0, 2)) {
-      Serial.printf("# OK WiFi AP \"%s\" ch %u, open http://%s/ (also /stream, /jpg)\n", CAM_AP_SSID, kApChannel,
+      Serial.printf("# OK WiFi AP \"%s\" ch %u, open http://%s/ (also /stream, /jpg, /rec?on=1|0)\n", CAM_AP_SSID, kApChannel,
                     WiFi.softAPIP().toString().c_str());
     } else {
       Serial.println("# WARN WiFi AP failed to start");
     }
   }
   startServer();
-  Serial.println("# fps counts frames sent on /stream (0 with no viewer). Nothing to type here.");
+  Serial.println("# fps counts frames sent on /stream (0 with no viewer). Type `?`.");
 }
 
 void loop() {
   static uint32_t lastReport = 0;
   static uint32_t lastFrames = 0;
   const uint32_t now = millis();
+
+  pollSerial();
+
+  if (autorecPending && now >= kAutorecDelayMs) {
+    autorecPending = false;
+    recStart("autorec");
+  }
+
+  // Nobody streaming: the recorder captures its own frames at the camera rate.
+  if (recOn && streamClients == 0 && camOk) {
+    camera_fb_t* fb = esp_camera_fb_get();
+    if (fb) {
+      frameW = fb->width;
+      frameH = fb->height;
+      recOffer(fb, millis());
+      esp_camera_fb_return(fb);
+    }
+  } else {
+    delay(10);
+  }
+
   if (now - lastReport >= kReportMs) {
     const uint32_t sent = framesSent;
-    const float fps = (sent - lastFrames) * 1000.0f / (now - lastReport);
+    streamFps = (sent - lastFrames) * 1000.0f / (now - lastReport);
     lastFrames = sent;
     lastReport = now;
-    Serial.printf("# fps %.1f size %dx%d heap %u psram %u%s\n", fps, frameW, frameH, ESP.getFreeHeap(), ESP.getFreePsram(),
+    recAdapt();
+    Serial.printf("# fps %.1f size %dx%d heap %u psram %u%s\n", streamFps, frameW, frameH, ESP.getFreeHeap(), ESP.getFreePsram(),
                   camOk ? "" : " cam=MISSING");
+    if (!sdOk) {
+      Serial.println("# WARN no SD");
+    } else {
+      if (!recOn) sdUpdateFree();
+      Serial.printf("# rec %s frames %lu free %.0f MB%s\n", recOn ? "on" : "off", static_cast<unsigned long>(recFrames), sdFreeMb,
+                    (recOn && recEvery == 2) ? " (every 2nd frame)" : "");
+    }
   }
-  delay(10);
 }
