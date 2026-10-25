@@ -11,6 +11,10 @@
 //      the top as the camera sees it after the flip: index = y*32 + x)
 // Every 2 s one ASCII heat map per camera (`# MAP <cam> …` + 24 `# |…|` lines). `raw 1` streams
 // `# RAW <cam> <t_ms> v0 … v767`.
+// Every line setup() prints (scan, OK/WARN per camera) is kept in a 2 KB buffer; `boot` prints it again — the
+// USB-CDC monitor usually reconnects after RST too late to show the banner.
+// The D45 never blocks the sketch: start/sync and the READY flag get 500 ms, then `WARN d45 timeout` and the
+// 110° carries on alone (the D45 is re-synced and picked up again when it answers).
 #include <Adafruit_MLX90640.h>
 #include <Arduino.h>
 #include <Wire.h>
@@ -34,6 +38,8 @@ const uint32_t kI2cSlowHz = 100000;  // `i2c 100` for long wires; table 25: 100 
 const int kW = 32, kH = 24, kN = kW * kH;
 const uint32_t kMapPeriodMs = 2000;  // SOURCE: task T3 / handoff (every 2 s one ASCII heat map per camera)
 const float kD45Scale = 1.0f / 50.0f;  // SOURCE: datasheet §3.1.5.3 To = RAM / 50 °C (two's complement)
+const uint32_t kD45TimeoutMs = 500;    // SOURCE: handoff 25.10 — 2 frames at 4 Hz; never wait longer for READY
+const uint32_t kD45PollMs = 5;         // READY polling step while waiting for the first frame
 
 Adafruit_MLX90640 mlx110;
 bench::Cli shell(Serial);
@@ -47,12 +53,56 @@ uint16_t rawD45[kN];
 bool w110Ok = false;
 bool d45Ok = false;
 uint8_t d45Addr = 0;
+uint32_t d45LastFrameMs = 0;  // millis() of the last D45 frame (or of the last re-sync)
+bool d45TimedOut = false;     // true while the D45 is silent (WARN printed once per outage)
 bool rawOn = false;
 bool mapOn = true;
 long rateHz = 4;        // SOURCE: handoff (4 Hz each)
 uint32_t i2cHz = kI2cFastHz;
 
 const char kShades[] = " .:-=+*#%@";  // 10 bands from min to max
+
+// ------------------------------------------------------------------ boot log
+// blog() = bench::msg() that also keeps the line while setup() runs; `boot` replays the buffer.
+const size_t kBootLogSize = 2048;  // ≈ 15–20 lines; a full scan with WARNs fits
+char bootLog[kBootLogSize];
+size_t bootLogLen = 0;
+bool bootCapture = true;
+bool bootLogFull = false;
+
+void blog(const char* fmt, ...) __attribute__((format(printf, 1, 2)));
+void blog(const char* fmt, ...) {
+  char buf[160];
+  va_list ap;
+  va_start(ap, fmt);
+  vsnprintf(buf, sizeof buf, fmt, ap);
+  va_end(ap);
+  bench::msg("%s", buf);
+  if (!bootCapture) return;
+  const size_t n = strlen(buf);
+  if (bootLogLen + n + 1 > kBootLogSize) {
+    bootLogFull = true;
+    return;
+  }
+  memcpy(bootLog + bootLogLen, buf, n);
+  bootLogLen += n;
+  bootLog[bootLogLen++] = '\n';
+}
+
+void bootReplay() {
+  bench::msg("BOOT replay of setup() (thermal, build %s %s, up %lu s)%s", __DATE__, __TIME__,
+             static_cast<unsigned long>(millis() / 1000), bootLogFull ? " — buffer was full, tail dropped" : "");
+  size_t i = 0;
+  while (i < bootLogLen) {
+    size_t j = i;
+    while (j < bootLogLen && bootLog[j] != '\n') ++j;
+    Serial.print("# ");
+    Serial.write(reinterpret_cast<const uint8_t*>(bootLog + i), j - i);
+    Serial.println();
+    i = j + 1;
+  }
+  bench::msg("BOOT end");
+}
 
 struct Stats {
   float mn, mx, mean;
@@ -140,14 +190,25 @@ uint8_t findD45() {
     Wire.beginTransmission(addr);
     if (Wire.endTransmission() != 0) continue;
     const bool known = isKnownOnWire(addr);
-    bench::msg("I2C Wire found 0x%02X%s", addr, known ? " (PCA9685 / BNO055)" : " <- candidate D45");
+    blog("I2C Wire found 0x%02X%s", addr, known ? " (PCA9685 / BNO055)" : " <- candidate D45");
     if (!known) {
       if (pick == 0) pick = addr;
       ++unknown;
     }
   }
-  if (unknown > 1) bench::msg("WARN %d unknown addresses on Wire, taking the lowest 0x%02X — unplug what is not the D45", unknown, pick);
+  if (unknown > 1) blog("WARN %d unknown addresses on Wire, taking the lowest 0x%02X — unplug what is not the D45", unknown, pick);
   return pick;
+}
+
+// Polls READY for up to kD45TimeoutMs. Returns MLX90642_YES, MLX90642_NO (timeout) or <0 (I2C error).
+int d45WaitReady() {
+  const uint32_t t0 = millis();
+  for (;;) {
+    const int st = MLX90642_IsDataReady(d45Addr);
+    if (st != MLX90642_NO) return st;
+    if (millis() - t0 >= kD45TimeoutMs) return MLX90642_NO;
+    delay(kD45PollMs);
+  }
 }
 
 bool d45SetRate(long hz) {
@@ -160,38 +221,66 @@ bool d45Begin() {
   uint16_t id[MLX90642_NUMBER_OF_ID_WORDS] = {0};
   uint8_t fw[3] = {0};
   if (MLX90642_GetID(d45Addr, id) < 0 || MLX90642_GetFWver(d45Addr, fw) < 0) {
-    bench::msg("WARN 0x%02X answers but does not read like an MLX90642 (ID / FW read failed)", d45Addr);
+    blog("WARN 0x%02X answers but does not read like an MLX90642 (ID / FW read failed)", d45Addr);
     return false;
   }
-  bench::msg("OK MLX90642 @0x%02X id %04X%04X%04X%04X fw %u.%u.%u", d45Addr, id[0], id[1], id[2], id[3], fw[0], fw[1], fw[2]);
+  blog("OK MLX90642 @0x%02X id %04X%04X%04X%04X fw %u.%u.%u", d45Addr, id[0], id[1], id[2], id[3], fw[0], fw[1], fw[2]);
   int st = MLX90642_SetMeasMode(d45Addr, MLX90642_CONT_MEAS_MODE);
   if (st >= 0) st = MLX90642_SetOutputFormat(d45Addr, MLX90642_TEMPERATURE_OUTPUT);
   if (st >= 0 && !d45SetRate(rateHz)) st = -1;
   if (st < 0) {
-    bench::msg("WARN MLX90642 configuration write failed (%d)", st);
+    blog("WARN MLX90642 configuration write failed (%d)", st);
     return false;
   }
   int16_t emis = 0;
   MLX90642_GetEmissivity(d45Addr, &emis);
-  bench::msg("MLX90642 continuous, temperature output, %ld Hz, emissivity %.2f (EEPROM, not changed here)", rateHz,
-             emis / 16384.0f);
-  st = MLX90642_Init(d45Addr);  // start/sync and wait for the first frame (blocks ≈ 1 refresh period)
-  if (st < 0) {
-    bench::msg("WARN MLX90642 init failed (%d) — no first frame", st);
+  blog("MLX90642 continuous, temperature output, %ld Hz, emissivity %.2f (EEPROM, not changed here)", rateHz, emis / 16384.0f);
+  // Start/sync, then wait for the first READY ourselves (MLX90642_Init() sleeps a full refresh period first and
+  // its own poll loop has no fixed wall-clock bound).
+  if (MLX90642_StartSync(d45Addr) < 0) {
+    blog("WARN MLX90642 start/sync command NACKed — no frames");
     return false;
   }
+  const int ready = d45WaitReady();
+  if (ready < 0) {
+    blog("WARN d45 READY read failed (%d) — carrying on with the 110°", ready);
+    return false;
+  }
+  if (ready != MLX90642_YES) {
+    blog("WARN d45 timeout: no READY within %lu ms after start/sync — carrying on with the 110°",
+         static_cast<unsigned long>(kD45TimeoutMs));
+    return false;
+  }
+  d45LastFrameMs = millis();
   return true;
 }
 
-// Reads a D45 frame if one is ready. Returns true when `frameD45` holds new data.
-bool d45Poll() {
+// Reads a D45 frame if one is ready (never blocks). Returns true when `frameD45` holds new data. When READY stays
+// off for kD45TimeoutMs, prints `WARN d45 timeout` once, re-issues start/sync and keeps polling.
+bool d45Poll(uint32_t now) {
   const int ready = MLX90642_IsDataReady(d45Addr);
-  if (ready != MLX90642_YES) return false;
+  if (ready != MLX90642_YES) {
+    if (now - d45LastFrameMs >= kD45TimeoutMs) {
+      if (!d45TimedOut) {
+        bench::msg("WARN d45 timeout: no frame for %lu ms (READY read %s) — carrying on with the 110°, re-syncing the D45",
+                   static_cast<unsigned long>(now - d45LastFrameMs), ready < 0 ? "failed" : "0");
+        d45TimedOut = true;
+      }
+      MLX90642_StartSync(d45Addr);  // VERIFY: in continuous mode a new start/sync should restart measurements
+      d45LastFrameMs = now;         // next timeout check in kD45TimeoutMs
+    }
+    return false;
+  }
   if (MLX90642_GetImage(d45Addr, rawD45) < 0) {
     bench::msg("WARN d45 frame read failed");
     return false;
   }
   for (int i = 0; i < kN; ++i) frameD45[i] = static_cast<int16_t>(rawD45[i]) * kD45Scale;
+  d45LastFrameMs = now;
+  if (d45TimedOut) {
+    d45TimedOut = false;
+    bench::msg("OK d45 frames are back");
+  }
   return true;
 }
 
@@ -204,16 +293,16 @@ bool w110SetRate(long hz) {
 
 bool w110Begin() {
   if (!mlx110.begin(kW110Addr, &Wire1)) {
-    bench::msg("WARN MLX90640 not found at 0x%02X on Wire1 — check SDA GPIO%d / SCL GPIO%d, 3V3, then `scan`", kW110Addr,
-               PIN_I2C1_SDA, PIN_I2C1_SCL);
+    blog("WARN MLX90640 not found at 0x%02X on Wire1 — check SDA GPIO%d / SCL GPIO%d, 3V3, then `scan`", kW110Addr, PIN_I2C1_SDA,
+         PIN_I2C1_SCL);
     return false;
   }
   mlx110.setMode(MLX90640_CHESS);
   mlx110.setResolution(MLX90640_ADC_18BIT);
   w110Ok = true;
   w110SetRate(rateHz);
-  bench::msg("OK MLX90640 @0x%02X serial %04X%04X%04X, chess, 18 bit, %ld Hz, frame %s", kW110Addr, mlx110.serialNumber[0],
-             mlx110.serialNumber[1], mlx110.serialNumber[2], rateHz, FLIP_110 ? "rotated 180° (FLIP_110)" : "as read");
+  blog("OK MLX90640 @0x%02X serial %04X%04X%04X, chess, 18 bit, %ld Hz, frame %s", kW110Addr, mlx110.serialNumber[0],
+       mlx110.serialNumber[1], mlx110.serialNumber[2], rateHz, FLIP_110 ? "rotated 180° (FLIP_110)" : "as read");
   return true;
 }
 
@@ -232,14 +321,18 @@ void help() {
   bench::msg("  raw 0|1       stream all 768 pixels per frame as `# RAW <cam> <t_ms> v0 .. v767`");
   bench::msg("  map 0|1       ASCII heat map every 2 s per camera (default on)");
   bench::msg("  i2c 100|400   bus clock in kHz on both buses (400 default; 100 for long wires, then rate 4 only)");
+  bench::msg("  boot          print the boot messages again (scan, OK/WARN per camera)");
   bench::msg("  0             raw off, map off");
-  bench::msg("state: d45=%s@0x%02X w110=%s rate=%ld Hz i2c=%lu kHz raw=%d map=%d flip110=%d", d45Ok ? "ok" : "MISSING", d45Addr,
-             w110Ok ? "ok" : "MISSING", rateHz, static_cast<unsigned long>(i2cHz / 1000), rawOn ? 1 : 0, mapOn ? 1 : 0, FLIP_110);
+  bench::msg("state: d45=%s@0x%02X%s w110=%s rate=%ld Hz i2c=%lu kHz raw=%d map=%d flip110=%d", d45Ok ? "ok" : "MISSING", d45Addr,
+             (d45Ok && d45TimedOut) ? " (timeout, no frames)" : "", w110Ok ? "ok" : "MISSING", rateHz,
+             static_cast<unsigned long>(i2cHz / 1000), rawOn ? 1 : 0, mapOn ? 1 : 0, FLIP_110);
 }
 
 void handleCommand() {
   if (shell.is("?")) {
     help();
+  } else if (shell.is("boot")) {
+    bootReplay();
   } else if (shell.is("0")) {
     rawOn = false;
     mapOn = false;
@@ -284,18 +377,20 @@ void setup() {
   Wire.begin(PIN_I2C0_SDA, PIN_I2C0_SCL, kI2cFastHz);
   Wire1.begin(PIN_I2C1_SDA, PIN_I2C1_SCL, kI2cFastHz);
   bench::begin("thermal", "t_ms,cam,min_C,max_C,mean_C,hot_x,hot_y");
-  bench::msg("d45: Wire SDA GPIO%d SCL GPIO%d (shared with PCA9685 0x40, BNO055 0x28) · w110: Wire1 SDA GPIO%d SCL GPIO%d @0x%02X · 3V3 from EXT1 1/2 only",
-             PIN_I2C0_SDA, PIN_I2C0_SCL, PIN_I2C1_SDA, PIN_I2C1_SCL, kW110Addr);
+  blog("d45: Wire SDA GPIO%d SCL GPIO%d (shared with PCA9685 0x40, BNO055 0x28) · w110: Wire1 SDA GPIO%d SCL GPIO%d @0x%02X · 3V3 from EXT1 1/2 only",
+       PIN_I2C0_SDA, PIN_I2C0_SCL, PIN_I2C1_SDA, PIN_I2C1_SCL, kW110Addr);
 
   d45Addr = findD45();
   if (d45Addr == 0) {
-    bench::msg("WARN no D45 candidate on Wire (only 0x40 / 0x28 / 0x70 or nothing) — check wiring, then `scan`");
+    blog("WARN no D45 candidate on Wire (only 0x40 / 0x28 / 0x70 or nothing) — check wiring, then `scan`");
   } else {
     d45Ok = d45Begin();
   }
   w110Begin();
 
-  bench::msg("rows at the frame rate per camera; heat maps every %lu ms. Type `?`.", static_cast<unsigned long>(kMapPeriodMs));
+  blog("rows at the frame rate per camera; heat maps every %lu ms. Type `?` (`boot` repeats these lines).",
+       static_cast<unsigned long>(kMapPeriodMs));
+  bootCapture = false;
 }
 
 void loop() {
@@ -323,7 +418,7 @@ void loop() {
     }
   }
 
-  if (d45Ok && d45Poll()) {
+  if (d45Ok && d45Poll(millis())) {
     const uint32_t t = millis();
     const Stats s = stats(frameD45);
     emitRow("d45", t, s);
