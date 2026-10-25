@@ -107,28 +107,49 @@ void bootReplay() {
 struct Stats {
   float mn, mx, mean;
   int hotX, hotY;
+  int bad;  // non-finite pixels skipped (MLX90640 gives NaN/inf for a pixel with a bad calibration read, 25.10)
 };
 
+// min / max / mean over the finite pixels only; all NaN → every value NaN, hot = (0,0).
 Stats stats(const float* f) {
   Stats s;
-  s.mn = f[0];
-  s.mx = f[0];
+  s.mn = NAN;
+  s.mx = NAN;
+  s.mean = NAN;
+  s.bad = 0;
   float sum = 0.0f;
+  int n = 0;
   int hot = 0;
   for (int i = 0; i < kN; ++i) {
     const float v = f[i];
+    if (!isfinite(v)) {
+      ++s.bad;
+      continue;
+    }
     sum += v;
-    if (v < s.mn) s.mn = v;
-    if (v > s.mx) {
+    if (n == 0 || v < s.mn) s.mn = v;
+    if (n == 0 || v > s.mx) {
       s.mx = v;
       hot = i;
     }
+    ++n;
   }
-  s.mean = sum / kN;
+  if (n > 0) s.mean = sum / n;
   s.hotX = hot % kW;
   s.hotY = hot / kW;
   return s;
 }
+
+// `# WARN <cam> <n> non-finite pixels`, at most once per kBadWarnMs per camera.
+const uint32_t kBadWarnMs = 10000;  // SOURCE: handoff 25.10 (once per 10 s)
+void warnBad(const char* cam, const Stats& s, uint32_t now, uint32_t& lastWarn) {
+  if (s.bad == 0) return;
+  if (lastWarn != 0 && now - lastWarn < kBadWarnMs) return;
+  lastWarn = now;
+  bench::msg("WARN %s %d non-finite pixels (skipped in min/max/mean; `raw 1` shows them as nan)", cam, s.bad);
+}
+uint32_t lastBadWarn110 = 0;
+uint32_t lastBadWarnD45 = 0;
 
 void emitRow(const char* cam, uint32_t t, const Stats& s) {
   char buf[80];
@@ -139,11 +160,16 @@ void emitRow(const char* cam, uint32_t t, const Stats& s) {
 
 void printMap(const char* cam, const float* f, const Stats& s) {
   const float span = (s.mx - s.mn) > 0.01f ? (s.mx - s.mn) : 0.01f;
-  bench::msg("MAP %s min %.1f max %.1f C (' ' = min … '@' = max), 32 cols x 24 rows", cam, s.mn, s.mx);
+  bench::msg("MAP %s min %.1f max %.1f C (' ' = min … '@' = max, '?' = non-finite), 32 cols x 24 rows", cam, s.mn, s.mx);
   char line[kW + 1];
   for (int y = 0; y < kH; ++y) {
     for (int x = 0; x < kW; ++x) {
-      int b = static_cast<int>((f[y * kW + x] - s.mn) / span * 9.0f + 0.5f);
+      const float v = f[y * kW + x];
+      if (!isfinite(v)) {
+        line[x] = '?';
+        continue;
+      }
+      int b = static_cast<int>((v - s.mn) / span * 9.0f + 0.5f);
       if (b < 0) b = 0;
       if (b > 9) b = 9;
       line[x] = kShades[b];
@@ -162,7 +188,8 @@ void printRaw(const char* cam, uint32_t t, const float* f) {
   Serial.print(t);
   for (int i = 0; i < kN; ++i) {
     Serial.print(' ');
-    Serial.print(f[i], 1);
+    if (isfinite(f[i])) Serial.print(f[i], 1);
+    else Serial.print("nan");
   }
   Serial.println();
 }
@@ -224,7 +251,8 @@ bool d45Begin() {
     blog("WARN 0x%02X answers but does not read like an MLX90642 (ID / FW read failed)", d45Addr);
     return false;
   }
-  blog("OK MLX90642 @0x%02X id %04X%04X%04X%04X fw %u.%u.%u", d45Addr, id[0], id[1], id[2], id[3], fw[0], fw[1], fw[2]);
+  // Only the last 4 hex digits of the ID: no serial numbers in logs, chat or CSV.
+  blog("OK MLX90642 @0x%02X id …%04X fw %u.%u.%u", d45Addr, id[MLX90642_NUMBER_OF_ID_WORDS - 1], fw[0], fw[1], fw[2]);
   int st = MLX90642_SetMeasMode(d45Addr, MLX90642_CONT_MEAS_MODE);
   if (st >= 0) st = MLX90642_SetOutputFormat(d45Addr, MLX90642_TEMPERATURE_OUTPUT);
   if (st >= 0 && !d45SetRate(rateHz)) st = -1;
@@ -301,8 +329,9 @@ bool w110Begin() {
   mlx110.setResolution(MLX90640_ADC_18BIT);
   w110Ok = true;
   w110SetRate(rateHz);
-  blog("OK MLX90640 @0x%02X serial %04X%04X%04X, chess, 18 bit, %ld Hz, frame %s", kW110Addr, mlx110.serialNumber[0],
-       mlx110.serialNumber[1], mlx110.serialNumber[2], rateHz, FLIP_110 ? "rotated 180° (FLIP_110)" : "as read");
+  // Only the last 4 hex digits of the serial: no serial numbers in logs, chat or CSV.
+  blog("OK MLX90640 @0x%02X serial …%04X, chess, 18 bit, %ld Hz, frame %s", kW110Addr, mlx110.serialNumber[2], rateHz,
+       FLIP_110 ? "rotated 180° (FLIP_110)" : "as read");
   return true;
 }
 
@@ -412,6 +441,7 @@ void loop() {
       if (FLIP_110) flip180(frame110);
       const uint32_t t = millis();
       const Stats s = stats(frame110);
+      warnBad("w110", s, t, lastBadWarn110);
       emitRow("w110", t, s);
       if (rawOn) printRaw("w110", t, frame110);
       if (mapOn && map110Tick.due(t)) printMap("w110", frame110, s);
@@ -421,6 +451,7 @@ void loop() {
   if (d45Ok && d45Poll(millis())) {
     const uint32_t t = millis();
     const Stats s = stats(frameD45);
+    warnBad("d45", s, t, lastBadWarnD45);
     emitRow("d45", t, s);
     if (rawOn) printRaw("d45", t, frameD45);
     if (mapOn && mapD45Tick.due(t)) printMap("d45", frameD45, s);
