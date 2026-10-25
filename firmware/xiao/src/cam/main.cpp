@@ -6,16 +6,21 @@
 //   :80  /            page: <img> of the stream, Rec on / Rec off buttons (fetch, no reload), rec state
 //        /jpg         one JPEG snapshot
 //        /rec         JSON state {"rec","frames","run","rec_fps"}; /rec?on=1|0 starts / stops and returns the state
-//   :81  /stream      multipart MJPEG (one client at a time; the handler returns when the client leaves)
+//   :81  /stream      multipart MJPEG of the latest frame (the handler returns when the client leaves)
 // Serial (USB-C, 115200), commands `rec 1`, `rec 0`, `?`. Every 2 s:
-//   `# fps <stream> rec <on|off> frames <n> rec_fps <x> free <MB>`   (+ `# WARN no SD` when no card is mounted)
+//   `# fps <stream> rec <on|off> frames <n> rec_fps <x> free <MB> rssi <dBm of the phone> tx <kB/s on /stream>`
+//   (+ `# WARN no SD` when no card is mounted)
+//
+// Tasks: ONE camera task (core 1, like loop()) grabs frames with esp_camera_fb_get() at the camera rate, keeps a
+// copy of the latest JPEG for /stream and /jpg, and appends the frame to the recording when `rec` is on. The HTTP
+// servers run on core 0 with the WiFi stack; the stream handler only copies and sends the latest frame and never
+// feeds the recorder. Run 2 on 25.10 (recorder fed by the stream): a phone at 0.5–1.5 fps dragged the recording
+// down to 0.5 fps — a slow WiFi link must not slow the file.
 //
 // Recording (microSD in the slot of the Sense expansion board, FAT32, ≤ 32 GB): each run is a new folder
 // /C049_<n>/ with ONE video.mjpeg (JPEGs appended back to back) and index.csv (frame,t_ms,offset,len). Both files
 // stay open, are flushed every 10 frames (a power cut loses at most 10 frames) and closed on `rec 0`.
 // First run 25.10: one file per frame slowed from 15.5 to 8.5 fps over 155 frames, hence the single file.
-// Frames are the ones the stream sends (same rate); with no viewer, loop() captures them itself. If recording
-// pulls the stream under 8 fps, every 2nd frame is recorded and that is printed.
 // A file /autorec on the card starts recording 5 s after boot (water test without the phone).
 //
 // Decision 0005 (25.10, Teddy): the XIAO Sense = OV3660 camera node only, powered from its own USB-C / 5 V.
@@ -26,10 +31,13 @@
 #include <SPI.h>
 #include <WiFi.h>
 #include <esp_camera.h>
+#include <esp_heap_caps.h>
 #include <esp_http_server.h>
+#include <esp_wifi.h>
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
+#include <freertos/task.h>
 
 #if __has_include("secrets.h")
 #include "secrets.h"
@@ -59,11 +67,14 @@ const int kJpegQuality = 12;              // SOURCE: CameraWebServer example (0 
 const uint8_t kApChannel = 1;             // VERIFY: the DevKit `remote` AP is on channel 6; keep the two apart
 const uint32_t kReportMs = 2000;          // SOURCE: handoff (serial every 2 s)
 const uint32_t kAutorecDelayMs = 5000;    // SOURCE: handoff (/autorec → start 5 s after boot)
-const float kMinStreamFps = 8.0f;         // SOURCE: handoff (recording must not drop the stream below 8 fps at VGA)
 const char kRunPrefix[] = "/C049_";
 const uint16_t kHttpPort = 80;
 const uint16_t kStreamPort = 81;          // SOURCE: CameraWebServer example (stream on its own server, port + 1)
 const uint32_t kFlushEvery = 10;          // SOURCE: handoff (flush every 10 frames)
+const int kCamCore = 1;                   // SOURCE: arduino-esp32 runs loop() on core 1, WiFi/lwIP on core 0
+const int kHttpCore = 0;                  // httpd tasks next to the WiFi stack, away from the camera task
+const uint32_t kCamTaskStack = 8192;      // VERIFY: FatFS writes need a few KB; check `?` for stack headroom
+const uint32_t kFrameWaitMs = 1000;       // /stream gives up on a frame after this (camera stalled)
 
 const char kPage[] =
     "<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
@@ -87,20 +98,29 @@ const char kStreamPart[] = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r
 
 httpd_handle_t server = nullptr;        // :80 page, /jpg, /rec
 httpd_handle_t streamServer = nullptr;  // :81 /stream
-volatile uint32_t framesSent = 0;
+volatile uint32_t framesSent = 0;       // frames sent on /stream (all clients)
+volatile uint32_t bytesSent = 0;        // bytes sent on /stream (all clients, wraps after 4 GB)
+volatile uint32_t camFrames = 0;        // frames grabbed by the camera task
 volatile int streamClients = 0;
 bool camOk = false;
 int frameW = 0, frameH = 0;
 float streamFps = 0.0f;
+TaskHandle_t camTaskHandle = nullptr;
 
-// ---- recording state (guarded by recMutex: loop() task and the httpd task both touch it)
+// ---- latest frame (guarded by frameMutex: written by the camera task, copied by /stream and /jpg)
+SemaphoreHandle_t frameMutex = nullptr;
+uint8_t* latestBuf = nullptr;
+size_t latestCap = 0;
+size_t latestLen = 0;
+volatile uint32_t latestSeq = 0;  // +1 per new frame; /stream waits for a change
+
+// ---- recording state (guarded by recMutex: camera task, loop() and the httpd tasks all touch it; every SD
+// access happens under this lock)
 SemaphoreHandle_t recMutex = nullptr;
 bool sdOk = false;
 bool recOn = false;
 int recRun = 0;          // <n> of the current /C049_<n>/
 uint32_t recFrames = 0;  // frames written in this run
-uint32_t recSeen = 0;    // frames offered to the recorder in this run (for every-2nd)
-int recEvery = 1;        // 1 = every frame, 2 = every 2nd (stream fell under kMinStreamFps)
 char recDir[24] = "";
 File recVideo;           // /C049_<n>/video.mjpeg, open while recording
 File recIndex;           // /C049_<n>/index.csv, open while recording
@@ -117,7 +137,44 @@ struct Lock {
   SemaphoreHandle_t m_;
 };
 
-// ---- SD helpers
+// Grows a PSRAM (or heap, without PSRAM) buffer to at least `need` bytes. Returns false if out of memory.
+bool growBuf(uint8_t*& buf, size_t& cap, size_t need) {
+  if (cap >= need) return true;
+  const size_t newCap = need + need / 4;  // 25 % headroom so JPEG size jitter does not realloc every frame
+  uint8_t* p = static_cast<uint8_t*>(
+      psramFound() ? heap_caps_realloc(buf, newCap, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT) : realloc(buf, newCap));
+  if (!p) return false;
+  buf = p;
+  cap = newCap;
+  return true;
+}
+
+// ---- latest frame
+void latestPut(const camera_fb_t* fb) {
+  Lock l(frameMutex);
+  if (!growBuf(latestBuf, latestCap, fb->len)) return;
+  memcpy(latestBuf, fb->buf, fb->len);
+  latestLen = fb->len;
+  ++latestSeq;
+}
+
+// Waits up to kFrameWaitMs for a frame newer than *seen, copies it into the caller's buffer. Returns 0 on timeout
+// or out of memory.
+size_t latestCopy(uint8_t*& buf, size_t& cap, uint32_t& seen) {
+  const uint32_t t0 = millis();
+  while (latestSeq == seen) {
+    if (millis() - t0 >= kFrameWaitMs) return 0;
+    vTaskDelay(pdMS_TO_TICKS(5));
+  }
+  Lock l(frameMutex);
+  if (latestLen == 0 || !growBuf(buf, cap, latestLen)) return 0;
+  memcpy(buf, latestBuf, latestLen);
+  seen = latestSeq;
+  return latestLen;
+}
+
+// ---- SD helpers (recMutex held by the caller unless noted)
+// Slow on a big card (FAT scan): only at mount and after `rec 0`, never in the 2 s report.
 void sdUpdateFree() {
   if (!sdOk) return;
   const uint64_t total = SD.totalBytes(), used = SD.usedBytes();
@@ -200,10 +257,8 @@ bool recStart(const char* who) {
   }
   recIndex.println("frame,t_ms,offset,len");
   recFrames = 0;
-  recSeen = 0;
   recOffset = 0;
   recSinceFlush = 0;
-  recEvery = 1;
   recFps = 0.0f;
   recFramesAtReport = 0;
   recOn = true;
@@ -221,13 +276,10 @@ void recStop(const char* why) {
   sdUpdateFree();
 }
 
-// Offers a frame to the recorder. Called by the stream handler for every frame it sends, or by loop() when
-// nobody is streaming.
+// Called by the camera task for every grabbed frame.
 void recOffer(const camera_fb_t* fb, uint32_t t_ms) {
   Lock l(recMutex);
   if (!recOn) return;
-  ++recSeen;
-  if (recEvery == 2 && (recSeen & 1) == 0) return;
   if (!sdWriteFrame(fb, t_ms)) {
     recOn = false;
     recCloseFiles();
@@ -244,13 +296,27 @@ void recStateJson(char* buf, size_t cap) {
            static_cast<unsigned long>(recFrames), recOn ? recDir : "", recFps, sdOk ? 1 : 0);
 }
 
-// Every 2 s: if a viewer is streaming and the stream fell under 8 fps while recording every frame, record every 2nd.
-void recAdapt() {
-  Lock l(recMutex);
-  if (!recOn || streamClients == 0 || recEvery != 1) return;
-  if (streamFps > 0.0f && streamFps < kMinStreamFps) {
-    recEvery = 2;
-    Serial.printf("# WARN stream %.1f fps < %.0f while recording — now recording every 2nd frame\n", streamFps, kMinStreamFps);
+// ---- camera task: the only caller of esp_camera_fb_get(). Grabs at the camera rate, publishes the latest frame,
+// appends it to the recording. Independent of WiFi: a slow phone never slows the file.
+void camTask(void*) {
+  for (;;) {
+    if (!camOk) {
+      vTaskDelay(pdMS_TO_TICKS(100));
+      continue;
+    }
+    camera_fb_t* fb = esp_camera_fb_get();
+    if (!fb) {
+      Serial.println("# WARN frame capture failed");
+      vTaskDelay(pdMS_TO_TICKS(10));
+      continue;
+    }
+    const uint32_t t = millis();
+    frameW = fb->width;
+    frameH = fb->height;
+    latestPut(fb);
+    recOffer(fb, t);
+    esp_camera_fb_return(fb);
+    ++camFrames;
   }
 }
 
@@ -261,15 +327,19 @@ esp_err_t handleIndex(httpd_req_t* req) {
 }
 
 esp_err_t handleJpg(httpd_req_t* req) {
-  camera_fb_t* fb = esp_camera_fb_get();
-  if (!fb) {
+  uint8_t* buf = nullptr;
+  size_t cap = 0;
+  uint32_t seen = latestSeq - 1;  // take whatever is there now
+  const size_t len = latestCopy(buf, cap, seen);
+  if (len == 0) {
+    free(buf);
     httpd_resp_send_500(req);
     return ESP_FAIL;
   }
   httpd_resp_set_type(req, "image/jpeg");
   httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=armini.jpg");
-  const esp_err_t res = httpd_resp_send(req, reinterpret_cast<const char*>(fb->buf), fb->len);
-  esp_camera_fb_return(fb);
+  const esp_err_t res = httpd_resp_send(req, reinterpret_cast<const char*>(buf), len);
+  free(buf);
   return res;
 }
 
@@ -294,25 +364,27 @@ esp_err_t handleStream(httpd_req_t* req) {
   httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
   ++streamClients;
   char part[64];
+  uint8_t* buf = nullptr;  // this client's copy of the latest frame; the camera task is never blocked by the send
+  size_t cap = 0;
+  uint32_t seen = latestSeq;
   while (true) {
-    camera_fb_t* fb = esp_camera_fb_get();
-    if (!fb) {
-      Serial.println("# WARN frame capture failed");
-      res = ESP_FAIL;
-      break;
+    const size_t len = latestCopy(buf, cap, seen);
+    if (len == 0) {
+      if (!camOk) {
+        res = ESP_FAIL;
+        break;
+      }
+      continue;  // camera stalled for a second: keep the connection, try again
     }
-    const uint32_t t = millis();
-    const size_t n = snprintf(part, sizeof part, kStreamPart, static_cast<unsigned>(fb->len));
+    const size_t n = snprintf(part, sizeof part, kStreamPart, static_cast<unsigned>(len));
     res = httpd_resp_send_chunk(req, kStreamBoundary, strlen(kStreamBoundary));
     if (res == ESP_OK) res = httpd_resp_send_chunk(req, part, n);
-    if (res == ESP_OK) res = httpd_resp_send_chunk(req, reinterpret_cast<const char*>(fb->buf), fb->len);
-    frameW = fb->width;
-    frameH = fb->height;
-    if (res == ESP_OK) recOffer(fb, t);
-    esp_camera_fb_return(fb);
+    if (res == ESP_OK) res = httpd_resp_send_chunk(req, reinterpret_cast<const char*>(buf), len);
     if (res != ESP_OK) break;  // client gone
     ++framesSent;
+    bytesSent += strlen(kStreamBoundary) + n + len;
   }
+  free(buf);
   --streamClients;
   return res;
 }
@@ -341,7 +413,7 @@ bool startCamera() {
   c.pixel_format = PIXFORMAT_JPEG;
   c.frame_size = kSize;
   c.jpeg_quality = kJpegQuality;
-  c.fb_count = psramFound() ? 2 : 1;
+  c.fb_count = psramFound() ? 2 : 1;  // one task grabs; GRAB_LATEST hands it the newest buffer
   c.fb_location = psramFound() ? CAMERA_FB_IN_PSRAM : CAMERA_FB_IN_DRAM;
   c.grab_mode = CAMERA_GRAB_LATEST;
   const esp_err_t err = esp_camera_init(&c);
@@ -369,6 +441,7 @@ void startServers() {
   httpd_config_t cfg = HTTPD_DEFAULT_CONFIG();
   cfg.server_port = kHttpPort;
   cfg.max_open_sockets = 4;
+  cfg.core_id = kHttpCore;
   if (httpd_start(&server, &cfg) != ESP_OK) {
     Serial.println("# WARN http server :80 failed to start");
   } else {
@@ -406,9 +479,12 @@ void handleLine(char* line) {
   while (end > line && (end[-1] == ' ' || end[-1] == '\r')) *--end = '\0';
   if (strcmp(line, "?") == 0) {
     Serial.println("# cam: `rec 1` start recording to microSD, `rec 0` stop, `?` this help. HTTP :80 /, /jpg, /rec[?on=1|0] · :81 /stream");
-    Serial.printf("# state: cam=%s sd=%s rec=%s run=%d frames=%lu every=%d clients=%d\n", camOk ? "ok" : "MISSING",
-                  sdOk ? "ok" : "none", recOn ? "on" : "off", recRun, static_cast<unsigned long>(recFrames), recEvery,
-                  static_cast<int>(streamClients));
+    Lock l(recMutex);
+    Serial.printf("# state: cam=%s %dx%d grabbed=%lu sd=%s rec=%s run=%d frames=%lu clients=%d camtask_stack_free=%u heap=%u psram=%u\n",
+                  camOk ? "ok" : "MISSING", frameW, frameH, static_cast<unsigned long>(camFrames), sdOk ? "ok" : "none",
+                  recOn ? "on" : "off", recRun, static_cast<unsigned long>(recFrames), static_cast<int>(streamClients),
+                  camTaskHandle ? static_cast<unsigned>(uxTaskGetStackHighWaterMark(camTaskHandle)) : 0u, ESP.getFreeHeap(),
+                  ESP.getFreePsram());
   } else if (strcmp(line, "rec 1") == 0) {
     recStart("serial");
   } else if (strcmp(line, "rec 0") == 0) {
@@ -442,6 +518,7 @@ void setup() {
   Serial.printf("# psram %s, heap %u\n", psramFound() ? "found" : "MISSING (fb_count 1, DRAM)", ESP.getFreeHeap());
 
   recMutex = xSemaphoreCreateMutex();
+  frameMutex = xSemaphoreCreateMutex();
   camOk = startCamera();
 
   if (!sdMount()) {
@@ -464,12 +541,25 @@ void setup() {
     }
   }
   startServers();
-  Serial.println("# fps = frames sent on /stream (0 with no viewer), rec_fps = frames written. Type `?`.");
+  if (xTaskCreatePinnedToCore(camTask, "cam", kCamTaskStack, nullptr, 2, &camTaskHandle, kCamCore) != pdPASS) {
+    Serial.println("# WARN camera task failed to start — no frames");
+  }
+  Serial.println("# fps = frames sent on /stream (0 with no viewer), rec_fps = frames written, tx = kB/s on /stream. Type `?`.");
+}
+
+// RSSI of the first connected station (the phone), 0 and count 0 when nobody is connected.
+int apRssi(int& count) {
+  wifi_sta_list_t list = {};
+  count = 0;
+  if (esp_wifi_ap_get_sta_list(&list) != ESP_OK) return 0;
+  count = list.num;
+  return list.num > 0 ? list.sta[0].rssi : 0;
 }
 
 void loop() {
   static uint32_t lastReport = 0;
   static uint32_t lastFrames = 0;
+  static uint32_t lastBytes = 0;
   const uint32_t now = millis();
 
   pollSerial();
@@ -478,41 +568,31 @@ void loop() {
     autorecPending = false;
     recStart("autorec");
   }
-
-  // Nobody streaming: the recorder captures its own frames at the camera rate.
-  if (recOn && streamClients == 0 && camOk) {
-    camera_fb_t* fb = esp_camera_fb_get();
-    if (fb) {
-      frameW = fb->width;
-      frameH = fb->height;
-      recOffer(fb, millis());
-      esp_camera_fb_return(fb);
-    }
-  } else {
-    delay(10);
-  }
+  delay(10);
 
   if (now - lastReport >= kReportMs) {
     const uint32_t dt = now - lastReport;
-    const uint32_t sent = framesSent;
+    const uint32_t sent = framesSent, bytes = bytesSent;
     streamFps = (sent - lastFrames) * 1000.0f / dt;
+    const float txKBps = (bytes - lastBytes) / (dt / 1000.0f) / 1000.0f;
     lastFrames = sent;
+    lastBytes = bytes;
     lastReport = now;
     bool on;
     uint32_t frames;
-    int every;
+    float freeMb;
     {
       Lock l(recMutex);
       recFps = recOn ? (recFrames - recFramesAtReport) * 1000.0f / dt : 0.0f;
       recFramesAtReport = recFrames;
       on = recOn;
       frames = recFrames;
-      every = recEvery;
+      freeMb = sdFreeMb;
     }
-    recAdapt();
-    if (sdOk && !on) sdUpdateFree();
-    Serial.printf("# fps %.1f rec %s frames %lu rec_fps %.1f free %.0f MB%s%s\n", streamFps, on ? "on" : "off",
-                  static_cast<unsigned long>(frames), recFps, sdFreeMb, (on && every == 2) ? " (every 2nd frame)" : "",
+    int stations = 0;
+    const int rssi = apRssi(stations);
+    Serial.printf("# fps %.1f rec %s frames %lu rec_fps %.1f free %.0f MB rssi %d tx %.0f kB/s%s%s\n", streamFps, on ? "on" : "off",
+                  static_cast<unsigned long>(frames), recFps, freeMb, rssi, txKBps, stations == 0 ? " (no phone)" : "",
                   camOk ? "" : " cam=MISSING");
     if (!sdOk) Serial.println("# WARN no SD");
   }
