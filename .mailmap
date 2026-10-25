@@ -1,0 +1,6 @@
+# Maps every identity Teddy has committed under to one name and the GitHub noreply address.
+# Only affects how git shortlog / git log --use-mailmap display history; the commits themselves are untouched.
+Teodora Kyoseva <143790675+TKyoseva@users.noreply.github.com> TKyoseva <kyoseva.teddy@gmail.com>
+Teodora Kyoseva <143790675+TKyoseva@users.noreply.github.com> Teodora Kyoseva <kyoseva.teddy@gmail.com>
+Teodora Kyoseva <143790675+TKyoseva@users.noreply.github.com> Teodora (Teddy) Kyoseva <kyoseva.teddy@gmail.com>
+Teodora Kyoseva <143790675+TKyoseva@users.noreply.github.com> Teodora Kyoseva <d.kyosev@gmail.com>
