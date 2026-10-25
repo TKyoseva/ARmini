@@ -37,12 +37,18 @@ The 110° board hangs upside down on the arch → the sketch rotates its frame 1
 
 USB only. Banner, in order:
 - `# I2C Wire found 0x40 (PCA9685 / BNO055)`, `0x28 …`, and **one** `… <- candidate D45` (datasheet default **0x66**; the sketch takes whatever is not 0x40 / 0x28 / 0x70 — `expected: record` the address).
-- `# OK MLX90642 @0x66 id … fw <a>.<b>.<c>` → record the FW version (features differ by FW, datasheet §3.1.4.3).
+- `# OK MLX90642 @0x66 id …XXXX fw <a>.<b>.<c>` → record the FW version (features differ by FW, datasheet §3.1.4.3). IDs and serials are printed as their last 4 hex digits only — no serial numbers in logs, chat or CSV.
 - `# MLX90642 continuous, temperature output, 4 Hz, emissivity <e>` → `expected: record` e (EEPROM default; not changed by the sketch).
-- `# OK MLX90640 @0x33 serial …, chess, 18 bit, 4 Hz, frame rotated 180° (FLIP_110)`.
+- `# OK MLX90640 @0x33 serial …XXXX, chess, 18 bit, 4 Hz, frame rotated 180° (FLIP_110) (attempt n of 5)`.
+
+Both boards sometimes miss the first probe right after power-up (25.10: 110° "not found at 0x33" but visible to `scan` a moment later; D45 "READY read failed (-1)"). The sketch therefore tries the 110° probe + init 5 × 300 ms apart and the D45 READY read 5 × 200 ms apart and prints which attempt worked. If a camera is still missing after that, type **`init`**: it re-runs the init of whatever is not running (also a D45 that timed out), without a reset — `expected: record` whether `init` brings it up, and after how many tries at boot it normally comes.
+
+The banner is easy to miss when the monitor reconnects after RST: `boot` prints every setup line again.
 
 If `WARN 0x.. answers but does not read like an MLX90642`, the I2C byte format in `lib/MLX90642/src/MLX90642_arduino.cpp` is wrong for this part → FAILS entry + logic analyser on SDA/SCL.
-If `WARN no D45 candidate`, `scan` and look at Wire; a D45 at 0x40 or 0x28 would hide behind the known list — then unplug the PCA9685/BNO055 and `scan` again.
+If `WARN no D45 candidate`, `scan` and look at Wire; a D45 at 0x40 or 0x28 would hide behind the known list — then unplug the PCA9685/BNO055 and `scan` again, then `init`.
+
+Commands: `?` help · `scan` · `rate 4|8` · `raw 0|1` · `map 0|1` · `i2c 100|400` · `boot` · `init` · `0`.
 
 ## 4. Steps
 

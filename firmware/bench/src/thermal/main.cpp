@@ -15,6 +15,8 @@
 // USB-CDC monitor usually reconnects after RST too late to show the banner.
 // The D45 never blocks the sketch: start/sync and the READY flag get 500 ms, then `WARN d45 timeout` and the
 // 110° carries on alone (the D45 is re-synced and picked up again when it answers).
+// Both boards sometimes miss the first probe after power-up (25.10): the 110° probe + init is tried 5 × 300 ms
+// apart, the D45 READY read 5 × 200 ms apart; `init` re-runs the init of whatever is still missing, no reset.
 #include <Adafruit_MLX90640.h>
 #include <Arduino.h>
 #include <Wire.h>
@@ -40,6 +42,9 @@ const uint32_t kMapPeriodMs = 2000;  // SOURCE: task T3 / handoff (every 2 s one
 const float kD45Scale = 1.0f / 50.0f;  // SOURCE: datasheet §3.1.5.3 To = RAM / 50 °C (two's complement)
 const uint32_t kD45TimeoutMs = 500;    // SOURCE: handoff 25.10 — 2 frames at 4 Hz; never wait longer for READY
 const uint32_t kD45PollMs = 5;         // READY polling step while waiting for the first frame
+const int kInitTries = 5;              // SOURCE: handoff 25.10 — both boards sometimes miss the first probe after power-up
+const uint32_t kW110RetryMs = 300;     // SOURCE: handoff 25.10 (110° probe + init, 5 × 300 ms)
+const uint32_t kD45ReadyRetryMs = 200; // SOURCE: handoff 25.10 (D45 READY read, 5 × 200 ms)
 
 Adafruit_MLX90640 mlx110;
 bench::Cli shell(Serial);
@@ -266,20 +271,30 @@ bool d45Begin() {
   // Start/sync, then wait for the first READY ourselves (MLX90642_Init() sleeps a full refresh period first and
   // its own poll loop has no fixed wall-clock bound).
   if (MLX90642_StartSync(d45Addr) < 0) {
-    blog("WARN MLX90642 start/sync command NACKed — no frames");
+    blog("WARN MLX90642 start/sync command NACKed — no frames; `init` retries");
     return false;
   }
-  const int ready = d45WaitReady();
+  // The READY read NACKed on every boot on 25.10 (-1) and worked a moment later: retry it a few times.
+  int ready = -1;
+  int attempt = 1;
+  for (; attempt <= kInitTries; ++attempt) {
+    ready = d45WaitReady();
+    if (ready >= 0) break;
+    delay(kD45ReadyRetryMs);
+  }
   if (ready < 0) {
-    blog("WARN d45 READY read failed (%d) — carrying on with the 110°", ready);
+    blog("WARN d45 READY read failed (%d) %d times, %lu ms apart — carrying on with the 110°; `init` retries", ready, kInitTries,
+         static_cast<unsigned long>(kD45ReadyRetryMs));
     return false;
   }
+  if (attempt > 1) blog("OK d45 READY read on attempt %d of %d", attempt, kInitTries);
   if (ready != MLX90642_YES) {
-    blog("WARN d45 timeout: no READY within %lu ms after start/sync — carrying on with the 110°",
+    blog("WARN d45 timeout: no READY within %lu ms after start/sync — carrying on with the 110°; `init` retries",
          static_cast<unsigned long>(kD45TimeoutMs));
     return false;
   }
   d45LastFrameMs = millis();
+  d45TimedOut = false;
   return true;
 }
 
@@ -319,10 +334,17 @@ bool w110SetRate(long hz) {
   return true;
 }
 
+// Probe + init (begin() reads the 832-word EEPROM), up to kInitTries times kW110RetryMs apart: on 25.10 the board
+// was "not found" at boot and answered `scan` a moment later.
 bool w110Begin() {
-  if (!mlx110.begin(kW110Addr, &Wire1)) {
-    blog("WARN MLX90640 not found at 0x%02X on Wire1 — check SDA GPIO%d / SCL GPIO%d, 3V3, then `scan`", kW110Addr, PIN_I2C1_SDA,
-         PIN_I2C1_SCL);
+  int attempt = 1;
+  for (; attempt <= kInitTries; ++attempt) {
+    if (mlx110.begin(kW110Addr, &Wire1)) break;
+    delay(kW110RetryMs);
+  }
+  if (attempt > kInitTries) {
+    blog("WARN MLX90640 not found at 0x%02X on Wire1 after %d tries %lu ms apart — check SDA GPIO%d / SCL GPIO%d, 3V3, then `scan`, then `init`",
+         kW110Addr, kInitTries, static_cast<unsigned long>(kW110RetryMs), PIN_I2C1_SDA, PIN_I2C1_SCL);
     return false;
   }
   mlx110.setMode(MLX90640_CHESS);
@@ -330,9 +352,32 @@ bool w110Begin() {
   w110Ok = true;
   w110SetRate(rateHz);
   // Only the last 4 hex digits of the serial: no serial numbers in logs, chat or CSV.
-  blog("OK MLX90640 @0x%02X serial …%04X, chess, 18 bit, %ld Hz, frame %s", kW110Addr, mlx110.serialNumber[2], rateHz,
-       FLIP_110 ? "rotated 180° (FLIP_110)" : "as read");
+  blog("OK MLX90640 @0x%02X serial …%04X, chess, 18 bit, %ld Hz, frame %s (attempt %d of %d)", kW110Addr, mlx110.serialNumber[2],
+       rateHz, FLIP_110 ? "rotated 180° (FLIP_110)" : "as read", attempt, kInitTries);
   return true;
+}
+
+// `init`: re-run the init of every camera that is not running (never found, failed, or D45 timed out), no reset.
+void initMissing() {
+  bool did = false;
+  if (!d45Ok || d45TimedOut) {
+    did = true;
+    if (d45Addr == 0) d45Addr = findD45();
+    if (d45Addr == 0) {
+      bench::msg("WARN init: still no D45 candidate on Wire");
+    } else {
+      d45Ok = d45Begin();
+    }
+  }
+  if (!w110Ok) {
+    did = true;
+    w110Begin();
+  }
+  if (!did) {
+    bench::msg("OK init: both cameras already running");
+    return;
+  }
+  bench::msg("%s init: d45=%s w110=%s", (d45Ok && w110Ok) ? "OK" : "WARN", d45Ok ? "ok" : "MISSING", w110Ok ? "ok" : "MISSING");
 }
 
 // ------------------------------------------------------------------ CLI
@@ -351,6 +396,7 @@ void help() {
   bench::msg("  map 0|1       ASCII heat map every 2 s per camera (default on)");
   bench::msg("  i2c 100|400   bus clock in kHz on both buses (400 default; 100 for long wires, then rate 4 only)");
   bench::msg("  boot          print the boot messages again (scan, OK/WARN per camera)");
+  bench::msg("  init          re-run the init of any camera that is not running (no reset)");
   bench::msg("  0             raw off, map off");
   bench::msg("state: d45=%s@0x%02X%s w110=%s rate=%ld Hz i2c=%lu kHz raw=%d map=%d flip110=%d", d45Ok ? "ok" : "MISSING", d45Addr,
              (d45Ok && d45TimedOut) ? " (timeout, no frames)" : "", w110Ok ? "ok" : "MISSING", rateHz,
@@ -362,6 +408,8 @@ void handleCommand() {
     help();
   } else if (shell.is("boot")) {
     bootReplay();
+  } else if (shell.is("init")) {
+    initMissing();
   } else if (shell.is("0")) {
     rawOn = false;
     mapOn = false;
@@ -411,7 +459,7 @@ void setup() {
 
   d45Addr = findD45();
   if (d45Addr == 0) {
-    blog("WARN no D45 candidate on Wire (only 0x40 / 0x28 / 0x70 or nothing) — check wiring, then `scan`");
+    blog("WARN no D45 candidate on Wire (only 0x40 / 0x28 / 0x70 or nothing) — check wiring, then `scan`, then `init`");
   } else {
     d45Ok = d45Begin();
   }
