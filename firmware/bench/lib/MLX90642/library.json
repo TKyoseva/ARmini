@@ -1,0 +1,13 @@
+{
+  "name": "MLX90642",
+  "version": "0.0.0+melexis-140705e",
+  "description": "Melexis MLX90642 driver (Apache-2.0, github.com/melexis/mlx90642-library @ 140705e) plus the Arduino Wire glue for MLX90642_depends.h (src/MLX90642_arduino.cpp, AR-Mini).",
+  "license": "Apache-2.0",
+  "repository": { "type": "git", "url": "https://github.com/melexis/mlx90642-library" },
+  "frameworks": "arduino",
+  "platforms": "espressif32",
+  "build": {
+    "includeDir": "inc",
+    "srcDir": "src"
+  }
+}

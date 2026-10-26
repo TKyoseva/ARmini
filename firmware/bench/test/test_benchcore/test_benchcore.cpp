@@ -160,6 +160,14 @@ static void test_csv_fixed_decimals_and_rounding() {
   TEST_ASSERT_EQUAL_STRING("0.000,0.000,3,1.00,-1.3,12.345679", row.c_str());
 }
 
+static void test_csv_non_finite_prints_nan() {
+  char buf[64];
+  CsvRow row(buf, sizeof buf);
+  row.add(NAN, 1).add(static_cast<double>(INFINITY), 3).add(-INFINITY, 2).add(1.5f, 1);
+  TEST_ASSERT_EQUAL_STRING("nan,nan,nan,1.5", row.c_str());
+  TEST_ASSERT_FALSE(row.overflow());
+}
+
 static void test_csv_reset_and_single_field() {
   char buf[32];
   CsvRow row(buf, sizeof buf);
@@ -477,6 +485,7 @@ int main() {
   RUN_TEST(test_deadman_timeout_configurable);
   RUN_TEST(test_csv_row_formatting);
   RUN_TEST(test_csv_fixed_decimals_and_rounding);
+  RUN_TEST(test_csv_non_finite_prints_nan);
   RUN_TEST(test_csv_reset_and_single_field);
   RUN_TEST(test_csv_overflow_is_flagged_and_terminated);
   RUN_TEST(test_softlimit_refuses_until_unlocked);

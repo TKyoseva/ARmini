@@ -6,12 +6,12 @@ few commands, ramps actuators slowly, refuses commands above a soft limit and st
 or when the rocker pulls KILL (GPIO14) low. Each module has a one-page `PROTOCOL.md`: wiring, what to measure
 before power, expected numbers, pass criterion, photos.
 
-**Status:** compiles (7 envs, 0 warnings) and the host tests pass. **Nothing has run on hardware yet** —
+**Status:** compiles (8 envs in `pio run` + `remote`, 0 warnings) and the host tests pass. **Nothing has run on hardware yet** —
 every number in a PROTOCOL marked `expected: record` or `VERIFY` is Teddy's to measure.
 
 ```
 cd firmware/bench
-pio run                            # build all seven module envs
+pio run                            # build all eight module envs
 pio test -e native                 # host unit tests of lib/benchcore (Unity, 34 cases)
 pio run -e remote                  # WiFi env, not in `pio run`: needs include/secrets.h (cp include/secrets.example.h)
 pio run -e bts7960 -t upload       # flash one sketch over USB-C (hold BUT1 + RST if the port does not appear)
@@ -32,6 +32,7 @@ hold RST → `expected: record` ([bts7960 protocol §3](src/bts7960/PROTOCOL.md)
 | `pca9685` | PCA9685 16-ch PWM (72) + hobby servo (30/31) | I2C-0 GPIO48/47 @0x40 | `t_ms,ch,us,sweep,kill` | [src/pca9685/PROTOCOL.md](src/pca9685/PROTOCOL.md) |
 | `st3215` | ST3215 bus servo (29) via Waveshare driver (75) | UART1 GPIO17 TX / 18 RX, 1 Mbps | `t_ms,id,cmd_deg,pos_deg,load_permille,temp_C,volt_V,ok` | [src/st3215/PROTOCOL.md](src/st3215/PROTOCOL.md) |
 | `mlx90640` | MLX90640 110° thermal camera (77) | I2C-1 GPIO8/9 @0x33 | `t_ms,min_C,max_C,mean_C,hot_x,hot_y` (4 Hz) | [src/mlx90640/PROTOCOL.md](src/mlx90640/PROTOCOL.md) |
+| `thermal` | MLX90642-D45 (76) + MLX90640 110° (77), both at once (C048, C029) | I2C-0 GPIO48/47 (D45, address found by scan) + I2C-1 GPIO8/9 @0x33 | `t_ms,cam,min_C,max_C,mean_C,hot_x,hot_y` (4 Hz each, cam = d45 \| w110) | [src/thermal/PROTOCOL.md](src/thermal/PROTOCOL.md) |
 | `bno055` | BNO055 IMU breakout (78) | I2C-0 GPIO48/47 @0x28 | `t_ms,heading_deg,roll_deg,pitch_deg,cal_sys,cal_gyro,cal_acc,cal_mag` | [src/bno055/PROTOCOL.md](src/bno055/PROTOCOL.md) |
 | `ladder` | VBAT divider, LEAK probe, KILL rocker | ADC GPIO4, GPIO7; GPIO14 | `t_ms,v_adc_mV,v_bat_V,leak_mV,leak,kill` | [src/ladder/PROTOCOL.md](src/ladder/PROTOCOL.md) |
 | `esc` | 2 × thruster ESC (C002, C024) | LEDC 50 Hz GPIO1 (L) / GPIO2 (R) | `t_ms,l_us,r_us,kill,armed` | [src/esc/PROTOCOL.md](src/esc/PROTOCOL.md) |
@@ -113,6 +114,7 @@ calls in `bts7960` are guarded for both Arduino core 2.x and 3.x.
 ## Not done / open
 
 - Thruster ESCs (GPIO1/2): env `esc` (T10) runs one thruster in a bucket on the Jesverty (C025); full power stays on the LiPo + 20 A slot, ≤ 5 s.
-- No sketch for the MLX90642-D45 (bom row 76): the Melexis driver is not in the repo (`firmware/xiao/lib/MLX90642` mentioned
-  in `firmware/xiao/platformio.ini` is empty); the Adafruit MLX90640 library does not speak to the 90642.
+- MLX90642-D45 (bom row 76): env `thermal` (25.10) drives it with the Melexis driver in `lib/MLX90642` plus our Wire glue for
+  the five MCU functions — the glue's byte formats come from the datasheet and have **not** been tried on a real part
+  ([thermal protocol §3](src/thermal/PROTOCOL.md)). The 110° board is rotated 180° in software (`FLIP_110`, mounted upside down on the arch).
 - `scripts/bench_log.py` needs `pyserial` for a real port (`pip install pyserial`); `--fake` works without it.

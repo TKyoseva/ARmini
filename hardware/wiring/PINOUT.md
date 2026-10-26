@@ -1,5 +1,9 @@
 # XIAO ESP32S3 — pins (AR-Mini)
 
+**Not used in v1 (XIAO = OV3660 only, 25.10).** Decision 0005: the XIAO Sense is the camera node (`firmware/xiao` env `cam`),
+powered from its own USB-C / 5 V, nothing wired to these pins. Both thermal cameras are on the DevKit-Lipo (table below, env `thermal`).
+The table stays as history of carrier rev A / breakout rev 0.
+
 | XIAO | GPIO | Net | To |
 |---|---|---|---|
 | D0/A0 | 1 | VBAT_S | divider 100k/33k |
@@ -22,9 +26,9 @@ change it there and here together. EXT1/EXT2 are pin-compatible with the Espress
 
 | GPIO | Header | Net / `pins_devkit.h` | To | Status |
 |---|---|---|---|---|
-| 48 | EXT2 16 | SDA0 `PIN_I2C0_SDA` (Wire) | MLX90642-D45, BNO055, PCA9685 — same pins as pUEXT | SOURCE 2b |
+| 48 | EXT2 16 | SDA0 `PIN_I2C0_SDA` (Wire) | MLX90642-D45 (address found by scan, datasheet default 0x66), BNO055, PCA9685 — same pins as pUEXT; bench env `thermal` (C048) | SOURCE 2b |
 | 47 | EXT2 17 | SCL0 `PIN_I2C0_SCL` (Wire) | " | SOURCE 2b |
-| 8 | EXT1 12 | SDA1 `PIN_I2C1_SDA` (Wire1) | MLX90640 110° (not swapped here, unlike the XIAO) | SOURCE 2b |
+| 8 | EXT1 12 | SDA1 `PIN_I2C1_SDA` (Wire1) | MLX90640 110° (not swapped here, unlike the XIAO); upside down on the arch → `FLIP_110` in env `thermal` | SOURCE 2b |
 | 9 | EXT1 15 | SCL1 `PIN_I2C1_SCL` (Wire1) | " | SOURCE 2b |
 | 17 | EXT1 10 | SRV_TX `PIN_SRV_TX` (U1TXD) | bus servo driver RX | SOURCE 2b |
 | 18 | EXT1 11 | SRV_RX `PIN_SRV_RX` (U1RXD) | bus servo driver TX | SOURCE 2b |
