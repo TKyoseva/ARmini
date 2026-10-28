@@ -19,9 +19,9 @@ AR-Mini is a ~1:9 physical demonstrator of **AmphiReach**, an autonomous amphibi
 ## Where to look
 - **3D model** — [cad/3d/](cad/3d/): open `AR-Mini_3D.html` in a browser (rotate, run the lift, point at a part to see its name).
 - **CAD** — [cad/openscad/AR-Mini_v1.scad](cad/openscad/AR-Mini_v1.scad): the whole robot and every printed part, parametric. Hull script for Fusion 360 in [cad/fusion/](cad/fusion/).
-- **Electronics** — architecture: [docs/diagrams/AR-Mini_architecture_v1.png](docs/diagrams/AR-Mini_architecture_v1.png); first board: [pcb/xiao-breakout-rev0/](pcb/xiao-breakout-rev0/) (with all three DRC rounds); next board: [pcb/carrier-revA/SPEC.md](pcb/carrier-revA/SPEC.md); pins: [hardware/wiring/PINOUT.md](hardware/wiring/PINOUT.md); breadboard sheets: [hardware/breadboard/](hardware/breadboard/).
+- **Electronics** — architecture: [docs/diagrams/AR-Mini_architecture_v3.png](docs/diagrams/AR-Mini_architecture_v3.png) (as built 28.10; v1 and v2 kept beside it); first board: [pcb/xiao-breakout-rev0/](pcb/xiao-breakout-rev0/) (with all three DRC rounds); next board: [pcb/carrier-revA/SPEC.md](pcb/carrier-revA/SPEC.md); pins: [hardware/wiring/PINOUT.md](hardware/wiring/PINOUT.md); breadboard sheets: [hardware/breadboard/](hardware/breadboard/).
 - **Firmware** — [firmware/](firmware/): PlatformIO projects for the XIAO and the DevKit-Lipo, bench sketches for the Mega.
-- **Bill of materials** — [docs/bom/](docs/bom/): the spreadsheet (with photos) and the one-page visual BOM.
+- **Bill of materials** — [docs/bom/](docs/bom/): the spreadsheet (with photos) and the one-page visual BOM ([v3, 28.10](docs/bom/AR-Mini_BOM_visual_v3.pdf)).
 - **What went wrong and how it was fixed** — [docs/FAILS_AND_FIXES.md](docs/FAILS_AND_FIXES.md).
 - **Design decisions** — [docs/decisions/](docs/decisions/) · **build log** — [docs/LOG.md](docs/LOG.md) · **timeline with real dates** — [docs/timeline/TIMELINE.md](docs/timeline/TIMELINE.md) · **current state on one page** — [docs/STATE.md](docs/STATE.md).
 - **Every test card** — [data/board/board.json](data/board/board.json): hypothesis, result, Pass / Partial / Fail, link to the photos.
