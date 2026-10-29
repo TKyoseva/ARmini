@@ -79,3 +79,11 @@ ARM, thrust held at +30. Walk away from the board with the phone; note the RSSI 
 
 ## Photos / video
 Page on the phone (screenshot), CSV during step 3, video of step 4 with STOP. Files to iCloud `AR-Mini-Media/01_Loops/C028_…`.
+
+## 6. Env `remote_rudder` · one thruster + rudder (C056, 29.10.2026)
+
+`pio run -e remote_rudder -t upload`. Same page, same safety contract. **thrust** slider → left ESC on GPIO1 (S8050, inverted, dead band 1580 / 1420, 1350–1650). **turn** slider → MG90S rudder on GPIO2, **direct, not inverted**, `rudderUs`: 0 → 1500, ±100 → 1833 / 1167 µs (±30° estimate), ramp 2000 µs/s. Releasing the slider centres the rudder; any SAFE centres it at once.
+
+Wiring: MG90S signal (orange) → the GPIO2 header pin itself (before the 1 k to the S8050 base; pull that 1 k out), red → +5 V (EXT1 pin 21), brown → GND. Never 12 V, never the PCA9685 V+.
+
+**Pass (thruster NOT powered):** turn +100 → `r_us` 1833, horn swings one way; −100 → 1167, the other way; release → 1500 = blade straight. If ±100 hits the stops (buzzing), measure the real ends and lower `kRudderHalfUs`.

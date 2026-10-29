@@ -14,6 +14,9 @@
 //   - mix + dead band (EscMath escMixDeadband) inside 1350–1650 µs, ramp 200 µs/s.
 // KILL is a software stop; the hardware stop is the bench supply OUTPUT button / the main switch.
 //
+// Env `remote_rudder` (-DREMOTE_RUDDER, C056): left ESC = thrust only (turn ignored); the right channel (GPIO2) drives
+// an MG90S rudder directly, NOT inverted, rudder = rudderUs(turn) 1167–1833 µs, own fast ramp; SAFE centres it (1500).
+//
 // CSV (serial, 10 Hz): t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms   (last_hb_ms = age, −1 = none yet)
 #include <Arduino.h>
 #include <WebServer.h>
@@ -48,6 +51,13 @@ const float kRampUsPerS = 200.0f;     // SOURCE: T10 / T12
 const uint32_t kArmHoldMs = 3000;     // SOURCE: T10 (arm holds 1500 µs for 3 s)
 const float kLoUs = bench::kEscNarrowLoUs;  // SOURCE: T12 soft limit 1350–1650
 const float kHiUs = bench::kEscNarrowHiUs;
+#ifdef REMOTE_RUDDER
+const bool kRInvert = false;          // SOURCE: RUDDER_SPEC §3 (MG90S on GPIO2 direct, no S8050)
+const float kRampRUsPerS = 2000.0f;   // rudder: full swing in ~0.33 s (servo itself is slower)
+#else
+const bool kRInvert = kEscInvert;
+const float kRampRUsPerS = kRampUsPerS;
+#endif
 const uint8_t kLedcChL = 0;
 const uint8_t kLedcChR = 1;
 const uint8_t kApChannel = 6;         // SOURCE: T12
@@ -105,7 +115,7 @@ WebServer http(80);
 WebSocketsServer ws(81);
 bench::Cli shell(Serial);
 bench::Ramp rampL(kRampUsPerS, bench::kEscNeutralUs);
-bench::Ramp rampR(kRampUsPerS, bench::kEscNeutralUs);
+bench::Ramp rampR(kRampRUsPerS, bench::kEscNeutralUs);
 bench::KillInput killIn;
 bench::Heartbeat heartbeat;
 bench::Periodic csvTick(bench::kCsvPeriodMs);
@@ -126,7 +136,7 @@ const char* safeReason = "boot";
 uint32_t lastLoopMs = 0;
 
 void writeUs(int pin, uint8_t ch, int us) {
-  const uint32_t duty = bench::escDuty(static_cast<float>(us), kEscBits, kEscInvert, kFrameUs);
+  const uint32_t duty = bench::escDuty(static_cast<float>(us), kEscBits, pin == PIN_ESC_R ? kRInvert : kEscInvert, kFrameUs);
 #if ESP_ARDUINO_VERSION_MAJOR >= 3
   (void)ch;
   ledcWrite(pin, duty);
@@ -214,9 +224,14 @@ void onMessage(const char* text, uint32_t now) {
     }
   }
   if (armed) {
+#ifdef REMOTE_RUDDER
+    rampL.setTarget(bench::escDeadbandUs(static_cast<float>(m.t), kLoUs, kHiUs));
+    rampR.setTarget(bench::rudderUs(static_cast<float>(m.r)));
+#else
     const bench::EscPulses p = bench::escMixDeadband(static_cast<float>(m.t), static_cast<float>(m.r), kLoUs, kHiUs);
     rampL.setTarget(p.l_us);
     rampR.setTarget(p.r_us);
+#endif
   }
 }
 
@@ -277,8 +292,13 @@ void setup() {
   analogReadResolution(12);
   analogSetAttenuation(ADC_11db);
   bench::begin("remote", "t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms");
+#ifdef REMOTE_RUDDER
+  bench::msg("ESC_L GPIO%d INVERTED (S8050) = thrust · RUDDER GPIO%d direct, not inverted, 1167–1833 us · KILL GPIO%d",
+             PIN_ESC_L, PIN_ESC_R, PIN_KILL);
+#else
   bench::msg("ESC output INVERTED (NPN level shifter, C006) · ESC_L GPIO%d ESC_R GPIO%d · KILL GPIO%d (software stop)",
              PIN_ESC_L, PIN_ESC_R, PIN_KILL);
+#endif
 
   if (strlen(AP_PASS) < 8) {
     bench::msg("WARN AP_PASS shorter than 8 characters (WPA2) — AP NOT started; fix include/secrets.h");

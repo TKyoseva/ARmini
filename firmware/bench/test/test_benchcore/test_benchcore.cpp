@@ -412,6 +412,13 @@ static void test_remote_mix() {
   TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
 }
 
+static void test_rudder_us() {
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, bench::rudderUs(0.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1833.0f, bench::rudderUs(100.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1167.0f, bench::rudderUs(-100.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1833.0f, bench::rudderUs(250.0f));  // clamped
+}
+
 static void test_remote_link_timeout() {
   TEST_ASSERT_FALSE(bench::linkLost(1000, 1000));
   TEST_ASSERT_FALSE(bench::linkLost(1000, 1500));  // exactly 500 ms: still alive
@@ -505,6 +512,7 @@ int main() {
   RUN_TEST(test_esc_duty_normal_and_inverted);
   RUN_TEST(test_remote_deadband_map);
   RUN_TEST(test_remote_mix);
+  RUN_TEST(test_rudder_us);
   RUN_TEST(test_remote_link_timeout);
   RUN_TEST(test_remote_parse_message);
   RUN_TEST(test_vbat_corrected);

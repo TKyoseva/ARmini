@@ -77,6 +77,16 @@ inline EscPulses escMixDeadband(float thrust, float turn, float lo_us, float hi_
   return p;
 }
 
+// Rudder servo (MG90S, C056 centre-line rudder, rudder-1026/RUDDER_SPEC.md): turn −100..100 → centre ± half_us,
+// linear, no dead band. ±30° ≈ 1500 ± 333 µs (estimate; MEASURE the real ends).
+static const float kRudderHalfUs = 333.0f;  // SOURCE: RUDDER_SPEC §2 (1167 / 1833 µs at ±30°), estimate
+
+inline float rudderUs(float cmd, float half_us = kRudderHalfUs) {
+  if (cmd > kEscMixMax) cmd = kEscMixMax;
+  if (cmd < -kEscMixMax) cmd = -kEscMixMax;
+  return kEscNeutralUs + cmd * half_us / kEscMixMax;
+}
+
 inline EscPulses escDiff(float thrust, float turn, float lo_us, float hi_us) {
   const float k = escMixGain(lo_us, hi_us);
   EscPulses p;
