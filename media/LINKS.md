@@ -46,6 +46,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C051 | 2026-10-25 | Right track motor: second BTS7960 on GPIO41/42, direction map for both sides | open | C051_2026-10-25_bts-right-track |
 | C053 | 2026-10-28 | First dry assembly of the whole robot with the tracks (record) | — | C053_2026-10-28_dry-assembly |
 | C054 | 2026-10-28 | The home lab (record) | — | C054_2026-10-28_home-lab |
+| C055 | 2026-10-29 | Both thrusters on an Arduino Mega: FAILS 173 confirmed (right thruster faulty) | Pass | C055_2026-10-29_mega-thruster-test |
 
 ## History cards (CH##)
 
