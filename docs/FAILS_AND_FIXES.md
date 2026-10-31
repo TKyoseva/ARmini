@@ -307,6 +307,7 @@ S12. **Interview sheet for the year I wasn't there** — answer in one line each
 
 178. **The FINAL 2 breadboard sheet drew the right BB400 rails mirrored** (C059, 31.10) → the sheet had the right-hand rails as **+ outer, − inner**; the real board is **+ inner, − outer**. **Fix:** sheet redrawn (`docs/diagrams/AR-Mini_FINAL2_breadboard_pool_1031.png`, rails fixed 06:44). Rule: **draw rails from a photo of the actual board, not from memory.**
 179. **GPIO1 jumper landed in R-c23 (74HCT125 pin 1 = 1OE, tied to GND) instead of R-c24 (1A)** (C059, 31.10) → the thruster got no signal, and GPIO1 was shorted to GND through the jumper. **Fix:** moved to R-c24 → thruster spins; GPIO1 survived. Rule: **after wiring a DIP, meter every input pin before power.**
+180. **OPEN · Cradle lift: only one of the two TD-8120MG moves, always the one on the higher PCA9685 channel** (C059, 31.10) → CH11 > CH10, CH12 > CH11, CH13 > CH12; the fault **follows the channel, not the servo**. Ruled out: firmware (the serial log ramps both channels), I2C clock (100 kHz changed nothing, 6ee2d2d), servo V+ (5.36 V steady under load), mechanics (both servos free). **Workaround 01.11:** one lift servo on CH13, the other unplugged. **Next:** try a second PCA9685 module, or scope both PWM pins while `lift` ramps.
 
 ---
 
