@@ -103,7 +103,7 @@ two cradle servos of C023 on the PCA9685, driven from a third slider.
 | | |
 |---|---|
 | PCA9685 | I2C-0: SDA GPIO48, SCL GPIO47 (EXT2 16 / 17), VCC 3V3, GND; OE open (module 10 k to GND). Address 0x40, same module as the `pca9685` env |
-| servos | TD-8120MG A on **CH12**, B on **CH11**, mirrored (`us_B = 3000 − us_A`, PairMath). Trims 0 — C023 showed trim changes nothing; `-DLIFT_TRIM_A_US=… -DLIFT_TRIM_B_US=…` if ever needed |
+| servos | TD-8120MG A on **CH12**, B on **CH13**, mirrored (`us_B = 3000 − us_A`, PairMath). Trims 0 — C023 showed trim changes nothing; `-DLIFT_TRIM_A_US=… -DLIFT_TRIM_B_US=…` if ever needed |
 | servo power | **5 V** from the QIQIAZI 5 V / 5 A buck (BOM row 80) on fuse F2 into the green **V+** terminal, GND common. **Never 12 V.** C023 at 6.0 V: 0.25 A lifting Pesho, up to 1.1 A holding the empty U (stiction, not fighting). 5 V = ~15 % less torque, enough |
 | page | third slider **lift** 50–130°, and it **stays** where released (thrust / turn spring back). 50 = U deployed (down), 130 = raised between the hulls (C023). The bar shows `lift 50°…130°` or `lift off` |
 | pulses | OFF at boot and after KILL. **ARM** turns them on with a snap to the slider (`# lift ON at <deg> deg`), so the slider must already show the pose the U is in: deployed = slider at the bottom = 50 (where it is when the page loads). Every later move ramps at 20 °/s |
@@ -111,7 +111,7 @@ two cradle servos of C023 on the PCA9685, driven from a third slider.
 | serial | `lift <50..130>` moves the pair without the phone (dry test), `lift off` drops both pulses, `?` shows `lift=<deg> (req <slider>, pca ok)` |
 | status | JSON `"u"` = pair degree (−1 = off); CSV column `lift_deg` (−1 = off) |
 
-Boot banner: `# OK PCA9685 0x40 (SDA GPIO48, SCL GPIO47): LIFT CH12/CH11 50–130 deg, 50 = deployed, pulses OFF until ARM`.
+Boot banner: `# OK PCA9685 0x40 (SDA GPIO48, SCL GPIO47): LIFT CH12/CH13 50–130 deg, 50 = deployed, pulses OFF until ARM`.
 `# WARN PCA9685 not found` = SDA/SCL swapped or VCC/GND missing; thrust and rudder still work, the lift is disabled.
 
 ### 7.1 Dry test (servo 5 V on, thruster NOT powered, U empty, hands clear of the arms)
