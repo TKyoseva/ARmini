@@ -18,7 +18,7 @@
 // an MG90S rudder directly, NOT inverted, rudder = rudderUs(turn) 1167–1833 µs, own fast ramp; SAFE centres it (1500).
 //
 // Env `remote_pool` (-DREMOTE_RUDDER -DESC_BUFFER -DREMOTE_LIFT, pool run 31.10.2026): the two cradle servos (TD-8120MG on
-// PCA9685 CH10/CH11 over I2C-0, `pair` maths from C023) follow a third slider "lift" 50–130°: 50 = U deployed (down),
+// PCA9685 CH12/CH11 over I2C-0, `pair` maths from C023) follow a third slider "lift" 50–130°: 50 = U deployed (down),
 // 130 = raised between the hulls. Pulses are OFF at boot, start on ARM with a snap to the slider (the U must already be
 // in that pose), then ramp at 20 °/s. They HOLD through every SAFE (heartbeat, STOP, disconnect, serial `0`) so the U
 // never drops into the water on a WiFi hiccup, and go OFF only on KILL (servos limp, the U settles deployed).
@@ -92,7 +92,7 @@ const uint8_t kPcaAddr = 0x40;        // SOURCE: docs/bom/bom.csv row 72 (I2C ad
 const float kServoHz = 50.0f;         // SOURCE: pca9685 env (C023)
 const uint32_t kOscHz = 25000000;     // library default, as the pca9685 env (VERIFY: frame period with the analyser)
 const uint32_t kI2cHz = 400000;       // SOURCE: pca9685 env, ran on the breadboard 22–23.10 (C023)
-const uint8_t kLiftChA = 10;          // SOURCE: hardware/wiring/PINOUT.md "PCA9685 channels" (C023)
+const uint8_t kLiftChA = 12;          // SOURCE: hardware/wiring/PINOUT.md "PCA9685 channels" (C023) // 31.10: CH10 output dead on this module (C059), servo A moved to CH12.
 const uint8_t kLiftChB = 11;          // mirrored: us_B = 3000 − us_A (PairMath)
 const int kLiftDegLo = LIFT_DEG_LO;
 const int kLiftDegHi = LIFT_DEG_HI;
@@ -200,7 +200,7 @@ uint32_t lastLoopMs = 0;
 Adafruit_PWMServoDriver pca(kPcaAddr, Wire);
 bench::Ramp liftRamp(kLiftDegPerS, 0.0f);  // the pair's shared degree
 bool pcaOk = false;
-bool liftOn = false;       // pulses on CH10/CH11: off at boot and after KILL, on from ARM (or serial `lift`)
+bool liftOn = false;       // pulses on CH12/CH11: off at boot and after KILL, on from ARM (or serial `lift`)
 int liftReq = kLiftDegLo;  // last slider value from the page (clamped when used)
 int lastUsA = 0, lastUsB = 0;
 #endif

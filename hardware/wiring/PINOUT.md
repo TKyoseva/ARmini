@@ -68,11 +68,12 @@ These are the 16 PWM outputs on the PCA9685 module. They are not ESP32 GPIO numb
 | 4, 5 | BTS_R RPWM, LPWM | rev A SPEC §5. Rev B: GPIO41/42. |
 | 6 | buzzer | rev A SPEC §5; rev B SPEC (Q3 from CH6) |
 | 7–9 | LED1–3 (status / armed / fault) | rev A SPEC §5; rev B SPEC |
-| 10 | cradle servo A, TD-8120MG | C023; rev B SPEC (U2): the two cradle servos plug into CH10 / CH11 |
+| 10 | — (was cradle servo A) | CH10 dead 31.10 (C059): no output on this module, servo A moved to CH12 |
 | 11 | cradle servo B, TD-8120MG, mirrored (`us_B = 3000 − us_A`) | C023; rev B SPEC |
-| 12–15 | not assigned | — |
+| 12 | cradle servo A, TD-8120MG | C059 (31.10, replaces CH10); C023; rev B SPEC (U2): the two cradle servos plug into the module |
+| 13–15 | not assigned | — |
 
-`pair` in the pca9685 bench sketch uses CH10 and CH11 (C023). Not yet run on hardware.
+`pair` in the pca9685 bench sketch uses CH10 and CH11 (C023). The `remote_pool` env uses CH12 / CH11 (CH10 dead 31.10, C059).
 
 ## VERIFY (DevKit-Lipo)
 
