@@ -447,6 +447,18 @@ static void test_remote_parse_message() {
   TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":2}", &m));
   TEST_ASSERT_FALSE(bench::parseRemoteMsg("hello", &m));
   TEST_ASSERT_FALSE(bench::parseRemoteMsg(nullptr, &m));
+  // "lift" (REMOTE_LIFT): optional, 0..180, -1 when absent; it must not be mistaken for "t"
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":0}", &m));
+  TEST_ASSERT_EQUAL_INT(-1, m.lift);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":7,\"r\":0,\"arm\":0,\"lift\":130}", &m));
+  TEST_ASSERT_EQUAL_INT(130, m.lift);
+  TEST_ASSERT_EQUAL_INT(7, m.t);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":1,\"lift\":0}", &m));
+  TEST_ASSERT_EQUAL_INT(0, m.lift);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"stop\":1}", &m));
+  TEST_ASSERT_EQUAL_INT(-1, m.lift);
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":0,\"lift\":181}", &m));
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":0,\"lift\":-1}", &m));
 }
 
 static void test_vbat_corrected() {
