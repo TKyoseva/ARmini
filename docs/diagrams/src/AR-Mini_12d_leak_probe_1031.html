@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Leak Probe Wires</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--bb:#f1efe8;--bbe:#c9c5ba;--hole:#b8b3a8;--red:#c62828;--blk:#1d1d1b;--dim:#3b6fb6;--fb:#e9e6dd;--fuse:#f5c542;--res:#efd9a8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+svg{width:100%;height:auto;display:block}text{fill:var(--fg);font-size:13px}
+.m{fill:var(--mut);font-size:11.5px}.b{font-weight:700}.box{fill:var(--fb);stroke:var(--bbe);stroke-width:2}
+.bb{fill:var(--bb);stroke:var(--bbe);stroke-width:2}.hole{fill:var(--hole)}.w{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.thick{stroke:var(--red);stroke-width:6}.thin{stroke:var(--red);stroke-width:2.4}.gnd{stroke:var(--blk);stroke-width:2.4}.gthick{stroke:var(--blk);stroke-width:6}.blue{stroke:var(--dim);stroke-width:3}
+.fuse{fill:var(--fuse);stroke:var(--fg);stroke-width:1}.res{fill:var(--res);stroke:var(--fg);stroke-width:1}.term{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
+.rp{stroke:var(--red);stroke-width:1.5}.rm{stroke:var(--dim);stroke-width:1.5}
+ol{padding-left:20px}li{margin:4px 0}code{font-size:14px}
+</style><style>.org{stroke:#e08a00;stroke-width:3}.ot{fill:#b86e00;font-size:12px;font-weight:700}</style></head><body><main>
+<h1>Row 12d · leak probe wires (GPIO7, idle today)</h1>
+<p class="sub">AR-Mini, pool/lake run 31.10.2026 · only this connection · left board, rows 6–10</p>
+<svg viewBox="0 0 960 470" role="img" aria-label="Leak probe: one wire to L-b9, the other to the left minus rail, two bare ends on the box floor">
+<rect class="bb" x="20" y="40" width="330" height="200" rx="6"/>
+<text x="185" y="30" text-anchor="middle" class="m">left breadboard, rows 6–10 (top view)</text>
+<rect class="box" x="560" y="300" width="370" height="140" rx="8" style="fill:none;stroke-dasharray:5 4"/>
+<text x="745" y="326" text-anchor="middle" class="b">floor of the food box</text>
+<text x="745" y="425" text-anchor="middle" class="m">bare ends 5–10 mm apart, taped flat, not touching</text>
+</svg>
+<script>
+const s=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;s.appendChild(e);return e};
+const cx={a:130,b:160,c:190,d:220,e:250,f:310},ry=r=>70+40*(r-6),PX=45,MX=75;
+el('line',{class:'rp',x1:PX,y1:55,x2:PX,y2:230});el('line',{class:'rm',x1:MX,y1:55,x2:MX,y2:230});
+el('text',{x:PX,y:258,'text-anchor':'middle',style:'fill:var(--red)'},'+');el('text',{x:MX,y:258,'text-anchor':'middle',style:'fill:var(--dim)'},'−');
+for(const c in cx)el('text',{x:cx[c],y:56,'text-anchor':'middle',class:'m'},c);
+for(let r=6;r<=10;r++){el('text',{x:108,y:ry(r)+4,'text-anchor':'end',class:'m'},String(r));for(const c in cx)el('circle',{class:'hole',cx:cx[c],cy:ry(r),r:3});el('circle',{class:'hole',cx:PX,cy:ry(r),r:3});el('circle',{class:'hole',cx:MX,cy:ry(r),r:3})}
+// existing parts, greyed
+const g={opacity:.45};
+el('line',Object.assign({stroke:'var(--fg)','stroke-width':1.5,x1:PX,y1:ry(7)-14,x2:cx.b,y2:ry(7)},g));
+el('text',Object.assign({x:60,y:ry(6)+18,class:'m'},g),'10 k (12b)');
+el('line',Object.assign({stroke:'var(--fg)','stroke-width':1.5,x1:cx.d,y1:ry(7),x2:cx.d,y2:ry(9)},g));
+el('rect',Object.assign({class:'res',x:cx.d-7,y:ry(7)+18,width:14,height:44,rx:3},g));
+el('text',Object.assign({x:cx.d+12,y:ry(8)+4,class:'m'},g),'4.7 k (12c)');
+el('polyline',Object.assign({class:'w blue',points:`${cx.e},${ry(7)} ${cx.e},${ry(7)-16} ${cx.f},${ry(7)-16} ${cx.f},${ry(7)}`},g));
+el('text',Object.assign({x:cx.f+8,y:ry(7)-18,class:'m'},g),'12a → GPIO7');
+// 12d wires
+el('circle',{cx:cx.b,cy:ry(9),r:5,fill:'#1d4ed8'});el('circle',{cx:MX,cy:ry(10),r:5,fill:'var(--blk)'});
+el('polyline',{class:'w',stroke:'#1d4ed8','stroke-width':3,points:`${cx.b},${ry(9)} ${cx.b},280 640,280 640,370 700,370`});
+el('polyline',{class:'w',stroke:'var(--blk)','stroke-width':3,points:`${MX},${ry(10)} ${MX},300 600,300 600,390 700,390`});
+el('line',{stroke:'#b87333','stroke-width':4,x1:700,y1:370,x2:790,y2:370});el('line',{stroke:'#b87333','stroke-width':4,x1:700,y1:390,x2:790,y2:390});
+el('text',{x:800,y:384,class:'m b'},'bare copper');
+el('text',{x:cx.b+10,y:ry(9)-8,class:'b',style:'fill:#1d4ed8'},'L-b9');
+el('text',{x:390,y:274,class:'m b'},'probe wire 1 → L-b9 (row 9 = after the 4.7 k)');
+el('text',{x:390,y:318,class:'m b'},'probe wire 2 → left − rail (GND)');
+</script>
+<ol>
+<li>Two wires from the probe: wire 1 into <code>L-b9</code>, wire 2 into the left <b>−</b> rail (blue, the inner one on the left board).</li>
+<li>Row 9 a–e is one strip, so <code>L-b9</code> is already joined to the bottom leg of the 4.7 kΩ at <code>L-d9</code>; the "jumper d9–b9" in the list is not needed.</li>
+<li>The two bare ends lie on the floor of the food box, 5–10 mm apart, taped flat. Water bridges them → GPIO7 goes LOW → leak.</li>
+<li>Today it is only wired: the firmware does not act on it. Look at the box floor after every run.</li>
+</ol>
+</main></body></html>

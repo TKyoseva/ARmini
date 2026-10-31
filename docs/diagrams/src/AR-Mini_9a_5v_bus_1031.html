@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Five Volt Bus</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--bb:#f1efe8;--bbe:#c9c5ba;--hole:#b8b3a8;--red:#c62828;--blk:#1d1d1b;--dim:#3b6fb6;--fb:#e9e6dd;--fuse:#f5c542;--res:#efd9a8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+svg{width:100%;height:auto;display:block}text{fill:var(--fg);font-size:13px}
+.m{fill:var(--mut);font-size:11.5px}.b{font-weight:700}.box{fill:var(--fb);stroke:var(--bbe);stroke-width:2}
+.bb{fill:var(--bb);stroke:var(--bbe);stroke-width:2}.hole{fill:var(--hole)}.w{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.thick{stroke:var(--red);stroke-width:6}.thin{stroke:var(--red);stroke-width:2.4}.gnd{stroke:var(--blk);stroke-width:2.4}.gthick{stroke:var(--blk);stroke-width:6}.blue{stroke:var(--dim);stroke-width:3}
+.fuse{fill:var(--fuse);stroke:var(--fg);stroke-width:1}.res{fill:var(--res);stroke:var(--fg);stroke-width:1}.term{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
+.rp{stroke:var(--red);stroke-width:1.5}.rm{stroke:var(--dim);stroke-width:1.5}
+ol{padding-left:20px}li{margin:4px 0}code{font-size:14px}
+</style><style>.org{stroke:#e08a00;stroke-width:3}.ot{fill:#b86e00;font-size:12px;font-weight:700}</style></head><body><main>
+<h1>Row 9a · +5 V bus from the DevKit (EXT1-21)</h1>
+<p class="sub">AR-Mini, pool/lake run 31.10.2026 · only this connection, everything else as in FINAL 2</p>
+<svg viewBox="0 0 960 470" role="img" aria-label="L-g21 to a 3-way splitter, then 74HCT125 pin 14, MG90S red, XIAO 5V">
+<rect class="bb" x="20" y="40" width="300" height="150" rx="6"/>
+<text x="170" y="30" text-anchor="middle" class="m">left breadboard, rows 19–23, columns f–j</text>
+<rect x="290" y="56" width="44" height="124" rx="4" style="fill:#f5d2d2;stroke:#b5121b;stroke-width:2"/>
+<text x="345" y="84" class="m">DevKit</text><text x="345" y="100" class="m">EXT1 pins</text><text x="345" y="116" class="m">in column j</text>
+<rect class="box" x="420" y="210" width="120" height="56" rx="8"/><text x="480" y="234" text-anchor="middle" class="b">3-way splitter</text><text x="480" y="252" text-anchor="middle" class="m">Wago / Dupont</text>
+<rect class="box" x="680" y="40" width="250" height="70" rx="6"/><text x="805" y="64" text-anchor="middle" class="b">74HCT125 pin 14 (VCC)</text><text x="805" y="84" text-anchor="middle" class="m">right board R-j23 · row 6h</text><text x="805" y="100" text-anchor="middle" class="m">100 nF already at R-g23</text>
+<rect class="box" x="680" y="200" width="250" height="70" rx="6"/><text x="805" y="226" text-anchor="middle" class="b">MG90S rudder · red</text><text x="805" y="246" text-anchor="middle" class="m">row 8c · brown → GND, orange → 2Y</text>
+<rect class="box" x="680" y="360" width="250" height="70" rx="6"/><text x="805" y="386" text-anchor="middle" class="b">XIAO ESP32-S3 · 5V pin</text><text x="805" y="406" text-anchor="middle" class="m">row 13a · GND → R − rail</text>
+<polyline class="w org" points="540,226 600,226 600,75 680,75"/><polyline class="w org" points="540,238 680,238"/><polyline class="w org" points="540,250 600,250 600,395 680,395"/>
+<text x="610" y="160" class="ot">orange</text><text x="610" y="330" class="ot">orange</text>
+<text x="380" y="400" class="m">+5V here ≈ 4.6–5.0 V</text><text x="380" y="416" class="m">never 12 V, never the lift buck</text>
+</svg>
+<script>
+const s=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;s.appendChild(e);return e};
+const cx={f:170,g:200,h:230,i:260,j:312},ry=r=>70+25*(r-19);
+for(const c of 'fghi')el('text',{x:cx[c],y:56,'text-anchor':'middle',class:'m'},c);
+for(let r=19;r<=23;r++){el('text',{x:150,y:ry(r)+4,'text-anchor':'end',class:'m'},String(r));for(const c of 'fghi')el('circle',{class:'hole',cx:cx[c],cy:ry(r),r:3});el('circle',{cx:cx.j,cy:ry(r),r:4,fill:'#b5121b'})}
+el('text',{x:44,y:ry(21)+4,class:'m b'},'+5V →');el('text',{x:44,y:ry(22)+4,class:'m'},'GND →');
+el('circle',{cx:cx.g,cy:ry(21),r:5,fill:'#e08a00'});
+el('polyline',{class:'w org',points:`${cx.g},${ry(21)} ${cx.g},210 ${cx.g},238 420,238`});
+el('text',{x:cx.g+10,y:ry(21)-8,class:'ot'},'L-g21');
+el('text',{x:216,y:262,class:'ot'},'9a · one orange wire');
+</script>
+<ol>
+<li>S1 OFF, USB unplugged.</li>
+<li>One <b>orange</b> wire from <code>L-g21</code> (same row as EXT1 pin 21 = +5V, the pin next to GND at row 22). Do not use row 22: that is GND.</li>
+<li>The wire goes off the board to a <b>3-way splitter</b> (Wago / terminal block / 3-way Dupont).</li>
+<li>From the splitter, three orange wires: <code>R-j23</code> (74HCT125 pin 14 VCC, row 6h) · MG90S <b>red</b> (8c) · XIAO <b>5V</b> (13a).</li>
+<li>Meter before the ESC is plugged in: USB in, <code>R-j23</code> to the blue − rail = 4.6–5.0 V (≈ 4.65 V is normal, the DevKit Schottky eats ~0.3 V).</li>
+</ol>
+<p class="sub">Known risk (FINAL 2 notes): if the DevKit resets when the rudder moves, the MG90S draws too much through EXT1-21. Then stop and tell me; the fix is a separate 5 V feed for the MG90S red only.</p>
+</main></body></html>

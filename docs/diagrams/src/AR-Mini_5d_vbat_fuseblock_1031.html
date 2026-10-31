@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VBAT Sense Wire</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--bb:#f1efe8;--bbe:#c9c5ba;--hole:#b8b3a8;--red:#c62828;--blk:#1d1d1b;--dim:#3b6fb6;--fb:#e9e6dd;--fuse:#f5c542;--res:#efd9a8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+svg{width:100%;height:auto;display:block}text{fill:var(--fg);font-size:13px}
+.m{fill:var(--mut);font-size:11.5px}.b{font-weight:700}.box{fill:var(--fb);stroke:var(--bbe);stroke-width:2}
+.bb{fill:var(--bb);stroke:var(--bbe);stroke-width:2}.hole{fill:var(--hole)}.w{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.thick{stroke:var(--red);stroke-width:6}.thin{stroke:var(--red);stroke-width:2.4}.gnd{stroke:var(--blk);stroke-width:2.4}.gthick{stroke:var(--blk);stroke-width:6}.blue{stroke:var(--dim);stroke-width:3}
+.fuse{fill:var(--fuse);stroke:var(--fg);stroke-width:1}.res{fill:var(--res);stroke:var(--fg);stroke-width:1}.term{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
+.rp{stroke:var(--red);stroke-width:1.5}.rm{stroke:var(--dim);stroke-width:1.5}
+ol{padding-left:20px}li{margin:4px 0}code{font-size:14px}
+</style></head><body><main>
+<h1>Row 5d · VBAT sense wire from fuse F4 to the breadboard</h1>
+<p class="sub">AR-Mini, pool/lake run 31.10.2026 · only this connection, everything else as in FINAL 2</p>
+<svg viewBox="0 0 960 560" role="img" aria-label="Fuse block F4 output to breadboard row L-10, divider 100k and 30k to GPIO4">
+<!-- battery chain -->
+<rect class="box" x="20" y="60" width="110" height="60" rx="6"/><text x="75" y="86" text-anchor="middle" class="b">LiPo 3S</text><text x="75" y="104" text-anchor="middle" class="m">XT60</text>
+<rect class="fuse" x="160" y="76" width="50" height="28" rx="4"/><text x="185" y="95" text-anchor="middle" class="b">30 A</text>
+<rect class="box" x="240" y="64" width="70" height="52" rx="6"/><text x="275" y="88" text-anchor="middle" class="b">S1</text><text x="275" y="104" text-anchor="middle" class="m">main 50 A</text>
+<polyline class="w thick" points="130,80 160,80"/><polyline class="w thick" points="210,90 240,90"/><polyline class="w thick" points="310,90 345,90 345,170"/>
+<!-- fuse block -->
+<rect class="box" x="300" y="170" width="300" height="230" rx="10"/>
+<text x="450" y="194" text-anchor="middle" class="b">fuse block</text>
+<circle class="term" cx="345" cy="214" r="9"/><text x="362" y="218" class="m">common + input (from S1)</text>
+<g>
+<rect class="fuse" x="330" y="240" width="40" height="70" rx="4"/><text x="350" y="280" text-anchor="middle" class="b">F1</text><text x="350" y="326" text-anchor="middle" class="m">20 A</text>
+<rect class="fuse" x="395" y="240" width="40" height="70" rx="4"/><text x="415" y="280" text-anchor="middle" class="b">F2</text><text x="415" y="326" text-anchor="middle" class="m">15 A</text>
+<rect class="fuse" x="460" y="240" width="40" height="70" rx="4" opacity=".35"/><text x="480" y="280" text-anchor="middle" class="b">F3</text><text x="480" y="326" text-anchor="middle" class="m">empty</text>
+<rect class="fuse" x="525" y="240" width="40" height="70" rx="4" stroke-width="3"/><text x="545" y="280" text-anchor="middle" class="b">F4</text><text x="545" y="326" text-anchor="middle" class="m b">5 A</text>
+</g>
+<circle class="term" cx="350" cy="370" r="7"/><circle class="term" cx="415" cy="370" r="7"/><circle class="term" cx="480" cy="370" r="7"/>
+<circle class="term" cx="545" cy="370" r="10" stroke-width="3"/>
+<text x="350" y="394" text-anchor="middle" class="m">thruster</text><text x="415" y="394" text-anchor="middle" class="m">lift buck</text>
+<text x="560" y="412" class="m b">F4 output: 2 wires</text>
+<!-- F4 outputs -->
+<polyline class="w thick" points="545,380 545,470 640,470"/>
+<rect class="box" x="640" y="440" width="150" height="62" rx="6"/><text x="715" y="466" text-anchor="middle" class="b">MZHOU 12→5 V</text><text x="715" y="484" text-anchor="middle" class="m">IN + · USB-C → DevKit</text>
+<text x="650" y="432" class="m">thick red (14g)</text>
+<polyline class="w thin" points="552,364 620,364 620,250 780,250 780,232"/>
+<text x="628" y="300" class="m">thin red, 22 AWG or thicker</text><text x="790" y="262" class="m">into L-e10 from below</text>
+<text x="628" y="316" class="m">= row 5d, ≈ 100 µA</text>
+<!-- breadboard left part -->
+<rect class="bb" x="640" y="20" width="300" height="200" rx="6"/>
+<text x="790" y="14" text-anchor="middle" class="m">left breadboard, rows 1–11 (top view)</text>
+<line class="rp" x1="656" y1="30" x2="656" y2="210"/><line class="rm" x1="672" y1="30" x2="672" y2="210"/>
+<text x="656" y="226" text-anchor="middle" fill="var(--red)" style="fill:var(--red)">+</text><text x="672" y="226" text-anchor="middle" style="fill:var(--dim)">−</text>
+<!-- columns a..e at x 700..780, row y = 30+15*row -->
+<g id="holes"></g>
+<text x="700" y="44" text-anchor="middle" class="m">a</text><text x="720" y="44" text-anchor="middle" class="m">b</text><text x="740" y="44" text-anchor="middle" class="m">c</text><text x="760" y="44" text-anchor="middle" class="m">d</text><text x="780" y="44" text-anchor="middle" class="m">e</text><text x="830" y="44" text-anchor="middle" class="m">f</text>
+<text x="684" y="94" text-anchor="end" class="m">4</text><text x="684" y="184" text-anchor="end" class="m">10</text>
+</svg>
+<script>
+// holes + parts drawn here so the coordinates stay readable
+const s=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);s.appendChild(e);return e};
+const cx={a:700,b:720,c:740,d:760,e:780,f:830,g:850,h:870,i:890,j:910},ry=r=>30+15*r;
+for(let r=4;r<=11;r++){for(const c of 'abcdefghij')el('circle',{class:'hole',cx:cx[c],cy:ry(r),r:2.2});el('circle',{class:'hole',cx:656,cy:ry(r),r:2.2});el('circle',{class:'hole',cx:672,cy:ry(r),r:2.2})}
+// 5d lands in L-e10
+el('polyline',{class:'w thin',points:`${cx.e},232 ${cx.e},${ry(10)}`});
+el('circle',{cx:cx.e,cy:ry(10),r:4,fill:'var(--red)'});
+// 100k c4-c10
+el('line',{class:'w',stroke:'var(--fg)','stroke-width':1.5,x1:cx.c,y1:ry(4),x2:cx.c,y2:ry(10)});
+el('rect',{class:'res',x:cx.c-7,y:ry(5.5),width:14,height:44,rx:3});
+const t1=el('text',{x:cx.c+12,y:ry(7.3),class:'m b'});t1.textContent='100 kΩ (5c)';
+// 30k a4 to − rail
+el('polyline',{class:'w',stroke:'var(--fg)','stroke-width':1.5,fill:'none',points:`${cx.a},${ry(4)} 672,${ry(4)}`});
+el('rect',{class:'res',x:676,y:ry(4)-5,width:18,height:10,rx:3});
+const t2=el('text',{x:640,y:ry(3)-4,class:'m b'});t2.textContent='';
+// blue jumper e4 -> f4
+el('polyline',{class:'w blue',points:`${cx.e},${ry(4)} ${cx.e},${ry(3)} ${cx.f},${ry(3)} ${cx.f},${ry(4)}`});
+const t3=el('text',{x:cx.e-20,y:ry(2.2),class:'m'});t3.textContent='5a blue → EXT1-4 GPIO4';
+const t4=el('text',{x:634,y:ry(4)+4,'text-anchor':'end',class:'m'});t4.textContent='30 kΩ a4 → − rail (5b) →';
+const t5=el('text',{x:cx.e+12,y:ry(10)+4,class:'m b'});t5.textContent='L-e10 = VBAT in';
+// battery minus to GND bus
+el('polyline',{class:'w gthick',points:'75,120 75,520 300,520'});
+el('rect',{class:'box',x:300,y:500,width:200,height:40,rx:6});
+const g=el('text',{x:400,y:525,'text-anchor':'middle',class:'b'});g.textContent='GND bus (terminal block)';
+el('polyline',{class:'w gnd',points:'500,520 930,520 930,240'});
+const g2=el('text',{x:560,y:545,class:'m'});g2.textContent='14j → R − rail (both − rails are one net)';
+const n=el('text',{x:84,y:160,class:'m'});n.textContent='LiPo − (14i)';
+</script>
+<ol>
+<li>KILL on, S1 <b>OFF</b>, battery unplugged.</li>
+<li>F4 output terminal takes <b>two wires</b> under the same screw: the thick red to MZHOU IN + and the thin red sense wire. Twist the two ends together (or crimp both into one ferrule/spade) so the screw grips both.</li>
+<li>Run the thin red wire to the left breadboard and push it into <code>L-e10</code> (row 10, column e). Nothing else goes in row 10 except the top leg of the 100 kΩ (<code>L-c10</code>).</li>
+<li>Check the divider is already in: 100 kΩ <code>L-c4 ↔ L-c10</code>, 30 kΩ <code>L-a4 → L − rail</code>, blue jumper <code>L-e4 → L-f4</code> (GPIO4).</li>
+<li>Meter before power: S1 ON, then measure row 10 to GND ≈ battery voltage (12.6 V full), row 4 to GND ≈ 2.9 V. If row 4 shows more than 3.3 V, S1 OFF at once: a resistor is wrong.</li>
+</ol>
+<p class="sub">Why F4: the sense wire is protected by the 5 A fuse, so a short on the thin wire blows F4 instead of melting it. Stop the run at VBAT ≤ 10.5 V (row 4 ≈ 2.4 V).</p>
+</main></body></html>

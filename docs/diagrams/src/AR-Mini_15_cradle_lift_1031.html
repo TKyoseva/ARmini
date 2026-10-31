@@ -1,0 +1,67 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cradle Lift Wiring</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--bb:#f1efe8;--bbe:#c9c5ba;--hole:#b8b3a8;--red:#c62828;--blk:#1d1d1b;--dim:#3b6fb6;--fb:#e9e6dd;--fuse:#f5c542;--res:#efd9a8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+svg{width:100%;height:auto;display:block}text{fill:var(--fg);font-size:13px}
+.m{fill:var(--mut);font-size:11.5px}.b{font-weight:700}.box{fill:var(--fb);stroke:var(--bbe);stroke-width:2}
+.bb{fill:var(--bb);stroke:var(--bbe);stroke-width:2}.hole{fill:var(--hole)}.w{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.thick{stroke:var(--red);stroke-width:6}.thin{stroke:var(--red);stroke-width:2.4}.gnd{stroke:var(--blk);stroke-width:2.4}.gthick{stroke:var(--blk);stroke-width:6}.blue{stroke:var(--dim);stroke-width:3}
+.fuse{fill:var(--fuse);stroke:var(--fg);stroke-width:1}.res{fill:var(--res);stroke:var(--fg);stroke-width:1}.term{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
+.rp{stroke:var(--red);stroke-width:1.5}.rm{stroke:var(--dim);stroke-width:1.5}
+ol{padding-left:20px}li{margin:4px 0}code{font-size:14px}
+</style></head><body><main>
+<h1>Group 15 · cradle lift: QIQIAZI 5 V buck → PCA9685 V+ → two TD-8120MG</h1>
+<p class="sub">AR-Mini, pool/lake run 31.10.2026 · env remote_pool · slider "lift" 50° = U down, 130° = U up</p>
+<svg viewBox="0 0 960 560" role="img" aria-label="F2 to QIQIAZI buck, USB-C cable cut to PCA9685 green terminal, servos on CH10 and CH11">
+<rect class="fuse" x="20" y="70" width="60" height="34" rx="4"/><text x="50" y="92" text-anchor="middle" class="b">F2 15 A</text><text x="50" y="60" text-anchor="middle" class="m">fuse block (14e)</text>
+<rect class="box" x="140" y="50" width="200" height="90" rx="8"/><text x="240" y="76" text-anchor="middle" class="b">QIQIAZI buck</text><text x="240" y="94" text-anchor="middle" class="m">IN 12 V · OUT 5 V / 5 A</text><text x="240" y="112" text-anchor="middle" class="m">USB-C socket = output</text>
+<polyline class="w thick" points="80,87 140,87"/><text x="88" y="78" class="m">IN +</text>
+<polyline class="w gthick" points="160,140 160,200 60,200"/><text x="20" y="218" class="m">IN − → GND bus (14i)</text>
+<rect x="330" y="80" width="24" height="16" rx="4" style="fill:#555"/><text x="342" y="74" text-anchor="middle" class="m">USB-C</text>
+<polyline class="w" stroke="#555" stroke-width="7" points="354,88 420,88"/>
+<text x="400" y="74" class="m b">15a · cable, far end cut</text>
+<line x1="424" y1="78" x2="436" y2="98" stroke="var(--fg)" stroke-width="2"/>
+<polyline class="w thick" points="440,84 520,84 520,250 560,250"/>
+<polyline class="w gthick" points="440,96 500,96 500,280 560,280"/>
+<text x="528" y="160" class="m b" style="fill:var(--red)">15b red +5 V</text><text x="404" y="200" class="m b">15c black −</text>
+<!-- PCA -->
+<rect class="box" x="560" y="210" width="380" height="240" rx="10"/>
+<text x="750" y="236" text-anchor="middle" class="b">PCA9685 (0x40)</text>
+<rect x="575" y="240" width="60" height="56" rx="4" style="fill:#2e7d32"/><text x="605" y="258" text-anchor="middle" style="fill:#fff;font-size:11px">V+</text><text x="605" y="288" text-anchor="middle" style="fill:#fff;font-size:11px">GND</text>
+<circle cx="605" cy="250" r="0"/>
+<text x="645" y="260" class="m">green terminal</text><text x="645" y="276" class="m">screw tight</text>
+<text x="760" y="310" text-anchor="middle" class="m">servo pins, top → bottom: PWM · V+ · GND</text>
+</svg>
+<script>
+const s=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;s.appendChild(e);return e};
+// 16 channels, highlight 10,11
+for(let ch=0;ch<16;ch++){const x=585+ch*22;const hot=ch==10||ch==11;
+ ['#e0a800','var(--red)','var(--blk)'].forEach((c,k)=>el('rect',{x:x-6,y:338+k*16,width:12,height:12,rx:2,fill:hot?c:'var(--hole)'}));
+ el('text',{x:x,y:332,'text-anchor':'middle',class:'m',style:hot?'font-weight:700':'font-size:9px'},String(ch));}
+el('text',{x:575,y:420,class:'m'},'side header = group 10 · its V+ pin empty');
+// servo plugs
+const sv=[[10,'A','CH10'],[11,'B (mirrored)','CH11']];
+sv.forEach(([ch,n,l],i)=>{const x=585+ch*22,by=480+i*0;
+ const bx=i?760:560;
+ el('polyline',{class:'w',stroke:'#e08a00','stroke-width':3,points:`${x},382 ${x},${465} ${bx+60},${465} ${bx+60},490`});
+ el('rect',{class:'box',x:bx,y:490,width:170,height:56,rx:6});
+ el('text',{x:bx+85,y:512,'text-anchor':'middle',class:'b'},'TD-8120MG '+n);
+ el('text',{x:bx+85,y:530,'text-anchor':'middle',class:'m'},l+' · 15'+(i?'e':'d'));});
+el('text',{x:20,y:430,class:'m b'},'Plug orientation (15d/15e):');
+el('text',{x:20,y:448,class:'m'},'servo brown → black pin (GND)');
+el('text',{x:20,y:464,class:'m'},'servo red → red pin (V+)');
+el('text',{x:20,y:480,class:'m'},'servo orange → yellow pin (PWM)');
+el('text',{x:20,y:496,class:'m'},'B is the same way round;');
+el('text',{x:20,y:512,class:'m'},'firmware mirrors it (3000 − us_A)');
+</script>
+<ol>
+<li>S1 OFF. Plug the cut USB-C cable into the QIQIAZI output. S1 ON and measure <b>red to black = 5.0–5.2 V</b> before anything else is connected (15a). S1 OFF.</li>
+<li>Red (+5 V) into the green terminal <b>V+</b>, black into the green terminal <b>GND</b>, ferrule or tinned end, screw tight (15b, 15c). Never 12 V straight from F2 into V+.</li>
+<li>Servo A into column <b>CH10</b>, servo B into <b>CH11</b>: brown on the black pin, red on the red pin, orange on the yellow pin (15d, 15e).</li>
+<li>OE stays open (15f). The header pin V+ stays empty.</li>
+<li>Before ARM (15g): both arms clocked at the same pose, the U can swing 50° → 130° clear of the food box, the lift slider at the bottom (50) with the U deployed (down). The first pulse snaps the servos to the slider.</li>
+</ol>
+</main></body></html>

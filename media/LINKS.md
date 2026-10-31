@@ -50,7 +50,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C056 | 2026-10-29 | beam_leg: working thruster on the centreline, hung from the two beams (printed 2 h 37 min, 123 g) | Open | C056_2026-10-29_beam-leg |
 | C057 | 2026-10-29 | rudder: NACA 0015 blade + MG90S; collar mount replaced by one-piece rudder_frame (2 h 27 min, 104 g), assembled 30.10 | Open | C057_2026-10-29_rudder |
 | C058 | 2026-10-31 | Charging the 3S LiPo: balance charge 2.2 A in the safety bag (record) | Pass | C058_2026-10-31_battery-charging |
-| C059 | 2026-10-31 | Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery | Open | C059_2026-10-31_lake-test |
+| C059 | 2026-10-31 | Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery, bathtub test | Open | C059_2026-10-31_lake-test |
 
 ## History cards (CH##)
 
