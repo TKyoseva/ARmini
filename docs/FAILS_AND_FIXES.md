@@ -303,6 +303,11 @@ S12. **Interview sheet for the year I wasn't there** — answer in one line each
 176. **Watched the wrong USB port again** (C048, 25.10) → the monitor on the right USB-C (CH340, `/dev/cu.usbserial-110`) showed nothing; env `thermal` keeps `ARDUINO_USB_CDC_ON_BOOT=1`, so it prints on the **left** USB-C (`/dev/cu.usbmodem…`). Same trap as FAILS 171, and this time the assistant gave the wrong port. Lesson: **every bench env with CDC_ON_BOOT=1 prints on the left port; the right port only uploads. Put the port in the env's PROTOCOL.md header.**
 177. **The 110° mean read 922337203685477580.7 °C** (C029, 25.10) → one non-finite pixel (NaN) in the 768-pixel frame made the sum NaN, and printing it as a fixed-point integer overflowed. **Fix:** skip non-finite pixels in min/max/mean, count them in a `WARN w110 n non-finite pixels` line, and print `nan` if all are bad (abefbaa). Same commit masks the sensor ID/serial to its last 4 digits, so logs pasted into chat carry no serial numbers. Lesson: **one bad pixel must not poison a frame statistic; check for NaN before summing.**
 
+## 20. Added 31.10 — FINAL 2 wiring in the box for the lake (C059)
+
+178. **The FINAL 2 breadboard sheet drew the right BB400 rails mirrored** (C059, 31.10) → the sheet had the right-hand rails as **+ outer, − inner**; the real board is **+ inner, − outer**. **Fix:** sheet redrawn (`docs/diagrams/AR-Mini_FINAL2_breadboard_pool_1031.png`, rails fixed 06:44). Rule: **draw rails from a photo of the actual board, not from memory.**
+179. **GPIO1 jumper landed in R-c23 (74HCT125 pin 1 = 1OE, tied to GND) instead of R-c24 (1A)** (C059, 31.10) → the thruster got no signal, and GPIO1 was shorted to GND through the jumper. **Fix:** moved to R-c24 → thruster spins; GPIO1 survived. Rule: **after wiring a DIP, meter every input pin before power.**
+
 ---
 
 ### The short list for the "what broke" video
