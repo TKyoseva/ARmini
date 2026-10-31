@@ -1,0 +1,1131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AR-Mini Breadboard</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--bb:#f1efe8;--bbe:#c9c5ba;--hole:#b8b3a8;--red:#c62828;--blk:#1d1d1b;--dim:#3b6fb6;--dk:#b5121b;--dkf:#f5d2d2;--wroom:#c9c9c4;--kill:#7c3aed;--adc:#b7791f;--sda:#2e8b57;--scl:#0e8a8a;--yel:#d4a106;--pwm:#2255c8;--p12:#c2410c;--p5:#e08a00;--res:#e8d7b0;--comp:#ffffff;--compe:#1d1d1b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--dk:#f08a80;--dkf:#3a1f1f;--wroom:#55534d;--kill:#b48af0;--adc:#e3b552;--sda:#5cc489;--scl:#4fc3c3;--yel:#f2c14e;--pwm:#6db3ef;--p12:#f08a5d;--res:#5a4a2a;--comp:#1f1f1d;--compe:#ecebe6}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--dk:#f08a80;--dkf:#3a1f1f;--wroom:#55534d;--kill:#b48af0;--adc:#e3b552;--sda:#5cc489;--scl:#4fc3c3;--yel:#f2c14e;--pwm:#6db3ef;--p12:#f08a5d;--res:#5a4a2a;--comp:#1f1f1d;--compe:#ecebe6}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+figure{margin:0}svg{width:100%;height:auto;display:block;color:var(--fg)}figcaption{color:var(--mut);margin-top:10px}
+text{fill:var(--fg);font-family:system-ui,-apple-system,sans-serif;font-size:11px}
+.bb{fill:var(--bb);stroke:var(--bbe);stroke-width:2}.rp{stroke:var(--red);stroke-width:1.5}.rm{stroke:var(--dim);stroke-width:1.5}
+.tp{fill:var(--red);font-size:13px}.tm{fill:var(--dim);font-size:13px}.hole{fill:var(--hole)}.rn{fill:var(--mut);font-size:10px}
+.dk{fill:var(--dkf);stroke:var(--dk);stroke-width:2}.wroom{fill:var(--wroom)}.dkt{font-size:11px;fill:var(--mut)}.dkl{font-size:11px;font-weight:700;fill:var(--dk)}.pin{fill:var(--dk)}.pn{font-size:9.5px;fill:var(--mut)}
+.w{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}.red{stroke:var(--red)}.blk{stroke:var(--blk)}.kill{stroke:var(--kill)}.adc{stroke:var(--adc)}.sda{stroke:var(--sda)}.scl{stroke:var(--scl)}.yel{stroke:var(--yel)}.pwm{stroke:var(--pwm)}.p12{stroke:var(--p12);stroke-width:3}.lead{stroke:var(--fg);stroke-width:1.4}
+.res{fill:var(--res);stroke:var(--fg);stroke-width:1}.rl{font-size:10px;fill:var(--mut)}.npn{fill:var(--wroom);stroke:var(--fg)}
+.comp{fill:var(--comp);stroke:var(--compe);stroke-width:1.4}.ct{font-weight:700;font-size:12px}.blade{fill:var(--fg)}.vb{fill:var(--p12)}
+.note{font-size:10px;fill:var(--mut)}.w.p5{stroke:var(--p5);stroke-width:2.6}.p5t{fill:var(--p5);font-size:10px;font-weight:700}.bdg{fill:#1d4ed8;stroke:#fff;stroke-width:1.5}.bdgt{fill:#fff;font-size:10.5px;font-weight:700}.wt{border-collapse:collapse;width:100%;margin-top:18px;font-size:13px}.wt th,.wt td{border-bottom:1px solid #ddd;padding:5px 8px;text-align:left;vertical-align:top}.wt th{background:#f3f1ec;font-weight:700}.wt td:first-child{font-weight:700;color:#1d4ed8;white-space:nowrap}.wt tr.grp td{background:#faf8f3;font-weight:700;color:#333}.wt code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#f3f1ec;padding:1px 4px;border-radius:3px}.p12t{fill:var(--p12);font-size:10px;font-weight:700}.sdat{fill:var(--sda);font-size:10px}.sclt{fill:var(--scl);font-size:10px}.yelt{fill:var(--yel);font-size:10px}.killt{fill:var(--kill);font-size:10px}
+</style></head><body><main>
+<h1>AR-Mini · FINAL 2 pool breadboard (31.10.2026) · with the cradle lift</h1><p class="sub">Top view: antenna up, USB-C down. The DevKit-Lipo stands across two BB400 boards (EXT1 on the left board column j, EXT2 on the right board column a, header pin n = row n). Modules sit off-board on cables. Left board: KILL rocker, battery divider, leak probe, I2C-1. Right board: 74HCT125 at +5 V below the DevKit (GPIO1 → 1A, 1Y → thruster yellow; GPIO2 → 2A, 2Y → MG90S orange; 5 V pulses, not inverted; no S8050), I2C-0 → PCA9685. Right column: QIQIAZI 5 V buck on F2 → PCA9685 V+, two TD-8120MG on CH10/CH11 = the cradle lift. No tracks. Firmware env <b>remote_pool</b> only. Blue badges = rows of the wire table below. Supersedes the FINAL sheet of 02:23.</p>
+<figure><svg viewBox="0 0 1080 740" role="img" aria-label="Breadboard view: the DevKit-Lipo spans two BB400 boards; KILL rocker, battery divider and leak probe on the left board; 74HCT125 buffer for thruster and rudder, I2C-0 to the PCA9685 on the right board; QIQIAZI 5 V buck and the two cradle servos in the right column; numbered badges = rows of the wire table">
+<rect class="bb" x="28" y="70" width="222" height="491" rx="6"/>
+<rect class="bb" x="370" y="70" width="215" height="491" rx="6"/>
+<line class="rp" x1="33" y1="78" x2="33" y2="553"/>
+<line class="rm" x1="62" y1="78" x2="62" y2="553"/>
+<line class="rp" x1="548" y1="78" x2="548" y2="553"/>
+<line class="rm" x1="577" y1="78" x2="577" y2="553"/>
+<text class="tp" x="40" y="66" text-anchor="middle">+</text>
+<text class="tm" x="55" y="66" text-anchor="middle">−</text>
+<text class="tp" x="555" y="66" text-anchor="middle">+</text>
+<text class="tm" x="570" y="66" text-anchor="middle">−</text>
+<text class="tp" x="36" y="52" text-anchor="start">3V3 rail</text>
+<text class="tm" x="541" y="66" text-anchor="end">GND = outer − (as on the board)</text>
+<circle class="hole" cx="85" cy="104" r="2"/>
+<circle class="hole" cx="100" cy="104" r="2"/>
+<circle class="hole" cx="115" cy="104" r="2"/>
+<circle class="hole" cx="130" cy="104" r="2"/>
+<circle class="hole" cx="145" cy="104" r="2"/>
+<circle class="hole" cx="175" cy="104" r="2"/>
+<circle class="hole" cx="190" cy="104" r="2"/>
+<circle class="hole" cx="205" cy="104" r="2"/>
+<circle class="hole" cx="220" cy="104" r="2"/>
+<circle class="hole" cx="235" cy="104" r="2"/>
+<circle class="hole" cx="40" cy="104" r="2"/>
+<circle class="hole" cx="55" cy="104" r="2"/>
+<circle class="hole" cx="385" cy="104" r="2"/>
+<circle class="hole" cx="400" cy="104" r="2"/>
+<circle class="hole" cx="415" cy="104" r="2"/>
+<circle class="hole" cx="430" cy="104" r="2"/>
+<circle class="hole" cx="445" cy="104" r="2"/>
+<circle class="hole" cx="475" cy="104" r="2"/>
+<circle class="hole" cx="490" cy="104" r="2"/>
+<circle class="hole" cx="505" cy="104" r="2"/>
+<circle class="hole" cx="520" cy="104" r="2"/>
+<circle class="hole" cx="535" cy="104" r="2"/>
+<circle class="hole" cx="570" cy="104" r="2"/>
+<circle class="hole" cx="555" cy="104" r="2"/>
+<text class="rn" x="14" y="108" text-anchor="middle">1</text>
+<text class="rn" x="590" y="108" text-anchor="middle">1</text>
+<circle class="hole" cx="85" cy="119" r="2"/>
+<circle class="hole" cx="100" cy="119" r="2"/>
+<circle class="hole" cx="115" cy="119" r="2"/>
+<circle class="hole" cx="130" cy="119" r="2"/>
+<circle class="hole" cx="145" cy="119" r="2"/>
+<circle class="hole" cx="175" cy="119" r="2"/>
+<circle class="hole" cx="190" cy="119" r="2"/>
+<circle class="hole" cx="205" cy="119" r="2"/>
+<circle class="hole" cx="220" cy="119" r="2"/>
+<circle class="hole" cx="235" cy="119" r="2"/>
+<circle class="hole" cx="40" cy="119" r="2"/>
+<circle class="hole" cx="55" cy="119" r="2"/>
+<circle class="hole" cx="385" cy="119" r="2"/>
+<circle class="hole" cx="400" cy="119" r="2"/>
+<circle class="hole" cx="415" cy="119" r="2"/>
+<circle class="hole" cx="430" cy="119" r="2"/>
+<circle class="hole" cx="445" cy="119" r="2"/>
+<circle class="hole" cx="475" cy="119" r="2"/>
+<circle class="hole" cx="490" cy="119" r="2"/>
+<circle class="hole" cx="505" cy="119" r="2"/>
+<circle class="hole" cx="520" cy="119" r="2"/>
+<circle class="hole" cx="535" cy="119" r="2"/>
+<circle class="hole" cx="570" cy="119" r="2"/>
+<circle class="hole" cx="555" cy="119" r="2"/>
+<circle class="hole" cx="85" cy="134" r="2"/>
+<circle class="hole" cx="100" cy="134" r="2"/>
+<circle class="hole" cx="115" cy="134" r="2"/>
+<circle class="hole" cx="130" cy="134" r="2"/>
+<circle class="hole" cx="145" cy="134" r="2"/>
+<circle class="hole" cx="175" cy="134" r="2"/>
+<circle class="hole" cx="190" cy="134" r="2"/>
+<circle class="hole" cx="205" cy="134" r="2"/>
+<circle class="hole" cx="220" cy="134" r="2"/>
+<circle class="hole" cx="235" cy="134" r="2"/>
+<circle class="hole" cx="40" cy="134" r="2"/>
+<circle class="hole" cx="55" cy="134" r="2"/>
+<circle class="hole" cx="385" cy="134" r="2"/>
+<circle class="hole" cx="400" cy="134" r="2"/>
+<circle class="hole" cx="415" cy="134" r="2"/>
+<circle class="hole" cx="430" cy="134" r="2"/>
+<circle class="hole" cx="445" cy="134" r="2"/>
+<circle class="hole" cx="475" cy="134" r="2"/>
+<circle class="hole" cx="490" cy="134" r="2"/>
+<circle class="hole" cx="505" cy="134" r="2"/>
+<circle class="hole" cx="520" cy="134" r="2"/>
+<circle class="hole" cx="535" cy="134" r="2"/>
+<circle class="hole" cx="570" cy="134" r="2"/>
+<circle class="hole" cx="555" cy="134" r="2"/>
+<circle class="hole" cx="85" cy="149" r="2"/>
+<circle class="hole" cx="100" cy="149" r="2"/>
+<circle class="hole" cx="115" cy="149" r="2"/>
+<circle class="hole" cx="130" cy="149" r="2"/>
+<circle class="hole" cx="145" cy="149" r="2"/>
+<circle class="hole" cx="175" cy="149" r="2"/>
+<circle class="hole" cx="190" cy="149" r="2"/>
+<circle class="hole" cx="205" cy="149" r="2"/>
+<circle class="hole" cx="220" cy="149" r="2"/>
+<circle class="hole" cx="235" cy="149" r="2"/>
+<circle class="hole" cx="40" cy="149" r="2"/>
+<circle class="hole" cx="55" cy="149" r="2"/>
+<circle class="hole" cx="385" cy="149" r="2"/>
+<circle class="hole" cx="400" cy="149" r="2"/>
+<circle class="hole" cx="415" cy="149" r="2"/>
+<circle class="hole" cx="430" cy="149" r="2"/>
+<circle class="hole" cx="445" cy="149" r="2"/>
+<circle class="hole" cx="475" cy="149" r="2"/>
+<circle class="hole" cx="490" cy="149" r="2"/>
+<circle class="hole" cx="505" cy="149" r="2"/>
+<circle class="hole" cx="520" cy="149" r="2"/>
+<circle class="hole" cx="535" cy="149" r="2"/>
+<circle class="hole" cx="570" cy="149" r="2"/>
+<circle class="hole" cx="555" cy="149" r="2"/>
+<circle class="hole" cx="85" cy="164" r="2"/>
+<circle class="hole" cx="100" cy="164" r="2"/>
+<circle class="hole" cx="115" cy="164" r="2"/>
+<circle class="hole" cx="130" cy="164" r="2"/>
+<circle class="hole" cx="145" cy="164" r="2"/>
+<circle class="hole" cx="175" cy="164" r="2"/>
+<circle class="hole" cx="190" cy="164" r="2"/>
+<circle class="hole" cx="205" cy="164" r="2"/>
+<circle class="hole" cx="220" cy="164" r="2"/>
+<circle class="hole" cx="235" cy="164" r="2"/>
+<circle class="hole" cx="40" cy="164" r="2"/>
+<circle class="hole" cx="55" cy="164" r="2"/>
+<circle class="hole" cx="385" cy="164" r="2"/>
+<circle class="hole" cx="400" cy="164" r="2"/>
+<circle class="hole" cx="415" cy="164" r="2"/>
+<circle class="hole" cx="430" cy="164" r="2"/>
+<circle class="hole" cx="445" cy="164" r="2"/>
+<circle class="hole" cx="475" cy="164" r="2"/>
+<circle class="hole" cx="490" cy="164" r="2"/>
+<circle class="hole" cx="505" cy="164" r="2"/>
+<circle class="hole" cx="520" cy="164" r="2"/>
+<circle class="hole" cx="535" cy="164" r="2"/>
+<circle class="hole" cx="570" cy="164" r="2"/>
+<circle class="hole" cx="555" cy="164" r="2"/>
+<text class="rn" x="14" y="168" text-anchor="middle">5</text>
+<text class="rn" x="590" y="168" text-anchor="middle">5</text>
+<circle class="hole" cx="85" cy="179" r="2"/>
+<circle class="hole" cx="100" cy="179" r="2"/>
+<circle class="hole" cx="115" cy="179" r="2"/>
+<circle class="hole" cx="130" cy="179" r="2"/>
+<circle class="hole" cx="145" cy="179" r="2"/>
+<circle class="hole" cx="175" cy="179" r="2"/>
+<circle class="hole" cx="190" cy="179" r="2"/>
+<circle class="hole" cx="205" cy="179" r="2"/>
+<circle class="hole" cx="220" cy="179" r="2"/>
+<circle class="hole" cx="235" cy="179" r="2"/>
+<circle class="hole" cx="40" cy="179" r="2"/>
+<circle class="hole" cx="55" cy="179" r="2"/>
+<circle class="hole" cx="385" cy="179" r="2"/>
+<circle class="hole" cx="400" cy="179" r="2"/>
+<circle class="hole" cx="415" cy="179" r="2"/>
+<circle class="hole" cx="430" cy="179" r="2"/>
+<circle class="hole" cx="445" cy="179" r="2"/>
+<circle class="hole" cx="475" cy="179" r="2"/>
+<circle class="hole" cx="490" cy="179" r="2"/>
+<circle class="hole" cx="505" cy="179" r="2"/>
+<circle class="hole" cx="520" cy="179" r="2"/>
+<circle class="hole" cx="535" cy="179" r="2"/>
+<circle class="hole" cx="570" cy="179" r="2"/>
+<circle class="hole" cx="555" cy="179" r="2"/>
+<circle class="hole" cx="85" cy="194" r="2"/>
+<circle class="hole" cx="100" cy="194" r="2"/>
+<circle class="hole" cx="115" cy="194" r="2"/>
+<circle class="hole" cx="130" cy="194" r="2"/>
+<circle class="hole" cx="145" cy="194" r="2"/>
+<circle class="hole" cx="175" cy="194" r="2"/>
+<circle class="hole" cx="190" cy="194" r="2"/>
+<circle class="hole" cx="205" cy="194" r="2"/>
+<circle class="hole" cx="220" cy="194" r="2"/>
+<circle class="hole" cx="235" cy="194" r="2"/>
+<circle class="hole" cx="40" cy="194" r="2"/>
+<circle class="hole" cx="55" cy="194" r="2"/>
+<circle class="hole" cx="385" cy="194" r="2"/>
+<circle class="hole" cx="400" cy="194" r="2"/>
+<circle class="hole" cx="415" cy="194" r="2"/>
+<circle class="hole" cx="430" cy="194" r="2"/>
+<circle class="hole" cx="445" cy="194" r="2"/>
+<circle class="hole" cx="475" cy="194" r="2"/>
+<circle class="hole" cx="490" cy="194" r="2"/>
+<circle class="hole" cx="505" cy="194" r="2"/>
+<circle class="hole" cx="520" cy="194" r="2"/>
+<circle class="hole" cx="535" cy="194" r="2"/>
+<circle class="hole" cx="570" cy="194" r="2"/>
+<circle class="hole" cx="555" cy="194" r="2"/>
+<circle class="hole" cx="85" cy="209" r="2"/>
+<circle class="hole" cx="100" cy="209" r="2"/>
+<circle class="hole" cx="115" cy="209" r="2"/>
+<circle class="hole" cx="130" cy="209" r="2"/>
+<circle class="hole" cx="145" cy="209" r="2"/>
+<circle class="hole" cx="175" cy="209" r="2"/>
+<circle class="hole" cx="190" cy="209" r="2"/>
+<circle class="hole" cx="205" cy="209" r="2"/>
+<circle class="hole" cx="220" cy="209" r="2"/>
+<circle class="hole" cx="235" cy="209" r="2"/>
+<circle class="hole" cx="40" cy="209" r="2"/>
+<circle class="hole" cx="55" cy="209" r="2"/>
+<circle class="hole" cx="385" cy="209" r="2"/>
+<circle class="hole" cx="400" cy="209" r="2"/>
+<circle class="hole" cx="415" cy="209" r="2"/>
+<circle class="hole" cx="430" cy="209" r="2"/>
+<circle class="hole" cx="445" cy="209" r="2"/>
+<circle class="hole" cx="475" cy="209" r="2"/>
+<circle class="hole" cx="490" cy="209" r="2"/>
+<circle class="hole" cx="505" cy="209" r="2"/>
+<circle class="hole" cx="520" cy="209" r="2"/>
+<circle class="hole" cx="535" cy="209" r="2"/>
+<circle class="hole" cx="570" cy="209" r="2"/>
+<circle class="hole" cx="555" cy="209" r="2"/>
+<circle class="hole" cx="85" cy="224" r="2"/>
+<circle class="hole" cx="100" cy="224" r="2"/>
+<circle class="hole" cx="115" cy="224" r="2"/>
+<circle class="hole" cx="130" cy="224" r="2"/>
+<circle class="hole" cx="145" cy="224" r="2"/>
+<circle class="hole" cx="175" cy="224" r="2"/>
+<circle class="hole" cx="190" cy="224" r="2"/>
+<circle class="hole" cx="205" cy="224" r="2"/>
+<circle class="hole" cx="220" cy="224" r="2"/>
+<circle class="hole" cx="235" cy="224" r="2"/>
+<circle class="hole" cx="40" cy="224" r="2"/>
+<circle class="hole" cx="55" cy="224" r="2"/>
+<circle class="hole" cx="385" cy="224" r="2"/>
+<circle class="hole" cx="400" cy="224" r="2"/>
+<circle class="hole" cx="415" cy="224" r="2"/>
+<circle class="hole" cx="430" cy="224" r="2"/>
+<circle class="hole" cx="445" cy="224" r="2"/>
+<circle class="hole" cx="475" cy="224" r="2"/>
+<circle class="hole" cx="490" cy="224" r="2"/>
+<circle class="hole" cx="505" cy="224" r="2"/>
+<circle class="hole" cx="520" cy="224" r="2"/>
+<circle class="hole" cx="535" cy="224" r="2"/>
+<circle class="hole" cx="570" cy="224" r="2"/>
+<circle class="hole" cx="555" cy="224" r="2"/>
+<circle class="hole" cx="85" cy="239" r="2"/>
+<circle class="hole" cx="100" cy="239" r="2"/>
+<circle class="hole" cx="115" cy="239" r="2"/>
+<circle class="hole" cx="130" cy="239" r="2"/>
+<circle class="hole" cx="145" cy="239" r="2"/>
+<circle class="hole" cx="175" cy="239" r="2"/>
+<circle class="hole" cx="190" cy="239" r="2"/>
+<circle class="hole" cx="205" cy="239" r="2"/>
+<circle class="hole" cx="220" cy="239" r="2"/>
+<circle class="hole" cx="235" cy="239" r="2"/>
+<circle class="hole" cx="40" cy="239" r="2"/>
+<circle class="hole" cx="55" cy="239" r="2"/>
+<circle class="hole" cx="385" cy="239" r="2"/>
+<circle class="hole" cx="400" cy="239" r="2"/>
+<circle class="hole" cx="415" cy="239" r="2"/>
+<circle class="hole" cx="430" cy="239" r="2"/>
+<circle class="hole" cx="445" cy="239" r="2"/>
+<circle class="hole" cx="475" cy="239" r="2"/>
+<circle class="hole" cx="490" cy="239" r="2"/>
+<circle class="hole" cx="505" cy="239" r="2"/>
+<circle class="hole" cx="520" cy="239" r="2"/>
+<circle class="hole" cx="535" cy="239" r="2"/>
+<circle class="hole" cx="570" cy="239" r="2"/>
+<circle class="hole" cx="555" cy="239" r="2"/>
+<text class="rn" x="14" y="243" text-anchor="middle">10</text>
+<text class="rn" x="590" y="243" text-anchor="middle">10</text>
+<circle class="hole" cx="85" cy="254" r="2"/>
+<circle class="hole" cx="100" cy="254" r="2"/>
+<circle class="hole" cx="115" cy="254" r="2"/>
+<circle class="hole" cx="130" cy="254" r="2"/>
+<circle class="hole" cx="145" cy="254" r="2"/>
+<circle class="hole" cx="175" cy="254" r="2"/>
+<circle class="hole" cx="190" cy="254" r="2"/>
+<circle class="hole" cx="205" cy="254" r="2"/>
+<circle class="hole" cx="220" cy="254" r="2"/>
+<circle class="hole" cx="235" cy="254" r="2"/>
+<circle class="hole" cx="40" cy="254" r="2"/>
+<circle class="hole" cx="55" cy="254" r="2"/>
+<circle class="hole" cx="385" cy="254" r="2"/>
+<circle class="hole" cx="400" cy="254" r="2"/>
+<circle class="hole" cx="415" cy="254" r="2"/>
+<circle class="hole" cx="430" cy="254" r="2"/>
+<circle class="hole" cx="445" cy="254" r="2"/>
+<circle class="hole" cx="475" cy="254" r="2"/>
+<circle class="hole" cx="490" cy="254" r="2"/>
+<circle class="hole" cx="505" cy="254" r="2"/>
+<circle class="hole" cx="520" cy="254" r="2"/>
+<circle class="hole" cx="535" cy="254" r="2"/>
+<circle class="hole" cx="570" cy="254" r="2"/>
+<circle class="hole" cx="555" cy="254" r="2"/>
+<circle class="hole" cx="85" cy="269" r="2"/>
+<circle class="hole" cx="100" cy="269" r="2"/>
+<circle class="hole" cx="115" cy="269" r="2"/>
+<circle class="hole" cx="130" cy="269" r="2"/>
+<circle class="hole" cx="145" cy="269" r="2"/>
+<circle class="hole" cx="175" cy="269" r="2"/>
+<circle class="hole" cx="190" cy="269" r="2"/>
+<circle class="hole" cx="205" cy="269" r="2"/>
+<circle class="hole" cx="220" cy="269" r="2"/>
+<circle class="hole" cx="235" cy="269" r="2"/>
+<circle class="hole" cx="40" cy="269" r="2"/>
+<circle class="hole" cx="55" cy="269" r="2"/>
+<circle class="hole" cx="385" cy="269" r="2"/>
+<circle class="hole" cx="400" cy="269" r="2"/>
+<circle class="hole" cx="415" cy="269" r="2"/>
+<circle class="hole" cx="430" cy="269" r="2"/>
+<circle class="hole" cx="445" cy="269" r="2"/>
+<circle class="hole" cx="475" cy="269" r="2"/>
+<circle class="hole" cx="490" cy="269" r="2"/>
+<circle class="hole" cx="505" cy="269" r="2"/>
+<circle class="hole" cx="520" cy="269" r="2"/>
+<circle class="hole" cx="535" cy="269" r="2"/>
+<circle class="hole" cx="570" cy="269" r="2"/>
+<circle class="hole" cx="555" cy="269" r="2"/>
+<circle class="hole" cx="85" cy="284" r="2"/>
+<circle class="hole" cx="100" cy="284" r="2"/>
+<circle class="hole" cx="115" cy="284" r="2"/>
+<circle class="hole" cx="130" cy="284" r="2"/>
+<circle class="hole" cx="145" cy="284" r="2"/>
+<circle class="hole" cx="175" cy="284" r="2"/>
+<circle class="hole" cx="190" cy="284" r="2"/>
+<circle class="hole" cx="205" cy="284" r="2"/>
+<circle class="hole" cx="220" cy="284" r="2"/>
+<circle class="hole" cx="235" cy="284" r="2"/>
+<circle class="hole" cx="40" cy="284" r="2"/>
+<circle class="hole" cx="55" cy="284" r="2"/>
+<circle class="hole" cx="385" cy="284" r="2"/>
+<circle class="hole" cx="400" cy="284" r="2"/>
+<circle class="hole" cx="415" cy="284" r="2"/>
+<circle class="hole" cx="430" cy="284" r="2"/>
+<circle class="hole" cx="445" cy="284" r="2"/>
+<circle class="hole" cx="475" cy="284" r="2"/>
+<circle class="hole" cx="490" cy="284" r="2"/>
+<circle class="hole" cx="505" cy="284" r="2"/>
+<circle class="hole" cx="520" cy="284" r="2"/>
+<circle class="hole" cx="535" cy="284" r="2"/>
+<circle class="hole" cx="570" cy="284" r="2"/>
+<circle class="hole" cx="555" cy="284" r="2"/>
+<circle class="hole" cx="85" cy="299" r="2"/>
+<circle class="hole" cx="100" cy="299" r="2"/>
+<circle class="hole" cx="115" cy="299" r="2"/>
+<circle class="hole" cx="130" cy="299" r="2"/>
+<circle class="hole" cx="145" cy="299" r="2"/>
+<circle class="hole" cx="175" cy="299" r="2"/>
+<circle class="hole" cx="190" cy="299" r="2"/>
+<circle class="hole" cx="205" cy="299" r="2"/>
+<circle class="hole" cx="220" cy="299" r="2"/>
+<circle class="hole" cx="235" cy="299" r="2"/>
+<circle class="hole" cx="40" cy="299" r="2"/>
+<circle class="hole" cx="55" cy="299" r="2"/>
+<circle class="hole" cx="385" cy="299" r="2"/>
+<circle class="hole" cx="400" cy="299" r="2"/>
+<circle class="hole" cx="415" cy="299" r="2"/>
+<circle class="hole" cx="430" cy="299" r="2"/>
+<circle class="hole" cx="445" cy="299" r="2"/>
+<circle class="hole" cx="475" cy="299" r="2"/>
+<circle class="hole" cx="490" cy="299" r="2"/>
+<circle class="hole" cx="505" cy="299" r="2"/>
+<circle class="hole" cx="520" cy="299" r="2"/>
+<circle class="hole" cx="535" cy="299" r="2"/>
+<circle class="hole" cx="570" cy="299" r="2"/>
+<circle class="hole" cx="555" cy="299" r="2"/>
+<circle class="hole" cx="85" cy="314" r="2"/>
+<circle class="hole" cx="100" cy="314" r="2"/>
+<circle class="hole" cx="115" cy="314" r="2"/>
+<circle class="hole" cx="130" cy="314" r="2"/>
+<circle class="hole" cx="145" cy="314" r="2"/>
+<circle class="hole" cx="175" cy="314" r="2"/>
+<circle class="hole" cx="190" cy="314" r="2"/>
+<circle class="hole" cx="205" cy="314" r="2"/>
+<circle class="hole" cx="220" cy="314" r="2"/>
+<circle class="hole" cx="235" cy="314" r="2"/>
+<circle class="hole" cx="40" cy="314" r="2"/>
+<circle class="hole" cx="55" cy="314" r="2"/>
+<circle class="hole" cx="385" cy="314" r="2"/>
+<circle class="hole" cx="400" cy="314" r="2"/>
+<circle class="hole" cx="415" cy="314" r="2"/>
+<circle class="hole" cx="430" cy="314" r="2"/>
+<circle class="hole" cx="445" cy="314" r="2"/>
+<circle class="hole" cx="475" cy="314" r="2"/>
+<circle class="hole" cx="490" cy="314" r="2"/>
+<circle class="hole" cx="505" cy="314" r="2"/>
+<circle class="hole" cx="520" cy="314" r="2"/>
+<circle class="hole" cx="535" cy="314" r="2"/>
+<circle class="hole" cx="570" cy="314" r="2"/>
+<circle class="hole" cx="555" cy="314" r="2"/>
+<text class="rn" x="14" y="318" text-anchor="middle">15</text>
+<text class="rn" x="590" y="318" text-anchor="middle">15</text>
+<circle class="hole" cx="85" cy="329" r="2"/>
+<circle class="hole" cx="100" cy="329" r="2"/>
+<circle class="hole" cx="115" cy="329" r="2"/>
+<circle class="hole" cx="130" cy="329" r="2"/>
+<circle class="hole" cx="145" cy="329" r="2"/>
+<circle class="hole" cx="175" cy="329" r="2"/>
+<circle class="hole" cx="190" cy="329" r="2"/>
+<circle class="hole" cx="205" cy="329" r="2"/>
+<circle class="hole" cx="220" cy="329" r="2"/>
+<circle class="hole" cx="235" cy="329" r="2"/>
+<circle class="hole" cx="40" cy="329" r="2"/>
+<circle class="hole" cx="55" cy="329" r="2"/>
+<circle class="hole" cx="385" cy="329" r="2"/>
+<circle class="hole" cx="400" cy="329" r="2"/>
+<circle class="hole" cx="415" cy="329" r="2"/>
+<circle class="hole" cx="430" cy="329" r="2"/>
+<circle class="hole" cx="445" cy="329" r="2"/>
+<circle class="hole" cx="475" cy="329" r="2"/>
+<circle class="hole" cx="490" cy="329" r="2"/>
+<circle class="hole" cx="505" cy="329" r="2"/>
+<circle class="hole" cx="520" cy="329" r="2"/>
+<circle class="hole" cx="535" cy="329" r="2"/>
+<circle class="hole" cx="570" cy="329" r="2"/>
+<circle class="hole" cx="555" cy="329" r="2"/>
+<circle class="hole" cx="85" cy="344" r="2"/>
+<circle class="hole" cx="100" cy="344" r="2"/>
+<circle class="hole" cx="115" cy="344" r="2"/>
+<circle class="hole" cx="130" cy="344" r="2"/>
+<circle class="hole" cx="145" cy="344" r="2"/>
+<circle class="hole" cx="175" cy="344" r="2"/>
+<circle class="hole" cx="190" cy="344" r="2"/>
+<circle class="hole" cx="205" cy="344" r="2"/>
+<circle class="hole" cx="220" cy="344" r="2"/>
+<circle class="hole" cx="235" cy="344" r="2"/>
+<circle class="hole" cx="40" cy="344" r="2"/>
+<circle class="hole" cx="55" cy="344" r="2"/>
+<circle class="hole" cx="385" cy="344" r="2"/>
+<circle class="hole" cx="400" cy="344" r="2"/>
+<circle class="hole" cx="415" cy="344" r="2"/>
+<circle class="hole" cx="430" cy="344" r="2"/>
+<circle class="hole" cx="445" cy="344" r="2"/>
+<circle class="hole" cx="475" cy="344" r="2"/>
+<circle class="hole" cx="490" cy="344" r="2"/>
+<circle class="hole" cx="505" cy="344" r="2"/>
+<circle class="hole" cx="520" cy="344" r="2"/>
+<circle class="hole" cx="535" cy="344" r="2"/>
+<circle class="hole" cx="570" cy="344" r="2"/>
+<circle class="hole" cx="555" cy="344" r="2"/>
+<circle class="hole" cx="85" cy="359" r="2"/>
+<circle class="hole" cx="100" cy="359" r="2"/>
+<circle class="hole" cx="115" cy="359" r="2"/>
+<circle class="hole" cx="130" cy="359" r="2"/>
+<circle class="hole" cx="145" cy="359" r="2"/>
+<circle class="hole" cx="175" cy="359" r="2"/>
+<circle class="hole" cx="190" cy="359" r="2"/>
+<circle class="hole" cx="205" cy="359" r="2"/>
+<circle class="hole" cx="220" cy="359" r="2"/>
+<circle class="hole" cx="235" cy="359" r="2"/>
+<circle class="hole" cx="40" cy="359" r="2"/>
+<circle class="hole" cx="55" cy="359" r="2"/>
+<circle class="hole" cx="385" cy="359" r="2"/>
+<circle class="hole" cx="400" cy="359" r="2"/>
+<circle class="hole" cx="415" cy="359" r="2"/>
+<circle class="hole" cx="430" cy="359" r="2"/>
+<circle class="hole" cx="445" cy="359" r="2"/>
+<circle class="hole" cx="475" cy="359" r="2"/>
+<circle class="hole" cx="490" cy="359" r="2"/>
+<circle class="hole" cx="505" cy="359" r="2"/>
+<circle class="hole" cx="520" cy="359" r="2"/>
+<circle class="hole" cx="535" cy="359" r="2"/>
+<circle class="hole" cx="570" cy="359" r="2"/>
+<circle class="hole" cx="555" cy="359" r="2"/>
+<circle class="hole" cx="85" cy="374" r="2"/>
+<circle class="hole" cx="100" cy="374" r="2"/>
+<circle class="hole" cx="115" cy="374" r="2"/>
+<circle class="hole" cx="130" cy="374" r="2"/>
+<circle class="hole" cx="145" cy="374" r="2"/>
+<circle class="hole" cx="175" cy="374" r="2"/>
+<circle class="hole" cx="190" cy="374" r="2"/>
+<circle class="hole" cx="205" cy="374" r="2"/>
+<circle class="hole" cx="220" cy="374" r="2"/>
+<circle class="hole" cx="235" cy="374" r="2"/>
+<circle class="hole" cx="40" cy="374" r="2"/>
+<circle class="hole" cx="55" cy="374" r="2"/>
+<circle class="hole" cx="385" cy="374" r="2"/>
+<circle class="hole" cx="400" cy="374" r="2"/>
+<circle class="hole" cx="415" cy="374" r="2"/>
+<circle class="hole" cx="430" cy="374" r="2"/>
+<circle class="hole" cx="445" cy="374" r="2"/>
+<circle class="hole" cx="475" cy="374" r="2"/>
+<circle class="hole" cx="490" cy="374" r="2"/>
+<circle class="hole" cx="505" cy="374" r="2"/>
+<circle class="hole" cx="520" cy="374" r="2"/>
+<circle class="hole" cx="535" cy="374" r="2"/>
+<circle class="hole" cx="570" cy="374" r="2"/>
+<circle class="hole" cx="555" cy="374" r="2"/>
+<circle class="hole" cx="85" cy="389" r="2"/>
+<circle class="hole" cx="100" cy="389" r="2"/>
+<circle class="hole" cx="115" cy="389" r="2"/>
+<circle class="hole" cx="130" cy="389" r="2"/>
+<circle class="hole" cx="145" cy="389" r="2"/>
+<circle class="hole" cx="175" cy="389" r="2"/>
+<circle class="hole" cx="190" cy="389" r="2"/>
+<circle class="hole" cx="205" cy="389" r="2"/>
+<circle class="hole" cx="220" cy="389" r="2"/>
+<circle class="hole" cx="235" cy="389" r="2"/>
+<circle class="hole" cx="40" cy="389" r="2"/>
+<circle class="hole" cx="55" cy="389" r="2"/>
+<circle class="hole" cx="385" cy="389" r="2"/>
+<circle class="hole" cx="400" cy="389" r="2"/>
+<circle class="hole" cx="415" cy="389" r="2"/>
+<circle class="hole" cx="430" cy="389" r="2"/>
+<circle class="hole" cx="445" cy="389" r="2"/>
+<circle class="hole" cx="475" cy="389" r="2"/>
+<circle class="hole" cx="490" cy="389" r="2"/>
+<circle class="hole" cx="505" cy="389" r="2"/>
+<circle class="hole" cx="520" cy="389" r="2"/>
+<circle class="hole" cx="535" cy="389" r="2"/>
+<circle class="hole" cx="570" cy="389" r="2"/>
+<circle class="hole" cx="555" cy="389" r="2"/>
+<text class="rn" x="14" y="393" text-anchor="middle">20</text>
+<text class="rn" x="590" y="393" text-anchor="middle">20</text>
+<circle class="hole" cx="85" cy="404" r="2"/>
+<circle class="hole" cx="100" cy="404" r="2"/>
+<circle class="hole" cx="115" cy="404" r="2"/>
+<circle class="hole" cx="130" cy="404" r="2"/>
+<circle class="hole" cx="145" cy="404" r="2"/>
+<circle class="hole" cx="175" cy="404" r="2"/>
+<circle class="hole" cx="190" cy="404" r="2"/>
+<circle class="hole" cx="205" cy="404" r="2"/>
+<circle class="hole" cx="220" cy="404" r="2"/>
+<circle class="hole" cx="235" cy="404" r="2"/>
+<circle class="hole" cx="40" cy="404" r="2"/>
+<circle class="hole" cx="55" cy="404" r="2"/>
+<circle class="hole" cx="385" cy="404" r="2"/>
+<circle class="hole" cx="400" cy="404" r="2"/>
+<circle class="hole" cx="415" cy="404" r="2"/>
+<circle class="hole" cx="430" cy="404" r="2"/>
+<circle class="hole" cx="445" cy="404" r="2"/>
+<circle class="hole" cx="475" cy="404" r="2"/>
+<circle class="hole" cx="490" cy="404" r="2"/>
+<circle class="hole" cx="505" cy="404" r="2"/>
+<circle class="hole" cx="520" cy="404" r="2"/>
+<circle class="hole" cx="535" cy="404" r="2"/>
+<circle class="hole" cx="570" cy="404" r="2"/>
+<circle class="hole" cx="555" cy="404" r="2"/>
+<circle class="hole" cx="85" cy="419" r="2"/>
+<circle class="hole" cx="100" cy="419" r="2"/>
+<circle class="hole" cx="115" cy="419" r="2"/>
+<circle class="hole" cx="130" cy="419" r="2"/>
+<circle class="hole" cx="145" cy="419" r="2"/>
+<circle class="hole" cx="175" cy="419" r="2"/>
+<circle class="hole" cx="190" cy="419" r="2"/>
+<circle class="hole" cx="205" cy="419" r="2"/>
+<circle class="hole" cx="220" cy="419" r="2"/>
+<circle class="hole" cx="235" cy="419" r="2"/>
+<circle class="hole" cx="40" cy="419" r="2"/>
+<circle class="hole" cx="55" cy="419" r="2"/>
+<circle class="hole" cx="385" cy="419" r="2"/>
+<circle class="hole" cx="400" cy="419" r="2"/>
+<circle class="hole" cx="415" cy="419" r="2"/>
+<circle class="hole" cx="430" cy="419" r="2"/>
+<circle class="hole" cx="445" cy="419" r="2"/>
+<circle class="hole" cx="475" cy="419" r="2"/>
+<circle class="hole" cx="490" cy="419" r="2"/>
+<circle class="hole" cx="505" cy="419" r="2"/>
+<circle class="hole" cx="520" cy="419" r="2"/>
+<circle class="hole" cx="535" cy="419" r="2"/>
+<circle class="hole" cx="570" cy="419" r="2"/>
+<circle class="hole" cx="555" cy="419" r="2"/>
+<text class="rn" x="14" y="423" text-anchor="middle">22</text>
+<text class="rn" x="590" y="423" text-anchor="middle">22</text>
+<circle class="hole" cx="85" cy="434" r="2"/>
+<circle class="hole" cx="100" cy="434" r="2"/>
+<circle class="hole" cx="115" cy="434" r="2"/>
+<circle class="hole" cx="130" cy="434" r="2"/>
+<circle class="hole" cx="145" cy="434" r="2"/>
+<circle class="hole" cx="175" cy="434" r="2"/>
+<circle class="hole" cx="190" cy="434" r="2"/>
+<circle class="hole" cx="205" cy="434" r="2"/>
+<circle class="hole" cx="220" cy="434" r="2"/>
+<circle class="hole" cx="235" cy="434" r="2"/>
+<circle class="hole" cx="40" cy="434" r="2"/>
+<circle class="hole" cx="55" cy="434" r="2"/>
+<circle class="hole" cx="385" cy="434" r="2"/>
+<circle class="hole" cx="400" cy="434" r="2"/>
+<circle class="hole" cx="415" cy="434" r="2"/>
+<circle class="hole" cx="430" cy="434" r="2"/>
+<circle class="hole" cx="445" cy="434" r="2"/>
+<circle class="hole" cx="475" cy="434" r="2"/>
+<circle class="hole" cx="490" cy="434" r="2"/>
+<circle class="hole" cx="505" cy="434" r="2"/>
+<circle class="hole" cx="520" cy="434" r="2"/>
+<circle class="hole" cx="535" cy="434" r="2"/>
+<circle class="hole" cx="570" cy="434" r="2"/>
+<circle class="hole" cx="555" cy="434" r="2"/>
+<circle class="hole" cx="85" cy="449" r="2"/>
+<circle class="hole" cx="100" cy="449" r="2"/>
+<circle class="hole" cx="115" cy="449" r="2"/>
+<circle class="hole" cx="130" cy="449" r="2"/>
+<circle class="hole" cx="145" cy="449" r="2"/>
+<circle class="hole" cx="175" cy="449" r="2"/>
+<circle class="hole" cx="190" cy="449" r="2"/>
+<circle class="hole" cx="205" cy="449" r="2"/>
+<circle class="hole" cx="220" cy="449" r="2"/>
+<circle class="hole" cx="235" cy="449" r="2"/>
+<circle class="hole" cx="40" cy="449" r="2"/>
+<circle class="hole" cx="55" cy="449" r="2"/>
+<circle class="hole" cx="385" cy="449" r="2"/>
+<circle class="hole" cx="400" cy="449" r="2"/>
+<circle class="hole" cx="415" cy="449" r="2"/>
+<circle class="hole" cx="430" cy="449" r="2"/>
+<circle class="hole" cx="445" cy="449" r="2"/>
+<circle class="hole" cx="475" cy="449" r="2"/>
+<circle class="hole" cx="490" cy="449" r="2"/>
+<circle class="hole" cx="505" cy="449" r="2"/>
+<circle class="hole" cx="520" cy="449" r="2"/>
+<circle class="hole" cx="535" cy="449" r="2"/>
+<circle class="hole" cx="570" cy="449" r="2"/>
+<circle class="hole" cx="555" cy="449" r="2"/>
+<circle class="hole" cx="85" cy="464" r="2"/>
+<circle class="hole" cx="100" cy="464" r="2"/>
+<circle class="hole" cx="115" cy="464" r="2"/>
+<circle class="hole" cx="130" cy="464" r="2"/>
+<circle class="hole" cx="145" cy="464" r="2"/>
+<circle class="hole" cx="175" cy="464" r="2"/>
+<circle class="hole" cx="190" cy="464" r="2"/>
+<circle class="hole" cx="205" cy="464" r="2"/>
+<circle class="hole" cx="220" cy="464" r="2"/>
+<circle class="hole" cx="235" cy="464" r="2"/>
+<circle class="hole" cx="40" cy="464" r="2"/>
+<circle class="hole" cx="55" cy="464" r="2"/>
+<circle class="hole" cx="385" cy="464" r="2"/>
+<circle class="hole" cx="400" cy="464" r="2"/>
+<circle class="hole" cx="415" cy="464" r="2"/>
+<circle class="hole" cx="430" cy="464" r="2"/>
+<circle class="hole" cx="445" cy="464" r="2"/>
+<circle class="hole" cx="475" cy="464" r="2"/>
+<circle class="hole" cx="490" cy="464" r="2"/>
+<circle class="hole" cx="505" cy="464" r="2"/>
+<circle class="hole" cx="520" cy="464" r="2"/>
+<circle class="hole" cx="535" cy="464" r="2"/>
+<circle class="hole" cx="570" cy="464" r="2"/>
+<circle class="hole" cx="555" cy="464" r="2"/>
+<text class="rn" x="14" y="468" text-anchor="middle">25</text>
+<text class="rn" x="590" y="468" text-anchor="middle">25</text>
+<circle class="hole" cx="85" cy="479" r="2"/>
+<circle class="hole" cx="100" cy="479" r="2"/>
+<circle class="hole" cx="115" cy="479" r="2"/>
+<circle class="hole" cx="130" cy="479" r="2"/>
+<circle class="hole" cx="145" cy="479" r="2"/>
+<circle class="hole" cx="175" cy="479" r="2"/>
+<circle class="hole" cx="190" cy="479" r="2"/>
+<circle class="hole" cx="205" cy="479" r="2"/>
+<circle class="hole" cx="220" cy="479" r="2"/>
+<circle class="hole" cx="235" cy="479" r="2"/>
+<circle class="hole" cx="40" cy="479" r="2"/>
+<circle class="hole" cx="55" cy="479" r="2"/>
+<circle class="hole" cx="385" cy="479" r="2"/>
+<circle class="hole" cx="400" cy="479" r="2"/>
+<circle class="hole" cx="415" cy="479" r="2"/>
+<circle class="hole" cx="430" cy="479" r="2"/>
+<circle class="hole" cx="445" cy="479" r="2"/>
+<circle class="hole" cx="475" cy="479" r="2"/>
+<circle class="hole" cx="490" cy="479" r="2"/>
+<circle class="hole" cx="505" cy="479" r="2"/>
+<circle class="hole" cx="520" cy="479" r="2"/>
+<circle class="hole" cx="535" cy="479" r="2"/>
+<circle class="hole" cx="570" cy="479" r="2"/>
+<circle class="hole" cx="555" cy="479" r="2"/>
+<circle class="hole" cx="85" cy="494" r="2"/>
+<circle class="hole" cx="100" cy="494" r="2"/>
+<circle class="hole" cx="115" cy="494" r="2"/>
+<circle class="hole" cx="130" cy="494" r="2"/>
+<circle class="hole" cx="145" cy="494" r="2"/>
+<circle class="hole" cx="175" cy="494" r="2"/>
+<circle class="hole" cx="190" cy="494" r="2"/>
+<circle class="hole" cx="205" cy="494" r="2"/>
+<circle class="hole" cx="220" cy="494" r="2"/>
+<circle class="hole" cx="235" cy="494" r="2"/>
+<circle class="hole" cx="40" cy="494" r="2"/>
+<circle class="hole" cx="55" cy="494" r="2"/>
+<circle class="hole" cx="385" cy="494" r="2"/>
+<circle class="hole" cx="400" cy="494" r="2"/>
+<circle class="hole" cx="415" cy="494" r="2"/>
+<circle class="hole" cx="430" cy="494" r="2"/>
+<circle class="hole" cx="445" cy="494" r="2"/>
+<circle class="hole" cx="475" cy="494" r="2"/>
+<circle class="hole" cx="490" cy="494" r="2"/>
+<circle class="hole" cx="505" cy="494" r="2"/>
+<circle class="hole" cx="520" cy="494" r="2"/>
+<circle class="hole" cx="535" cy="494" r="2"/>
+<circle class="hole" cx="570" cy="494" r="2"/>
+<circle class="hole" cx="555" cy="494" r="2"/>
+<circle class="hole" cx="85" cy="509" r="2"/>
+<circle class="hole" cx="100" cy="509" r="2"/>
+<circle class="hole" cx="115" cy="509" r="2"/>
+<circle class="hole" cx="130" cy="509" r="2"/>
+<circle class="hole" cx="145" cy="509" r="2"/>
+<circle class="hole" cx="175" cy="509" r="2"/>
+<circle class="hole" cx="190" cy="509" r="2"/>
+<circle class="hole" cx="205" cy="509" r="2"/>
+<circle class="hole" cx="220" cy="509" r="2"/>
+<circle class="hole" cx="235" cy="509" r="2"/>
+<circle class="hole" cx="40" cy="509" r="2"/>
+<circle class="hole" cx="55" cy="509" r="2"/>
+<circle class="hole" cx="385" cy="509" r="2"/>
+<circle class="hole" cx="400" cy="509" r="2"/>
+<circle class="hole" cx="415" cy="509" r="2"/>
+<circle class="hole" cx="430" cy="509" r="2"/>
+<circle class="hole" cx="445" cy="509" r="2"/>
+<circle class="hole" cx="475" cy="509" r="2"/>
+<circle class="hole" cx="490" cy="509" r="2"/>
+<circle class="hole" cx="505" cy="509" r="2"/>
+<circle class="hole" cx="520" cy="509" r="2"/>
+<circle class="hole" cx="535" cy="509" r="2"/>
+<circle class="hole" cx="570" cy="509" r="2"/>
+<circle class="hole" cx="555" cy="509" r="2"/>
+<circle class="hole" cx="85" cy="524" r="2"/>
+<circle class="hole" cx="100" cy="524" r="2"/>
+<circle class="hole" cx="115" cy="524" r="2"/>
+<circle class="hole" cx="130" cy="524" r="2"/>
+<circle class="hole" cx="145" cy="524" r="2"/>
+<circle class="hole" cx="175" cy="524" r="2"/>
+<circle class="hole" cx="190" cy="524" r="2"/>
+<circle class="hole" cx="205" cy="524" r="2"/>
+<circle class="hole" cx="220" cy="524" r="2"/>
+<circle class="hole" cx="235" cy="524" r="2"/>
+<circle class="hole" cx="40" cy="524" r="2"/>
+<circle class="hole" cx="55" cy="524" r="2"/>
+<circle class="hole" cx="385" cy="524" r="2"/>
+<circle class="hole" cx="400" cy="524" r="2"/>
+<circle class="hole" cx="415" cy="524" r="2"/>
+<circle class="hole" cx="430" cy="524" r="2"/>
+<circle class="hole" cx="445" cy="524" r="2"/>
+<circle class="hole" cx="475" cy="524" r="2"/>
+<circle class="hole" cx="490" cy="524" r="2"/>
+<circle class="hole" cx="505" cy="524" r="2"/>
+<circle class="hole" cx="520" cy="524" r="2"/>
+<circle class="hole" cx="535" cy="524" r="2"/>
+<circle class="hole" cx="570" cy="524" r="2"/>
+<circle class="hole" cx="555" cy="524" r="2"/>
+<circle class="hole" cx="85" cy="539" r="2"/>
+<circle class="hole" cx="100" cy="539" r="2"/>
+<circle class="hole" cx="115" cy="539" r="2"/>
+<circle class="hole" cx="130" cy="539" r="2"/>
+<circle class="hole" cx="145" cy="539" r="2"/>
+<circle class="hole" cx="175" cy="539" r="2"/>
+<circle class="hole" cx="190" cy="539" r="2"/>
+<circle class="hole" cx="205" cy="539" r="2"/>
+<circle class="hole" cx="220" cy="539" r="2"/>
+<circle class="hole" cx="235" cy="539" r="2"/>
+<circle class="hole" cx="40" cy="539" r="2"/>
+<circle class="hole" cx="55" cy="539" r="2"/>
+<circle class="hole" cx="385" cy="539" r="2"/>
+<circle class="hole" cx="400" cy="539" r="2"/>
+<circle class="hole" cx="415" cy="539" r="2"/>
+<circle class="hole" cx="430" cy="539" r="2"/>
+<circle class="hole" cx="445" cy="539" r="2"/>
+<circle class="hole" cx="475" cy="539" r="2"/>
+<circle class="hole" cx="490" cy="539" r="2"/>
+<circle class="hole" cx="505" cy="539" r="2"/>
+<circle class="hole" cx="520" cy="539" r="2"/>
+<circle class="hole" cx="535" cy="539" r="2"/>
+<circle class="hole" cx="570" cy="539" r="2"/>
+<circle class="hole" cx="555" cy="539" r="2"/>
+<text class="rn" x="14" y="543" text-anchor="middle">30</text>
+<text class="rn" x="590" y="543" text-anchor="middle">30</text>
+<rect class="dk" x="225" y="78" width="170" height="355" rx="6"/>
+<rect class="wroom" x="259" y="86" width="102" height="90"/>
+<text class="dkt" x="310.0" y="134" text-anchor="middle">WROOM-1</text>
+<text class="dkt" x="310.0" y="70" text-anchor="middle">antenna ↑</text>
+<text class="dkt" x="310.0" y="363" text-anchor="middle">Olimex ESP32-S3</text>
+<text class="dkt" x="310.0" y="378" text-anchor="middle">DevKit-Lipo</text>
+<text class="dkt" x="310.0" y="427" text-anchor="middle">USB-C ×2 ↓</text>
+<circle class="pin" cx="235" cy="104" r="3"/>
+<circle class="pin" cx="385" cy="104" r="3"/>
+<circle class="pin" cx="235" cy="119" r="3"/>
+<circle class="pin" cx="385" cy="119" r="3"/>
+<circle class="pin" cx="235" cy="134" r="3"/>
+<circle class="pin" cx="385" cy="134" r="3"/>
+<circle class="pin" cx="235" cy="149" r="3"/>
+<circle class="pin" cx="385" cy="149" r="3"/>
+<circle class="pin" cx="235" cy="164" r="3"/>
+<circle class="pin" cx="385" cy="164" r="3"/>
+<circle class="pin" cx="235" cy="179" r="3"/>
+<circle class="pin" cx="385" cy="179" r="3"/>
+<circle class="pin" cx="235" cy="194" r="3"/>
+<circle class="pin" cx="385" cy="194" r="3"/>
+<circle class="pin" cx="235" cy="209" r="3"/>
+<circle class="pin" cx="385" cy="209" r="3"/>
+<circle class="pin" cx="235" cy="224" r="3"/>
+<circle class="pin" cx="385" cy="224" r="3"/>
+<circle class="pin" cx="235" cy="239" r="3"/>
+<circle class="pin" cx="385" cy="239" r="3"/>
+<circle class="pin" cx="235" cy="254" r="3"/>
+<circle class="pin" cx="385" cy="254" r="3"/>
+<circle class="pin" cx="235" cy="269" r="3"/>
+<circle class="pin" cx="385" cy="269" r="3"/>
+<circle class="pin" cx="235" cy="284" r="3"/>
+<circle class="pin" cx="385" cy="284" r="3"/>
+<circle class="pin" cx="235" cy="299" r="3"/>
+<circle class="pin" cx="385" cy="299" r="3"/>
+<circle class="pin" cx="235" cy="314" r="3"/>
+<circle class="pin" cx="385" cy="314" r="3"/>
+<circle class="pin" cx="235" cy="329" r="3"/>
+<circle class="pin" cx="385" cy="329" r="3"/>
+<circle class="pin" cx="235" cy="344" r="3"/>
+<circle class="pin" cx="385" cy="344" r="3"/>
+<circle class="pin" cx="235" cy="359" r="3"/>
+<circle class="pin" cx="385" cy="359" r="3"/>
+<circle class="pin" cx="235" cy="374" r="3"/>
+<circle class="pin" cx="385" cy="374" r="3"/>
+<circle class="pin" cx="235" cy="389" r="3"/>
+<circle class="pin" cx="385" cy="389" r="3"/>
+<circle class="pin" cx="235" cy="404" r="3"/>
+<circle class="pin" cx="385" cy="404" r="3"/>
+<circle class="pin" cx="235" cy="419" r="3"/>
+<circle class="pin" cx="385" cy="419" r="3"/>
+<text class="dkl" x="243" y="74" text-anchor="middle">EXT1</text>
+<text class="dkl" x="377" y="74" text-anchor="middle">EXT2</text>
+<text class="pn" x="247" y="108" text-anchor="start">3V3</text>
+<text class="pn" x="247" y="153" text-anchor="start">GPIO4 VBAT</text>
+<text class="pn" x="247" y="198" text-anchor="start">GPIO7 LEAK</text>
+<text class="pn" x="247" y="273" text-anchor="start">GPIO8 SDA1</text>
+<text class="pn" x="247" y="318" text-anchor="start">GPIO9 SCL1</text>
+<text class="pn" x="247" y="393" text-anchor="start">GPIO14 KILL</text>
+<text class="pn" x="247" y="408" text-anchor="start">+5V</text>
+<text class="pn" x="247" y="423" text-anchor="start">GND</text>
+<text class="pn" x="373" y="108" text-anchor="end">GND</text>
+<text class="pn" x="373" y="153" text-anchor="end">GPIO1 ESC</text>
+<text class="pn" x="373" y="168" text-anchor="end">GPIO2 RUDDER</text>
+<text class="pn" x="373" y="183" text-anchor="end">GPIO42</text>
+<text class="pn" x="373" y="198" text-anchor="end">GPIO41</text>
+<text class="pn" x="373" y="243" text-anchor="end">GPIO38 LED</text>
+<text class="pn" x="373" y="333" text-anchor="end">GPIO48 SDA0</text>
+<text class="pn" x="373" y="348" text-anchor="end">GPIO47 SCL0</text>
+<text class="pn" x="373" y="423" text-anchor="end">GND</text>
+<polyline class="w red" points="175,104 175,90 40,90 40,104"/>
+<polyline class="w blk" points="175,419 175,433 55,433 55,419"/>
+<polyline class="w kill" points="175,389 145,389"/>
+<polyline class="w lead" points="40,374 85,389"/>
+<g transform="translate(62.5,381.5) rotate(18.43494882292201)"><rect class="res" x="-17" y="-6" width="34" height="12" rx="2"/></g>
+<text class="rl" x="54.5" y="385.5" text-anchor="end">10 k</text>
+<polyline class="w kill" points="115,389 115,389"/>
+<rect class="comp" x="40" y="620" width="150" height="54" rx="6"/>
+<text class="ct" x="115" y="640" text-anchor="middle">rocker SPDT</text>
+<circle class="blade" cx="65" cy="660" r="4"/>
+<text class="rl" x="65" y="680" text-anchor="middle">RUN</text>
+<circle class="blade" cx="115" cy="660" r="4"/>
+<text class="rl" x="115" y="680" text-anchor="middle">C</text>
+<circle class="blade" cx="165" cy="660" r="4"/>
+<text class="rl" x="165" y="680" text-anchor="middle">KILL</text>
+<polyline class="w kill" points="115,389 115,579 115,579 115,660"/>
+<polyline class="w blk" points="165,660 165,690 55,690 55,539"/>
+<polyline class="w red" points="65,660 65,700 22,700 22,84 40,84"/>
+<text class="note" x="60" y="715" text-anchor="start">RUN = 3V3 · KILL = GND → GPIO14 low → firmware SAFE: thruster 1500 µs, rudder centred.</text>
+<polyline class="w adc" points="175,149 145,149"/>
+<polyline class="w lead" points="85,149 55,164"/>
+<g transform="translate(70.0,156.5) rotate(153.434948822922)"><rect class="res" x="-17" y="-6" width="34" height="12" rx="2"/></g>
+<text class="rl" x="62.0" y="160.5" text-anchor="end">30 k</text>
+<polyline class="w lead" points="115,149 115,239"/>
+<g transform="translate(115.0,194.0) rotate(90.0)"><rect class="res" x="-17" y="-6" width="34" height="12" rx="2"/></g>
+<text class="rl" x="123.0" y="198.0" text-anchor="start">100 k</text>
+<polyline class="w p12" points="145,239 145,239"/>
+<circle class="vb" cx="145" cy="239" r="4"/>
+<text class="p12t" x="153" y="243" text-anchor="start">VBAT in</text>
+<polyline class="w p12" points="145,239 145,239"/>
+<polyline class="w adc" points="175,194 145,194"/>
+<polyline class="w lead" points="40,179 100,194"/>
+<g transform="translate(70.0,186.5) rotate(14.036243467926479)"><rect class="res" x="-17" y="-6" width="34" height="12" rx="2"/></g>
+<text class="rl" x="62.0" y="190.5" text-anchor="end">10 k</text>
+<polyline class="w lead" points="130,194 130,224"/>
+<g transform="translate(130.0,209.0) rotate(90.0)"><rect class="res" x="-17" y="-6" width="34" height="12" rx="2"/></g>
+<text class="rl" x="138.0" y="213.0" text-anchor="start">4.7 k</text>
+<circle class="vb" cx="100" cy="224" r="4"/>
+<polyline class="w adc" points="130,224 100,224"/>
+<text class="note" x="83" y="238" text-anchor="start">leak probe →</text>
+<rect class="comp" x="120" y="6" width="150" height="36" rx="6"/>
+<text class="ct" x="195" y="21" text-anchor="middle">MLX90640 110°</text>
+<text class="rl" x="195" y="36" text-anchor="middle">VIN 3V3 · GND · SDA · SCL</text>
+<polyline class="w sda" points="190,269 190,269"/>
+<polyline class="w sda" points="190,269 190,269"/>
+<polyline class="w sda" points="205,269 205,42"/>
+<polyline class="w scl" points="220,314 220,314"/>
+<polyline class="w scl" points="220,314 220,42"/>
+<text class="sdat" x="201" y="258" text-anchor="end">SDA1</text>
+<text class="sclt" x="224" y="303" text-anchor="start">SCL1</text>
+<rect class="npn" x="439" y="425" width="42" height="108" rx="3"/>
+<path class="w blk" d="M455.0,425 a5,5 0 0,0 10,0" fill="none" stroke-width="1.4"/>
+<circle class="pin" cx="445" cy="434" r="3"/>
+<circle class="pin" cx="475" cy="434" r="3"/>
+<circle class="pin" cx="445" cy="449" r="3"/>
+<circle class="pin" cx="475" cy="449" r="3"/>
+<circle class="pin" cx="445" cy="464" r="3"/>
+<circle class="pin" cx="475" cy="464" r="3"/>
+<circle class="pin" cx="445" cy="479" r="3"/>
+<circle class="pin" cx="475" cy="479" r="3"/>
+<circle class="pin" cx="445" cy="494" r="3"/>
+<circle class="pin" cx="475" cy="494" r="3"/>
+<circle class="pin" cx="445" cy="509" r="3"/>
+<circle class="pin" cx="475" cy="509" r="3"/>
+<circle class="pin" cx="445" cy="524" r="3"/>
+<circle class="pin" cx="475" cy="524" r="3"/>
+<text class="rl" transform="translate(463.0,479) rotate(90)" text-anchor="middle">74HCT125</text>
+<polyline class="w blk" points="400,434 400,479"/>
+<polyline class="w blk" points="400,479 400,524"/>
+<polyline class="w blk" points="415,524 415,532 570,532 570,539"/>
+<polyline class="w yel" points="400,149 407,149 407,449 415,449"/>
+<polyline class="w pwm" points="415,164 422,164 422,494 430,494"/>
+<polyline class="w lead" points="430,449 430,479"/>
+<g transform="translate(430.0,464.0) rotate(90.0)"><rect class="res" x="-17" y="-6" width="34" height="12" rx="2"/></g>
+<text class="rl" x="438.0" y="468.0" text-anchor="start"></text>
+<text class="rl" x="371" y="453" text-anchor="end">10 k</text>
+<polyline class="w p5" points="505,434 505,449"/>
+<polyline class="w p5" points="520,434 520,494"/>
+<polyline class="w blk" points="535,464 570,464"/>
+<polyline class="w blk" points="535,509 570,509"/>
+<polyline class="w lead" points="490,434 490,426 543,426"/>
+<polyline class="w lead" points="547,426 570,426 570,419"/>
+<line class="w blk" x1="543" y1="420" x2="543" y2="432" stroke-width="2"/><line class="w blk" x1="547" y1="420" x2="547" y2="432" stroke-width="2"/>
+<text class="rl" x="545" y="415" text-anchor="middle">100 nF</text>
+<polyline class="w p5" points="544,595 544,434 535,434"/>
+<polyline class="w blk" points="445,104 445,92 570,92 570,104"/>
+<text class="rl" x="490" y="88" text-anchor="start">GND jumper</text>
+<rect class="comp" x="640" y="22" width="150" height="50" rx="6"/>
+<text class="ct" x="715" y="40" text-anchor="middle">left thruster</text>
+<text class="rl" x="715" y="56" text-anchor="middle">ESC inside · red + · black −</text>
+<text class="rl" x="715" y="68" text-anchor="middle">yellow S · white G</text>
+<polyline class="w yel" points="385,464 374,464 374,571 604,571 604,60 640,60"/>
+<text class="yelt" x="608" y="257" text-anchor="start">yellow ← 1Y (5 V pulses),</text>
+<text class="yelt" x="608" y="269" text-anchor="start">never GPIO1 directly</text>
+<polyline class="w blk" points="570,269 580,269 580,68 640,68"/>
+<rect class="comp" x="610" y="96" width="230" height="122" rx="6"/>
+<text class="ct" x="725" y="112" text-anchor="middle">U6 74HCT125, rows 23–29, notch up</text>
+<text class="rl" x="618" y="128" text-anchor="start">1 1OE → GND</text>
+<text class="rl" x="745" y="128" text-anchor="start">14 VCC ← +5V</text>
+<text class="rl" x="618" y="139" text-anchor="start">2 1A ← GPIO1, 10 k to GND</text>
+<text class="rl" x="745" y="139" text-anchor="start">13 4OE → +5V</text>
+<text class="rl" x="618" y="150" text-anchor="start">3 1Y → ESC yellow</text>
+<text class="rl" x="745" y="150" text-anchor="start">12 4A → GND</text>
+<text class="rl" x="618" y="161" text-anchor="start">4 2OE → GND</text>
+<text class="rl" x="745" y="161" text-anchor="start">11 4Y free</text>
+<text class="rl" x="618" y="172" text-anchor="start">5 2A ← GPIO2</text>
+<text class="rl" x="745" y="172" text-anchor="start">10 3OE → +5V</text>
+<text class="rl" x="618" y="183" text-anchor="start">6 2Y → MG90S orange</text>
+<text class="rl" x="745" y="183" text-anchor="start">9 3A → GND</text>
+<text class="rl" x="618" y="194" text-anchor="start">7 GND → GND rail</text>
+<text class="rl" x="745" y="194" text-anchor="start">8 3Y free</text>
+<text class="rl" x="618" y="205" text-anchor="start">100 nF from pin 14 to GND, close to the chip</text>
+<rect class="comp" x="640" y="300" width="150" height="70" rx="6"/>
+<text class="ct" x="715" y="318" text-anchor="middle">PCA9685 0x40 (lift)</text>
+<text class="rl" x="715" y="334" text-anchor="middle">VCC 3V3 · GND · SDA · SCL</text>
+<text class="rl" x="715" y="348" text-anchor="middle">V+ terminal ← 5 V buck</text>
+<text class="rl" x="715" y="362" text-anchor="middle">CH10 A · CH11 B · OE open</text>
+<rect class="comp" x="640" y="390" width="150" height="40" rx="6"/>
+<text class="ct" x="715" y="406" text-anchor="middle">MLX90642-D45</text>
+<text class="rl" x="715" y="422" text-anchor="middle">3V3 · GND · SDA0 · SCL0</text>
+<polyline class="w sda" points="400,329 400,329"/>
+<polyline class="w sda" points="415,329 415,308 565,308 565,320 640,320"/>
+<polyline class="w scl" points="430,344 430,365 580,365 580,335 640,335"/>
+<polyline class="w sda" points="565,335 565,405"/>
+<polyline class="w scl" points="580,335 580,420"/>
+<polyline class="w sda" points="565,405 640,405"/>
+<polyline class="w scl" points="580,420 640,420"/>
+<text class="sdat" x="421" y="304" text-anchor="start">SDA0</text>
+<text class="sclt" x="436" y="377" text-anchor="start">SCL0</text>
+<rect class="comp" x="640" y="456" width="160" height="62" rx="6"/>
+<text class="ct" x="720" y="474" text-anchor="middle">MG90S rudder</text>
+<text class="rl" x="720" y="489" text-anchor="middle">orange S ← 2Y (74HCT125)</text>
+<text class="rl" x="720" y="500" text-anchor="middle">red ← +5V (EXT1-21)</text>
+<text class="rl" x="720" y="511" text-anchor="middle">brown → GND · never 12 V</text>
+<polyline class="w pwm" points="385,509 380,509 380,579 620,579 620,478 640,478"/>
+<polyline class="w p5" points="190,404 190,595 626,595 626,494 640,494"/>
+<text class="p5t" x="330" y="591" text-anchor="start">+5V from the DevKit (EXT1-21) → 74HCT125 VCC, rudder, XIAO</text>
+<polyline class="w p5" points="626,595 626,560 640,560"/>
+<rect class="comp" x="640" y="528" width="160" height="62" rx="6"/>
+<text class="ct" x="720" y="546" text-anchor="middle">XIAO ESP32-S3 Sense</text>
+<text class="rl" x="720" y="561" text-anchor="middle">OV3660 · WiFi &quot;AR-Mini-cam&quot;</text>
+<text class="rl" x="720" y="572" text-anchor="middle">5V ← +5V · GND → GND rail</text>
+<text class="rl" x="720" y="583" text-anchor="middle">no data wires to the DevKit</text>
+<polyline class="w blk" points="640,584 595,584 595,524 570,524"/>
+<polyline class="w red" points="40,539 40,607 555,607 555,539"/>
+<text class="rl" x="200" y="619" text-anchor="start">3V3 jumper to the right + rail (PCA9685 VCC, D45)</text>
+<rect class="comp" x="610" y="604" width="230" height="92" rx="6"/>
+<text class="ct" x="725" y="620" text-anchor="middle">LiPo 3S → F 30 A → S1 50 A → fuses</text>
+<text class="rl" x="618" y="636" text-anchor="start">F1 20 A → thruster red (12 V)</text>
+<text class="rl" x="618" y="647" text-anchor="start">F2 15 A → QIQIAZI 5 V buck → PCA9685 V+</text>
+<text class="rl" x="618" y="658" text-anchor="start">F3 10 A → EMPTY (no tracks today)</text>
+<text class="rl" x="618" y="669" text-anchor="start">F4 5 A → MZHOU 5 V → DevKit USB-C OTG</text>
+<text class="rl" x="618" y="680" text-anchor="start">        + VBAT in (divider, left board)</text>
+<text class="rl" x="618" y="691" text-anchor="start">battery − → GND bus → GND rail</text>
+<polyline class="w p12" points="840,615 852,615 852,40 790,40"/>
+<text class="p12t" x="800" y="80" text-anchor="start">12 V (F1)</text>
+<polyline class="w p12" points="840,642 1054,642 1054,332 1046,332"/>
+<text class="p12t" x="1000" y="636" text-anchor="start">F2 +12 V</text>
+<rect class="comp" x="870" y="296" width="176" height="80" rx="6"/>
+<text class="ct" x="958" y="314" text-anchor="middle">QIQIAZI buck 5 V / 5 A</text>
+<text class="rl" x="958" y="328" text-anchor="middle">IN ← F2 15 A (+12 V)</text>
+<text class="rl" x="958" y="340" text-anchor="middle">− → GND bus</text>
+<text class="rl" x="958" y="352" text-anchor="middle">OUT: USB-C → cut cable</text>
+<text class="rl" x="958" y="364" text-anchor="middle">red +5 V · black − → V+ / GND</text>
+<polyline class="w p5" points="870,350 790,350"/>
+<text class="p5t" x="830" y="344" text-anchor="middle">5 V</text>
+<polyline class="w blk" points="1046,356 1064,356 1064,690 840,690"/>
+<rect class="comp" x="870" y="386" width="176" height="78" rx="6"/>
+<text class="ct" x="958" y="404" text-anchor="middle">2 × TD-8120MG (cradle lift)</text>
+<text class="rl" x="958" y="418" text-anchor="middle">A → CH10 · B → CH11 (mirror)</text>
+<text class="rl" x="958" y="430" text-anchor="middle">brown → black row (GND)</text>
+<text class="rl" x="958" y="442" text-anchor="middle">red → red row (V+) · orange → PWM</text>
+<text class="rl" x="958" y="454" text-anchor="middle">50° = U down · 130° = up</text>
+<polyline class="w pwm" points="790,362 830,362 830,425 870,425"/>
+<polyline class="w blk" points="610,690 570,690 570,539"/>
+<circle class="bdg" cx="26" cy="90" r="8"/>
+<text class="bdgt" x="26" y="93.6" text-anchor="middle">1</text>
+<circle class="bdg" cx="41" cy="433" r="8"/>
+<text class="bdgt" x="41" y="436.6" text-anchor="middle">2</text>
+<circle class="bdg" cx="571" cy="92" r="8"/>
+<text class="bdgt" x="571" y="95.6" text-anchor="middle">2</text>
+<circle class="bdg" cx="26" cy="607" r="8"/>
+<text class="bdgt" x="26" y="610.6" text-anchor="middle">3</text>
+<circle class="bdg" cx="28" cy="632" r="8"/>
+<text class="bdgt" x="28" y="635.6" text-anchor="middle">4</text>
+<circle class="bdg" cx="203" cy="240" r="8"/>
+<text class="bdgt" x="203" y="243.6" text-anchor="middle">5</text>
+<circle class="bdg" cx="500" cy="536" r="8"/>
+<text class="bdgt" x="500" y="539.6" text-anchor="middle">6</text>
+<circle class="bdg" cx="430" cy="132" r="8"/>
+<text class="bdgt" x="430" y="135.6" text-anchor="middle">7</text>
+<circle class="bdg" cx="437" cy="176" r="8"/>
+<text class="bdgt" x="437" y="179.6" text-anchor="middle">8</text>
+<circle class="bdg" cx="178" cy="440" r="8"/>
+<text class="bdgt" x="178" y="443.6" text-anchor="middle">9</text>
+<circle class="bdg" cx="577" cy="298" r="8"/>
+<text class="bdgt" x="577" y="301.6" text-anchor="middle">10</text>
+<circle class="bdg" cx="188" cy="56" r="8"/>
+<text class="bdgt" x="188" y="59.6" text-anchor="middle">11</text>
+<circle class="bdg" cx="14" cy="209" r="8"/>
+<text class="bdgt" x="14" y="212.6" text-anchor="middle">12</text>
+<circle class="bdg" cx="628" cy="540" r="8"/>
+<text class="bdgt" x="628" y="543.6" text-anchor="middle">13</text>
+<circle class="bdg" cx="598" cy="616" r="8"/>
+<text class="bdgt" x="598" y="619.6" text-anchor="middle">14</text>
+<circle class="bdg" cx="862" cy="300" r="8"/>
+<text class="bdgt" x="862" y="303.6" text-anchor="middle">15</text>
+</svg><figcaption>Rails carry 3V3 and GND only; 12 V never touches the breadboards; +5 V for the chip, the rudder and the XIAO is one wire from EXT1-21; the lift servos get their own 5 V from the QIQIAZI buck into the PCA9685 V+ terminal (never 12 V, never the EXT1-21 wire). Today the firmware uses GPIO1, GPIO2, GPIO14, GPIO4 and I2C-0 (PCA9685): the thermal cameras and the leak probe are wired but idle. Hole names: board L/R, column a–j, row 1–30 (L-j and R-a rows 1–22 are the DevKit pins). Pins: hardware/wiring/PINOUT.md.</figcaption></figure>
+<h2 style="margin:26px 0 4px;font-size:17px">Assembly order</h2><ol class="sub" style="margin:0 0 0 18px;padding:0;line-height:1.5">
+<li>Boards and DevKit: EXT1 in L-j rows 1–22, EXT2 in R-a rows 1–22, antenna up. Rails: groups <b>1, 2, 3</b>.</li>
+<li>Left board: KILL rocker <b>4</b> (heat-shrink the three tabs), VBAT divider <b>5</b>, leak probe <b>12</b> (optional today).</li>
+<li>Right board: 74HCT125 <b>6</b> (notch up, row 23), then the thruster input/output <b>7</b> and the rudder <b>8</b>. Measure 4.6–5 V on pin 14 after group 9.</li>
+<li>+5V bus <b>9</b> from EXT1-21 to the chip, the rudder red and the XIAO <b>13</b>.</li>
+<li>I2C-0 <b>10</b> to the PCA9685 (and the D45), I2C-1 <b>11</b> to the MLX90640.</li>
+<li>Lift <b>15</b>: QIQIAZI buck, 5 V check on the cut cable, then V+ / GND into the PCA9685 terminal, then the two TD-8120MG on CH10 / CH11.</li>
+<li>Battery chain <b>14</b> last, rocker in KILL, S1 OFF: continuity check + ↔ − on every rail and on V+ (no beep), then power on in the order below.</li>
+</ol>
+<h2 style="margin:22px 0 4px;font-size:17px">Wire list · tick each row</h2><p class="sub" style="margin:0">Power-on order: rocker KILL → S1 ON → 5.0–5.2 V on the MZHOU plug, 4.6–5 V on chip pin 14, 5 V on the PCA9685 V+ terminal → WiFi "AR-Mini", http://192.168.4.1, VBAT ≥ 11.5 V → lift slider at the bottom (50), U deployed → rocker RUN → ARM (the arms may twitch a few degrees) → turn left/right, release → thrust → lift up slowly to 130, down to 50. Stop and lift out at VBAT ≤ 10.5 V.</p>
+<table class="wt"><thead><tr><th>#</th><th>From</th><th>To</th><th>Wire / part</th><th>Note</th></tr></thead><tbody>
+<tr class="grp"><td colspan="5">1 · 3V3 rail (left board)</td></tr>
+<tr><td>1a</td><td>L-f1 (EXT1-1 3V3)</td><td>L + rail</td><td>red</td><td>feeds both + rails</td></tr>
+<tr class="grp"><td colspan="5">2 · GND rails</td></tr>
+<tr><td>2a</td><td>L-f22 (EXT1-22 GND)</td><td>L − rail</td><td>black</td><td></td></tr>
+<tr><td>2b</td><td>R-e1 (EXT2-1 GND)</td><td>R − rail</td><td>black</td><td>new: the chip and the servo ground do not depend on the USB ground</td></tr>
+<tr class="grp"><td colspan="5">3 · 3V3 to the right board</td></tr>
+<tr><td>3a</td><td>L + rail (row 30)</td><td>R + rail (row 30)</td><td>red</td><td>PCA9685 VCC and MLX90642-D45 3V3 take 3V3 from this rail</td></tr>
+<tr class="grp"><td colspan="5">4 · KILL rocker on GPIO14 (EXT1-20)</td></tr>
+<tr><td>4a</td><td>L-f20</td><td>L-e20</td><td>purple jumper</td><td>GPIO14 over the gap</td></tr>
+<tr><td>4b</td><td>L + rail</td><td>L-a20</td><td>10 kΩ</td><td>pull-up: open rocker = RUN</td></tr>
+<tr><td>4c</td><td>rocker C (middle)</td><td>L-c20</td><td>purple</td><td>GPIO14 node</td></tr>
+<tr><td>4d</td><td>rocker RUN</td><td>L + rail (3V3)</td><td>red</td><td>RUN = 3V3 = thruster allowed</td></tr>
+<tr><td>4e</td><td>rocker KILL</td><td>L − rail</td><td>black</td><td>KILL = GND → firmware SAFE: 1500 µs, rudder centred</td></tr>
+<tr class="grp"><td colspan="5">5 · VBAT divider on GPIO4 (EXT1-4)</td></tr>
+<tr><td>5a</td><td>L-f4</td><td>L-e4</td><td>blue jumper</td><td>GPIO4 over the gap</td></tr>
+<tr><td>5b</td><td>L-a4</td><td>L − rail (row 5)</td><td>30 kΩ</td><td></td></tr>
+<tr><td>5c</td><td>L-c4</td><td>L-c10</td><td>100 kΩ</td><td></td></tr>
+<tr><td>5d</td><td>fuse block F4 (+12 V, 5 A)</td><td>L-e10</td><td>red, thin</td><td>VBAT in: sense only, ≈ 100 µA. 12.6 V → 2.9 V on GPIO4</td></tr>
+<tr class="grp"><td colspan="5">6 · 74HCT125 (U6) rows 23–29, right board, notch UP (row 23)</td></tr>
+<tr><td>6a</td><td>chip pins 1–7</td><td>R-e23 … R-e29</td><td>DIP-14</td><td>pin 1 at row 23 on the a–e side; pins 14 … 8 in R-f23 … R-f29</td></tr>
+<tr><td>6b</td><td>R-b23 → R-b26 → R-b29</td><td></td><td>black jumpers</td><td>1OE (pin 1), 2OE (pin 4), GND (pin 7) tied together</td></tr>
+<tr><td>6c</td><td>R-c29</td><td>R − rail</td><td>black</td><td>GND of the chip</td></tr>
+<tr><td>6d</td><td>R-h23</td><td>R-h24</td><td>orange jumper</td><td>4OE (pin 13) = +5V → output 4 off</td></tr>
+<tr><td>6e</td><td>R-i23</td><td>R-i27</td><td>orange jumper</td><td>3OE (pin 10) = +5V → output 3 off</td></tr>
+<tr><td>6f</td><td>R-j25 and R-j28</td><td>R − rail</td><td>black</td><td>4A (pin 12) and 3A (pin 9) to GND, never floating</td></tr>
+<tr><td>6g</td><td>R-g23 (VCC, pin 14)</td><td>R − rail</td><td>100 nF</td><td>as close to the chip as it goes</td></tr>
+<tr><td>6h</td><td>+5V bus (group 9)</td><td>R-j23 (VCC, pin 14)</td><td>orange</td><td>measure 4.6–5.0 V here before the ESC is plugged in</td></tr>
+<tr class="grp"><td colspan="5">7 · thruster: GPIO1 (EXT2-4) → 1A, 1Y → ESC yellow</td></tr>
+<tr><td>7a</td><td>R-b4</td><td>R-c24 (1A, pin 2)</td><td>yellow</td><td>GPIO1</td></tr>
+<tr><td>7b</td><td>R-d24</td><td>R-d26 (GND node)</td><td>10 kΩ</td><td>pull-down: no pulses while the ESP32 boots</td></tr>
+<tr><td>7c</td><td>R-a25 (1Y, pin 3)</td><td>thruster yellow (signal)</td><td>yellow</td><td>5 V pulses, 1500 µs = stop. White 3-pin plug on the ESC lead: measure first — the ≈5 V pin is the signal, 0 V is GND, the third pin stays free</td></tr>
+<tr><td>7d</td><td>thruster white (signal GND)</td><td>R − rail</td><td>black</td><td></td></tr>
+<tr class="grp"><td colspan="5">8 · rudder: GPIO2 (EXT2-5) → 2A, 2Y → MG90S orange</td></tr>
+<tr><td>8a</td><td>R-c5</td><td>R-d27 (2A, pin 5)</td><td>blue</td><td>GPIO2</td></tr>
+<tr><td>8b</td><td>R-a28 (2Y, pin 6)</td><td>MG90S orange (S)</td><td>blue</td><td>1500 µs = straight, 1167/1833 µs = ±30°</td></tr>
+<tr><td>8c</td><td>MG90S red</td><td>+5V bus</td><td>orange</td><td>never 12 V</td></tr>
+<tr><td>8d</td><td>MG90S brown</td><td>R − rail</td><td>black</td><td></td></tr>
+<tr class="grp"><td colspan="5">9 · +5V bus from the DevKit</td></tr>
+<tr><td>9a</td><td>L-g21 (EXT1-21 +5V)</td><td>74HCT125 pin 14 (6h) · MG90S red (8c) · XIAO 5V (13a)</td><td>orange</td><td>one wire out of the board, split at a terminal or a 3-way Dupont. ≈ 4.6–4.7 V (DevKit Schottky)</td></tr>
+<tr class="grp"><td colspan="5">10 · I2C-0 (EXT2-16 GPIO48 SDA0, EXT2-17 GPIO47 SCL0) — PCA9685 live (lift), D45 idle</td></tr>
+<tr><td>10a</td><td>R-c16</td><td>PCA9685 SDA and MLX90642-D45 SDA</td><td>green</td><td></td></tr>
+<tr><td>10b</td><td>R-d17</td><td>PCA9685 SCL and MLX90642-D45 SCL</td><td>teal</td><td></td></tr>
+<tr><td>10c</td><td>PCA9685 VCC · D45 3V3</td><td>R + rail (3V3)</td><td>red</td><td>VCC is the 3V3 logic supply; the servo power V+ comes from group 15, not from here</td></tr>
+<tr><td>10d</td><td>PCA9685 GND · D45 GND</td><td>R − rail</td><td>black</td><td></td></tr>
+<tr class="grp"><td colspan="5">11 · I2C-1 (EXT1-12 GPIO8 SDA1, EXT1-15 GPIO9 SCL1) — wired, idle today</td></tr>
+<tr><td>11a</td><td>L-h12</td><td>MLX90640 110° SDA</td><td>green</td><td></td></tr>
+<tr><td>11b</td><td>L-i15</td><td>MLX90640 110° SCL</td><td>teal</td><td></td></tr>
+<tr><td>11c</td><td>MLX90640 VIN · GND</td><td>L + rail (3V3) · L − rail</td><td>red / black</td><td>VIN = 3V3, never 5 V</td></tr>
+<tr class="grp"><td colspan="5">12 · leak probe on GPIO7 (EXT1-7) — wired, idle today</td></tr>
+<tr><td>12a</td><td>L-f7</td><td>L-e7</td><td>blue jumper</td><td></td></tr>
+<tr><td>12b</td><td>L + rail</td><td>L-b7</td><td>10 kΩ</td><td>pull-up</td></tr>
+<tr><td>12c</td><td>L-d7</td><td>L-d9</td><td>4.7 kΩ</td><td>series to the probe</td></tr>
+<tr><td>12d</td><td>probe</td><td>L-b9 (jumper d9–b9) and L − rail</td><td>2 wires</td><td>leave it in the box floor</td></tr>
+<tr class="grp"><td colspan="5">13 · XIAO ESP32-S3 Sense (video, own WiFi "AR-Mini-cam")</td></tr>
+<tr><td>13a</td><td>XIAO 5V</td><td>+5V bus</td><td>orange</td><td></td></tr>
+<tr><td>13b</td><td>XIAO GND</td><td>R − rail</td><td>black</td><td>no data wires to the DevKit</td></tr>
+<tr class="grp"><td colspan="5">14 · battery chain (14 AWG on +12 V), all outside the breadboards</td></tr>
+<tr><td>14a</td><td>LiPo XT60 +</td><td>F 30 A inline</td><td>red</td><td></td></tr>
+<tr><td>14b</td><td>F 30 A</td><td>S1 main switch 50 A</td><td>red</td><td></td></tr>
+<tr><td>14c</td><td>S1</td><td>fuse block common input</td><td>red</td><td></td></tr>
+<tr><td>14d</td><td>F1 20 A</td><td>thruster red</td><td>red</td><td>thruster black → GND bus</td></tr>
+<tr><td>14e</td><td>F2 15 A</td><td>QIQIAZI 5 V / 5 A buck IN (+)</td><td>red</td><td>servo power for the lift (group 15). 14 or 18 AWG</td></tr>
+<tr><td>14f</td><td>F3 10 A</td><td>—</td><td></td><td>EMPTY (tracks removed)</td></tr>
+<tr><td>14g</td><td>F4 5 A</td><td>MZHOU 12→5 V in (+) and the VBAT sense wire (5d)</td><td>red</td><td></td></tr>
+<tr><td>14h</td><td>MZHOU USB-C</td><td>DevKit USB-C OTG</td><td></td><td>5.0–5.2 V on the plug before the first plug-in</td></tr>
+<tr><td>14i</td><td>LiPo −, thruster black, MZHOU −, QIQIAZI −</td><td>GND bus (terminal block)</td><td>black</td><td></td></tr>
+<tr><td>14j</td><td>GND bus</td><td>R − rail</td><td>black</td><td>one wire</td></tr>
+<tr class="grp"><td colspan="5">15 · cradle lift: QIQIAZI 5 V buck → PCA9685 V+, two TD-8120MG on CH10 / CH11 (env remote_pool, C023 pair)</td></tr>
+<tr><td>15a</td><td>QIQIAZI OUT (USB-C socket)</td><td>USB cable with the far end cut off</td><td></td><td>red = +5 V, black = −. Plug it in, S1 ON, meter: 5.0–5.2 V between red and black BEFORE anything else is connected</td></tr>
+<tr><td>15b</td><td>cut cable red (+5 V)</td><td>PCA9685 green terminal V+</td><td>red</td><td>ferrule or tinned end, screw tight. NEVER the 12 V from F2 straight into V+</td></tr>
+<tr><td>15c</td><td>cut cable black (−)</td><td>PCA9685 green terminal GND</td><td>black</td><td>the module GND and the GND rail are the same net (10d)</td></tr>
+<tr><td>15d</td><td>TD-8120MG A 3-pin plug</td><td>PCA9685 CH10 column</td><td></td><td>brown → black (GND) pin, red → red (V+) pin, orange → yellow (PWM) pin</td></tr>
+<tr><td>15e</td><td>TD-8120MG B 3-pin plug</td><td>PCA9685 CH11 column</td><td></td><td>same orientation; B is the mirrored one (us_B = 3000 − us_A)</td></tr>
+<tr><td>15f</td><td>PCA9685 OE</td><td>— (open)</td><td></td><td>module 10 k to GND keeps the outputs enabled; the stop is the rocker (software) and S1</td></tr>
+<tr><td>15g</td><td>check before ARM</td><td>arms and U</td><td></td><td>both arms clocked at the same pose (C023 / FAILS 172); U swings 50° → 130° clear of the food box; lift slider at the bottom (50) with the U deployed</td></tr>
+</tbody></table></main></body></html>
