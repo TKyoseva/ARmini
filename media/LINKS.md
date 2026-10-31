@@ -48,6 +48,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C054 | 2026-10-28 | The home lab (record) | — | C054_2026-10-28_home-lab |
 | C055 | 2026-10-29 | Both thrusters on an Arduino Mega: FAILS 173 confirmed (right thruster faulty) | Pass | C055_2026-10-29_mega-thruster-test |
 | C056 | 2026-10-29 | beam_leg: working thruster on the centreline, hung from the two beams (printed 2 h 37 min, 123 g) | Open | C056_2026-10-29_beam-leg |
+| C057 | 2026-10-29 | rudder: NACA 0015 blade + MG90S; collar mount replaced by one-piece rudder_frame (2 h 27 min, 104 g), assembled 30.10 | Open | C057_2026-10-29_rudder |
 
 ## History cards (CH##)
 
