@@ -91,7 +91,7 @@ const float kDivGain = (VBAT_DIV_R_TOP_OHM + VBAT_DIV_R_BOT_OHM) / VBAT_DIV_R_BO
 const uint8_t kPcaAddr = 0x40;        // SOURCE: docs/bom/bom.csv row 72 (I2C address 0x40)
 const float kServoHz = 50.0f;         // SOURCE: pca9685 env (C023)
 const uint32_t kOscHz = 25000000;     // library default, as the pca9685 env (VERIFY: frame period with the analyser)
-const uint32_t kI2cHz = 100000;       // 31.10 C059: 400 kHz over the long I2C jumpers to the PCA9685 → only one lift channel updated; 100 kHz standard mode
+const uint32_t kI2cHz = 400000;       // SOURCE: pca9685 env, ran on the breadboard 22–23.10 (C023)
 const uint8_t kLiftChA = 12;          // SOURCE: hardware/wiring/PINOUT.md "PCA9685 channels" (C023) // 31.10: CH10 output dead on this module (C059), servo A moved to CH12.
 const uint8_t kLiftChB = 13;          // mirrored: us_B = 3000 − us_A (PairMath) // 31.10: CH11 output dead too (0 V on the PWM pin, C059), servo B moved to CH13.
 const int kLiftDegLo = LIFT_DEG_LO;

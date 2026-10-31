@@ -106,7 +106,7 @@ calls in `bts7960` are guarded for both Arduino core 2.x and 3.x.
 | `PIN_BTS_IS_R` 10, `PIN_BTS_IS_L` 11 | IS pins are not on sheet 2b; two free analog pins proposed | measure IS voltage first (protocol §2); decide whether to wire them at all |
 | bts7960 PWM 1 kHz | chosen (Mega ran ~490 Hz; BTS7960 allows ≤ 25 kHz) | listen for whine; change `kPwmHz` if needed |
 | pca9685 oscillator 25 MHz | library default; real chips are often ~27 MHz | logic analyser on CH0: 20.0 ms frame → `osc <Hz>` |
-| pca9685 I2C 400 kHz, mlx90640 I2C 400 kHz, bno055 I2C 100 kHz; remote_pool PCA9685 I2C 100 kHz | bench choices; remote_pool lowered 31.10 (C059): at 400 kHz over the long jumpers only one lift channel updated | `scan` finds the device; raise/lower on errors |
+| pca9685 I2C 400 kHz, mlx90640 I2C 400 kHz, bno055 I2C 100 kHz | bench choices | `scan` finds the device; raise/lower on errors |
 | st3215 speed 1000 steps/s, acc 50, ramp 60 °/s | bench choices from the Waveshare examples | protocol steps 3–4 (± 2°) |
 | bno055 `xtal 0` default, which pin is VIN vs 3V3, roll/pitch column | breakout from GoTo (bom row 78) is unknown | protocol steps 2, 7 |
 | ladder `leakth` 2000 mV | midpoint of 3.3 V dry / ≈ 1.06 V wet from sheet 2b | protocol step 7 |
