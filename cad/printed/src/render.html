@@ -1,0 +1,37 @@
+<!doctype html><html><head><style>html,body{margin:0;background:transparent}</style>
+<script type="importmap">{"imports":{"three":"./three/build/three.module.js"}}</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import {STLLoader} from './three/examples/jsm/loaders/STLLoader.js';
+const q=JSON.parse(decodeURIComponent(location.hash.slice(1)));
+const W=q.w,H=q.h;
+const r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,alpha:true});
+r.setPixelRatio(1); r.setSize(W,H); r.setClearColor(0x000000,0); document.body.appendChild(r.domElement);
+r.shadowMap.enabled=true; r.shadowMap.type=THREE.PCFSoftShadowMap;
+const s=new THREE.Scene();
+const root=new THREE.Group(); root.rotation.x=-Math.PI/2; s.add(root);
+const L=new STLLoader();
+for(const it of q.items){
+  const g=L.parse(await (await fetch(it.f)).arrayBuffer()); g.computeVertexNormals();
+  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:it.c,roughness:0.55,metalness:0.05,flatShading:false}));
+  m.position.set(...(it.p||[0,0,0])); m.castShadow=true; m.receiveShadow=true; root.add(m);
+}
+s.add(new THREE.HemisphereLight(0xffffff,0x8899aa,1.1));
+const d=new THREE.DirectionalLight(0xffffff,2.2); d.position.set(-1,3,2); s.add(d);
+const d2=new THREE.DirectionalLight(0xffffff,0.6); d2.position.set(2,1,-1.5); s.add(d2);
+root.updateMatrixWorld(true);
+const box=new THREE.Box3().setFromObject(root); const c=box.getCenter(new THREE.Vector3()); const sz=box.getSize(new THREE.Vector3());
+const R=sz.length()/2;
+const dir=new THREE.Vector3(...q.dir).normalize();
+const cam=new THREE.PerspectiveCamera(q.fov||20,W/H,1,1e5);
+// fit sphere
+const fovr=THREE.MathUtils.degToRad(cam.fov)/2; const asp=Math.min(1,W/H);
+const dist=R/Math.sin(Math.atan(Math.tan(fovr)*asp))*(q.zoom||1.0);
+cam.position.copy(c).addScaledVector(dir,dist); cam.lookAt(c); cam.updateProjectionMatrix();
+// ground shadow
+d.position.copy(c).add(new THREE.Vector3(-0.6,2,0.8).multiplyScalar(R*3)); d.target.position.copy(c); s.add(d.target);
+d.castShadow=true; d.shadow.mapSize.set(2048,2048); const sc=d.shadow.camera; sc.left=sc.bottom=-R*1.5; sc.right=sc.top=R*1.5; sc.near=1; sc.far=R*10;
+const pl=new THREE.Mesh(new THREE.PlaneGeometry(R*20,R*20),new THREE.ShadowMaterial({opacity:0.18}));
+pl.rotation.x=-Math.PI/2; pl.position.y=box.min.y-0.2; pl.receiveShadow=true; s.add(pl);
+r.render(s,cam); window.DONE=true;
+</script></body></html>
