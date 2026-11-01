@@ -11,6 +11,7 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C001 | 2026-10-08 | Cuifati thruster: dimensions, bolt pattern, mass | Partial | [C001_2026-10-08_thruster-measure](https://www.icloud.com/iclouddrive/08aBlD2PmWlmLUKzUCxIMDYVw) |
 | C002 | 2026-10-08 | Thruster: the 4 wires, ESC or phases (no 12 V) | Pass | [C002_2026-10-08_thruster-wires](https://www.icloud.com/iclouddrive/003fqj7BXTbCD54QjDjdgEcww) |
 | C003 | 2026-10-09 | ROB0154 plate: slots vs beams, size, mass | Fail | [C003_2026-10-09_rob0154-plate](https://www.icloud.com/iclouddrive/0d0WTgwnKRnblAFmnYWTkLQ8w) |
+| C005 | 2026-10-23 | thruster_arm on the thruster: do the 4 M4 screws fit (coupon skipped) | Pass | C005_2026-10-23_thruster-arm-fit |
 | C006 | 2026-10-21 | Thruster ESC: 9 V with 0.10 A limit, in a bucket | Pass | C006_2026-10-21_esc-bucket |
 | C007 | 2026-10-11 | hull_fore in the bathtub: floats, leaks, draft | Pass | C007_2026-10-11_bathtub |
 | C008 | 2026-10-10 | Print hull_fore (PLA white fit prototype, 4 walls, 0.2, diagonal; tree supports under the 2 rim bosses) | Pass | C008_2026-10-10_hull-fore-print |
@@ -19,8 +20,14 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C015 | 2026-10-11 | GPIO39 at reset: is the left BTS7960 RPWM pulled high during boot? | Partial | C015_2026-10-11_gpio39-boot |
 | C017 | 2026-10-10 | arm_drive (orange PLA) on the TD-8120MG disc horn: does it fit? | Pass | C017_2026-10-10_arm-drive |
 | C019 | 2026-10-13 | 2 × pivot_bracket (black PLA) + 2 × TD-8120MG + linkages: do they assemble and swing? | open | C019_2026-10-13_linkage-fit |
+| C020 | 2026-10-22 | Bend the cradle: Ø5 aluminium rod into a U, legs 228, base 112 between rod centres | Pass | C020_2026-10-22_cradle-bend |
 | C021 | 2026-10-12 | Pesho v3 printed: warmer fits, lid closes, floats head out (thermal) and face-up (cradle) | open | C021_2026-10-12_pesho-warmer |
 | C022 | 2026-10-11 | R1b frame: right hull_fore (mirrored, white) + 2 × arch_post (black) + the arch tube | open | C022_2026-10-11_r1b-frame |
+| C023 | 2026-10-22 | Bench pca9685 'pair': two TD-8120MG mirrored, slow ramp 45° → 215° | Pass | C023_2026-10-22_servo-pair |
+| C025 | 2026-10-23 | Thruster spins in a bucket: DevKit → ESC, forward and reverse | Pass | C025_2026-10-23_thruster-devkit |
+| C027 | 2026-10-23 | Ladder bench: battery divider, leak probe and KILL rocker on the DevKit | Pass | C027_2026-10-23_vbat-cal |
+| C028 | 2026-10-23 | Drive on remote over WiFi: phone page with 2 sliders + big STOP | Partial | C028_2026-10-23_remote-wifi |
+| C029 | 2026-10-25 | MLX90640 110° on the arch, wired to the DevKit: does it see Pesho at 37 °C from 1 m? | Partial | C029_2026-10-25_mlx90640-arch |
 | C030 | 2026-10-11 | Freeze the DevKit-Lipo pinout before the perfboard and the PCB | open | C030_2026-10-11_devkit-pinout |
 | C032 | 2026-10-13 | Carrier rev B (DevKit-Lipo) → KiCad → DRC → 1:1 paper check → order 3 at Aisler | open | C032_2026-10-13_carrier-revB |
 | C034 | 2026-10-12 | Print hull_aft x2 in PETG (left, then right mirrored): 2 x ~7-8 h, tree supports under 2 bosses + the transom pad | open | C034_2026-10-12_hull-aft-print |
@@ -32,6 +39,18 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C041 | 2026-10-15 | Print the thruster kick-up mounts: 2 × thruster_bracket + 2 × thruster_arm, PETG (after the CAD fix) | Pass | C041_2026-10-15_thruster-mounts |
 | C042 | 2026-10-21 | Fit the thruster mounts (C005): M4 depth check, Ø5 hinge rod, M3 lock pin, 4 inserts in the transom pad, swing by hand | open | C042_2026-10-21_thruster-fit |
 | C045 | 2026-10-20 | Print + dry-fit the beam brackets: 4 × beam_bracket (identical both sides) with the 15 × 15 aluminium beams | open | C045_2026-10-20_beam-brackets |
+| C047 | 2026-10-23 | Print + fit the fixed camera mount on the arch: 2 thermal cameras + XIAO Sense (OV3660) | open | C047_2026-10-23_cam-fixed-mount |
+| C048 | 2026-10-25 | MLX90642-D45 on the XIAO: first heat map, and how far it sees Pesho | Partial | C048_2026-10-25_d45-first-frame |
+| C049 | 2026-10-25 | OV3660 on the XIAO Sense: first live picture from the arch on the phone | open | C049_2026-10-25_ov3660-stream |
+| C050 | 2026-10-25 | Left track motor on the bench: one BTS7960 from the DevKit, tracks off the ground | Pass | C050_2026-10-25_bts-left-track |
+| C051 | 2026-10-25 | Right track motor: second BTS7960 on GPIO41/42, direction map for both sides | open | C051_2026-10-25_bts-right-track |
+| C053 | 2026-10-28 | First dry assembly of the whole robot with the tracks (record) | — | C053_2026-10-28_dry-assembly |
+| C054 | 2026-10-28 | The home lab (record) | — | C054_2026-10-28_home-lab |
+| C055 | 2026-10-29 | Both thrusters on an Arduino Mega: FAILS 173 confirmed (right thruster faulty) | Pass | C055_2026-10-29_mega-thruster-test |
+| C056 | 2026-10-29 | beam_leg: working thruster on the centreline, hung from the two beams (printed 2 h 37 min, 123 g) | Open | C056_2026-10-29_beam-leg |
+| C057 | 2026-10-29 | rudder: NACA 0015 blade + MG90S; collar mount replaced by one-piece rudder_frame (2 h 27 min, 104 g), assembled 30.10 | Open | C057_2026-10-29_rudder |
+| C058 | 2026-10-31 | Charging the 3S LiPo: balance charge 2.2 A in the safety bag (record) | Pass | C058_2026-10-31_battery-charging |
+| C059 | 2026-10-31 | Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery, bathtub test | Open | C059_2026-10-31_lake-test |
 
 ## History cards (CH##)
 

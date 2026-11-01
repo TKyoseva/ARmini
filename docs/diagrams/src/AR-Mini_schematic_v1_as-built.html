@@ -1,0 +1,460 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AR-Mini Schematic</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--mcu:#f5d2d2;--mcue:#b5121b;--box:#fff;--en:#7c3aed;--pw:#c2410c;--res:#e8d7b0;--dash:#9a6b00}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--mcu:#3a1f1f;--mcue:#f08a80;--box:#1f1f1d;--en:#b48af0;--pw:#f08a5d;--res:#5a4a2a;--dash:#e0b04f}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--mcu:#3a1f1f;--mcue:#f08a80;--box:#1f1f1d;--en:#b48af0;--pw:#f08a5d;--res:#5a4a2a;--dash:#e0b04f}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1840px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+figure{margin:0}svg{width:100%;height:auto;display:block;color:var(--fg)}figcaption{color:var(--mut);margin-top:10px;max-width:1100px}
+text{fill:var(--fg);font-family:system-ui,-apple-system,sans-serif;font-size:12px}
+.w{fill:none;stroke:var(--fg);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}.thick{stroke-width:2.6}
+.dash{stroke-dasharray:6 4;stroke:var(--dash)}.r.dash{stroke:var(--dash);fill:none}
+.en{stroke:var(--en);stroke-width:2.4;stroke-dasharray:10 3 2 3}.ent{fill:var(--en);font-weight:700}
+.t33{stroke:var(--pw)}
+.j{fill:var(--fg)}.pt{fill:var(--box);stroke:var(--fg);stroke-width:1.6}
+.r{fill:var(--res);stroke:var(--fg);stroke-width:1.2}.rl{font-size:11px;fill:var(--mut)}
+.q{fill:var(--box);stroke:var(--fg);stroke-width:1.6}
+.mcu{fill:var(--mcu);stroke:var(--mcue);stroke-width:2}
+.box{fill:var(--box);stroke:var(--fg);stroke-width:1.4}.box.dash{stroke:var(--dash)}.box.sm{}
+.bt{font-weight:700;font-size:12.5px}.bs{font-size:10.5px;fill:var(--mut)}.pn{font-size:10.5px}.pnn{font-size:9.5px;fill:var(--mut)}
+.pw{fill:var(--pw);font-weight:700;font-size:11px}.lab{font-size:12px;font-weight:700}.lab2{font-size:10.5px;fill:var(--mut)}.l{font-size:12px}
+.none{fill:none;stroke:none}
+</style></head><body><main>
+<h1>AR-Mini · electrical schematic v1, as built (27.10.2026)</h1><p class="sub">Every net on the bench today, plus the rev B carrier and the boat power chain in dashed gold. Pin names carry the DevKit header position (EXT1/EXT2 · pin). Power nets are flags, not wires: +12 V comes through the fuse block, 3V3 from the DevKit, 6 V from the servo rail.</p>
+<figure><svg viewBox="0 0 1810 1190" role="img" aria-label="Electrical schematic of AR-Mini v1: ESP32-S3 DevKit-Lipo with KILL rocker, battery divider, leak probe, two I2C buses, S8050 ESC stage, BTS7960 with pull-downs, PCA9685 servo driver and the 12 V power chain">
+<rect class="mcu" x="700" y="200" width="300" height="660" rx="8"/>
+<text class="bt" x="850.0" y="226" text-anchor="middle">Olimex ESP32-S3-DevKit-Lipo</text>
+<text class="bs" x="850.0" y="242" text-anchor="middle">ESP32-S3-WROOM-1 · WiFi AP &quot;AR-Mini&quot; · PlatformIO</text>
+<text class="bs" x="850.0" y="824" text-anchor="middle">USB-C OTG ← 5 V (buck / laptop)</text>
+<text class="bs" x="850.0" y="838" text-anchor="middle">USB-C UART ← laptop (bench, flashing)</text>
+<polyline class="w" points="660,260 700,260"/>
+<text class="pn" x="708" y="264" text-anchor="start">GPIO14 · EXT1-20</text>
+<text class="pnn" x="708" y="275" text-anchor="start">KILL in</text>
+<polyline class="w" points="660,330 700,330"/>
+<text class="pn" x="708" y="334" text-anchor="start">3V3 · EXT1-1</text>
+<text class="pnn" x="708" y="345" text-anchor="start">out ≤ 600 mA</text>
+<polyline class="w" points="660,420 700,420"/>
+<text class="pn" x="708" y="424" text-anchor="start">GPIO4 · EXT1-4</text>
+<text class="pnn" x="708" y="435" text-anchor="start">VBAT · ADC1</text>
+<polyline class="w" points="660,500 700,500"/>
+<text class="pn" x="708" y="504" text-anchor="start">GPIO7 · EXT1-7</text>
+<text class="pnn" x="708" y="515" text-anchor="start">LEAK</text>
+<polyline class="w" points="660,600 700,600"/>
+<text class="pn" x="708" y="604" text-anchor="start">GPIO8 · EXT1-12</text>
+<text class="pnn" x="708" y="615" text-anchor="start">SDA1 · Wire1</text>
+<polyline class="w" points="660,630 700,630"/>
+<text class="pn" x="708" y="634" text-anchor="start">GPIO9 · EXT1-15</text>
+<text class="pnn" x="708" y="645" text-anchor="start">SCL1 · Wire1</text>
+<polyline class="w" points="660,760 700,760"/>
+<text class="pn" x="708" y="764" text-anchor="start">+5V · EXT1-21</text>
+<text class="pnn" x="708" y="775" text-anchor="start">in</text>
+<polyline class="w" points="660,800 700,800"/>
+<text class="pn" x="708" y="804" text-anchor="start">GND · EXT1-22</text>
+<text class="pnn" x="708" y="815" text-anchor="start"></text>
+<polyline class="w" points="1000,260 1040,260"/>
+<text class="pn" x="992" y="264" text-anchor="end">EXT2-1 · GND</text>
+<text class="pnn" x="992" y="275" text-anchor="end"></text>
+<polyline class="w" points="1000,300 1040,300"/>
+<text class="pn" x="992" y="304" text-anchor="end">EXT2-4 · GPIO1</text>
+<text class="pnn" x="992" y="315" text-anchor="end">ESC_L · LEDC 50 Hz</text>
+<polyline class="w" points="1000,405 1040,405"/>
+<text class="pn" x="992" y="409" text-anchor="end">EXT2-5 · GPIO2</text>
+<text class="pnn" x="992" y="420" text-anchor="end">ESC_R</text>
+<polyline class="w" points="1000,466 1040,466"/>
+<text class="pn" x="992" y="470" text-anchor="end">EXT2-6 · GPIO42</text>
+<text class="pnn" x="992" y="481" text-anchor="end">R_LPWM</text>
+<polyline class="w" points="1000,486 1040,486"/>
+<text class="pn" x="992" y="490" text-anchor="end">EXT2-7 · GPIO41</text>
+<text class="pnn" x="992" y="501" text-anchor="end">R_RPWM</text>
+<polyline class="w" points="1000,545 1040,545"/>
+<text class="pn" x="992" y="549" text-anchor="end">EXT2-8 · GPIO40</text>
+<text class="pnn" x="992" y="560" text-anchor="end">L_LPWM</text>
+<polyline class="w" points="1000,565 1040,565"/>
+<text class="pn" x="992" y="569" text-anchor="end">EXT2-9 · GPIO39</text>
+<text class="pnn" x="992" y="580" text-anchor="end">L_RPWM</text>
+<polyline class="w" points="1000,745 1040,745"/>
+<text class="pn" x="992" y="749" text-anchor="end">EXT2-16 · GPIO48</text>
+<text class="pnn" x="992" y="760" text-anchor="end">SDA0 · Wire</text>
+<polyline class="w" points="1000,770 1040,770"/>
+<text class="pn" x="992" y="774" text-anchor="end">EXT2-17 · GPIO47</text>
+<text class="pnn" x="992" y="785" text-anchor="end">SCL0 · Wire</text>
+<polyline class="w " points="1040,260 1040,270"/>
+<polyline class="w " points="1030,270 1050,270"/>
+<polyline class="w " points="1034,275 1046,275"/>
+<polyline class="w " points="1038,280 1042,280"/>
+<polyline class="w " points="660,800 660,810"/>
+<polyline class="w " points="650,810 670,810"/>
+<polyline class="w " points="654,815 666,815"/>
+<polyline class="w " points="658,820 662,820"/>
+<text class="lab2" x="646" y="812" text-anchor="end">all grounds are one net</text>
+<polyline class="w" points="660,330 140,330"/>
+<polyline class="w" points="140,242 140,675"/>
+<circle class="j" cx="140" cy="330" r="3.2"/>
+<text class="pw" x="146" y="236" text-anchor="start">3V3</text>
+<polyline class="w" points="660,260 320,260"/>
+<circle class="j" cx="320" cy="260" r="3.2"/>
+<circle class="pt" cx="280" cy="242" r="4"/>
+<circle class="pt" cx="280" cy="278" r="4"/>
+<polyline class="w thick" points="320,260 283,244"/>
+<polyline class="w" points="280,242 140,242"/>
+<text class="rl" x="250" y="236" text-anchor="end">RUN</text>
+<polyline class="w" points="280,278 250,278"/>
+<polyline class="w " points="250,278 250,288"/>
+<polyline class="w " points="240,288 260,288"/>
+<polyline class="w " points="244,293 256,293"/>
+<polyline class="w " points="248,298 252,298"/>
+<text class="rl" x="236" y="282" text-anchor="end">KILL</text>
+<text class="lab" x="160" y="200" text-anchor="start">KILL rocker, SPDT, drawn in RUN</text>
+<text class="lab2" x="160" y="214" text-anchor="start">common = EN node: GPIO14 reads it, and it enables the BTS7960s</text>
+<polyline class="w en" points="320,260 360,260 360,150 1780,150 1780,545"/>
+<circle class="j" cx="360" cy="260" r="3.2"/>
+<text class="ent" x="1000" y="142" text-anchor="middle">EN · hardware stop: RUN = 3V3, KILL = GND · no firmware in the loop</text>
+<circle class="j" cx="400" cy="260" r="3.2"/>
+<polyline class="w dash" points="400,260 400.0,266.0"/>
+<polyline class="w dash" points="400.0,294.0 400,300"/>
+<rect class="r dash" x="386.0" y="275.0" width="28" height="10" transform="rotate(90.0 400.0 280.0)"/>
+<text class="rl" x="416.0" y="284.0" text-anchor="start">10 k R23 (rev B)</text>
+<polyline class="w dash" points="400,300 400,310"/>
+<polyline class="w dash" points="390,310 410,310"/>
+<polyline class="w dash" points="394,315 406,315"/>
+<polyline class="w dash" points="398,320 402,320"/>
+<polyline class="w" points="660,420 300,420"/>
+<circle class="j" cx="300" cy="420" r="3.2"/>
+<polyline class="w " points="300,420 269.0,420.0"/>
+<polyline class="w " points="241.0,420.0 210,420"/>
+<rect class="r " x="241.0" y="415.0" width="28" height="10" transform="rotate(180.0 255.0 420.0)"/>
+<text class="rl" x="255.0" y="411.0" text-anchor="middle">100 k</text>
+<circle class="pt" cx="200" cy="420" r="4"/>
+<text class="pw" x="200" y="444" text-anchor="middle">VBAT ← F4 5 A</text>
+<text class="lab2" x="200" y="458" text-anchor="middle">sense only, ≈100 µA</text>
+<polyline class="w " points="300,420 300.0,431.0"/>
+<polyline class="w " points="300.0,459.0 300,470"/>
+<rect class="r " x="286.0" y="440.0" width="28" height="10" transform="rotate(90.0 300.0 445.0)"/>
+<text class="rl" x="316.0" y="449.0" text-anchor="start">30 k</text>
+<polyline class="w " points="300,470 300,480"/>
+<polyline class="w " points="290,480 310,480"/>
+<polyline class="w " points="294,485 306,485"/>
+<polyline class="w " points="298,490 302,490"/>
+<text class="lab2" x="330" y="410" text-anchor="start">fit: v_bat = 0.965·v + 0.57 · ±0.02 V (C027)</text>
+<polyline class="w" points="660,500 340,500"/>
+<circle class="j" cx="340" cy="500" r="3.2"/>
+<polyline class="w " points="140,500 226.0,500.0"/>
+<polyline class="w " points="254.0,500.0 340,500"/>
+<rect class="r " x="226.0" y="495.0" width="28" height="10" transform="rotate(0.0 240.0 500.0)"/>
+<text class="rl" x="240.0" y="491.0" text-anchor="middle">10 k</text>
+<circle class="j" cx="140" cy="500" r="3.2"/>
+<polyline class="w " points="340,500 340.0,511.0"/>
+<polyline class="w " points="340.0,539.0 340,550"/>
+<rect class="r " x="326.0" y="520.0" width="28" height="10" transform="rotate(90.0 340.0 525.0)"/>
+<text class="rl" x="356.0" y="529.0" text-anchor="start">4.7 k</text>
+<circle class="pt" cx="340" cy="560" r="4"/>
+<text class="pw" x="352" y="556" text-anchor="start">probe: two bare wires in the bilge</text>
+<polyline class="w dash" points="340,564 340,580"/>
+<polyline class="w dash" points="340,580 340,590"/>
+<polyline class="w dash" points="330,590 350,590"/>
+<polyline class="w dash" points="334,595 346,595"/>
+<polyline class="w dash" points="338,600 342,600"/>
+<text class="lab2" x="352" y="572" text-anchor="start">water closes the loop → GPIO7 low</text>
+<rect class="box" x="190" y="640" width="240" height="100" rx="6"/>
+<text class="bt" x="310.0" y="657" text-anchor="middle">MLX90640 · 110° thermal</text>
+<text class="bs" x="310.0" y="719" text-anchor="middle">I2C 0x33 · 32 × 24 px</text>
+<text class="bs" x="310.0" y="732" text-anchor="middle">on the arch · C029</text>
+<polyline class="w" points="172,675 190,675"/>
+<text class="pn" x="196" y="679" text-anchor="start">VIN 3V3</text>
+<polyline class="w" points="172,705 190,705"/>
+<text class="pn" x="196" y="709" text-anchor="start">GND</text>
+<polyline class="w" points="430,675 448,675"/>
+<text class="pn" x="424" y="679" text-anchor="end">SDA</text>
+<polyline class="w" points="430,705 448,705"/>
+<text class="pn" x="424" y="709" text-anchor="end">SCL</text>
+<polyline class="w" points="660,600 500,600 500,675 448,675"/>
+<polyline class="w" points="660,630 470,630 470,705 448,705"/>
+<polyline class="w" points="172,675 140,675"/>
+<polyline class="w" points="172,705 160,705"/>
+<polyline class="w " points="160,705 160,715"/>
+<polyline class="w " points="150,715 170,715"/>
+<polyline class="w " points="154,720 166,720"/>
+<polyline class="w " points="158,725 162,725"/>
+<text class="pnn" x="506" y="679" text-anchor="start">SDA1</text>
+<text class="pnn" x="476" y="725" text-anchor="start">SCL1</text>
+<polyline class="w" points="660,760 652,760"/>
+<text class="pw" x="648" y="764" text-anchor="end">+5 V in: planned buck 12 → 5 V 3 A into the OTG USB-C · today the laptop</text>
+<polyline class="w " points="1040,300 1066.0,300.0"/>
+<polyline class="w " points="1094.0,300.0 1120,300"/>
+<rect class="r " x="1066.0" y="295.0" width="28" height="10" transform="rotate(0.0 1080.0 300.0)"/>
+<text class="rl" x="1080.0" y="291.0" text-anchor="middle">1 k</text>
+<circle class="j" cx="1120" cy="300" r="3.2"/>
+<polyline class="w" points="1120,300 1154,300"/>
+<polyline class="w " points="1120,300 1120.0,311.0"/>
+<polyline class="w " points="1120.0,339.0 1120,350"/>
+<rect class="r " x="1106.0" y="320.0" width="28" height="10" transform="rotate(90.0 1120.0 325.0)"/>
+<text class="rl" x="1104.0" y="329.0" text-anchor="end">10 k</text>
+<polyline class="w " points="1120,350 1120,360"/>
+<polyline class="w " points="1110,360 1130,360"/>
+<polyline class="w " points="1114,365 1126,365"/>
+<polyline class="w " points="1118,370 1122,370"/>
+<circle class="q" cx="1170" cy="300" r="16"/>
+<polyline class="w" points="1154,300 1164,300"/>
+<polyline class="w thick" points="1164,290 1164,310"/>
+<polyline class="w" points="1164,296 1178,287 1178,284"/>
+<polyline class="w" points="1164,304 1178,313 1178,316"/>
+<polygon class="j" points="1178,313 1172,311 1176,306"/>
+<text class="rl" x="1170" y="332" text-anchor="middle">Q1 S8050</text>
+<polyline class="w" points="1178,284 1178,250 1272,250"/>
+<polyline class="w" points="1178,316 1178,340"/>
+<polyline class="w " points="1178,340 1178,350"/>
+<polyline class="w " points="1168,350 1188,350"/>
+<polyline class="w " points="1172,355 1184,355"/>
+<polyline class="w " points="1176,360 1180,360"/>
+<rect class="box" x="1290" y="200" width="280" height="150" rx="6"/>
+<text class="bt" x="1430.0" y="217" text-anchor="middle">ESC inside the Cuifati thruster (left)</text>
+<text class="bs" x="1430.0" y="316" text-anchor="middle">S idles at 4.98 V: ~3.9 k pull-up to 5 V inside</text>
+<text class="bs" x="1430.0" y="329" text-anchor="middle">1500 µs stop · 1600 → 0.22 A · 1650 → 0.58 A at 12 V</text>
+<text class="bs" x="1430.0" y="342" text-anchor="middle">firmware inverts the duty (C006, C024, C025)</text>
+<polyline class="w" points="1272,250 1290,250"/>
+<text class="pn" x="1296" y="254" text-anchor="start">S yellow</text>
+<polyline class="w" points="1272,280 1290,280"/>
+<text class="pn" x="1296" y="284" text-anchor="start">G white</text>
+<polyline class="w" points="1570,230 1588,230"/>
+<text class="pn" x="1564" y="234" text-anchor="end">+ red</text>
+<polyline class="w" points="1570,260 1588,260"/>
+<text class="pn" x="1564" y="264" text-anchor="end">− black</text>
+<polyline class="w" points="1272,280 1270,280 1270,300"/>
+<polyline class="w " points="1270,300 1270,310"/>
+<polyline class="w " points="1260,310 1280,310"/>
+<polyline class="w " points="1264,315 1276,315"/>
+<polyline class="w " points="1268,320 1272,320"/>
+<polyline class="w" points="1588,230 1596,230"/>
+<text class="pw" x="1600" y="234" text-anchor="start">+12 V · F1 20 A</text>
+<polyline class="w" points="1588,260 1600,260"/>
+<polyline class="w " points="1600,260 1600,270"/>
+<polyline class="w " points="1590,270 1610,270"/>
+<polyline class="w " points="1594,275 1606,275"/>
+<polyline class="w " points="1598,280 1602,280"/>
+<polyline class="w dash" points="1040,405 1272,405"/>
+<rect class="box dash" x="1290" y="372" width="280" height="48" rx="6"/>
+<text class="bt" x="1430.0" y="389" text-anchor="middle">MG90S rudder (interim) · 5 V</text>
+<polyline class="w" points="1272,405 1290,405"/>
+<text class="pn" x="1296" y="409" text-anchor="start">signal, 3.3 V direct</text>
+<text class="lab2" x="1290" y="436" text-anchor="start">next: 2 × T200 + Basic ESC · 3.3 V signal direct · 1500 µs stop (on order)</text>
+<rect class="box dash" x="1290" y="446" width="280" height="54" rx="6"/>
+<text class="bt" x="1430.0" y="463" text-anchor="middle">BTS7960 R · track R · C051 open</text>
+<polyline class="w" points="1272,466 1290,466"/>
+<text class="pn" x="1296" y="470" text-anchor="start">LPWM</text>
+<polyline class="w" points="1272,486 1290,486"/>
+<text class="pn" x="1296" y="490" text-anchor="start">RPWM</text>
+<polyline class="w" points="1570,476 1588,476"/>
+<text class="pn" x="1564" y="480" text-anchor="end">EN</text>
+<polyline class="w dash" points="1040,466 1272,466"/>
+<polyline class="w dash" points="1040,486 1272,486"/>
+<polyline class="w en dash" points="1588,476 1780,476"/>
+<rect class="box" x="1290" y="505" width="280" height="190" rx="6"/>
+<text class="bt" x="1430.0" y="522" text-anchor="middle">BTS7960 L · 43 A H-bridge · track L</text>
+<text class="bs" x="1430.0" y="674" text-anchor="middle">VCC 3V3, so 3.3 V PWM is clean (FAILS 165)</text>
+<text class="bs" x="1430.0" y="687" text-anchor="middle">0.34 A at 80 % on the bench (C050)</text>
+<polyline class="w" points="1272,545 1290,545"/>
+<text class="pn" x="1296" y="549" text-anchor="start">LPWM</text>
+<polyline class="w" points="1272,565 1290,565"/>
+<text class="pn" x="1296" y="569" text-anchor="start">RPWM</text>
+<polyline class="w" points="1272,615 1290,615"/>
+<text class="pn" x="1296" y="619" text-anchor="start">VCC 3V3</text>
+<polyline class="w" points="1272,645 1290,645"/>
+<text class="pn" x="1296" y="649" text-anchor="start">GND</text>
+<polyline class="w" points="1570,545 1588,545"/>
+<text class="pn" x="1564" y="549" text-anchor="end">R_EN + L_EN</text>
+<polyline class="w" points="1570,585 1588,585"/>
+<text class="pn" x="1564" y="589" text-anchor="end">B+ 12 V</text>
+<polyline class="w" points="1570,605 1588,605"/>
+<text class="pn" x="1564" y="609" text-anchor="end">B−</text>
+<polyline class="w" points="1570,645 1588,645"/>
+<text class="pn" x="1564" y="649" text-anchor="end">M+</text>
+<polyline class="w" points="1570,665 1588,665"/>
+<text class="pn" x="1564" y="669" text-anchor="end">M−</text>
+<polyline class="w" points="1040,545 1272,545"/>
+<polyline class="w" points="1040,565 1272,565"/>
+<circle class="j" cx="1215" cy="565" r="3.2"/>
+<polyline class="w " points="1215,565 1215.0,576.0"/>
+<polyline class="w " points="1215.0,604.0 1215,615"/>
+<rect class="r " x="1201.0" y="585.0" width="28" height="10" transform="rotate(90.0 1215.0 590.0)"/>
+<text class="rl" x="1231.0" y="594.0" text-anchor="start">10 k</text>
+<polyline class="w " points="1215,615 1215,625"/>
+<polyline class="w " points="1205,625 1225,625"/>
+<polyline class="w " points="1209,630 1221,630"/>
+<polyline class="w " points="1213,635 1217,635"/>
+<circle class="j" cx="1160" cy="545" r="3.2"/>
+<polyline class="w" points="1160,545 1160,559"/>
+<path class="w" d="M1160,559 a6,6 0 0 1 0,12"/>
+<polyline class="w " points="1160,571 1160.0,582.0"/>
+<polyline class="w " points="1160.0,610.0 1160,621"/>
+<rect class="r " x="1146.0" y="591.0" width="28" height="10" transform="rotate(90.0 1160.0 596.0)"/>
+<text class="rl" x="1176.0" y="600.0" text-anchor="start">10 k</text>
+<polyline class="w " points="1160,621 1160,631"/>
+<polyline class="w " points="1150,631 1170,631"/>
+<polyline class="w " points="1154,636 1166,636"/>
+<polyline class="w " points="1158,641 1162,641"/>
+<text class="lab2" x="1240" y="535" text-anchor="end">pull-downs: GPIO39–42 float HIGH at boot (C015)</text>
+<polyline class="w en" points="1588,545 1780,545"/>
+<text class="ent" x="1786" y="549" text-anchor="start">EN</text>
+<polyline class="w" points="1588,585 1596,585"/>
+<text class="pw" x="1600" y="589" text-anchor="start">+12 V · F3 10 A</text>
+<polyline class="w" points="1588,605 1600,605"/>
+<polyline class="w " points="1600,605 1600,615"/>
+<polyline class="w " points="1590,615 1610,615"/>
+<polyline class="w " points="1594,620 1606,620"/>
+<polyline class="w " points="1598,625 1602,625"/>
+<polyline class="w" points="1588,645 1650,645"/>
+<polyline class="w" points="1588,665 1650,665"/>
+<circle class="q" cx="1668" cy="655" r="18"/>
+<text class="bt" x="1668" y="660" text-anchor="middle">M</text>
+<text class="lab2" x="1668" y="689" text-anchor="middle">ROB0154 track L</text>
+<polyline class="w" points="1272,615 1270,615 1270,603"/>
+<text class="pw" x="1270" y="597" text-anchor="middle">3V3</text>
+<polyline class="w" points="1272,645 1270,645"/>
+<polyline class="w " points="1270,645 1270,655"/>
+<polyline class="w " points="1260,655 1280,655"/>
+<polyline class="w " points="1264,660 1276,660"/>
+<polyline class="w " points="1268,665 1272,665"/>
+<polyline class="w" points="1040,745 1272,745"/>
+<polyline class="w" points="1040,770 1272,770"/>
+<circle class="j" cx="1150" cy="745" r="3.2"/>
+<circle class="j" cx="1200" cy="770" r="3.2"/>
+<polyline class="w" points="1150,745 1150,1060"/>
+<polyline class="w" points="1200,770 1200,1085"/>
+<rect class="box" x="1290" y="700" width="280" height="190" rx="6"/>
+<text class="bt" x="1430.0" y="717" text-anchor="middle">PCA9685 · 16 × PWM · I2C 0x40</text>
+<text class="bs" x="1430.0" y="869" text-anchor="middle">50 Hz · CH10/11 mirrored: us_B = 3000 − us_A (C023)</text>
+<text class="bs" x="1430.0" y="882" text-anchor="middle">OE: bench n/c (10 k on the module) · rev B: Q2 from EN</text>
+<polyline class="w" points="1272,745 1290,745"/>
+<text class="pn" x="1296" y="749" text-anchor="start">SDA</text>
+<polyline class="w" points="1272,770 1290,770"/>
+<text class="pn" x="1296" y="774" text-anchor="start">SCL</text>
+<polyline class="w" points="1272,805 1290,805"/>
+<text class="pn" x="1296" y="809" text-anchor="start">VCC 3V3</text>
+<polyline class="w" points="1272,830 1290,830"/>
+<text class="pn" x="1296" y="834" text-anchor="start">GND</text>
+<polyline class="w" points="1272,855 1290,855"/>
+<text class="pn" x="1296" y="859" text-anchor="start">OE</text>
+<polyline class="w" points="1570,745 1588,745"/>
+<text class="pn" x="1564" y="749" text-anchor="end">V+ 6.0 V</text>
+<polyline class="w" points="1570,770 1588,770"/>
+<text class="pn" x="1564" y="774" text-anchor="end">GND</text>
+<polyline class="w" points="1570,805 1588,805"/>
+<text class="pn" x="1564" y="809" text-anchor="end">CH10</text>
+<polyline class="w" points="1570,830 1588,830"/>
+<text class="pn" x="1564" y="834" text-anchor="end">CH11</text>
+<polyline class="w" points="1272,805 1270,805 1270,793"/>
+<text class="pw" x="1270" y="787" text-anchor="middle">3V3</text>
+<polyline class="w" points="1272,830 1270,830"/>
+<polyline class="w " points="1270,830 1270,840"/>
+<polyline class="w " points="1260,840 1280,840"/>
+<polyline class="w " points="1264,845 1276,845"/>
+<polyline class="w " points="1268,850 1272,850"/>
+<polyline class="w dash" points="1272,855 1272,855"/>
+<text class="lab2" x="1264" y="859" text-anchor="end">n/c</text>
+<polyline class="w" points="1588,745 1596,745"/>
+<text class="pw" x="1600" y="749" text-anchor="start">+6.0 V servo rail (F2 + buck)</text>
+<polyline class="w" points="1588,770 1600,770"/>
+<polyline class="w " points="1600,770 1600,780"/>
+<polyline class="w " points="1590,780 1610,780"/>
+<polyline class="w " points="1594,785 1606,785"/>
+<polyline class="w " points="1598,790 1602,790"/>
+<polyline class="w" points="1588,805 1630,805"/>
+<polyline class="w" points="1588,830 1630,830"/>
+<rect class="box" x="1630" y="791" width="120" height="28" rx="6"/>
+<text class="bt" x="1690.0" y="808" text-anchor="middle">TD-8120MG A</text>
+<rect class="box" x="1630" y="816" width="120" height="28" rx="6"/>
+<text class="bt" x="1690.0" y="833" text-anchor="middle">TD-8120MG B</text>
+<text class="lab2" x="1690" y="861" text-anchor="middle">cradle lift · 6 V from V+</text>
+<rect class="box" x="1290" y="920" width="280" height="92" rx="6"/>
+<text class="bt" x="1430.0" y="937" text-anchor="middle">MLX90642-D45 · 45° thermal</text>
+<text class="bs" x="1430.0" y="1004" text-anchor="middle">front search · 32 × 24 px · C048</text>
+<polyline class="w" points="1272,950 1290,950"/>
+<text class="pn" x="1296" y="954" text-anchor="start">SDA</text>
+<polyline class="w" points="1272,975 1290,975"/>
+<text class="pn" x="1296" y="979" text-anchor="start">SCL</text>
+<polyline class="w" points="1570,950 1588,950"/>
+<text class="pn" x="1564" y="954" text-anchor="end">VCC 3V3</text>
+<polyline class="w" points="1570,975 1588,975"/>
+<text class="pn" x="1564" y="979" text-anchor="end">GND</text>
+<polyline class="w" points="1150,950 1272,950"/>
+<polyline class="w" points="1200,975 1272,975"/>
+<circle class="j" cx="1150" cy="950" r="3.2"/>
+<circle class="j" cx="1200" cy="975" r="3.2"/>
+<text class="pw" x="1592" y="954" text-anchor="start">3V3</text>
+<polyline class="w" points="1588,975 1600,975"/>
+<polyline class="w " points="1600,975 1600,985"/>
+<polyline class="w " points="1590,985 1610,985"/>
+<polyline class="w " points="1594,990 1606,990"/>
+<polyline class="w " points="1598,995 1602,995"/>
+<rect class="box dash" x="1290" y="1025" width="280" height="75" rx="6"/>
+<text class="bt" x="1430.0" y="1042" text-anchor="middle">BNO055 IMU · 0x28 · env ready, not wired</text>
+<polyline class="w" points="1272,1060 1290,1060"/>
+<text class="pn" x="1296" y="1064" text-anchor="start">SDA</text>
+<polyline class="w" points="1272,1085 1290,1085"/>
+<text class="pn" x="1296" y="1089" text-anchor="start">SCL</text>
+<polyline class="w dash" points="1150,1060 1272,1060"/>
+<polyline class="w dash" points="1200,1085 1272,1085"/>
+<text class="lab2" x="1140" y="1118" text-anchor="start">I2C-0 pull-ups: on the modules · rev B adds 4.7 k R3/R4 · SDA/SCL swapped once (FAILS 171)</text>
+<text class="lab" x="80" y="886" text-anchor="start">POWER · bench today = lab supply at 12 V (solid) · the boat chain (dashed) is card C026</text>
+<rect class="box" x="80" y="900" width="130" height="64" rx="6"/>
+<text class="bt" x="145.0" y="917" text-anchor="middle">bench supply</text>
+<text class="bs" x="145.0" y="943" text-anchor="middle">0–30 V / 10 A</text>
+<text class="bs" x="145.0" y="956" text-anchor="middle">12 V, CC limit</text>
+<rect class="box dash" x="80" y="990" width="130" height="50" rx="6"/>
+<text class="bt" x="145.0" y="1007" text-anchor="middle">LiPo 3S 2200 mAh</text>
+<text class="bs" x="145.0" y="1032" text-anchor="middle">11.1 V · XT60</text>
+<polyline class="w dash" points="210,1015 226.0,1015.0"/>
+<polyline class="w dash" points="254.0,1015.0 270,1015"/>
+<rect class="r dash" x="226.0" y="1010.0" width="28" height="10" transform="rotate(0.0 240.0 1015.0)"/>
+<text class="rl" x="240.0" y="1006.0" text-anchor="middle">F 30 A</text>
+<polyline class="w dash" points="270,1015 300,1015"/>
+<polyline class="w dash thick" points="300,1015 328,1000"/>
+<circle class="pt" cx="332" cy="1015" r="4"/>
+<text class="rl" x="316" y="1036" text-anchor="middle">S1 master 50 A</text>
+<polyline class="w dash" points="332,1015 380,1015"/>
+<polyline class="w" points="210,928 380,928 380,1015"/>
+<circle class="j" cx="380" cy="1015" r="3.2"/>
+<rect class="box dash" x="400" y="940" width="170" height="160" rx="6"/>
+<text class="bt" x="485" y="958" text-anchor="middle">fuse block · 6 slots</text>
+<polyline class="w" points="380,1015 400,1015"/>
+<polyline class="w" points="400,1015 410,1015"/>
+<polyline class="w dash" points="410,980 426.0,980.0"/>
+<polyline class="w dash" points="454.0,980.0 470,980"/>
+<rect class="r dash" x="426.0" y="975.0" width="28" height="10" transform="rotate(0.0 440.0 980.0)"/>
+<text class="rl" x="440" y="972" text-anchor="middle">F1 20 A</text>
+<polyline class="w dash" points="470,980 570,980"/>
+<polyline class="w" points="570,980 578,980"/>
+<text class="pw" x="582" y="984" text-anchor="start">ESCs +12 V</text>
+<polyline class="w" points="410,1015 410,1010"/>
+<polyline class="w dash" points="410,1010 426.0,1010.0"/>
+<polyline class="w dash" points="454.0,1010.0 470,1010"/>
+<rect class="r dash" x="426.0" y="1005.0" width="28" height="10" transform="rotate(0.0 440.0 1010.0)"/>
+<text class="rl" x="440" y="1002" text-anchor="middle">F2 15 A</text>
+<polyline class="w dash" points="470,1010 570,1010"/>
+<polyline class="w" points="570,1010 578,1010"/>
+<text class="pw" x="582" y="1014" text-anchor="start">servo buck → 6 V V+</text>
+<polyline class="w" points="410,1015 410,1040"/>
+<polyline class="w dash" points="410,1040 426.0,1040.0"/>
+<polyline class="w dash" points="454.0,1040.0 470,1040"/>
+<rect class="r dash" x="426.0" y="1035.0" width="28" height="10" transform="rotate(0.0 440.0 1040.0)"/>
+<text class="rl" x="440" y="1032" text-anchor="middle">F3 10 A</text>
+<polyline class="w dash" points="470,1040 570,1040"/>
+<polyline class="w" points="570,1040 578,1040"/>
+<text class="pw" x="582" y="1044" text-anchor="start">BTS7960 B+</text>
+<polyline class="w" points="410,1015 410,1070"/>
+<polyline class="w dash" points="410,1070 426.0,1070.0"/>
+<polyline class="w dash" points="454.0,1070.0 470,1070"/>
+<rect class="r dash" x="426.0" y="1065.0" width="28" height="10" transform="rotate(0.0 440.0 1070.0)"/>
+<text class="rl" x="440" y="1062" text-anchor="middle">F4 5 A</text>
+<polyline class="w dash" points="470,1070 570,1070"/>
+<polyline class="w" points="570,1070 578,1070"/>
+<text class="pw" x="582" y="1074" text-anchor="start">VBAT sense · logic buck → 5 V</text>
+<polyline class="w dash" points="410,980 410,1070"/>
+<text class="lab2" x="80" y="1125" text-anchor="start">12 V never enters the breadboard or the carrier: only the VBAT sense line (≈100 µA) and 5 V do.</text>
+<polyline class="w" points="80,1160 120,1160"/>
+<text class="l" x="128" y="1164" text-anchor="start">wired and tested (card number in the box)</text>
+<polyline class="w dash" points="440,1160 480,1160"/>
+<text class="l" x="488" y="1164" text-anchor="start">designed · rev B · on order</text>
+<polyline class="w en" points="720,1160 760,1160"/>
+<text class="l" x="768" y="1164" text-anchor="start">EN hardware stop</text>
+<text class="lab2" x="930" y="1164" text-anchor="start">Sources: hardware/wiring/PINOUT.md · pcb/carrier-revB/SPEC.md · FAILS 152, 165, 171–174 · rudder spec 26.10</text>
+</svg><figcaption>Three stops in series on the motors: the SPDT rocker drives EN of both BTS7960s in hardware (purple), the pull-downs hold the PWM pins low through boot, and the firmware drives every output to neutral on KILL, LEAK, low battery or a lost heartbeat. The thruster ESC pulls its own signal line to 5 V, so GPIO1 drives it through an S8050 open collector and the firmware inverts the duty.</figcaption></figure></main></body></html>

@@ -1,0 +1,193 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AR-Mini System Architecture</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--card:#fff;--ok:#1d1d1b;--plan:#9a6b00;--v2:#9a9a94;--p12:#c2410c;--p5:#b7791f;--en:#7c3aed;--okfill:#ffffff;--planfill:#fff8e6;--v2fill:#f2f2ef}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--card:#1f1f1d;--ok:#ecebe6;--plan:#e0b04f;--v2:#77766f;--p12:#f08a5d;--p5:#e3b552;--en:#a78bfa;--okfill:#1f1f1d;--planfill:#2a2416;--v2fill:#232321}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--card:#1f1f1d;--ok:#ecebe6;--plan:#e0b04f;--v2:#77766f;--p12:#f08a5d;--p5:#e3b552;--en:#a78bfa;--okfill:#1f1f1d;--planfill:#2a2416;--v2fill:#232321}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1760px;margin:0 auto;padding:16px}
+figure{margin:0}svg{width:100%;height:auto;display:block;color:var(--fg)}
+figcaption{color:var(--mut);margin-top:10px;max-width:1100px}
+.b{stroke-width:1.4}.b.ok{fill:var(--okfill);stroke:var(--ok)}.b.plan{fill:var(--planfill);stroke:var(--plan);stroke-dasharray:7 4}.b.v2{fill:var(--v2fill);stroke:var(--v2);stroke-dasharray:2 4}
+text{fill:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.h{font-size:24px;font-weight:700}.sub{font-size:14px;fill:var(--mut)}.sec{font-size:12px;font-weight:700;letter-spacing:.12em;fill:var(--mut)}
+.t{font-size:14.5px;font-weight:700}.l{font-size:12.5px}.tag{font-size:11px;font-weight:700;letter-spacing:.04em}.tag.ok{fill:var(--mut)}.tag.plan{fill:var(--plan)}
+.w{fill:none;stroke-width:1.6}.w.sig{stroke:currentColor}.w.plan{stroke:var(--plan);stroke-dasharray:6 4}
+.w.p12{stroke:var(--p12);stroke-width:3}.w.p5{stroke:var(--p5);stroke-width:2.4}.w.en{stroke:var(--en);stroke-width:2.2;stroke-dasharray:10 3 2 3}
+.wl{font-size:12px;fill:var(--mut)}.p12t{fill:var(--p12);font-weight:600}.p5t{fill:var(--p5);font-weight:600}.ent{fill:var(--en);font-weight:600}.plant{fill:var(--plan)}
+.mp12{fill:var(--p12)}.mp5{fill:var(--p5)}.men{fill:var(--en)}.ah{fill:currentColor}
+@media (max-width:700px){main{padding:16px}}
+</style></head><body><main><figure><svg viewBox="0 0 1720 1040" role="img" aria-label="AR-Mini system architecture: power on the left, one ESP32-S3 controller in the middle with safety inputs and sensors, actuators on the right, operator links below">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+<marker id="a_p12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mp12"/></marker>
+<marker id="a_p5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mp5"/></marker>
+<marker id="a_en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="men"/></marker>
+<marker id="a_plan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<text class="h" x="30" y="36">AR-Mini · system architecture v2</text>
+<text class="sub" x="30" y="56">as built and tested, 27.10.2026 · one ESP32-S3 runs the boat; the camera node is separate</text>
+<text class="sec" x="30" y="72">POWER</text>
+<text class="sec" x="400" y="72">SENSING</text>
+<text class="sec" x="400" y="292">SAFETY INPUTS</text>
+<text class="sec" x="880" y="292">CONTROLLER</text>
+<text class="sec" x="1130" y="292">ACTUATION</text>
+<text class="sec" x="400" y="872">OPERATOR</text>
+<rect class="b ok" x="400" y="82" width="290" height="74" rx="8"/>
+<text class="t" x="412" y="103">MLX90642-D45 thermal</text>
+<text class="tag ok" x="680" y="102" text-anchor="end">C048 PARTIAL</text>
+<text class="l" x="412" y="124">32 × 24 px, 45° · front search</text>
+<text class="l" x="412" y="141">sees Pesho 39.8 °C at 1.3 m</text>
+<rect class="b ok" x="710" y="82" width="290" height="74" rx="8"/>
+<text class="t" x="722" y="103">MLX90640 110° thermal</text>
+<text class="tag ok" x="990" y="102" text-anchor="end">C029 PARTIAL</text>
+<text class="l" x="722" y="124">32 × 24 px, wide · on the arch</text>
+<text class="l" x="722" y="141">orientation (FLIP_110) to check</text>
+<rect class="b plan" x="1020" y="82" width="250" height="74" rx="8"/>
+<text class="t" x="1032" y="103">BNO055 IMU</text>
+<text class="tag plan" x="1260" y="102" text-anchor="end">NOT WIRED</text>
+<text class="l" x="1032" y="124">heading for homing</text>
+<text class="l" x="1032" y="141">firmware env ready, not wired</text>
+<rect class="b ok" x="1290" y="82" width="400" height="91" rx="8"/>
+<text class="t" x="1302" y="103">XIAO ESP32-S3 Sense + OV3660</text>
+<text class="tag ok" x="1680" y="102" text-anchor="end">C049</text>
+<text class="l" x="1302" y="124">own 5 V USB-C, own WiFi AP &quot;AR-Mini-cam&quot;</text>
+<text class="l" x="1302" y="141">MJPEG stream :81 + recording to microSD</text>
+<text class="l" x="1302" y="158">not wired to the DevKit</text>
+<rect class="b ok" x="720" y="302" width="340" height="440" rx="8"/>
+<text class="t" x="732" y="323">Olimex ESP32-S3-DevKit-Lipo</text>
+<text class="tag ok" x="1050" y="322" text-anchor="end">IN USE</text>
+<text class="l" x="732" y="344">ESP32-S3-WROOM-1 · 8 MB flash, 8 MB PSRAM</text>
+<text class="l" x="732" y="361">WiFi AP &quot;AR-Mini&quot; · page 192.168.4.1</text>
+<text class="l" x="732" y="378">PlatformIO envs: remote · esc · pca9685</text>
+<text class="l" x="732" y="395">  bts7960 · thermal · ladder · bno055</text>
+<text class="l" x="732" y="412"></text>
+<text class="l" x="732" y="429">Now: breadboard, pins frozen (C030)</text>
+<text class="l" x="732" y="446">Next: carrier PCB rev B, 100 × 80 mm,</text>
+<text class="l" x="732" y="463">  KiCad from a script, DRC 0 (C032)</text>
+<text class="l" x="732" y="480"></text>
+<text class="l" x="732" y="497">State machine + safety layer (T1/T2):</text>
+<text class="l" x="732" y="514">  KILL, LEAK, battery, heartbeat → SAFE</text>
+<text class="l" x="732" y="531">  every motor output to neutral</text>
+<rect class="b ok" x="400" y="302" width="262" height="91" rx="8"/>
+<text class="t" x="412" y="323">KILL rocker (SPDT)</text>
+<text class="tag ok" x="652" y="322" text-anchor="end">C025 C050</text>
+<text class="l" x="412" y="344">RUN: EN high · KILL: EN to GND</text>
+<text class="l" x="412" y="361">EN cuts both BTS7960 and PCA9685 OE</text>
+<text class="l" x="412" y="378">GPIO14 reads the EN node</text>
+<rect class="b ok" x="400" y="412" width="262" height="74" rx="8"/>
+<text class="t" x="412" y="433">LEAK probe</text>
+<text class="tag ok" x="652" y="432" text-anchor="end">C027</text>
+<text class="l" x="412" y="454">two bare wires in the bilge</text>
+<text class="l" x="412" y="471">10 k to 3V3, probe pulls low</text>
+<rect class="b ok" x="400" y="505" width="262" height="74" rx="8"/>
+<text class="t" x="412" y="526">Battery sense</text>
+<text class="tag ok" x="652" y="525" text-anchor="end">C027</text>
+<text class="l" x="412" y="547">divider 100 k / 30 k → ADC1</text>
+<text class="l" x="412" y="564">±0.02 V from 10 to 12.6 V</text>
+<rect class="b ok" x="1130" y="302" width="540" height="91" rx="8"/>
+<text class="t" x="1142" y="323">Left thruster · Cuifati 560 KV, ESC inside</text>
+<text class="tag ok" x="1660" y="322" text-anchor="end">C025 C028</text>
+<text class="l" x="1142" y="344">GPIO1 → S8050 level shifter (inverted) → 5 V signal</text>
+<text class="l" x="1142" y="361">1500 µs stop · 1600 → 0.22 A · 1650 → 0.58 A at 12 V</text>
+<text class="l" x="1142" y="378">moved the floating robot from the phone (C028)</text>
+<rect class="b plan" x="1130" y="412" width="540" height="91" rx="8"/>
+<text class="t" x="1142" y="433">Right channel (GPIO2)</text>
+<text class="tag plan" x="1660" y="432" text-anchor="end">REPLACING</text>
+<text class="l" x="1142" y="454">right Cuifati faulty, out (FAILS 173)</text>
+<text class="l" x="1142" y="471">interim: MG90S rudder in the jet, 5 V, signal direct</text>
+<text class="l" x="1142" y="488">next: 2 × Blue Robotics T200 + Basic ESC (on order)</text>
+<rect class="b ok" x="1130" y="522" width="540" height="91" rx="8"/>
+<text class="t" x="1142" y="543">PCA9685 16-ch PWM · I2C-0 0x40</text>
+<text class="tag ok" x="1660" y="542" text-anchor="end">C023</text>
+<text class="l" x="1142" y="564">CH10 / CH11 → 2 × TD-8120MG cradle servos, mirrored</text>
+<text class="l" x="1142" y="581">lifts Pesho between the hulls at ~0.24 A</text>
+<text class="l" x="1142" y="598">V+ 6.0 V servo rail · OE ← EN · CH6–9 buzzer + LEDs (rev B)</text>
+<rect class="b ok" x="1130" y="632" width="540" height="91" rx="8"/>
+<text class="t" x="1142" y="653">2 × BTS7960 H-bridge → ROB0154 tracks</text>
+<text class="tag ok" x="1660" y="652" text-anchor="end">LEFT C050</text>
+<text class="l" x="1142" y="674">L: GPIO39 / 40 · R: GPIO41 / 42 · 10 k pull-downs (C015)</text>
+<text class="l" x="1142" y="691">VCC 3V3 · R_EN / L_EN ← EN</text>
+<text class="l" x="1142" y="708">left track 0.34 A at 80 % · right C051 still open</text>
+<rect class="b ok" x="30" y="82" width="320" height="74" rx="8"/>
+<text class="t" x="42" y="103">Bench supply 0–30 V / 10 A</text>
+<text class="tag ok" x="340" y="102" text-anchor="end">IN USE</text>
+<text class="l" x="42" y="124">all tests so far: tethered, 12 V</text>
+<text class="l" x="42" y="141">servo rail 6.0 V, 3 A limit</text>
+<rect class="b plan" x="30" y="192" width="320" height="57" rx="8"/>
+<text class="t" x="42" y="213">3S LiPo 2200 mAh 40C</text>
+<text class="l" x="42" y="234">11.1 V nominal, 12.6 V full · XT60</text>
+<rect class="b plan" x="30" y="272" width="320" height="57" rx="8"/>
+<text class="t" x="42" y="293">30 A inline fuse → 50 A switch</text>
+<text class="l" x="42" y="314">master switch cuts everything</text>
+<rect class="b plan" x="30" y="352" width="320" height="57" rx="8"/>
+<text class="t" x="42" y="373">Fuse block</text>
+<text class="tag plan" x="340" y="372" text-anchor="end">C026 OPEN</text>
+<text class="l" x="42" y="394">ESCs 20 A · BTS 10 A · logic 5 A …</text>
+<rect class="b plan" x="30" y="560" width="320" height="74" rx="8"/>
+<text class="t" x="42" y="581">Buck 12 → 5 V, 3 A, USB-C</text>
+<text class="l" x="42" y="602">into the DevKit OTG USB-C</text>
+<text class="l" x="42" y="619">now: laptop USB instead</text>
+<rect class="b plan" x="30" y="660" width="320" height="74" rx="8"/>
+<text class="t" x="42" y="681">Servo rails</text>
+<text class="l" x="42" y="702">TD-8120MG: 6.0 V on PCA9685 V+</text>
+<text class="l" x="42" y="719">MG90S rudder: 5 V, never 12 V</text>
+<polyline class="w p12" points="190,249 190,270" marker-end="url(#a_p12)"/>
+<polyline class="w p12" points="190,329 190,350" marker-end="url(#a_p12)"/>
+<polyline class="w p12" points="190,409 190,558" marker-end="url(#a_p12)"/>
+<text class="wl p12t" x="200" y="490" text-anchor="start">12 V</text>
+<polyline class="w p12" points="350,380 365,380 365,810 1700,810 1700,350 1674,350" marker-end="url(#a_p12)"/>
+<text class="wl p12t" x="380" y="826" text-anchor="start">12 V bus: thrusters 20 A, tracks 10 A, buck</text>
+<polyline class="w p12" points="1700,690 1674,690" marker-end="url(#a_p12)"/>
+<polyline class="w p12" points="1700,460 1674,460" marker-end="url(#a_p12)"/>
+<polyline class="w p5" points="350,600 380,600 380,640 716,640" marker-end="url(#a_p5)"/>
+<text class="wl p5t" x="560" y="632" text-anchor="start">5 V → USB-C</text>
+<polyline class="w sig" points="545,153 545,240 780,240 780,298" marker-end="url(#a)"/>
+<text class="wl sigt" x="552" y="232" text-anchor="start">I2C-0 · GPIO48 / 47</text>
+<polyline class="w sig" points="855,153 855,298" marker-end="url(#a)"/>
+<text class="wl sigt" x="862" y="232" text-anchor="start">I2C-1 · GPIO8 / 9</text>
+<polyline class="w plan" points="1145,153 1145,262 1020,262 1020,298" marker-end="url(#a_plan)"/>
+<text class="wl plant" x="1152" y="256" text-anchor="start">I2C-0</text>
+<polyline class="w sig" points="662,350 716,350" marker-end="url(#a)"/>
+<text class="wl sigt" x="666" y="344" text-anchor="start">GPIO14</text>
+<polyline class="w sig" points="662,450 716,450" marker-end="url(#a)"/>
+<text class="wl sigt" x="666" y="444" text-anchor="start">GPIO7</text>
+<polyline class="w sig" points="662,543 716,543" marker-end="url(#a)"/>
+<text class="wl sigt" x="666" y="537" text-anchor="start">GPIO4</text>
+<polyline class="w en" points="400,330 388,330 388,780 1110,780 1110,580 1126,580" marker-end="url(#a_en)"/>
+<text class="wl ent" x="420" y="775" text-anchor="start">EN: hardware stop, no firmware in the loop</text>
+<polyline class="w en" points="1110,690 1126,690" marker-end="url(#a_en)"/>
+<polyline class="w sig" points="1060,345 1126,345" marker-end="url(#a)"/>
+<text class="wl sigt" x="1066" y="339" text-anchor="start">GPIO1</text>
+<polyline class="w plan" points="1060,455 1126,455" marker-end="url(#a_plan)"/>
+<text class="wl plant" x="1066" y="449" text-anchor="start">GPIO2</text>
+<polyline class="w sig" points="1060,560 1126,560" marker-end="url(#a)"/>
+<text class="wl sigt" x="1066" y="554" text-anchor="start">I2C-0</text>
+<polyline class="w sig" points="1060,665 1126,665" marker-end="url(#a)"/>
+<text class="wl sigt" x="1064" y="659" text-anchor="start">GPIO39–42</text>
+<rect class="b ok" x="400" y="882" width="340" height="74" rx="8"/>
+<text class="t" x="412" y="903">Phone browser → AR-Mini</text>
+<text class="tag ok" x="730" y="902" text-anchor="end">C028</text>
+<text class="l" x="412" y="924">ARM · thrust stick · STOP</text>
+<text class="l" x="412" y="941">heartbeat 500 ms → SAFE if lost</text>
+<rect class="b ok" x="760" y="882" width="330" height="57" rx="8"/>
+<text class="t" x="772" y="903">Phone → AR-Mini-cam</text>
+<text class="tag ok" x="1080" y="902" text-anchor="end">C049</text>
+<text class="l" x="772" y="924">live view from the arch (OV3660)</text>
+<rect class="b ok" x="1110" y="882" width="280" height="57" rx="8"/>
+<text class="t" x="1122" y="903">Laptop · USB serial</text>
+<text class="l" x="1122" y="924">bench commands, CSV logs, flashing</text>
+<rect class="b v2" x="1410" y="882" width="280" height="74" rx="8"/>
+<text class="t" x="1422" y="903">v2 (2027)</text>
+<text class="l" x="1422" y="924">Raspberry Pi 5 + ROS 2 · UART GPIO15/16</text>
+<text class="l" x="1422" y="941">4 × ST3215 bus servos · GPIO17/18</text>
+<polyline class="w sig" points="570,882 570,850 800,850 800,746"/>
+<text class="wl sigt" x="578" y="846" text-anchor="start">WiFi · WebSocket</text>
+<polygon class="ah" points="794,748 806,748 800,742"/>
+<polyline class="w sig" points="1250,882 1250,850 960,850 960,746"/>
+<text class="wl sigt" x="1258" y="846" text-anchor="start">USB-C</text>
+<polygon class="ah" points="954,748 966,748 960,742"/>
+<rect class="b ok" x="30" y="997" width="26" height="16" rx="3"/><text class="l" x="64" y="1010">tested on hardware (card number)</text>
+<rect class="b plan" x="330" y="997" width="26" height="16" rx="3"/><text class="l" x="364" y="1010">designed / on order / not yet in the boat</text>
+<rect class="b v2" x="670" y="997" width="26" height="16" rx="3"/><text class="l" x="704" y="1010">v2</text>
+<line class="w p12" x1="790" y1="1005" x2="824" y2="1005"/><text class="l" x="832" y="1010">12 V power</text>
+<line class="w p5" x1="1000" y1="1005" x2="1034" y2="1005"/><text class="l" x="1042" y="1010">5 V power</text>
+<line class="w en" x1="1210" y1="1005" x2="1244" y2="1005"/><text class="l" x="1252" y="1010">EN hardware stop</text>
+<line class="w sig" x1="1420" y1="1005" x2="1454" y2="1005"/><text class="l" x="1462" y="1010">signal / data</text>
+</svg><figcaption>One ESP32-S3 (Olimex DevKit-Lipo) drives the thruster, the cradle servos and the tracks and reads both thermal cameras, the leak probe, the battery and the KILL rocker. The rocker also cuts the motor drivers in hardware (purple), so a stop never depends on the firmware. Solid boxes are tested on hardware, with the card that proved them; dashed boxes are designed or on order. The OV3660 camera runs on its own XIAO board and WiFi network. Sources: hardware/wiring/PINOUT.md, pcb/carrier-revB/SPEC.md, docs/FAILS_AND_FIXES.md, rudder spec 26.10.2026.</figcaption></figure></main></body></html>

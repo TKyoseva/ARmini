@@ -16,12 +16,14 @@ inline bool linkLost(uint32_t last_hb_ms, uint32_t now_ms, uint32_t timeout_ms =
   return age > static_cast<int32_t>(timeout_ms);
 }
 
-// Page → board, every 100 ms:  {"t":<-100..100>,"r":<-100..100>,"arm":0|1}   or   {"stop":1}
+// Page → board, every 100 ms:  {"t":<-100..100>,"r":<-100..100>,"arm":0|1[,"lift":<0..180>]}   or   {"stop":1}
+// "lift" (REMOTE_LIFT, pool run 31.10.2026) is the cradle pair's degree; the board clamps it to its own 50–130 window.
 struct RemoteMsg {
   bool stop;
   int t;
   int r;
   bool arm;
+  int lift;  // -1 when the message has no "lift"
 };
 
 // Finds `"key"`, then `:` and an integer. Returns false if the key is missing or the value is not a number.
@@ -53,6 +55,7 @@ inline bool parseRemoteMsg(const char* s, RemoteMsg* m) {
   m->t = 0;
   m->r = 0;
   m->arm = false;
+  m->lift = -1;
   if (!s) return false;
   long v = 0;
   if (remoteInt(s, "stop", &v)) {
@@ -65,9 +68,12 @@ inline bool parseRemoteMsg(const char* s, RemoteMsg* m) {
   if (t < -100 || t > 100 || r < -100 || r > 100) return false;
   long a = 0;
   if (remoteInt(s, "arm", &a) && a != 0 && a != 1) return false;
+  long u = -1;
+  if (remoteInt(s, "lift", &u) && (u < 0 || u > 180)) return false;  // outside the servo's 0–180 → not a heartbeat
   m->t = static_cast<int>(t);
   m->r = static_cast<int>(r);
   m->arm = a == 1;
+  m->lift = static_cast<int>(u);
   return true;
 }
 }  // namespace bench

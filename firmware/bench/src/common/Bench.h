@@ -17,11 +17,13 @@ static const uint32_t kCsvPeriodMs = 100;   // SOURCE: task T3 (rows at 10 Hz)
 static const uint32_t kDeadmanMs = 2000;    // SOURCE: task T3 (dead-man 2 s, configurable)
 static const float kRampPerS = 0.5f;        // SOURCE: task T3 (ramp 0.5/s)
 
-// Serial.begin, wait ≤ 2 s for the USB-CDC host, print the banner (as `#` lines) and the CSV header.
+static const uint32_t kSerialWaitMs = 3000;  // SOURCE: handoff 25.10 — the monitor needs up to ~3 s to re-enumerate
+                                             // the native USB CDC after RST; 2 s lost the banner
+
+// Serial.begin, wait ≤ kSerialWaitMs for the USB-CDC host, print the banner (as `#` lines) and the CSV header.
 inline void begin(const char* sketch, const char* csv_header) {
   Serial.begin(kBaud);
-  const uint32_t t0 = millis();
-  while (!Serial && millis() - t0 < 2000) delay(10);
+  while (!Serial && millis() < kSerialWaitMs) delay(10);
   Serial.printf("# AR-Mini bench · %s · build %s %s\r\n", sketch, __DATE__, __TIME__);
   Serial.println("# Olimex ESP32-S3-DevKit-Lipo · pins: firmware/bench/include/pins_devkit.h · `?` = help, `0` = stop");
   Serial.println(csv_header);

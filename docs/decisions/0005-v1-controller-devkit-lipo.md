@@ -26,7 +26,10 @@ env `devkit_lipo` were built on the Olimex ESP32-S3-DevKit-Lipo (ESP32-S3-WROOM-
 - GPIO39 at reset (C015) → 10 k pull-downs on GPIO39–42 yes / no.
 - ESC signal level (C006) → direct to GPIO1/2 or through a level shifter.
 - BTS7960 IS_R / IS_L on GPIO10/11 — used or not.
-- The role of the XIAO ESP32-S3 Sense in v1 (camera node or nothing).
+- ~~The role of the XIAO ESP32-S3 Sense in v1 (camera node or nothing).~~ **Decided 25.10 (Teddy):** the XIAO Sense is the
+  **OV3660 camera node only**, powered from its own USB-C / 5 V, nothing soldered to its pins (`firmware/xiao` env `cam`, C049:
+  own WiFi AP, MJPEG stream). Both thermal cameras go to the DevKit-Lipo on the pins already in `pins_devkit.h`
+  (bench env `thermal`, C048/C029). The XIAO pin table in PINOUT.md is history.
 - `firmware/armini` safety (T2) still decodes KILL + LEAK from the ADC ladder: switch it to the two digital pins for the DevKit (small Cursor task) — or keep the ladder on the perfboard if that is simpler. Decide with C030.
 - Aisler lead time at checkout: standard ~8 working days + DHL to Sofia; "Blitz" much faster for a price. Order by ~13.10 for a
   board in hand before r3b (29.10).

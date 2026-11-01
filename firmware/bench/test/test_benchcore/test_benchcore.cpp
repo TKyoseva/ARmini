@@ -160,6 +160,14 @@ static void test_csv_fixed_decimals_and_rounding() {
   TEST_ASSERT_EQUAL_STRING("0.000,0.000,3,1.00,-1.3,12.345679", row.c_str());
 }
 
+static void test_csv_non_finite_prints_nan() {
+  char buf[64];
+  CsvRow row(buf, sizeof buf);
+  row.add(NAN, 1).add(static_cast<double>(INFINITY), 3).add(-INFINITY, 2).add(1.5f, 1);
+  TEST_ASSERT_EQUAL_STRING("nan,nan,nan,1.5", row.c_str());
+  TEST_ASSERT_FALSE(row.overflow());
+}
+
 static void test_csv_reset_and_single_field() {
   char buf[32];
   CsvRow row(buf, sizeof buf);
@@ -404,6 +412,13 @@ static void test_remote_mix() {
   TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, p.r_us);
 }
 
+static void test_rudder_us() {
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1500.0f, bench::rudderUs(0.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1833.0f, bench::rudderUs(100.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1167.0f, bench::rudderUs(-100.0f));
+  TEST_ASSERT_FLOAT_WITHIN(1e-3f, 1833.0f, bench::rudderUs(250.0f));  // clamped
+}
+
 static void test_remote_link_timeout() {
   TEST_ASSERT_FALSE(bench::linkLost(1000, 1000));
   TEST_ASSERT_FALSE(bench::linkLost(1000, 1500));  // exactly 500 ms: still alive
@@ -432,6 +447,18 @@ static void test_remote_parse_message() {
   TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":2}", &m));
   TEST_ASSERT_FALSE(bench::parseRemoteMsg("hello", &m));
   TEST_ASSERT_FALSE(bench::parseRemoteMsg(nullptr, &m));
+  // "lift" (REMOTE_LIFT): optional, 0..180, -1 when absent; it must not be mistaken for "t"
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":0}", &m));
+  TEST_ASSERT_EQUAL_INT(-1, m.lift);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":7,\"r\":0,\"arm\":0,\"lift\":130}", &m));
+  TEST_ASSERT_EQUAL_INT(130, m.lift);
+  TEST_ASSERT_EQUAL_INT(7, m.t);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":1,\"lift\":0}", &m));
+  TEST_ASSERT_EQUAL_INT(0, m.lift);
+  TEST_ASSERT_TRUE(bench::parseRemoteMsg("{\"stop\":1}", &m));
+  TEST_ASSERT_EQUAL_INT(-1, m.lift);
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":0,\"lift\":181}", &m));
+  TEST_ASSERT_FALSE(bench::parseRemoteMsg("{\"t\":0,\"r\":0,\"arm\":0,\"lift\":-1}", &m));
 }
 
 static void test_vbat_corrected() {
@@ -477,6 +504,7 @@ int main() {
   RUN_TEST(test_deadman_timeout_configurable);
   RUN_TEST(test_csv_row_formatting);
   RUN_TEST(test_csv_fixed_decimals_and_rounding);
+  RUN_TEST(test_csv_non_finite_prints_nan);
   RUN_TEST(test_csv_reset_and_single_field);
   RUN_TEST(test_csv_overflow_is_flagged_and_terminated);
   RUN_TEST(test_softlimit_refuses_until_unlocked);
@@ -496,6 +524,7 @@ int main() {
   RUN_TEST(test_esc_duty_normal_and_inverted);
   RUN_TEST(test_remote_deadband_map);
   RUN_TEST(test_remote_mix);
+  RUN_TEST(test_rudder_us);
   RUN_TEST(test_remote_link_timeout);
   RUN_TEST(test_remote_parse_message);
   RUN_TEST(test_vbat_corrected);

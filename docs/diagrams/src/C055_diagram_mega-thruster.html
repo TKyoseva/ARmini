@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="bg"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C055 Mega thruster</title>
+<style>
+:root{--bg:#fafaf7;--fg:#1d1d1b;--mut:#6b6b66;--card:#fff;--bd:#e3e1da;--red:#d62828;--blk:#2b2926;--yel:#d99a00;--wht:#9a9a94;--mega:#1e1e1e;--pin:#c9a227;--psu:#3a3a38;--ok:#2f7d4f;--warn:#fde8e8}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:1040px;margin:0 auto;padding:20px 16px 30px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+.warn{background:var(--warn);border-left:4px solid var(--red);padding:8px 12px;border-radius:8px;margin:12px 0 0}
+</style></head><body><main>
+<h1>C055 · Тръстер на Arduino Mega 2560</h1>
+<p class="sub">Сигналът от Mega, мощността от захранването. Една обща земя. 29.10.2026</p>
+<div class="card">
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+ <!-- Mega board -->
+ <rect x="40" y="150" width="440" height="230" rx="10" fill="var(--mega)"/>
+ <text x="260" y="275" fill="#fff" font-size="26" font-weight="700" text-anchor="middle">Arduino MEGA 2560</text>
+ <text x="260" y="300" fill="#bbb" font-size="14" text-anchor="middle">Joy-it 2560-P</text>
+ <!-- USB -->
+ <rect x="10" y="175" width="50" height="45" rx="3" fill="#b8b8b8"/>
+ 
+ <line x1="10" y1="197" x2="-5" y2="197" stroke="var(--mut)" stroke-width="3"/>
+ <text x="40" y="250" font-size="13" fill="#bbb">USB → Mac</text>
+ <!-- top header (PWM) -->
+ <g font-size="12" fill="#fff" text-anchor="middle">
+  <rect x="150" y="158" width="320" height="22" fill="#000"/>
+  <!-- labels left->right: AREF GND 13 12 11 10 9 8 -->
+  <text x="170" y="196">AREF</text><text x="205" y="196" fill="#7fe0a0" font-weight="700">GND</text>
+  <text x="240" y="196">13</text><text x="275" y="196">12</text><text x="310" y="196">11</text><text x="345" y="196">10</text>
+  <text x="380" y="196" fill="#ffd34d" font-weight="700">9</text><text x="415" y="196">8</text><text x="450" y="196">7</text>
+ </g>
+ <g fill="var(--pin)">
+  <rect x="164" y="163" width="12" height="12"/><rect x="199" y="163" width="12" height="12" fill="#7fe0a0"/>
+  <rect x="234" y="163" width="12" height="12"/><rect x="269" y="163" width="12" height="12"/>
+  <rect x="304" y="163" width="12" height="12"/><rect x="339" y="163" width="12" height="12"/>
+  <rect x="374" y="163" width="12" height="12" fill="#ffd34d"/><rect x="409" y="163" width="12" height="12"/>
+  <rect x="444" y="163" width="12" height="12"/>
+ </g>
+ <text x="310" y="215" font-size="12" fill="#999" text-anchor="middle">PWM ~</text>
+ <!-- bottom header (POWER) -->
+ <rect x="110" y="352" width="220" height="22" fill="#000"/>
+ <g font-size="12" fill="#fff" text-anchor="middle">
+  <text x="130" y="345">3V3</text><text x="170" y="345">5V</text><text x="210" y="345">GND</text><text x="250" y="345">GND</text><text x="290" y="345">VIN</text>
+ </g>
+ <g fill="var(--pin)"><rect x="124" y="357" width="12" height="12"/><rect x="164" y="357" width="12" height="12"/><rect x="204" y="357" width="12" height="12"/><rect x="244" y="357" width="12" height="12"/><rect x="284" y="357" width="12" height="12"/></g>
+ <!-- X on 5V and VIN -->
+ <g stroke="var(--red)" stroke-width="4" stroke-linecap="round">
+  <line x1="160" y1="390" x2="180" y2="410"/><line x1="180" y1="390" x2="160" y2="410"/>
+  <line x1="280" y1="390" x2="300" y2="410"/><line x1="300" y1="390" x2="280" y2="410"/>
+ </g>
+ <text x="310" y="405" font-size="13" fill="var(--red)">5V и VIN: НЕ се свързват</text>
+
+ <!-- Signal wire: pin 9 -> yellow -->
+ <path d="M380 163 V90 H700 V245" fill="none" stroke="var(--yel)" stroke-width="6" stroke-linejoin="round"/>
+ <text x="540" y="80" font-size="15" fill="var(--yel)" font-weight="700" text-anchor="middle">пин 9 → жълт (сигнал, 5 V)</text>
+ <!-- GND wire: Mega GND -> white -->
+ <path d="M205 163 V60 H740 V245" fill="none" stroke="var(--wht)" stroke-width="6" stroke-linejoin="round"/>
+ <text x="460" y="50" font-size="15" fill="var(--wht)" font-weight="700" text-anchor="middle">GND → бял (земя на сигнала)</text>
+
+ <!-- Thruster -->
+ <rect x="660" y="245" width="200" height="40" rx="6" fill="var(--card)" stroke="var(--fg)" stroke-width="2"/>
+ <text x="760" y="271" font-size="14" text-anchor="middle" font-weight="700">кабел на тръстера</text>
+ <g stroke-width="6" fill="none">
+  <circle cx="700" cy="245" r="5" fill="var(--yel)" stroke="none"/>
+  <circle cx="740" cy="245" r="5" fill="var(--wht)" stroke="none"/>
+  
+  
+ </g>
+ <text x="700" y="238" font-size="12" text-anchor="middle">Y</text><text x="740" y="238" font-size="12" text-anchor="middle">W</text>
+ <text x="780" y="302" font-size="12" text-anchor="end" dx="-6">R</text><text x="820" y="302" font-size="12" dx="6">B</text>
+ <!-- bucket + thruster -->
+ <path d="M880 230 L880 360 Q880 390 910 390 L960 390 Q990 390 990 360 L990 230" fill="#cfe3f2" stroke="var(--mut)" stroke-width="2"/>
+ <rect x="905" y="320" width="60" height="28" rx="12" fill="var(--blk)"/>
+ <path d="M860 265 C 900 265 900 334 905 334" fill="none" stroke="var(--blk)" stroke-width="5"/>
+ <text x="935" y="222" font-size="13" text-anchor="middle" fill="var(--mut)">кофа с вода</text>
+ <text x="935" y="410" font-size="13" text-anchor="middle" fill="var(--mut)">тръстерът под вода</text>
+
+ <!-- PSU -->
+ <rect x="620" y="420" width="260" height="110" rx="8" fill="var(--psu)"/>
+ <text x="634" y="450" fill="#fff" font-size="15" font-weight="700">Захранване SPS</text>
+ <text x="634" y="474" fill="#ffd34d" font-size="13">12.0 V · лимит 2.5 A</text>
+ <circle cx="780" cy="505" r="11" fill="var(--red)"/><text x="780" y="510" fill="#fff" font-size="15" text-anchor="middle" font-weight="700">+</text>
+ <circle cx="820" cy="505" r="11" fill="#111" stroke="#888"/><text x="820" y="510" fill="#fff" font-size="15" text-anchor="middle" font-weight="700">−</text>
+ <path d="M780 285 V494" stroke="var(--red)" stroke-width="6"/>
+ <path d="M820 285 V494" stroke="var(--blk)" stroke-width="6"/>
+ <!-- common ground: PSU - to Mega GND (power header) -->
+ <path d="M820 516 V575 H210 V369" fill="none" stroke="var(--blk)" stroke-width="5" stroke-dasharray="10 6" stroke-linejoin="round"/>
+ <circle cx="210" cy="369" r="6" fill="#7fe0a0"/>
+ <text x="500" y="565" font-size="15" font-weight="700" fill="var(--ok)" text-anchor="middle">ОБЩА ЗЕМЯ: минус на захранването → GND на Mega</text>
+ <text x="770" y="370" font-size="13" fill="var(--red)" text-anchor="end">червен (R) → +12 V</text>
+ <text x="770" y="390" font-size="13" fill="var(--fg)" text-anchor="end">черен (B) → −</text>
+</svg>
+</div>
+<div class="warn"><b>Ред:</b> захранване на 12.0 V и 2.5 A, все още изключено → свържи жилата → USB → Serial Monitor 115200 → включи захранването → <code>arm</code> → 1550, 1600, 1650, 1400 → <code>0</code>. Двата тръстера на същия пин 9, сменя се само тръстерът.</div>
+</main></body></html>

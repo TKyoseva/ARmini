@@ -79,3 +79,59 @@ ARM, thrust held at +30. Walk away from the board with the phone; note the RSSI 
 
 ## Photos / video
 Page on the phone (screenshot), CSV during step 3, video of step 4 with STOP. Files to iCloud `AR-Mini-Media/01_Loops/C028_…`.
+
+## 6. Env `remote_rudder` · one thruster + rudder (C056, 29.10.2026)
+
+`pio run -e remote_rudder -t upload`. Same page, same safety contract. **thrust** slider → left ESC on GPIO1 (S8050, inverted, dead band 1580 / 1420, 1350–1650). **turn** slider → MG90S rudder on GPIO2, **direct, not inverted**, `rudderUs`: 0 → 1500, ±100 → 1833 / 1167 µs (±30° estimate), ramp 2000 µs/s. Releasing the slider centres the rudder; any SAFE centres it at once.
+
+Wiring: MG90S signal (orange) → the GPIO2 header pin itself (before the 1 k to the S8050 base; pull that 1 k out), red → +5 V (EXT1 pin 21), brown → GND. Never 12 V, never the PCA9685 V+.
+
+**Pass (thruster NOT powered):** turn +100 → `r_us` 1833, horn swings one way; −100 → 1167, the other way; release → 1500 = blade straight. If ±100 hits the stops (buzzing), measure the real ends and lower `kRudderHalfUs`.
+
+### 6.1 Env `remote_rudder_hct` (C058, 29.10.2026)
+Same as `remote_rudder`, but GPIO1 (thruster) and GPIO2 (rudder) go through a **74HCT125** powered from +5 V (EXT1-21):
+1A = GPIO1 → 1Y = ESC yellow, 2A = GPIO2 → 2Y = MG90S orange, 1OE/2OE to GND, 3A/4A to GND, 3OE/4OE to +5 V,
+100 nF across pins 14–7, 10 kΩ from 1A to GND (ESC sees LOW, no pulses, while the ESP32 boots).
+The buffer does **not** invert, so `kEscInvert = false` (-DESC_BUFFER). The S8050 stage (1 k, 10 k, S8050) is removed.
+**Never flash `remote_rudder` with the 74HCT125 wired, or `remote_rudder_hct` with the S8050 wired:** the ESC would get inverted pulses.
+
+## 7. Env `remote_pool` · thruster + rudder + cradle lift (pool run 31.10.2026)
+
+`pio run -e remote_pool -t upload`. Everything from §6.1 (`remote_rudder_hct`, the 74HCT125 **must** be wired) plus the
+two cradle servos of C023 on the PCA9685, driven from a third slider.
+
+| | |
+|---|---|
+| PCA9685 | I2C-0: SDA GPIO48, SCL GPIO47 (EXT2 16 / 17), VCC 3V3, GND; OE open (module 10 k to GND). Address 0x40, same module as the `pca9685` env |
+| servos | TD-8120MG A on **CH12**, B on **CH13**, mirrored (`us_B = 3000 − us_A`, PairMath). Trims 0 — C023 showed trim changes nothing; `-DLIFT_TRIM_A_US=… -DLIFT_TRIM_B_US=…` if ever needed |
+| servo power | **5 V** from the QIQIAZI 5 V / 5 A buck (BOM row 80) on fuse F2 into the green **V+** terminal, GND common. **Never 12 V.** C023 at 6.0 V: 0.25 A lifting Pesho, up to 1.1 A holding the empty U (stiction, not fighting). 5 V = ~15 % less torque, enough |
+| page | third slider **lift** 50–130°, and it **stays** where released (thrust / turn spring back). 50 = U deployed (down), 130 = raised between the hulls (C023). The bar shows `lift 50°…130°` or `lift off` |
+| pulses | OFF at boot and after KILL. **ARM** turns them on with a snap to the slider (`# lift ON at <deg> deg`), so the slider must already show the pose the U is in: deployed = slider at the bottom = 50 (where it is when the page loads). Every later move ramps at 20 °/s |
+| SAFE | heartbeat, STOP, disconnect, `0`: thruster 1500, rudder centred, **lift holds** (a ramp in progress stops where it is — the U never drops on a WiFi hiccup). **KILL**: lift pulses off, servos limp, the U settles deployed; before the next ARM slide lift back to 50 |
+| serial | `lift <50..130>` moves the pair without the phone (dry test), `lift off` drops both pulses, `?` shows `lift=<deg> (req <slider>, pca ok)` |
+| status | JSON `"u"` = pair degree (−1 = off); CSV column `lift_deg` (−1 = off) |
+
+Boot banner: `# OK PCA9685 0x40 (SDA GPIO48, SCL GPIO47): LIFT CH12/CH13 50–130 deg, 50 = deployed, pulses OFF until ARM`.
+`# WARN PCA9685 not found` = SDA/SCL swapped or VCC/GND missing; thrust and rudder still work, the lift is disabled.
+
+### 7.1 Dry test (servo 5 V on, thruster NOT powered, U empty, hands clear of the arms)
+
+| # | Action | Expected |
+|---|---|---|
+| 1 | boot, rocker RUN | banner line above; page bar `lift off` |
+| 2 | lift slider at the bottom (50), U resting deployed, ARM | `# ARMED`, `# lift ON at 50 deg`; the arms twitch a few degrees at most |
+| 3 | slide lift slowly to the top | the U rises level to 130 in ≈ 4 s; CSV `lift_deg` 50 → 130; current at the buck: `expected: record` |
+| 4 | slide back to the bottom | the U comes down to 50 |
+| 5 | lift at 130, press STOP | `# SAFE stop`, the U **stays up**. ARM again → nothing moves until the slider moves |
+| 6 | lift at 130, phone to airplane mode | `# SAFE heartbeat`, the U stays up |
+| 7 | lift at 130, rocker → KILL | `# SAFE kill`, `# lift OFF (KILL) …`, the U drops limp to deployed. Rocker RUN, slider to 50, ARM → snap of a few degrees only |
+| 8 | monitor: `lift 90`, `lift 130`, `lift off` | pair moves without the phone; `lift 140` → `# ERR lift (want: lift <50..130> \| lift off)` |
+
+**Pass:** rows 2–8 as written; the U never twists (arms clocked at the same pose, C023 / FAILS 172); a standing current > 0.3 A
+only during a stiction stall that a nudge by hand releases (C023), never from the servos fighting.
+
+### 7.2 In the pool
+
+ARM at the edge with the U deployed on its support (lift at 50), then put the robot in; the lift holds 50 while it floats and drives.
+Drive over Pesho with thrust / turn, release both, slide **lift** up slowly to 130. Watch `vbat` and the buck: stop at ≤ 10.5 V.
+Photos: page with `lift`, the U at 50 and at 130, video of a full pick-up, CSV with `lift_deg`.

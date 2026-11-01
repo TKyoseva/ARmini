@@ -3,9 +3,11 @@
 //   char buf[128]; bench::CsvRow row(buf, sizeof buf);
 //   row.add(t_ms).add(cmd, 3).add(pwm).add("DEADMAN");  ->  "1234,0.500,128,DEADMAN"
 //
-// Fixed decimals for floats (no exponent, no "-0.000"), no trailing comma, no units in values.
+// Fixed decimals for floats (no exponent, no "-0.000"), no trailing comma, no units in values. A NaN or ±inf
+// prints as "nan" (pandas reads it as NaN); casting it to an integer gave "922337203685477580.7" (thermal, 25.10).
 // If the buffer is too small the row is truncated and overflow() is true.
 #pragma once
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -47,6 +49,7 @@ class CsvRow {
   // Fixed-point: `decimals` digits after the point (0..6), round-half-away-from-zero, no "-0".
   CsvRow& add(float v, int decimals) { return add(static_cast<double>(v), decimals); }
   CsvRow& add(double v, int decimals) {
+    if (!isfinite(v)) return add("nan");
     if (decimals < 0) decimals = 0;
     if (decimals > 6) decimals = 6;
     long scale = 1;

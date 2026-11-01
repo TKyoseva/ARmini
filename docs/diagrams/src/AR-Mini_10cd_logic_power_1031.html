@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Logic Power Wires</title><style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mut:#6b6b66;--bb:#f1efe8;--bbe:#c9c5ba;--hole:#b8b3a8;--red:#c62828;--blk:#1d1d1b;--dim:#3b6fb6;--fb:#e9e6dd;--fuse:#f5c542;--res:#efd9a8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--mut:#a3a29c;--bb:#262522;--bbe:#4a4740;--hole:#6d6961;--red:#ff6b6b;--blk:#d8d4cc;--dim:#6da0e8;--fb:#2c2b28;--fuse:#c9a032;--res:#7a6a45}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:22px;margin:0}.sub{color:var(--mut);margin:2px 0 12px}
+svg{width:100%;height:auto;display:block}text{fill:var(--fg);font-size:13px}
+.m{fill:var(--mut);font-size:11.5px}.b{font-weight:700}.box{fill:var(--fb);stroke:var(--bbe);stroke-width:2}
+.bb{fill:var(--bb);stroke:var(--bbe);stroke-width:2}.hole{fill:var(--hole)}.w{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.thick{stroke:var(--red);stroke-width:6}.thin{stroke:var(--red);stroke-width:2.4}.gnd{stroke:var(--blk);stroke-width:2.4}.gthick{stroke:var(--blk);stroke-width:6}.blue{stroke:var(--dim);stroke-width:3}
+.fuse{fill:var(--fuse);stroke:var(--fg);stroke-width:1}.res{fill:var(--res);stroke:var(--fg);stroke-width:1}.term{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
+.rp{stroke:var(--red);stroke-width:1.5}.rm{stroke:var(--dim);stroke-width:1.5}
+ol{padding-left:20px}li{margin:4px 0}code{font-size:14px}
+</style><style>.org{stroke:#e08a00;stroke-width:3}.ot{fill:#b86e00;font-size:12px;font-weight:700}</style></head><body><main>
+<h1>Rows 10c + 10d · 3V3 and GND for the PCA9685 and the MLX90642-D45</h1>
+<p class="sub">AR-Mini, pool/lake run 31.10.2026 · only these wires · right board rails as on your board: red + INNER, blue − OUTER</p>
+<svg viewBox="0 0 960 500" role="img" aria-label="PCA9685 VCC and D45 3V3 to the right + rail, GND to the right − rail">
+<rect class="bb" x="40" y="40" width="220" height="420" rx="6"/>
+<text x="150" y="30" text-anchor="middle" class="m">right breadboard, rail side (top view)</text>
+<line class="rp" x1="210" y1="55" x2="210" y2="445"/><line class="rm" x1="240" y1="55" x2="240" y2="445"/>
+<text x="200" y="478" text-anchor="end" style="fill:var(--red)">+ 3V3</text><text x="250" y="478" text-anchor="start" style="fill:var(--dim)">− GND</text>
+<text x="70" y="70" class="m">rows 1 … 30</text>
+<rect class="box" x="560" y="40" width="370" height="190" rx="8"/>
+<text x="745" y="66" text-anchor="middle" class="b">PCA9685 (lift) · side header</text>
+<rect class="box" x="580" y="130" width="330" height="80" rx="6" style="fill:none;stroke-dasharray:4 3"/>
+<text x="745" y="226" text-anchor="middle" class="m">green screw terminal V+ / GND = 5 V servo power (group 15), not here</text>
+<rect class="box" x="560" y="290" width="370" height="150" rx="8"/>
+<text x="745" y="316" text-anchor="middle" class="b">MLX90642-D45 (idle today)</text>
+</svg>
+<script>
+const s=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;s.appendChild(e);return e};
+for(let y=70;y<=440;y+=15){el('circle',{class:'hole',cx:210,cy:y,r:2.2});el('circle',{class:'hole',cx:240,cy:y,r:2.2})}
+// PCA header pins
+const pins=['GND','OE','SCL','SDA','VCC','V+'],px=i=>600+i*58;
+pins.forEach((p,i)=>{el('rect',{x:px(i)-10,y:84,width:20,height:20,rx:3,fill:'#1d1d1b'});el('text',{x:px(i),y:120,'text-anchor':'middle',class:'b'},p)});
+el('text',{x:px(1),y:152,'text-anchor':'middle',class:'m'},'open');
+el('text',{x:px(2),y:152,'text-anchor':'middle',class:'m'},'10b');el('text',{x:px(3),y:152,'text-anchor':'middle',class:'m'},'10a');
+el('text',{x:px(5),y:152,'text-anchor':'middle',class:'m b'},'EMPTY');el('text',{x:px(5),y:168,'text-anchor':'middle',class:'m'},'never 3V3');
+// D45 pins
+const dp=['3V3','GND','SDA','SCL'],dx=i=>620+i*80;
+dp.forEach((p,i)=>{el('rect',{x:dx(i)-10,y:340,width:20,height:20,rx:3,fill:'#1d1d1b'});el('text',{x:dx(i),y:378,'text-anchor':'middle',class:'b'},p)});
+el('text',{x:dx(2),y:400,'text-anchor':'middle',class:'m'},'10a');el('text',{x:dx(3),y:400,'text-anchor':'middle',class:'m'},'10b');
+// wires: 10c red, 10d black
+const R='var(--red)',B='var(--blk)';
+el('polyline',{class:'w',stroke:R,'stroke-width':3,points:`${px(4)},84 ${px(4)},26 400,26 400,145 210,145`});
+el('polyline',{class:'w',stroke:B,'stroke-width':3,points:`${px(0)},84 ${px(0)},76 420,76 420,175 240,175`});
+el('polyline',{class:'w',stroke:R,'stroke-width':3,points:`${dx(0)},340 ${dx(0)},300 ${dx(0)-90},300 ${dx(0)-90},325 210,325`});
+el('polyline',{class:'w',stroke:B,'stroke-width':3,points:`${dx(1)},360 ${dx(1)},420 240,420`});
+[[210,145,R],[240,175,B],[210,325,R],[240,420,B]].forEach(([x,y,c])=>el('circle',{cx:x,cy:y,r:5,fill:c}));
+el('text',{x:270,y:140,class:'b',style:'fill:var(--red)'},'10c red · PCA VCC → + rail');
+el('text',{x:270,y:192,class:'b'},'10d black · PCA GND → − rail');
+el('text',{x:270,y:320,class:'b',style:'fill:var(--red)'},'10c red · D45 3V3 → + rail');
+el('text',{x:270,y:412,class:'b'},'10d black · D45 GND → − rail');
+// 3a reminder
+el('polyline',{class:'w',stroke:R,'stroke-width':3,points:'210,440 120,440 120,490'});
+el('text',{x:50,y:452,class:'m'},'3a from left +');
+</script>
+<ol>
+<li>S1 OFF, USB unplugged.</li>
+<li><b>10c (red):</b> PCA9685 <b>VCC</b> pin → right <b>+</b> rail (inner, red). D45 <b>3V3</b> → the same + rail. This rail is 3.3 V, fed by 3a from the left board.</li>
+<li><b>10d (black):</b> PCA9685 <b>GND</b> pin → right <b>−</b> rail (outer, blue). D45 <b>GND</b> → the same − rail.</li>
+<li>The header pin <b>V+</b> next to VCC stays EMPTY. It is the servo 5 V and is joined to the green terminal; 3V3 on it would feed the servos from the DevKit.</li>
+<li>Meter, USB in: PCA VCC to GND = 3.2–3.4 V. The PCA9685 power LED lights.</li>
+</ol>
+</main></body></html>
