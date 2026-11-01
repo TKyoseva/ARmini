@@ -20,7 +20,7 @@ HERO_H=860
 rows=(len(ORDER)+COLS-1)//COLS
 Ht=100+30+HERO_H+30+rows*(TH+TXT+20)+20+150
 can=Image.new('RGB',(W,Ht),'white'); d=ImageDraw.Draw(can)
-d.rectangle([0,0,W,100],fill='#16324f'); d.text((PAD,26),'P26  Every part I printed',fill='white',font=f(44,True))
+d.rectangle([0,0,W,100],fill='#16324f'); d.text((PAD,26),'P08  Every part I printed',fill='white',font=f(44,True))
 st='COMPLETE'; tw=d.textlength(st,font=f(30,True)); d.rectangle([W-PAD-tw-30,24,W-PAD,76],fill='#2e7d32'); d.text((W-PAD-tw-15,32),st,fill='white',font=f(30,True))
 # hero
 y=130; HW=1440
@@ -65,4 +65,4 @@ def wrap(t,font,mw):
     return out+[line]
 for l in wrap(foot,f(30),W-2*PAD): d.text((PAD,yy),l,fill='#333',font=f(30)); yy+=42
 can=can.crop((0,0,W,yy+30))
-can.save('P26_every-part-i-printed.jpg',quality=90); print(can.size)
+can.save('P08_every-part-i-printed.jpg',quality=90); print(can.size)

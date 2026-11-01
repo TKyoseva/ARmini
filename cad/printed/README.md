@@ -1,12 +1,12 @@
 # cad/printed — every part printed for AR-Mini (as of 31.10.2026)
 
-One scene with all 19 printed models laid out side by side (615 × 431 mm), for Fusion 360 and for portfolio slide P26.
+One scene with all 19 printed models laid out side by side (615 × 431 mm), for Fusion 360 and for portfolio slide P08.
 
 | File | What | Open in Fusion 360 |
 |---|---|---|
 | `AR-Mini_printed_parts.step` | 17 solid bodies (B-rep, named `<part> x<qty>`, coloured by filament). Pesho's head and body are organic meshes and are **not** in the STEP | File → Open → the .step. Bodies can be measured, sectioned and edited |
 | `AR-Mini_printed_parts.3mf` | all 19 models as mesh bodies (Pesho decimated to 120 k triangles per part) | File → Open → the .3mf (mesh bodies; Mesh → Convert Mesh if you need solids) |
-| `src/` | how they were made: `parts.py` (list + print data), `layout.py` (3MF), `step.py` (STEP via OCP), `render.html` + `shoot.js` (three.js renders), `slide.py` (P26) | — |
+| `src/` | how they were made: `parts.py` (list + print data), `layout.py` (3MF), `step.py` (STEP via OCP), `render.html` + `shoot.js` (three.js renders), `slide.py` (P08) | — |
 
 Sources: `cad/stl/v1/*.stl` (STLs that were printed) and `build/pesho_*.stl` (Pesho, not in git, regenerate with `cad/pesho/pesho.py`).
 The STEP is made from the printed STL triangles with coplanar faces merged, so flat faces are clean and round faces are faceted. Volumes match the STLs to 0.1 cm³.
