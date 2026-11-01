@@ -1,5 +1,5 @@
 {
-  "exported": "2026-10-18T20:10:37.001Z",
+  "exported": "2026-11-01T08:56:54.334Z",
   "prefix": "C",
   "goals": [
     {
@@ -54,13 +54,33 @@
   "releases": [
     {
       "id": "c9mz9s20i5ahc6ia920c",
-      "name": "R-1018",
-      "goal": "R1b parts printed and fitted by hand, boot-safe motor pins, all parts in",
-      "g": "g1",
-      "kind": "release",
-      "date": "2026-10-18",
+      "created": 1792354181794,
       "cut": 1792354181794,
-      "created": 1792354181794
+      "date": "2026-10-18",
+      "g": "g1",
+      "goal": "R1b parts printed and fitted by hand, boot-safe motor pins, all parts in",
+      "kind": "release",
+      "name": "R-1018"
+    },
+    {
+      "id": "r-1024",
+      "created": 1792866000000,
+      "cut": 1792866000000,
+      "date": "2026-10-24",
+      "g": "g1",
+      "goal": "Both hulls framed with beams and arch, the arm lifts Pesho on the bench, the thruster spins from the DevKit and from a phone, and the whole robot floats and moves on one thruster",
+      "kind": "release",
+      "name": "R-1024"
+    },
+    {
+      "id": "r-1101",
+      "created": 1793523120000,
+      "cut": 1793523120000,
+      "date": "2026-11-01",
+      "g": "g1",
+      "goal": "AR-Mini drives in open water: launched at Pancharevo in rain and fog, on battery, one thruster under the beams and a rudder, steered from the phone and back to the bank",
+      "kind": "release",
+      "name": "R-1101"
     },
     {
       "id": "r1a",
@@ -85,7 +105,7 @@
     {
       "id": "r2a",
       "created": 1791511502000,
-      "cut": null,
+      "cut": 1793523120000,
       "date": "2026-10-16",
       "g": "g1",
       "goal": "thruster spins in a bucket from the DevKit; kick-up coupon fits",
@@ -105,7 +125,7 @@
     {
       "id": "r2c",
       "created": 1791511504000,
-      "cut": null,
+      "cut": 1793523120000,
       "date": "2026-10-22",
       "g": "g1",
       "goal": "swims in the pool on remote control",
@@ -560,9 +580,9 @@
     {
       "label": "C005",
       "id": "l005",
-      "col": "backlog",
+      "col": "released",
       "created": 1791515004000,
-      "end": null,
+      "end": 1792740629000,
       "files": [
         {
           "note": "",
@@ -575,23 +595,23 @@
       ],
       "from": "claude",
       "hyp": "all 4 M4 screws go into the inserts by hand at 35.0 × 15.9 (Ø4.5 holes) — pattern measured 10.10 with inner/outer edges (35.02 × 15.88)",
-      "media": "",
+      "media": "C005_2026-10-23_thruster-arm-fit",
       "note": "Coupon skipped 11.10 (Teddy): print thruster_arm directly. Its plate is the coupon (50 × 30 × 5, 4 × Ø4.5 at 35.0 × 15.9). EXPORT: OpenSCAD part = \"thruster_arm\" → build/thruster_arm.stl (do not commit the part line OpenSCAD writes into the .scad). PRINT after the right hull (printer busy until ~22:00): plate flat on the bed as modelled (the bed side is the face that sits on the thruster), 6 walls, tree supports only under the cheek overhang next to the stop tab; white PLA for the fit test, PETG for the real pair. Same part for both sides. TEST: arm plate on the thruster face, 4 M4 screws by hand. If they do not go in: which two and by how much (caliper). Also (1) where the frame sits along the duct (th_frame_dx) and (2) insert depth with a screw in, which decides N001: M4 × 16 or × 20 for plate 5 + frame 9.68. Photo from above and from the side.",
       "order": 21,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2a",
-      "result": "",
+      "outcome": "pass",
+      "photo": "C005_05",
+      "rel": "R-1024",
+      "result": "PASS 23.10 09:49–10:30 (IMG_2389–2396). The PETG thruster_arm plate on the thruster frame: all 4 M4 screws went in by hand → the 35.0 × 15.9 pattern is right. Screw chosen: M4 × 12 (DSM set). The Ø5 rod through bracket lugs + arm cheeks turns freely; the arm and bracket are assembled on the hinge. FRAME POSITION: the duct is only the black ring, 42.95 mm long (IMG_2392), not 112: the 112 of C001 is the whole body including the two hub cones (pointed one on one side, rounded one on the cable side). Side view IMG_2393: the pylon/frame sits centred on the ring → th_frame_dx = 0 relative to the ring centre (CAD value kept). Other readings in the photos: 56.14 (IMG_2391, arm/pylon to the ring end, labels not given), 35.46 (IMG_2389), 51.22 (IMG_2396); IMG_2390 display unreadable. Insert depth not measured (M4 × 12 holds by hand). CAD note for Cursor: the scad models the duct as a Ø72 × 112 cylinder (th_duct_L); the real part is a Ø72 × ~43 ring plus a ~Ø30–35 hub with cones → waterline and kick-up clearance are conservative as drawn, so no change before G1.",
       "seq": 5,
-      "start": null,
+      "start": 1792738000000,
       "title": "thruster_arm on the thruster: do the 4 M4 screws fit (coupon skipped)"
     },
     {
       "label": "C006",
       "id": "l006",
-      "col": "today",
+      "col": "released",
       "created": 1791515006000,
-      "end": null,
+      "end": 1792566000000,
       "files": [
         {
           "note": "§8: this test sets the JP1/JP2 default",
@@ -604,15 +624,15 @@
       ],
       "from": "claude",
       "hyp": "yellow→black reads 3–5 V (signal input with pull-up), white→black < 0.5 V; current with no signal < 0.05 A",
-      "media": "",
+      "media": "01_Loops/C006_2026-10-21_esc-bucket/",
       "note": "Jesverty: 9 V, CC 0.10 A. Thruster in water. Red +, black −, nothing on yellow/white. Measure V and I, then yellow with 10 kΩ to ground. Smoke/heat → power off. Photo of the supply display and the meter. 12.10 21:20: the supply arrived (it is the SPS-3010N, 0–30 V / 0–10 A, not the 60 V / 5 A of the order: fine here). Set 9.00 V and CC 0.10 A with the output OFF, check the voltage with the UT61E+ before connecting. The second thruster arrived too. This card now decides JP1/JP2 on rev B (C032): run it before ordering.",
       "order": 23,
-      "outcome": null,
+      "outcome": "pass",
       "photo": "",
-      "rel": "",
-      "result": "",
+      "rel": "R-1024",
+      "result": "21.10, thruster #1 under water, supply Jesverty SPS-6005N (0-60 V / 0-5 A, the photo shows this model, not the SPS-3010N written earlier), meter UT61E+ on V DC. (1) Supply check: display 9.00 V, meter 8.993 V. (2) Red + / black -, yellow and white open: 9.00 V, 0.009 A, 0.081 W idle, no CC. (3) yellow -> black open: 4.983 V. (4) white -> black: 0.0002 V. (5) yellow -> black with 10 kOhm to black: 3.572 V. => yellow = signal input pulled up to ~5 V through R = 10k x (4.983 - 3.572) / 3.572 = 3.95 kOhm; white = signal ground (tied to black). Hypothesis held on all three numbers. Decision: the ESC line idles above 3.6 V, so it must NOT go straight to an ESP32-S3 GPIO (not 5 V tolerant, ~0.4 mA would flow into the pin's clamp). Rev B (C032): fit U6 74AHCT125 at 5 V, cut JP1/JP2 A, bridge B. C025 may go ahead only through the shifter (or a 74AHCT125 on the breadboard). Order of readings 3/4/5 assumed to follow the C006 wiring sheet (03 yellow, 04 white, 05 yellow + 10k). Thruster #2 not measured yet.",
       "seq": 6,
-      "start": null,
+      "start": 1792566000000,
       "title": "Thruster ESC: 9 V with 0.10 A limit, in a bucket"
     },
     {
@@ -713,9 +733,9 @@
     {
       "label": "C019",
       "id": "l019",
-      "col": "today",
+      "col": "released",
       "created": 1791654120000,
-      "end": null,
+      "end": 1792665540000,
       "files": [
         {
           "note": "how the bracket sits on the rim boss, cross-section",
@@ -743,10 +763,10 @@
       "media": "C019_2026-10-13_linkage-fit",
       "note": "Needs: both hull_fores (C008 + C022), the orange plate (C011). 1) STLs: Cursor, OpenSCAD command line -D part=\"pivot_bracket\" (left) and -D part=\"pivot_bracket\" -D side=-1 (right, mirrored) → build/; or the CI artifact (left only). 2) Black PLA (structure), 0.2 mm, 4 walls, 40 %, pocket facing up, tree supports under the inner plate and the servo block (the print list's \"no supports\" was wrong). PRINTED 13.10 in C037 (5 h 45 min, 176.0 g with the 2 arch posts), so this loop can start at step 3. 3) Heat-set inserts (ruthex M3, d4.0 holes) with the soldering iron at ~220 °C for PLA: 4 in each bracket + 2 in each hull_fore boss at x 200. 4) Bracket onto the boss: 2 × M3. 5) Servo in, 4 × M3 × 8–10 through the ears. 6) arm_idler on the idler boss: M3 × 20 through the arm into the d2.6 hole (self-taps), not tight — it must turn. 7) Coupler: M3 × 20 + nyloc through each arm end, snug but free. 8) Swing slowly by hand, servos unpowered. Photos per side: bracket from above, servo in, linkage at 45° and at 215°, side view showing both arms in one plane.",
       "order": 28,
-      "outcome": null,
-      "photo": "",
-      "rel": "R1b",
-      "result": "13.10 17:11 first dry fit (photo C019_01): the TD-8120MG does NOT drop in. It stops ~16 mm high (only ~12 of the 28.5 mm below the ears is in the pocket) because the cable outlet, the black block where the wire leaves the case at the spline end, sits on the pocket rim. The CAD pocket is a plain box (40.7 × 20.4 × 28.8) with no slot for the outlet, and even seated the wire would have no way out. First part of the hypothesis fails. The same closed pocket is in the camera-pan block on the arch (cam_plate), so it has the same miss. Spline at the end nearest the idler pin = correct orientation. NEXT: with the servo out, measure the outlet with the caliper (width across the 20 mm side, how far it sticks out of the end, ear underside → outlet top, ear underside → outlet bottom). Then the slot size. Between the two ear inserts at that end (d4 at ±4.83 from the shaft axis, 8 mm deep) there is only ~5.6 mm, so a wider outlet means those two inserts go, and the servo is held by the snug pocket + the 2 far inserts (enough for the unpowered swing). Prototype: cut the slot by hand in these two PLA brackets (card C038, t-cable-slot). 21:45 C038 DONE: hole drilled through the end wall (Dremel on the Workstation), servo seats with the ears flat (C019_04), arm_drive on the disc (C019_07) → hypothesis part 1 passes with the hole. MOUNTING (asked 21:52, sketch pivot_bracket_mount.png): hull upright; the bracket's flat 30 × 26 plate with the 2 counterbored holes lies ON TOP of the rim boss at x = 200 (the aft one of the two bosses on the inner wall; the x = 165 boss is for the arch post), its holes over the boss's 2 d4 holes; the 6 mm vertical plate goes down the OUTSIDE of the inner wall (gap side); the servo block hangs in the gap under the rim, shaft 15 mm below the rim pointing at the other hull, idler pin below the shaft, cable hole toward the bow. Fix: 2 × ruthex M3 inserts in the boss (HS-03 ~220 °C, PLA hull), 2 × M3 × 10 socket head, heads in the counterbores. Mirrored bracket → the other hull, same way. NEXT: inserts in both bosses + 2 far-end servo inserts per bracket; screws through the ears; arm_idler on the pin; coupler; swing by hand. CAD (Cursor): cable slot in pivot_bracket and in the cam pan block + a FAILS line. Do not force the servo in.",
+      "outcome": "pass",
+      "photo": "C019_36",
+      "rel": "R-1024",
+      "result": "13.10 17:11 first dry fit (photo C019_01): the TD-8120MG does NOT drop in. It stops ~16 mm high (only ~12 of the 28.5 mm below the ears is in the pocket) because the cable outlet, the black block where the wire leaves the case at the spline end, sits on the pocket rim. The CAD pocket is a plain box (40.7 × 20.4 × 28.8) with no slot for the outlet, and even seated the wire would have no way out. First part of the hypothesis fails. The same closed pocket is in the camera-pan block on the arch (cam_plate), so it has the same miss. Spline at the end nearest the idler pin = correct orientation. NEXT: with the servo out, measure the outlet with the caliper (width across the 20 mm side, how far it sticks out of the end, ear underside → outlet top, ear underside → outlet bottom). Then the slot size. Between the two ear inserts at that end (d4 at ±4.83 from the shaft axis, 8 mm deep) there is only ~5.6 mm, so a wider outlet means those two inserts go, and the servo is held by the snug pocket + the 2 far inserts (enough for the unpowered swing). Prototype: cut the slot by hand in these two PLA brackets (card C038, t-cable-slot). 21:45 C038 DONE: hole drilled through the end wall (Dremel on the Workstation), servo seats with the ears flat (C019_04), arm_drive on the disc (C019_07) → hypothesis part 1 passes with the hole. MOUNTING (asked 21:52, sketch pivot_bracket_mount.png): hull upright; the bracket's flat 30 × 26 plate with the 2 counterbored holes lies ON TOP of the rim boss at x = 200 (the aft one of the two bosses on the inner wall; the x = 165 boss is for the arch post), its holes over the boss's 2 d4 holes; the 6 mm vertical plate goes down the OUTSIDE of the inner wall (gap side); the servo block hangs in the gap under the rim, shaft 15 mm below the rim pointing at the other hull, idler pin below the shaft, cable hole toward the bow. Fix: 2 × ruthex M3 inserts in the boss (HS-03 ~220 °C, PLA hull), 2 × M3 × 10 socket head, heads in the counterbores. Mirrored bracket → the other hull, same way. NEXT: inserts in both bosses + 2 far-end servo inserts per bracket; screws through the ears; arm_idler on the pin; coupler; swing by hand. CAD (Cursor): cable slot in pivot_bracket and in the cam pan block + a FAILS line. Do not force the servo in. 21.10 morning (C019_13–19): first bracket + servo + arm_drive swung by hand 0° → 90° (unpowered), 2 ruthex M3 in the first hull_fore boss, bracket bolted with 2 × M3. 21.10 15:13–15:17 (C019_20–36): 2 ruthex M3 in the second hull_fore boss (iron 220 °C, inserts flush), the mirrored bracket bolted with 2 × M3 → both brackets mounted, mirrored pair, servos in the gap facing each other, both arms to the bow (C019_36 ★). CHECK: on the photos both brackets sit on the boss nearer the bow (x 165 = arch post boss in the scad); the pivot should be on the aft boss x 200 (pivot_x = 200). Tape bow tip → screw centres to confirm; if 165, move both brackets to the aft boss (2 new inserts each), the inserts already in x 165 then serve the arch posts. Still open: arm_idler + coupler (linkage), swing 45° → 215°, servo centring before the first powered move. 22.10: boss check RESOLVED: on C022_14 both pivot brackets are on the aft boss x 200, arch posts on x 165, as in the CAD. HEIC originals of C019_17–19 added (IMG_2252/2253/2257). LINKAGE DONE 22.10 ~12:39 (IMG_2332–2336): on both sides arm_drive on the servo disc, arm_idler on the bracket's idler pin, coupler with M3 + nylocs at both arm ends, the C020 U clamped in both couplers. Swung by hand (servos unpowered): the two arms stay parallel (parallelogram works), deployed the U lies ahead of the bows on the table, raised it sits between the hulls under the arch; Pesho (C021) laid in the U and lifted by hand between the hulls (IMG_2335/2336 ★). Next: C023 `pair` for the first powered move (no U first). 23.10 09:44: the post-C023 follow-up (nyloc joints just snug, U width vs arm spacing, standing current < 0.3 A without a nudge) DROPPED by Teddy: closed as is. If the servos stall at ~1 A again, the firmware option (approach the target from one side) is the fallback.",
       "seq": 19,
       "start": 1791900660000,
       "title": "2 × pivot_bracket (black PLA) + 2 × TD-8120MG + linkages: do they assemble and swing?"
@@ -783,7 +803,7 @@
       "outcome": null,
       "photo": "",
       "rel": "R1b",
-      "result": "PRINTED 13/14.10 (C039): head + lid white PETG ~1 h 40; body red PLA 4 h 44 min, 143.0 g with trees and brim. Head seats in the cup, lid fits, face clean. Left arm broke off at the shoulder on removal (C021_18): glue it back (CA; pin with 1.75 filament if possible). Step 0 before the test: trees and brim off, weigh body / head / lid (model said ~100 / 23 / 5 g), photo on the scale. Then as in the note: nuts from the sole (3 + 3 for the thermal case, 1 + 1 for the cradle), filament pin through the cross hole, warmer in the head, lid on, tub 30 min both cases, side photos at the waterline, weigh again. Media so far C021_01–22.",
+      "result": "PRINTED 13/14.10 (C039): head + lid white PETG ~1 h 40; body red PLA 4 h 44 min, 143.0 g with trees and brim. Head seats in the cup, lid fits, face clean. Left arm broke off at the shoulder on removal (C021_18): glue it back (CA; pin with 1.75 filament if possible). Step 0 before the test: trees and brim off, weigh body / head / lid (model said ~100 / 23 / 5 g), photo on the scale. Then as in the note: nuts from the sole (3 + 3 for the thermal case, 1 + 1 for the cradle), filament pin through the cross hole, warmer in the head, lid on, tub 30 min both cases, side photos at the waterline, weigh again. Media so far C021_01–22. 21.10: arm glued back (Moment Classic contact glue), trees and brim off. Weighed: body 132 g (model said ~100, +32 %; the slicer's 143.0 g with trees was the honest number), head + lid 28 g (model 23 + 5 = 28 ✓). Thermal case is now ~301 g (132 + 28 + warmer 45 + 6 nuts × 16), not 268; cradle case ~237 g, not 205. The tub decides whether 3 + 3 still keeps the head out; fallback 2 + 2. Media C021_23–26. 21.10 16:48–16:51 (C021_27–39, ★ 36, 37): ballast 2 + 2 nuts, held in by silver tape over the soles (not the filament pin); in the bucket Pesho floats upright with the whole head and the shoulder ring out, waterline at the bottom of the vest. Tested WITHOUT the warmer and lid in the head. 22.10 06:44 on the scale (C021_40 ★): 316 g. Expected 224 g (no warmer) or 269 g (with warmer) → +47 g unexplained. 22.10 Teddy: the white thing in the head is the warmer → nothing else is in it, so ~45 g (tape ≈ 2–3 g) is most likely water in the vest = LEAK (step 3 fails). Next: dry 24 h boots down, weigh again (back to ~270 g = water confirmed), find the leak by bubbles under water, coat the vest; FAILS line. Still open: float with the warmer + lid in (thermal case), the 1 + 1 face-up cradle case, the 30-min dry/wet weighing. 23.10 09:12 (IMG_2388): dry ~24 h, no nuts, no tape, lid on (warmer assumed still inside) → 196 g. CORRECTED 09:15: Teddy says the warmer is NOT in the head (so the 22.10 note 'the white thing is the warmer' was wrong). Dry reference = 132 + 28 = 160 g → 196 = still ~36 g of water inside after 24 h. 22.10 wet: 316 − 4 nuts × 16 − ~3 g tape ≈ 249 g → ~89 g of water went in, ~53 g came out overnight, ~36 g still trapped = WATER IN THE VEST, LEAK CONFIRMED (step 3 fails). Next: find the leak (vest under water, squeeze, look for bubbles; likely at the glued left shoulder or the boot/vest seam), seal it (CA on the spot, or a coat over the whole vest), weigh dry → soak 30 min → weigh again (≤ 2 g). FAILS line to write.",
       "seq": 21,
       "start": 1791929220000,
       "title": "Pesho v3 printed: warmer fits, lid closes, floats head out (thermal) and face-up (cradle)"
@@ -791,9 +811,9 @@
     {
       "label": "C025",
       "id": "l025",
-      "col": "backlog",
+      "col": "released",
       "created": 1791654420000,
-      "end": null,
+      "end": 1792750463000,
       "files": [
         {
           "note": "row 139: hanging scales 50 kg / 10 g ×2",
@@ -806,15 +826,16 @@
       ],
       "from": "claude",
       "hyp": "After `arm` the ESC accepts 1500 µs within 3 s (beeps); 1550 µs spins forward, 1450 µs reverse; at 1650 µs the current from 12.0 V stays under 3 A; full forward (2000 µs, on the LiPo) draws ≤ 8 A (listing); KILL or the dead-man stops the prop in < 0.5 s.",
-      "media": "",
+      "media": "C025_2026-10-23_thruster-devkit",
       "note": "Only after C006 and the `esc` env (C024). C006 tells whether the yellow wire idles above 3.6 V — if it does, do NOT connect it straight to GPIO1 (the ESP32-S3 is 3.3 V only): stop and ask Claude (level shifter). 1) Thruster in a bucket, duct fully under water, held down. 2) Jesverty 12.0 V, CC 3 A; meter in series (10 A jack). 3) `arm`, then 1550 / 1450 / 1600 / 1650 µs, 10 s each; write the current and the direction. 4) KILL rocker while spinning, time it on video. 5) Full power only on the LiPo through the inline fuse + 20 A slot, ≤ 5 s. Log with bench_log.py --card C025. Video from the side, 4K, prop visible.",
+      "notes": "PASS 23.10 13:14. The thruster spins forward and reverse from the DevKit through the S8050 shifter, and KILL stops it (Teddy: stopped at KILL). Deviations from the hypothesis: 1550 µs does NOT spin (ESC dead band, at least ±50 µs); ESC input is 5 V pulled-up, so GPIO1 drives it through an NPN with inverted LEDC (C006 / T11). Currents at 12.0 V: 1600 → 0.22 A, 1650 → 0.58 A, 1400 (reverse) → 0.21 A. Not done: which way 1600 pushes the water (decide when mounting), the full-power LiPo ≤ 5 s step, the right thruster (needs a second S8050 on GPIO2). Rev B: 74AHCT125 + JP1/JP2 → B confirmed needed.",
       "order": 34,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2a",
-      "result": "",
+      "outcome": "pass",
+      "photo": "C025_02",
+      "rel": "R-1024",
+      "result": "C006 run 23.10 ~12:05 (IMG_2400, thruster in a mop bucket, duct under water): Jesverty 9.00 V / CC 0.10 A, red +, black −, yellow and white free → idle 0.009 A (ESC alive, no short); yellow → black 4.983 V, white → black 0.0002 V. Yellow idles at ~5 V > 3.6 V → NOT to GPIO1 directly (ESP32-S3 3.3 V only). White = signal ground. Next: 10 kΩ yellow → black load test. Drops to 2–4 V = weak 5 V pull-up on the signal input → drive it today with an S8050 open-collector (GPIO1 → 1 k → base, collector → yellow, emitter → GND) and invert the LEDC output in firmware; long term 74AHCT125 (JP1/JP2 B on rev B). Stays ~5 V = yellow is a 5 V BEC output, rethink. LOAD TEST: 3.58 V with 10 kΩ → ~3.9 kΩ pull-up to 5 V = signal input. S8050 shifter built (1 k base, 10 k base → GND, collector → yellow), T11 inverted output 730317a. Yellow avg at 1500 µs: 0.38 V (expected 0.375 ✓). 12.0 V / 3 A: `arm` → ARMED after 3 s. l 1550: 0.120 A, prop NOT turning (inside the ESC dead band; dead-man was still 2 s). 13:04 dm 15000 → arm → l 1600: PROP SPINS, 0.22 A. FIRST SPIN OF THE THRUSTER FROM THE DEVKIT. 13:09: l 1650 → 0.58 A; l 1400 → spins in reverse, 0.21 A. Dead band ≈ 1450–1550 (1550 no spin). All well under the 3 A hypothesis limit at 12 V. 13:11:52 KILL while spinning at 1600: log row 1600 → `# KILL (GPIO14 low) — both 1500 us, disarmed` 40 ms later → next row 1500, kill 1, armed 0 (output back to neutral in < 100 ms). Still open: direction at 1600 (toward cable or cone), video of the prop stopping.",
       "seq": 25,
-      "start": null,
+      "start": 1792745100000,
       "title": "Thruster spins in a bucket: DevKit → ESC, forward and reverse"
     },
     {
@@ -849,9 +870,9 @@
     {
       "label": "C027",
       "id": "l027",
-      "col": "today",
+      "col": "released",
       "created": 1791654420000,
-      "end": null,
+      "end": 1792745264000,
       "files": [
         {
           "note": "",
@@ -872,13 +893,14 @@
       ],
       "from": "claude",
       "hyp": "The `ladder` env reads v_bat within ±2 % of the multimeter at 10.0, 11.1 and 12.6 V (Jesverty into the 100k/33k divider); the leak probe in a glass of tap water sets leak=1 within 100 ms; the rocker in KILL sets kill=1 and in RUN kill=0.",
-      "media": "",
+      "media": "C027_2026-10-23_vbat-cal",
       "note": "Sketch exists (T3, env `ladder`, PROTOCOL.md). Needs the 100k/33k 1 % resistors (BOM row 56, ordered). DevKit on USB, rocker wired GPIO14 ↔ GND with the 10k pull-up, leak probe 10k/4.7k on GPIO7, divider on GPIO4. Never connect the 3S pack to the DevKit's own LiPo connector (BAT_SENS GPIO6 is the board's 1S cell). Log with bench_log.py --card C027; the calibration factor it prints goes into the firmware config with // SOURCE: C027. This is the battery and leak half of the safety (T2).",
+      "notes": "23.10 three points, nominal (factor 1, 100k/30k) vs meter: 10.881 → 11.089 (11:49; Teddy typed cal 11.100 → 1.0201); 11.826 → 12.000 (11:35, factor 1.0147); 12.484 → 12.600 (11:38, factor 1.0093). The factor FALLS with voltage = an ADC offset, not a pure gain error. Single factor 1.012: 11.1 → −0.08, 12.0 → −0.03, 12.6 → +0.03 V (pass), but extrapolated to 10.0 V ≈ −0.16 V (fails, and 9.9 V is the low-battery threshold). Linear fit through the three points: v_bat = 0.943 × nominal + 0.83 V, residuals ≤ 0.02 V. FOR THE FIRMWARE: VBAT_GAIN 0.943, VBAT_OFFSET_V 0.83 // SOURCE: C027 (Cursor). 11:51 fourth point: nominal 9.785 → meter 10.000 (factor 1.0220); the 3-point line predicted 10.06 (+0.06). FINAL 4-point least-squares fit: v_bat = 0.965 × nominal + 0.57 V, residuals −0.014 / +0.017 / +0.016 / −0.019 V at 10.0 / 11.1 / 12.0 / 12.6 V → all within ±0.02 V. FIRMWARE: VBAT_GAIN 0.965, VBAT_OFFSET_V 0.57 // SOURCE: C027 (supersedes 0.943 / 0.83). Meter photos IMG_2397–2399.",
       "order": 36,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2c",
-      "result": "Started 11.10 20:05 on the breadboard (DevKit already on USB with the `ladder` env from the night session, 10 k pull-downs on GPIO39–42 in place). Protocol: firmware/bench/src/ladder/PROTOCOL.md. All three inputs are on EXT1: GPIO4 = pin 4, GPIO7 = pin 7, GPIO14 = pin 20; 3V3 = pin 1/2; GND = pin 22.",
+      "outcome": "pass",
+      "photo": "C027_01",
+      "rel": "R-1024",
+      "result": "Started 11.10 20:05 on the breadboard (DevKit already on USB with the `ladder` env from the night session, 10 k pull-downs on GPIO39–42 in place). Protocol: firmware/bench/src/ladder/PROTOCOL.md. All three inputs are on EXT1: GPIO4 = pin 4, GPIO7 = pin 7, GPIO14 = pin 20; 3V3 = pin 1/2; GND = pin 22. 23.10 11:35 (breadboard per artifact C027 Battery Divider, Jesverty CC 0.10 A, monitor on the CH340 /dev/cu.usbserial-10): at 12.000 V on the meter, v_adc 2729 mV, nominal 11.83 V → `cal 12.00` → FACTOR 1.0147 (in 0.95–1.05 ✓; not stored in firmware). leak = 1 / kill = 1 in these rows: probe and rocker not wired for this test.",
       "seq": 27,
       "start": 1791738300000,
       "title": "Ladder bench: battery divider, leak probe and KILL rocker on the DevKit"
@@ -886,13 +908,21 @@
     {
       "label": "C029",
       "id": "l029",
-      "col": "backlog",
+      "col": "released",
       "created": 1791654420000,
-      "end": null,
+      "end": 1792946100000,
       "files": [
         {
-          "note": "",
+          "note": "test steps, CSV",
           "path": "firmware/bench/src/mlx90640/PROTOCOL.md"
+        },
+        {
+          "note": "GPIO8/9 = Wire1",
+          "path": "firmware/bench/include/pins_devkit.h"
+        },
+        {
+          "note": "wiring diagram (with C048)",
+          "path": "media: C048_diagram_thermal-devkit.png"
         },
         {
           "note": "head-out float, the target",
@@ -900,17 +930,18 @@
         }
       ],
       "from": "claude",
-      "hyp": "With Pesho's head at 37 °C (50 ml bottle or warmer, checked with the Laserliner) 1.0 m in front of the camera in a room at ~22 °C, the `mlx90640` env shows max_C ≥ 30 °C at the hot pixel and hot_x/hot_y move when the head moves left/right; the hot spot is ≥ 2 pixels at 1 m.",
-      "media": "",
-      "note": "When the camera arrives (BOM row 77, dispatched). Sketch exists (T3, env `mlx90640`, I2C-1 GPIO8/9 @0x33, 4 Hz). `scan` first: 0x33 must answer. Measure the head with the IR thermometer at the same time (12:1 → hold 30 cm for a 2.5 cm spot), write both numbers. Then 2 m and 3 m: at what distance does the hot spot fall under 2 px? That number goes into the mission search range. Log with bench_log.py --card C029; screenshot of the heat map. The D45 camera gets its own card when it arrives.",
+      "hyp": "The blue Waveshare MLX90640 110° (left on the fixed mount, C047) on the DevKit-Lipo Wire1 (EXT1 12 = GPIO8 SDA, EXT1 15 = GPIO9 SCL; 3V3) answers at 0x33, gives 4 Hz frames, reads a uniform wall within ± 3 °C of the ThermoSpot; with Pesho's head at 37 °C 1.0 m in front in a room at ~22 °C, max_C ≥ 30 °C at the hot pixel, hot_x/hot_y follow the head left/right, and the hot spot is ≥ 2 pixels at 1 m.",
+      "media": "C029_2026-10-25_mlx90640-arch",
+      "note": "Camera 3 of 3 on the fixed mount (C047). UPDATED 25.10: the camera sits on the arch and is wired to the DevKit-Lipo as in the original bench plan (Teddy: the XIAO stays alone, OV3660 only). The bench `mlx90640` env runs it as is; Cursor's env `thermal` runs it together with the D45 (C048).\n\n1) Wiring (diagram artifact L1TFCc2wvCJz3jLtuiEoLE v2): VCC → + rail left = 3V3, GND → − rail, SDA → EXT1 row 12, SCL → EXT1 row 15. Dupont ≤ 20 cm. Meter before power.\n2) The board is mounted UPSIDE DOWN (C047 item 4): the firmware flips the image 180°; check with the hand-at-the-edge step which edge is x = 0 after the flip.\n3) PROTOCOL.md steps 1–8, then Pesho's head at 1, 2, 3 m (ThermoSpot at 30 cm for the reference): max_C and hot-pixel count. Same distances as C048 → one table.\n4) From C047 item 6: does the frame or an arch post show in the 110° field?\nLog with bench_log.py --card C029. Media C029_<date>_mlx90640-arch.",
+      "notes": "Code merged to dev 26.10 21:30 (PR #12: NaN-safe mean abefbaa, init retries 83c16f3, FAILS 175–177). PARTIAL 25.10 18:35, closed with C048 (Teddy). PASS: the 110° answers at 0x33 on Wire1 (GPIO8/9), chess 18 bit 4 Hz; hand at 30 cm max 35 °C; wall coldest pixel +0.8 °C vs ThermoSpot (preliminary); NaN pixel now skipped and mean finite (new fw). Pesho at ~1.3 m: max only 24.8 °C at (18,9), one hot cell — the ~6 cm head is smaller than one 110° pixel (~8 cm at 1.3 m), so the 110° is the near-field camera and the D45 the search camera (the reason both are on the arch). NOT DONE: 1 m with the head centred, 2/3 m, edge-of-field step, frame/arch in the 110° view (C047 item 6). OPEN for Cursor: FLIP_110 probably wrong (Pesho mirrored on both axes vs the D45); the 110° sometimes 'not found' at boot although `scan` sees it → init retries + `init`; a warm column along the right map edge in every frame (max 28–31 °C) — something in the room, identify. Media: shared with C048 (captions.md in the C029 folder points to C048_01–17).",
       "order": 38,
-      "outcome": null,
-      "photo": "",
-      "rel": "R3a",
-      "result": "",
+      "outcome": "partial",
+      "photo": "C048_16",
+      "rel": "R-1101",
+      "result": "RUN 1, 25.10 ~16:20 local, env `thermal` (commit 4a4f31d): MLX90640 not found → blue board GND not reaching the rail, wires remapped by the pull-up test. 17:50 `scan`: **Wire1 0x33 = MLX90640 110° answers**. 17:51 OK @0x33, chess, 18 bit, 4 Hz, rotated 180°. 17:53 mean_C overflow from a NaN pixel → Cursor fix. 17:55 hand at ~30 cm: max 34.8–35.0 °C, hand test PASS. ~18:04 wall (ThermoSpot 17.6): coldest pixel 18.3–18.6 → preliminary PASS. 18:11 new fw: mean now finite ('WARN w110 1 non-finite pixels', skipped); but at some boots 'MLX90640 not found at 0x33' although `scan` finds it → Cursor prompt: 5 init retries + `init` command. A warm column along the right map edge (31,0–21, max 28–31 °C) stays in every frame: something in the room, not Pesho. PESHO 18:23 at 0.5 m: max 33.6, hot (17,7). **18:35 ~1.3 m: max 24.5–24.8 °C, hot (18,9), one hot cell** — head (~6 cm) smaller than one 110° pixel (~8 cm at 1.3 m) → diluted to ~30 % of the contrast. ORIENTATION ISSUE: the D45 shows Pesho left-low (11,16), the 110° right-high (18,9) — mirrored on both axes. Pesho is below the cameras → FLIP_110 (180°) is probably wrong. Check: hand above the cameras → hot_y ≈ 0 on both; if the 110° gives ≈ 23, drop FLIP_110 (Cursor). Open: orientation, 2 m, edge of field, clean wall.",
       "seq": 29,
-      "start": null,
-      "title": "MLX90640 110° on the bench: does it see Pesho at 37 °C from 1 m?"
+      "start": 1792933200000,
+      "title": "MLX90640 110° on the arch, wired to the DevKit: does it see Pesho at 37 °C from 1 m?"
     },
     {
       "label": "C030",
@@ -1102,6 +1133,192 @@
       "title": "Arrivals 13.10: the last Amazon batch: MLX90642-D45, soldering kit (fume extractor, third hand), wiring and prototyping parts"
     },
     {
+      "label": "C058",
+      "id": "t-battery-charging",
+      "col": "released",
+      "created": 1793448000000,
+      "end": 1793448000000,
+      "files": [],
+      "from": "teddy",
+      "hyp": "",
+      "media": "C058_2026-10-31_battery-charging (C058_01–09: charger screens from set-up to FULL; ★05 12.45 V at 23 min, ★06 FULL 12.60 V 1212 mAh, ★07 cells 4.20/4.20/4.20, ★09 LiPo bag closed; 04 MOV 13 s)",
+      "note": "Record, no test. 31.10.2026 05:54–07:xx local. HTRC B6AC+ 80 W on mains, program LiPo BALANCE 2.2 A 11.1 V (3S), battery in the LiPo safety bag with the balance lead out. Rule: charge only in the bag, never unattended, stop if a cell differs by > 0.05 V. 1212 mAh went back in after the 29–30.10 bench days. Next: log every charge (date, mAh in) in this card's captions.",
+      "order": 64,
+      "outcome": "pass",
+      "photo": "C058_06",
+      "rel": "R-1101",
+      "result": "Balance charge 2.2 A: 11.10 V at start → 12.45 V at 23 min (1011 mAh) → FULL 12.60 V at 34 min, 1212 mAh in, cells 4.20 / 4.20 / 4.20 V.",
+      "seq": 58,
+      "start": 1793448000000,
+      "title": "Charging the 3S LiPo: balance charge 2.2 A in the safety bag (record)"
+    },
+    {
+      "label": "C045",
+      "id": "t-beam-brackets",
+      "col": "released",
+      "created": 1792509498754,
+      "end": 1792653479000,
+      "files": [
+        {
+          "note": "beam_bracket module + print list (x4)",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "exported 20.10 13:02",
+          "path": "build/beam_bracket.stl"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "The 15 × 15 beam drops into all 4 channels (15.4 wide) by hand and sits flat on the floor; both M3 holes land on the rim bosses at x 385 / 500; gap between the hulls 250 ±2 at both beams, hulls parallel.",
+      "media": "C045_2026-10-20_beam-brackets",
+      "note": "CAD needs 4 (2 beams × 2 hulls, one rim boss per beam per hull); the part is symmetric in Y, so no mirrored version. Black PLA fit version; PETG for the water.",
+      "order": 53,
+      "outcome": "pass",
+      "photo": "C045_13",
+      "rel": "R-1024",
+      "result": "Printed 20.10: 8 × beam_bracket on one plate, black PLA, brim, 1 h 14 min, 39.0 g (≈ 4.9 g each). 4 more than the CAD needs → 4 spares. Dry fit 20.10 (photos 04–06) was loose only. 21.10: M3 hex nuts pressed into the hull_aft beam bosses instead of ruthex inserts, brackets screwed on (C045_07–11). Printer timelapse C045_12. CLOSED 22.10 (C045_13 ★, IMG_2315): both 15 × 15 aluminium beams seated in all 4 bracket channels at x 385 / 500, frame with the arch (C022) stands on the desk; rulers across the gap ≈ 25 cm at the servos and at the aft beam, hulls parallel. The aft beam sits off-centre (overhangs more on the left hull): slide it so both ends stick out equally before bolting. Light PLA/PETG strings still in the aft compartments. Next: R2b tub float with the full frame.",
+      "seq": 45,
+      "start": null,
+      "title": "Print + dry-fit the beam brackets: 4 × beam_bracket (identical both sides) with the 15 × 15 aluminium beams"
+    },
+    {
+      "label": "C056",
+      "id": "t-beam-leg",
+      "col": "released",
+      "created": 1793265153000,
+      "end": 1793512320000,
+      "files": [
+        {
+          "note": "source, beam underside 130 measured",
+          "path": "cad/openscad/beam_leg.scad"
+        },
+        {
+          "note": "print STL, lying on its side",
+          "path": "build/beam_leg.stl"
+        },
+        {
+          "note": "next: rudder for this leg",
+          "path": "cad/openscad/rudder.scad"
+        }
+      ],
+      "from": "claude",
+      "hyp": "With the ROB0154 chassis off, a printed leg clamped over both beams (x 385 / 500, M3 × 30 above each beam, no drilling) holds the working left Cuifati on the centreline with the existing thruster_bracket + thruster_arm, prop axis z −34 (duct top 10+ mm under a 12–25 mm waterline), so the robot goes straight in the pool today.",
+      "media": "C056_2026-10-29_beam-leg (01–04 printing, ★05 screen 2 h 37 min 123.0 g, 06–07 the part, ★07 off the bed, ★08 printer timelapse, C056_diagram_beam-leg.png)",
+      "note": "29.10.2026. Decided in the thread 'Пусни робота в басейна днес': ESP32 remote env stays (Mega = thruster bench only, C055); electronics + battery in a 280 × 190 × 130 mm clip-lid food box across the beams, resting on the leg tops (z 151); thruster cable through one sealed hole. Insert rows z 29/49/69/89: deep rows 1+3 used (axis −34, duct −70..+2), rows 2+4 lift it 20 mm. Duct bottom 70 mm under the hulls: on the table stand it on blocks or kick it up. No steering: tether in the pool; rudder STLs for this leg ready (rudder_mount / blade / hub). TO CLOSE: inserts in, leg on the beams, thruster on, bathtub check of duct depth, then the pool run (new card).",
+      "order": 1793265153000,
+      "outcome": "pass",
+      "photo": "C056_07",
+      "rel": "R-1101",
+      "result": "PRINTED 29.10 12:12 → ~14:49 local: screen 2 h 37 min, 123.0 g black PETG (estimate ~110 g, 2–2.5 h), lying on its side, no supports. Fit on the beams not yet checked. CLOSED 01.11: mounted on the beams, carried the thruster through the lake run at Pancharevo (C059) with no movement.",
+      "seq": 56,
+      "start": 1793265153000,
+      "title": "beam_leg: hang the working thruster on the centreline from the two beams"
+    },
+    {
+      "label": "C052",
+      "id": "t-bts-both",
+      "col": "backlog",
+      "created": 1792949400000,
+      "end": null,
+      "files": [
+        {
+          "note": "one side at a time today → `both` mode needed",
+          "path": "firmware/bench/src/bts7960/main.cpp"
+        },
+        {
+          "note": "option: track sliders on the phone page",
+          "path": "firmware/bench/src/remote/main.cpp"
+        }
+      ],
+      "from": "claude",
+      "hyp": "With both BTS7960 and one command (throttle + turn, differential mix), the ROB0154 on the floor drives 1 m straight within ±10 cm of the line at s 0.4, turns in place both ways, and stops on dead-man, rocker and `0`. Supply current running both: record; stall (track held by hand, 1 s at s 0.3): record, must stay under the 10 A fuse.",
+      "media": "C052_2026-10-25_tracks-drive",
+      "note": "Firmware gap: env `bts7960` drives ONE side at a time (`side L|R`). Needs a small Cursor task: either a `both` mode in `bts7960` (cmd `d <throttle> <turn>`, same Ramp/SoftLimit/Deadman per side, signs from C051) or track sliders in env `remote` (phone). Claude writes the spec in tasks/night/ after C051. On the floor, not the table: the chassis on its own first (before it is under the beams, C004). Bench supply CC 2.0 A for the floor run; then the LiPo through the 10 A BTS fuse (C026 power chain). Video ★ for the portfolio: straight run + turn in place.",
+      "order": 60,
+      "outcome": null,
+      "photo": "",
+      "rel": "R2c",
+      "result": "",
+      "seq": 52,
+      "start": null,
+      "title": "Both tracks together: firmware drives L + R at once, chassis drives straight and turns on the floor"
+    },
+    {
+      "label": "C050",
+      "id": "t-bts-left",
+      "col": "released",
+      "created": 1792949400000,
+      "end": 1792956340000,
+      "files": [
+        {
+          "note": "bench protocol (VCC + EN corrections in this card)",
+          "path": "firmware/bench/src/bts7960/PROTOCOL.md"
+        },
+        {
+          "note": "env `bts7960`: s, 0, limit, rate, dm, side L|R, is",
+          "path": "firmware/bench/src/bts7960/main.cpp"
+        },
+        {
+          "note": "GPIO39/40 L, 41/42 R — RPWM/LPWM order VERIFY",
+          "path": "firmware/bench/include/pins_devkit.h"
+        },
+        {
+          "note": "J4/J5 VCC 3V3, §6 KILL/EN",
+          "path": "pcb/carrier-revB/SPEC.md"
+        },
+        {
+          "note": "wiring diagram 25.10 (project files diagrams-2026-10-25/, HTML + PNG; Cursor to copy into docs/diagrams)",
+          "path": "docs/diagrams/C050_diagram_bts-left.png"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "With 12.0 V from the bench supply (CC 1.0 A) and the rocker in RUN, `s 0.2` turns the left ROB0154 motor slowly forward and `s -0.3` backward, the PWM ramp is visible in the CSV (no step > 13 counts), `s 0.8` is refused at the default limit 0.60, and the dead-man (2 s) and the rocker each stop the motor. Idle current < 50 mA; running current at s 0.2 / 0.6 / 0.8: record.",
+      "media": "C050_2026-10-25_bts-left-track (C050_01–15 + C050_diagram_bts-left.png/.html; 01–11 ROB0154 kit build, ★11 assembled chassis, 12/14 bench, ★13 video s 0.2, ★15 video s 0.8 with supply 0.387 A / 4.644 W)",
+      "note": "Teddy 25.10: 'run the two track motors'. Follow firmware/bench/src/bts7960/PROTOCOL.md with two corrections: (1) VCC of the module = 3V3 (EXT1 pin 1), not 5 V — SPEC J4 pin 4 and FAILS 165 (at 5 V the 74HC244 needs 3.5 V high, the ESP32 gives 3.3). (2) EN (R_EN + L_EN tied) through the rocker: RUN → 3V3, KILL → GND, not 5 V — VERIFY: if the module's 74HC244 also buffers R_EN/L_EN, 5 V into a 3V3-powered HC244 is above its input limit (Vcc + 0.5). Check with the meter before power: does R_EN on the header beep to a pin of the 74HC244 chip? Result goes to SPEC §6 (J10 RUN = +5 V today). Chassis upside down or on a block, tracks in the air. Rocker in KILL while flashing / reset (GPIO39 boot glitch, C015). Wire 18 AWG B+/B− and M+/M−, 10 A fuse not needed on the bench supply. Record which of GPIO39/40 is 'forward' (pins_devkit.h VERIFY). Photos per PROTOCOL §6 → C050_01–05; log with bench_log.py --card C050.",
+      "notes": "PASS 25.10 21:25. Left ROB0154 motor follows `s` both ways with the ramp in the CSV (≤ 13 counts / 0.1 s), positive = forward on GPIO39 (RPWM), s 0.8 refused at limit 0.60, dead-man 2.000 s and 10.000 s exact, `0` stops without ramp, rocker KILL stops the motor at once in hardware AND the firmware sees it (`# KILL (GPIO14 low)`). Currents at 12.00 V, tracks free: idle 0.002 A, s 0.2 ≈ 0.08 A, s 0.8 0.34–0.39 A (Teddy 0.34; C050_15 display 0.387 A / 4.644 W). Wiring differs from PROTOCOL.md: VCC 3V3 (not 5 V), EN taken from the C023 rocker node (row 20 b) with RUN → 3V3 — Cursor to update PROTOCOL.md + `limit` message text ('full PWM allowed' at 0.80 is wrong). Still to measure (does not block the pass): current at s −0.3; R_EN → 74HC244 continuity (decides EN 5 V vs 3V3 on rev B, SPEC §6). Next: C051 right motor.",
+      "order": 58,
+      "outcome": "pass",
+      "photo": "C050_11",
+      "rel": "R-1101",
+      "result": "25.10 21:12 (local). Wired per docs diagram C050 (VCC 3V3, EN from the C023 rocker node row 20 + RUN → 3V3). Idle 0.002 A at 12.00 V. `s 0.2`: CSV ramp 0 → 9 → 22 → 35 (13 counts per 0.1 s, as computed), kill 0; left track turns (sprocket rotates in C050_01), supply 12.00 V CV 0.067–0.088 A (≈ 0.9–1.1 W). Direction: positive s (RPWM, GPIO39) = left track FORWARD → pins_devkit.h VERIFY closed for L. Dead-man: `dm 2000` at 21:20:41.280, `# DEADMAN` at 21:20:43.280 (2.000 s), next row pwm 0/0 (stop without ramp) ✓. `s -0.3` (21:21:45.417): LPWM 2 → 15 → 28 → 40 → 53 → 66 → 77 in 0.6 s (≤ 13 per row), RPWM 0 ✓; held 77 until `# DEADMAN` at 21:21:55.417 = 10.000 s (dm 10000) ✓. `s 0.8` at limit 0.60 (21:23:11.365): `# WARN |s|=0.80 above soft limit 0.60`, cmd and PWM stay 0 ✓. `limit 0.8` → `# WARN soft limit raised to 0.80 — full PWM allowed` (text wrong: cap is 0.80 = 204/255 → Cursor fix). `s 0.8` (21:24:05.563): RPWM 9 → 204 in 1.7 s, steps 12–13 ✓, held 204; `0` → `# OK stop`, next row 0/0 ✓. Current at s 0.8: 0.34 A at 12 V (≈ 4.1 W, no load, tracks free). Rocker → KILL while running (21:25:00.071): `# KILL (GPIO14 low) — outputs off` ✓ — the EN node from row 20 reads in firmware (wiring change vs PROTOCOL works). Open: did the motor stop at once (hardware), current at s −0.3, multimeter checks incl. R_EN → 74HC244, current at s −0.3 (direction confirmed BACKWARD by Teddy 21:22), steps 6–9 ( s 0.8 refused, limit 0.8, rocker KILL while running).",
+      "seq": 50,
+      "start": 1792949400000,
+      "title": "Left track motor on the bench: one BTS7960 from the DevKit, env `bts7960`, tracks off the ground"
+    },
+    {
+      "label": "C051",
+      "id": "t-bts-right",
+      "col": "today",
+      "created": 1792949400000,
+      "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "firmware/bench/src/bts7960/PROTOCOL.md"
+        },
+        {
+          "note": "close the RPWM/LPWM VERIFY for both sides",
+          "path": "firmware/bench/include/pins_devkit.h"
+        },
+        {
+          "note": "breadboard 27.10: right board rows 7/6 (GPIO41/42) hole c, EN row 20 d, VCC/GND from the rails, 12 V parallel to the left module (project files diagrams-2026-10-25/; also in the card's iCloud folder)",
+          "path": "docs/diagrams/C051_diagram_bts-right.png"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "`side R` + the C050 steps turn the right motor in both directions with the same ramp, refusal and stops. Both sides recorded: which pin = forward on each (the right motor is mirrored, so 'forward' is probably the opposite pin), running current L vs R at s 0.2 / 0.6 within ±20 %.",
+      "media": "C051_2026-10-25_bts-right-track (C051_01 bench photo 27.10 19:58 during the KILL dropouts + C051_diagram_bts-right.png/.html)",
+      "note": "After C050 passes. Second module wired like the first (VCC 3V3, EN on the same rocker node). Output of this card: a 2-row table side → forward pin → current, which goes into pins_devkit.h (the VERIFY comments) and decides the sign in the two-track firmware (C052). If L and R currents differ by more than 20 %, check the track tension and the gearbox before blaming the driver.",
+      "order": 59,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 51,
+      "start": 1793122586000,
+      "title": "Right track motor: second BTS7960 on GPIO41/42 (`side R`), same protocol, direction map for both sides"
+    },
+    {
       "label": "C038",
       "id": "t-cable-slot",
       "col": "released",
@@ -1131,11 +1348,40 @@
       "title": "Cut the cable slot in both pivot_brackets by hand, so the TD-8120MG seats with its ears flat"
     },
     {
+      "label": "C047",
+      "id": "t-cam-fixed-mount",
+      "col": "today",
+      "created": 1792778940000,
+      "end": null,
+      "files": [
+        {
+          "note": "cam_fixed_mount module (23.10): tube clamp + plate 15° down, 2 thermal boards + XIAO frame",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "exported 23.10 (Claude, container OpenSCAD), not in git",
+          "path": "build/cam_fixed_mount.stl"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "The mount slides onto the 15 × 15 arch tube; the blue MLX90640 110° (holes 12 mm) and the black MLX9064X (holes 14 mm) go on M2 screws without forcing, lenses side by side 3 mm apart; the XIAO ESP32-S3 Sense with OV3660 drops into the 18.2 × 21.6 frame with USB-C reachable from the top.",
+      "media": "C047_2026-10-23_cam-fixed-mount",
+      "note": "Decision 23.10: cameras FIXED for v1, pan tracking moved to C046 (after G1). Replaces the cam_pan_mount (TD-8120MG → MG90S pocket, not printed). Open: (1) material: printed in black PLA (fit version, Teddy 23.10); the wet version is PETG 240–250 °C before any water test. Supports: Teddy added the tree supports herself (not the slicer's call). (2) CAD committed on dev: d6611a1. (3) The CAD print list says no supports; this print used tree supports under the plate (C047_04, 09) — check in the slicer preview whether they were needed. (4) Blue board upside down → rotate its image 180° in firmware. (5) I2C wiring: both thermal boards to the XIAO; and the XIAO's 5 V feed to the arch. (6) Lens view: check nothing of the frame or the arch cuts into the 110° field (photo from the camera).",
+      "order": 55,
+      "outcome": null,
+      "photo": "C047_13",
+      "rel": "",
+      "result": "23.10: printed 18:47–20:11, 1 h 24 min, 39.0 g with tree supports (C047_06). Supports removed, slid onto the arch tube (C047_12). Both thermal boards screwed on and the XIAO Sense in its frame (C047_13 ★), mounted on the robot between the arch posts (C047_14 ★). Fit: everything went in; no measurements written yet.",
+      "seq": 47,
+      "start": 1792770429000,
+      "title": "Print + fit the fixed camera mount on the arch: 2 thermal cameras + XIAO Sense (OV3660)"
+    },
+    {
       "label": "C020",
       "id": "t-cradle-bend",
-      "col": "today",
+      "col": "released",
       "created": 1791654120000,
-      "end": null,
+      "end": 1792661957000,
       "files": [
         {
           "note": "cradle U, 112 between rod centres",
@@ -1148,15 +1394,15 @@
       ],
       "from": "claude",
       "hyp": "",
-      "media": "",
+      "media": "C020_2026-10-22_cradle-bend",
       "note": "DECIDED 10.10 (Teddy has 2 × TD-8120MG): full U, one driven linkage on each hull. Numbers from the CAD after C017: two legs along x, 220 + 8 mm (the 8 goes through the coupler rod boss), base 112 between rod centres (was 123 before 10.10). Cut ~580 mm (2 × 228 + 112 ≈ 568 plus margin), bend, then trim the leg ends. Bend in the vise around a ~20 mm round (pipe or socket) so the inside radius is ~10 mm; aluminium can crack on a tight bend — try one bend on a scrap end first. Check: both legs parallel and in one plane (lay it flat on the table), base 112 ±1 between centres, legs slide into the coupler holes (d5.3; drill if the print is tight) and lock with the M3 set screws. Photo flat on the table with the ruler.",
       "order": 29,
-      "outcome": null,
-      "photo": "",
-      "rel": "R1b",
-      "result": "",
+      "outcome": "pass",
+      "photo": "C020_03",
+      "rel": "R-1024",
+      "result": "22.10 ~11:50: Ø5 aluminium rod bent into the U in the Dremel vise (C020_01–03, ★ 03): two clean bends, no cracks, U lies flat (Teddy). Rulers photo C020_04: base looked ≈ 121 c-c on the photo (target 112; photo parallax, not confirmed with the caliper), legs ≈ 232. 22.10 ~12:39: both legs went into the two couplers and clamp, the U lifts Pesho between the hulls (C019, IMG_2332–2336) → the fit works in practice. Exact base width still worth a caliper reading for the docs.",
       "seq": 20,
-      "start": null,
+      "start": 1792658000000,
       "title": "Bend the cradle: Ø5 aluminium rod into a U, legs 228, base 112 between rod centres"
     },
     {
@@ -1193,11 +1439,78 @@
       "title": "Cursor: commit CAD v2.0 + decision 0004 + STATE.md to dev"
     },
     {
+      "label": "C048",
+      "id": "t-d45-first-frame",
+      "col": "released",
+      "created": 1792914300000,
+      "end": 1792946100000,
+      "files": [
+        {
+          "note": "Cursor adds env `thermal` (both MLX boards on the DevKit)",
+          "path": "firmware/bench/platformio.ini"
+        },
+        {
+          "note": "GPIO48/47 = Wire → D45",
+          "path": "firmware/bench/include/pins_devkit.h"
+        },
+        {
+          "note": "the test steps to copy",
+          "path": "firmware/bench/src/mlx90640/PROTOCOL.md"
+        },
+        {
+          "note": "wiring diagram both thermal boards → DevKit-Lipo (artifact https://claude.ai/artifact/L1TFCc2wvCJz3jLtuiEoLE v2, 25.10)",
+          "path": "media: C048_diagram_thermal-devkit.png"
+        }
+      ],
+      "from": "claude",
+      "hyp": "The Seengreat MLX90642-D45 (black board, right on the mount) on the DevKit-Lipo Wire (EXT2 16 = GPIO48 SDA, EXT2 17 = GPIO47 SCL, shared with PCA9685 and BNO055; 3V3 from EXT1 1/2) answers on the I2C scan, gives 32 × 24 frames at 4 Hz, reads a uniform wall within ± 3 °C of the ThermoSpot, and shows Pesho's head at 37 °C as ≥ 2 pixels at 2 m (45° / 32 px ≈ 1.4° per pixel, 2.4 × finer than the 110°).",
+      "media": "C048_2026-10-25_d45-first-frame",
+      "note": "Camera 2 of 3 on the fixed mount (C047). The narrow, long-range search camera (BOM row 76). C029 said 'the D45 gets its own card when it arrives': this is it.\n\nTeddy 25.10: the XIAO stays alone (OV3660 only; its pads are hidden in the frame), so both thermal boards go to the DevKit-Lipo on the existing pins_devkit.h pins.\n\n1) Wiring (diagram artifact L1TFCc2wvCJz3jLtuiEoLE, v2): VCC → + rail left = 3V3 (EXT1 1/2, 3.3 V ONLY; 5V is EXT1 21 next to GND 22), GND → − rail, SDA → EXT2 row 16, SCL → EXT2 row 17 (same rows as the PCA9685). Dupont ≤ 20 cm, twist SDA/SCL with GND if longer. Meter before power.\n2) Cursor (night/cams, handoff /mnt/project-files/cams-1025/CURSOR_HANDOFF.md v2): bench env `thermal`, Melexis MLX90642 driver in lib/MLX90642, scan and print the address (do not assume it), CSV t_ms,cam,min_C,max_C,mean_C,hot_x,hot_y.\n   Ports (25.10): bench envs have ARDUINO_USB_CDC_ON_BOOT=1 → the serial monitor is on the LEFT USB-C (native USB, /dev/cu.usbmodem…); the right USB-C (CH340, /dev/cu.usbserial-110) uploads but shows nothing. Press RST with the monitor open to see the boot scan.\n3) Teddy: PROTOCOL steps 1–4 (wall vs ThermoSpot, hand at 30 cm, hand at the edges → orientation), then Pesho's head at 37 °C: max_C and hot-pixel count. Pesho is a small figure (head ≈ 5–6 cm), so distances are scaled; same distances as C029 → one table, two cameras. Pesho must sit at camera height and centred (hot ≈ 16,12) and the head cooled to 37–38 °C (heater ran 40–44 °C).\n4) Media C048_<date>_d45-first-frame: breadboard wiring from above, heat-map screenshot with the hand ★, the Pesho set-up with the tape (IMG_2551 ★ candidate).\n\nPortfolio number: the range at which the head drops under 2 px on each camera (the mission search range), scaled from Pesho's head to a real head (~16 cm).",
+      "notes": "Code merged to dev 26.10 21:30 (PR #12, night/cams: env `thermal`, init retries 83c16f3, FAILS 175–177 071ded8). PARTIAL 25.10 18:35, closed by Teddy ('no 2 m in the room'). PASS: the D45 answers at 0x66 (fw 1.20.0, 4 Hz) on the DevKit Wire next to the PCA9685; hand at 30 cm max 36.1 °C; wall within +0.5 °C of the ThermoSpot (coldest pixel, preliminary); Pesho's heated head seen at 0.5 m (max 47 °C, ~15 px) and at ~1.3 m (max 39.8 °C, compact 2 × 3 px spot, near the true head temperature). NOT DONE: 2 m / 3 m (room too small → outdoor or hallway test in a later card), clean wall with the board filling the frame, scaling Pesho's head (~6 cm) to a real head (~16 cm). OPEN for Cursor: (1) orientation: the D45 and the 110° put Pesho mirrored on both axes (D45 left-low 11,16; 110° right-high 18,9) and Pesho was below the cameras → FLIP_110 looks wrong (confirm with a hand above the cameras); (2) boot init retries + `init` command (prompt given 18:17). Lessons: a hot target must sit at camera height and centred, otherwise the edge pixel reads low (33 °C at the bottom edge vs 39.8 °C centred); measure the target with the ThermoSpot from ~5 cm, not from the camera (its 12:1 spot is wider than the head at 1 m); keep the head at 37–38 °C (heater ran to 44 °C). Media: 33 files + wiring diagram (C048_18–33 = late iCloud arrivals), ★ C048_10 set-up, ★ C048_16 both maps at 1.3 m, ★ C048_19 D45 board with labels, ★ C048_31 1.3 m overview.",
+      "order": 56,
+      "outcome": "partial",
+      "photo": "C048_16",
+      "rel": "R-1101",
+      "result": "RUN 1, 25.10 ~16:00 local, env `thermal` (commit 5a84c50): boot hang with the D45 on EXT2 16/17 → timeouts + `boot` replay (4a4f31d). Cause 17:30–17:50: camera wires not on the pins we thought (GND missing, a data line held low). Rewired by the pull-up test. 17:50 `scan`: Wire 0x40, **0x66 (D45)**, 0x70. Seengreat connector order: GND, VCC, SDA, SCL (arrow = pin 1). 17:51: `OK MLX90642 @0x66 fw 1.20.0`, 4 Hz, emissivity 0.95. Serials not recorded. 17:55 hand at ~30 cm: max 36.1 °C, hand test PASS. ~18:04 wall (ThermoSpot 17.6): coldest pixel 18.1–18.4 → preliminary PASS, board did not fill the frame. 18:11 new fw flashed (NaN-safe mean, serials masked to last 4); the 110° sometimes missing at boot although `scan` finds it → Cursor prompt: init retries + `init` command. 'WARN d45 READY read failed (-1)' every boot but rows keep coming (harmless). PESHO: 18:23 at 0.5 m: max 46.9–47.2, hot (14,17), ~15 px blob. 18:27 at 1.2 m: head on the bottom frame edge (14,23), max 33.1 → not valid. 18:31 raised: out of frame (max 21, hot 30,0–6) → not valid. **18:35 ~1.3 m (Pesho in the crate, distance to confirm): max 39.7–39.8 °C, hot (11,16), compact ~2×3 px spot, min 17.7, mean 19.4** — ThermoSpot head 40–44 °C (too hot). ORIENTATION ISSUE: the D45 puts Pesho left-low (11,16), the 110° right-high (18,9): mirrored on both axes; Pesho is below the camera height, so 'low' is correct → the 110° FLIP_110 looks wrong. Check: hand above the cameras → hot_y ≈ 0 on both. Next: 2 m with the head at 37–38 °C.",
+      "seq": 48,
+      "start": 1792933200000,
+      "title": "MLX90642-D45 on the XIAO: first heat map, and how far it sees Pesho"
+    },
+    {
+      "label": "C053",
+      "id": "t-dry-assembly",
+      "col": "released",
+      "created": 1793155743000,
+      "end": 1793157136000,
+      "files": [
+        {
+          "note": "the assembly as designed",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        },
+        {
+          "note": "block, parts, schematic, breadboard as of 27.10",
+          "path": "docs/diagrams/AR-Mini_architecture_v2.png"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "",
+      "media": "C053_2026-10-28_dry-assembly (C053_01–09; ★01 top view, ★02 from the bow, ★07 low front with the book spacer, ★08 33 s walk-around video, ★09 top view with laptop and supply)",
+      "note": "Record, no test. 28.10 05:49–06:12: first time every subsystem sits on one frame — 4 hull sections, 4 beam_bracket + beams, ROB0154 tracks between the hulls, orange electronics tray, arch + camera head (C047), 2 × TD-8120MG + linkages + cradle U (C020), 2 thrusters on the kick-up mounts. Dry, on the table. Seen, not measured: the tray rests on a book (no tray mount yet), KILL toggle on clip leads (C051 dropouts), right thruster is the defective one (FAILS 173). Portfolio: P04 'the robot as built' can be updated with C053_01.",
+      "order": 61,
+      "outcome": null,
+      "photo": "C053_01",
+      "rel": "R-1101",
+      "result": "Whole robot assembled dry for the first time, tracks included. Open: tray mount, KILL wiring, right thruster.",
+      "seq": 53,
+      "start": 1793155743000,
+      "title": "First dry assembly of the whole robot with the tracks (record)"
+    },
+    {
       "label": "C024",
       "id": "t-esc-sketch",
-      "col": "backlog",
+      "col": "released",
       "created": 1791654420000,
-      "end": null,
+      "end": 1792740542000,
       "files": [
         {
           "note": "§8",
@@ -1213,12 +1526,12 @@
       "media": "",
       "note": "The one module T3 left out (PINOUT: ESC_L GPIO1, ESC_R GPIO2, 'no bench sketch'). Same contract as the other bench envs: CSV `t_ms,l_us,r_us,kill` at 10 Hz, `?` help, `0` = both to 1500 µs. LEDC 50 Hz. `arm` holds 1500 µs for 3 s (listing: 50 Hz, 1500 µs = stop). `l <us>`, `r <us>`, `both <us>`, `diff <thrust> <turn>` (differential steering). Ramp 200 µs/s; soft limit 1350–1650 µs until `limit` widens it with a # WARN; dead-man 2 s and KILL (GPIO14 low) → 1500 µs immediately. Host tests for the clamp, the ramp and the diff mix; PROTOCOL.md like the others (wiring, what to measure before power, expected, pass). Daytime task, small; branch night/esc or directly a PR to dev.",
       "order": 33,
-      "outcome": null,
+      "outcome": "pass",
       "photo": "",
-      "rel": "R2a",
-      "result": "",
+      "rel": "R-1024",
+      "result": "DONE 23.10 09:29: task tasks/night/2026-10-23_T10_esc.md (a17401e), env `esc` by Cursor in 20eddc0 on dev, pushed. Claude reviewed: both pins at 1500 µs as the first line of setup(), nothing moves before `arm` (3 s hold, dead-man fed during the hold), soft limit 1350–1650 (`limit wide` 1000–2000 with WARN), 200 µs/s ramp, `0` / dead-man / KILL → 1500 at once and disarm; diff mix in lib/benchcore/EscMath.h with host tests. PROTOCOL step 1 = C006 (signal-wire voltage with the signal NOT connected), then `dm 15000` before the 10 s steps of C025. Not yet run on hardware.",
       "seq": 24,
-      "start": null,
+      "start": 1792737000000,
       "title": "Cursor: bench `esc` env — both thruster ESCs on LEDC GPIO1/2"
     },
     {
@@ -1245,6 +1558,116 @@
       "seq": 36,
       "start": null,
       "title": "Fusion Static Stress on the Lenovo: arm_drive and pivot_bracket (6 vs 8 mm plate)"
+    },
+    {
+      "label": "C054",
+      "id": "t-home-lab",
+      "col": "released",
+      "created": 1793155836000,
+      "end": 1793155876000,
+      "files": [],
+      "from": "teddy",
+      "hyp": "",
+      "media": "C054_2026-10-28_home-lab (C054_01–04; ★01 whole lab with Teddy looking at the camera, ★04 wider)",
+      "note": "Record, no test. The home lab where AR-Mini is built: robot on the table, bench desk at the window, K2 Pro printer, bench supply, parts on the sofa. For the portfolio 'how I work' (P25) or the opening. C054_03 has parcel labels in the corner — crop before use.",
+      "order": 62,
+      "outcome": null,
+      "photo": "C054_01",
+      "rel": "R-1101",
+      "result": "",
+      "seq": 54,
+      "start": 1793155836000,
+      "title": "The home lab, 28.10 (record)"
+    },
+    {
+      "label": "C059",
+      "id": "t-lake-test",
+      "col": "released",
+      "created": 1793455200000,
+      "end": 1793512320000,
+      "files": [
+        {
+          "note": "FINAL 2 wiring (project files pool-1029/) → docs/diagrams",
+          "path": "docs/diagrams/AR-Mini_FINAL2_breadboard_pool_1031.png"
+        },
+        {
+          "note": "env remote_pool: thruster via 74HCT125, MG90S rudder, cradle lift on PCA9685",
+          "path": "firmware/bench/src/remote/main.cpp"
+        },
+        {
+          "note": "lake plan (Claude Doc)",
+          "path": "https://claude.ai/artifact/Y4ptJurM6qY1G6MKEa2auH"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "With the FINAL 2 wiring in the food box (DevKit + 74HCT125 + PCA9685 on the lid, S1 + fuse block + LiPo inside), env remote_pool and a tether, the robot drives on battery from the shore at Pancharevo, steers with the rudder and lifts Pesho with the cradle.",
+      "media": "C059_2026-10-31_lake-test (31.10 wiring day C059_01–46: ★01 28 31 33 37 41 44 46; evening C059_48–53: ★50 52 53 bathtub; 01.11 lake run C059_54–92: 54 robot packed in the car, 56 weir, ★60 launch spot panorama, 61 MOV 3 s, ★62 driving, ★67 hard turn with wake, ★72 Teddy steering from the bank, ★77 MOV 93 s launch + drive + return, ★78 Teddy putting it in, ★83 floating level in the rain, ★91 MOV 16 s driving, ★92 onboard camera MJPEG + mp4)",
+      "note": "31.10.2026, thread 'Тест в езерото'. Wiring rebuilt from the FINAL 2 sheet; rails on the sheet mirrored (FAILS 178), GPIO1 jumper in R-c23/1OE (FAILS 179), rudder GND wire out → fixed, calibrated, glued. Lift: only the higher PCA9685 channel drives a servo (FAILS 180, OPEN) → lake run with one lift servo on CH13. Bathtub test 31.10 17:42 (C059_50–53). 01.11 morning forecast said rain all day; Claude recommended no-go, Teddy and her dad went anyway and the run worked.",
+      "order": 1793455200000,
+      "outcome": "partial",
+      "photo": "C059_72",
+      "rel": "R-1101",
+      "result": "01.11.2026 08:40–08:52 local, Pancharevo (Iskar below the weir), rain, fog, low cloud, 7–9 °C. Teddy and her dad: robot launched from the bank, floated level, drove and turned under phone control and came back to the bank (C059_77 MOV 93 s, C059_91 MOV 16 s). Teddy: \"mission done despite the fog, humidity, rain and clouds\". Onboard OV3660 recorded the trip from the car to the water (C059_92 MJPEG, converted to mp4 at 25 fps; real frame rate unknown). Teddy 01.11 08:51Z: lift (one servo on CH13) moved the cradle in the water and above it; Pesho was left at home, so no pick-up. VBAT at the end not recorded. No water in the box. Outcome Partial: drive, steer and return on battery done; pick-up of Pesho and runtime not shown.",
+      "seq": 59,
+      "start": 1793455200000,
+      "title": "Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery"
+    },
+    {
+      "label": "C044",
+      "id": "t-mcu-benchmark",
+      "col": "backlog",
+      "created": 1792486800000,
+      "end": null,
+      "files": [],
+      "from": "claude",
+      "hyp": "Each candidate gets three bench numbers against the DevKit-Lipo baseline: IMU read loop (ms), current from the LiPo (mA), time to first OTA (s).",
+      "media": "",
+      "note": "AFTER G1: do not start before 31.10.2026, every hour until 30.10 goes to the portfolio. IDEA (Teddy 20.10): compare MCUs for the next activities and add each new one as a benchmark. CRITERIA = AR-Mini needs only, not popularity rankings: PWM channels (thrusters / ESCs, servos), I2C for BNO055 + PCA9685, Wi-Fi (remote + OTA), current from the LiPo, wet operation (conformal coat, sealed box), weight. FORMAT: one living table docs/benchmarks/mcu.md (proposed path, not created yet), same columns for every row. BENCH METRICS: IMU loop in ms, current in mA, time to first OTA. BASELINE: the current ESP32 DevKit-Lipo. FIRST CANDIDATES: Raspberry Pi Pico 2 W, ESP32-C3, ESP32-S3. Jetson and Raspberry Pi 4/5 only for G3, and only with camera + computer vision (see C043). RULE: every new MCU tested gets its own card C### with measured numbers, its own media folder, and a row in the table. Specs and prices to be looked up and dated when the card starts.",
+      "order": 52,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 44,
+      "start": null,
+      "title": "MCU benchmark: compare microcontrollers against AR-Mini needs, a living table (after G1, from 31.10.2026)"
+    },
+    {
+      "label": "C055",
+      "id": "t-mega-thruster",
+      "col": "released",
+      "created": 1793258814000,
+      "end": 1793261612000,
+      "files": [
+        {
+          "note": "PlatformIO env mega (commit 437cbba)",
+          "path": "firmware/mega/thruster-test/src/main.cpp"
+        },
+        {
+          "note": "wiring, steps, result table",
+          "path": "firmware/mega/thruster-test/PROTOCOL.md"
+        },
+        {
+          "note": "wiring drawing",
+          "path": "docs/diagrams/C055_diagram_mega-thruster.png"
+        },
+        {
+          "note": "173, confirmed 29.10",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "Driven from a third, independent source (Mega 2560 pin 9, 5 V push-pull, Servo lib, no S8050, no inversion), the left thruster repeats C025 (0.22 / 0.58 / 0.21 A at 1600 / 1650 / 1400 µs, 12 V) and the right one still fails → the fault is in the right thruster, not in the ESP32 drive.",
+      "media": "C055_2026-10-29_mega-thruster-test (C055_01–03 setup, ★03 whole bench; ★04 MOV 46 s left spinning at 1600 µs; 05–10 serial + supply at 1600 / 1400 / 1650 µs, ★06 0.217 A, ★10 0.570 A; ★11 MOV 9 s right failing; C055_diagram_mega-thruster.png/.html)",
+      "note": "29.10.2026 10:57–11:09 local (07:57–08:09 UTC). Setup: Joy-it MEGA 2560-P on USB from the Mac; pin 9 → yellow, Mega GND → white + PSU minus; SPS-6005N 12.00 V. Sketch firmware/mega/thruster-test (PlatformIO env mega): arm 1500 µs 3 s, ramp 200 µs/s, soft limit 1350–1650, dead-man 20 s, CSV t_ms,target_us,out_us. Serial logs confirm the ramp and the stop. Do not run the right thruster longer: stalled 2 A pulses heat the motor. Next: seller claim / replacement (T200 + Basic ESC on order), analysis entry.",
+      "order": 63,
+      "outcome": "pass",
+      "photo": "C055_06",
+      "rel": "R-1101",
+      "result": "LEFT on Mega: 1600 µs 0.217 A, 1650 µs 0.570 A, 1400 µs 0.202 A (C025: 0.22 / 0.58 / 0.21, all within 5 %). RIGHT on the same pin and wires: does not spin; ~0.9 s start/brown-out loop: supply goes to C.C, 1.1–2.1 A pulses, voltage sags 12 → 8.75 V, click each cycle (IMG_2625). Same as 24.10 (IMG_2489). FAILS 173 confirmed with a third driver: the right thruster's built-in ESC/motor is faulty.",
+      "seq": 55,
+      "start": 1793258814000,
+      "title": "Both thrusters on an Arduino Mega: is FAILS 173 the thruster or the ESP32 channel?"
     },
     {
       "label": "C014",
@@ -1351,6 +1774,64 @@
       "title": "Cursor: night task T6 — thruster watch for v2"
     },
     {
+      "label": "C049",
+      "id": "t-ov3660-stream",
+      "col": "today",
+      "created": 1792914300000,
+      "end": null,
+      "files": [
+        {
+          "note": "8-line skeleton today; Cursor adds env `cam` (OV3660 MJPEG stream)",
+          "path": "firmware/xiao/platformio.ini"
+        },
+        {
+          "note": "XIAO pins (D2–D5 for the two thermal boards)",
+          "path": "hardware/wiring/PINOUT.md"
+        },
+        {
+          "note": "open question 'XIAO role in v1' → this card answers it: camera node",
+          "path": "docs/decisions/0005-v1-controller-devkit-lipo.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "The XIAO ESP32-S3 Sense on the arch, powered from USB-C, streams the OV3660 at VGA 640 × 480 MJPEG at ≥ 10 fps to the phone browser 2 m away; the picture from the arch shows the cradle area and the water in front of the bows (camera 15° down); latency < 500 ms (phone stopwatch filmed through the camera).",
+      "media": "C049_2026-10-25_ov3660-stream",
+      "note": "Camera 1 of 3 on the fixed mount (C047). The fastest win for G1: the robot's-eye view is portfolio video by itself. Role (Teddy 25.10): the XIAO Sense stays ALONE as the OV3660 camera node, no wires soldered to it; both thermal boards go to the DevKit (C029, C048). Answers the open question in decision 0005.\n\n1) Cursor (branch night/cams, PR to dev, handoff /mnt/project-files/cams-1025/CURSOR_HANDOFF.md v2): env `cam` in firmware/xiao: esp32-camera, CAMERA_MODEL_XIAO_ESP32S3 pin map, PSRAM, MJPEG on /stream + /jpg + fps on serial. Own AP 'AR-Mini-cam' (pass in the gitignored include/secrets.h).\n   + microSD recording (Teddy 25.10): card ≤ 32 GB FAT32, `rec 1/0` (serial or /rec), JPEG frames + index.csv per run in /C049_<n>/, auto-start when /autorec is on the card (water test without the phone), scripts/frames_to_mp4.sh → mp4 on the Mac.\n2) Teddy: USB-C from the Mac to the XIAO on the arch, flash, phone joins AR-Mini-cam, open /stream. Write fps, resolution, latency.\n3) Media C049_<date>_ov3660-stream: screen recording ★, phone next to the robot, latency clip.\n\nLater (separate card): stream inside the phone page; bench `remote` uses softAP max_connection = 1, so either raise it to 2 or the page pulls from AR-Mini-cam. Power on the boat: the XIAO needs its own 5 V to the arch (USB-C from the buck).",
+      "order": 57,
+      "outcome": null,
+      "photo": "C049_01",
+      "rel": "",
+      "result": "RUN 1, 25.10 ~14:28 local (commits 20a24fc, b5983c9 on night/cams): OV3660 found, VGA 640 × 480, PSRAM 8 MB, microSD 32 GB seen. Stream to the phone 6.5 fps, then 2.5 → 1.0 → 0 (viewer dropped when /rec was opened: one httpd task, /stream blocks it). Recording /C049_1/: 155 frames in ~12 s with no viewer, rate falling 15.5 → 12.5 → 10.5 → 9.5 → 8.5 fps (one JPEG file per frame in one FAT folder). Fix sent to Cursor: stream on :81, Rec buttons on the page, one video.mjpeg per run + index.csv. Not yet pass: fps < 10 and stream + rec not together. RUN 2: stream 0.5–1.5 fps, recorder fed by the stream → 8 frames (C049_2). Cause: the U.FL antenna was never fitted (still in the box, photo IMG_2518) + recorder coupled to the stream. RUN 3, 25.10 ~15:30 local, antenna on, recorder on its own task: RSSI −24…−40 dBm; recording 25–26 fps steady, 331 frames, 6 047 597 B (18.3 KB/frame) in /C049_3/video.mjpeg; stream to the phone peaks 21–26 fps at 386–485 kB/s but has gaps of 0–2 fps with a strong signal (phone side suspected: iOS on a WiFi with no internet, or the page out of focus). RUN 4, 25.10 ~15:35 local, iPhone mobile data off, page in front: stream AND recording together for ~26 s with no gap: stream 21.9–26.5 fps (≈ 25), recording 24.8–27.5 fps, 630 frames, 11 385 125 B (18.1 KB/frame) in /C049_4/, RSSI −18…−30 dBm, 396–482 kB/s. → The run-3 gaps were the phone (mobile data on). Stream ≥ 10 fps: PASS (2.5 × the target). Picture from the arch (C049_01 ★, 14:35): the Ø5 cradle U and the orange arm ends fill the foreground, Pesho visible standing ~2–3 m away; whites washed out (auto exposure on the white desk). Video C049_02 ★: /C049_4 → mp4, 630 frames, 24.5 s, 25.75 fps, 640 × 480 (scripts/frames_to_mp4.sh). Code merged to dev 26.10 21:30 (PR #12, env `cam`: 20a24fc, b5983c9, 4690d0c, 266151d + scripts/frames_to_mp4.sh); more set-up photos C049_03–10 (★ C049_10 arch from the front). Open: latency clip (phone stopwatch filmed through the camera), then close.",
+      "seq": 49,
+      "start": 1792927708000,
+      "title": "OV3660 on the XIAO Sense: first live picture from the arch on the phone"
+    },
+    {
+      "label": "C046",
+      "id": "t-pan-tracking",
+      "col": "backlog",
+      "created": 1792767900000,
+      "end": null,
+      "files": [
+        {
+          "note": "cam_pan_mount → fixed thermal camera mount for v1; MG90S pocket parameters cam_servo / cam_ear_dx / cam_shaft_off (from the catalogue, MEASURE)",
+          "path": "cad/openscad/AR-Mini_v1.scad"
+        }
+      ],
+      "from": "teddy",
+      "hyp": "With both thermal cameras on one MG90S on the arch, a closed loop (hot-spot column → pan angle) keeps a 37 °C target within ±1 thermal pixel (~3.4° on the 110° camera) of the image centre while the robot turns at its normal rate, and sweeps ±80° (~270° coverage with the 110° FOV) in < 1 s per side.",
+      "media": "",
+      "note": "AFTER G1 (for G2, 30.12.2026). Decision 23.10: v1 cameras FIXED on the arch (forward, 15° down), the robot turns on its tracks/thrusters to look sideways. Why pan later: (1) wider view without turning the boat, turning in water is slow and drifts; (2) target tracking = a closed loop camera → angle → servo, strong for the portfolio; (3) aim the narrow camera where the wide one saw a hot spot. Cost: angle calibration, cable flex at every turn (5 cm slack loop, limit ±80°), one more failure point. Design rule NOW: the fixed v1 mount must take the same camera plate as the pan version, so the plate can move onto an MG90S without reprinting the tube clamp. Servo: MG90S (chosen 20.10; TD-8120MGs are in the pivot brackets, ST3215 too big for the pocket). Both thermal boards on ONE servo, not one servo each. OV3660 stays fixed on the XIAO. Before starting: measure the MG90S (body 22.4 × 12, ear plane 16, ear holes 27.7 from the catalogue) and its horn; PCA9685 channel to be assigned.",
+      "order": 54,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 46,
+      "start": null,
+      "title": "Pan tracking: both thermal cameras on one MG90S, keep the hot spot centred (after G1)"
+    },
+    {
       "label": "C016",
       "id": "t-parts-setup",
       "col": "backlog",
@@ -1423,9 +1904,9 @@
     {
       "label": "C034",
       "id": "t-print-hull-aft",
-      "col": "today",
+      "col": "released",
       "created": 1791771900000,
-      "end": null,
+      "end": 1792651500000,
       "files": [
         {
           "note": "",
@@ -1437,10 +1918,10 @@
       "media": "C034_2026-10-12_hull-aft-print",
       "note": "For R2b (4 sections + chassis float). STL: build/hull_aft.stl exported 12.10 05:18 from CAD v2.0 (305 + 6 mm transom pad = 311 long, 100 x 120). White PLA, NEW spool (the first one ran out after two hull_fore), fit prototype: the whole v1 boat is PLA, PETG after 1.11. Same as C008/C022: 0.2 mm, 4 walls, 10 bottom layers, diagonal on the bed, brim outer only, external spool, Enable CFS off. Tree supports (on build plate only OFF) in THREE places: the two beam bosses inside at x 385 / 500 and the transom pad outside the stern (flat underside at z 44, sticks out 6 mm). Left first; the right one = same file, Mirror along Y in Creality Print (as the right hull_fore). After each: peel the brim, cut the supports, weigh, photo next to the fore section. Check: the 4 joint holes in the bulkhead line up with the fore section's (M3 through both), the transom pad has its 4 blind insert holes at z 59 / 99.",
       "order": 42,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2b",
-      "result": "First try in white PLA 05:24 stopped after ~16 min: the new white spool had only ~100 g. Switched to PETG. LEFT DONE 12.10 (photos 16:46): screen 7 h 30 min, 410.0 g white PETG. PLA hull_fore was 345 g; the difference is the denser PETG plus the transom pad and its supports. Clean walls and bosses, but a lot of PETG stringing inside the compartments and on the bed, plus a few blobs on the outer wall: cosmetic, clean off with flush cutters or a quick pass of a heat gun. Check the blobs are not holes before any water test. Mock-up photo on the desk: left hull = PETG aft + PLA fore end to end (610), bosses of both sections on the inner side as designed; the thruster laid at the transom; chassis, orange arms and both TD-8120MG next to it. RIGHT (mirror Y) still to print, ~7.5 h, ~410 g PETG. Spool gauge photo 16:52 (window marks 0.22 / 0.66 / 1.32 / 1.98 lbs = 0.1 / 0.3 / 0.6 / 0.9 kg): the layers at the flange end just past 0.66 lbs = ~300-350 g, maybe up to ~450 g if the pack is higher in the middle. But the photo at 06:07 (C034_01) shows the spool was a full new 1 kg in the morning, so by the numbers 1000 - 410 = ~570 g are left; the gauge only sees the layers next to the wall. Settle it on the kitchen scale: whole spool 700 g or more = go; under 600 g = new spool. Media: 01_Loops/C034_2026-10-12_hull-aft-print (C034_01-19 + captions.md, picks 10 / 14 / 17). No printer timelapse yet: the mp4 in the inbox was C022's again (moved to _to_delete); the real one is ~17917740xx.mp4. RIGHT DONE 13.10 ~00:26 (started 12.10 16:52 from the same spool): screen 7 h 34 min, 410.0 g white PETG. Both aft sections printed, ~160 g PETG left on that spool. Media C034_20-34 (incl. the printer timelapse C034_34, 11 s). LEFT timelapse still missing (~17917740xx.mp4). TO CLOSE: supports off and strings cleaned (the cut-support pile next to the printer in C037_02, 13.10 07:08, is most likely the LEFT hull's, already there in C034_29; in C037_07 a hull_aft still has strings inside the compartments); both aft sections side by side, beam bosses facing each other (= the right one is mirrored); M3 through the 4 joint holes into each fore section; 4 blind insert holes in each transom pad; one photo of the whole boat, both hulls 610 long.",
+      "outcome": "pass",
+      "photo": "C034_35",
+      "rel": "R-1024",
+      "result": "First try in white PLA 05:24 stopped after ~16 min: the new white spool had only ~100 g. Switched to PETG. LEFT DONE 12.10: 7 h 30 min, 410.0 g white PETG. RIGHT (mirror Y) DONE 13.10 ~00:26: 7 h 34 min, 410.0 g. Media C034_01-34 (timelapse of the right one C034_34; the left one's timelapse ~17917740xx.mp4 still missing). CLOSED 22.10 (C034_35, IMG_2311): both boats laid out on the desk, each hull = PETG aft + PLA fore joined with 4 × M3 through the bulkhead holes (screws visible at the joint), supports off. Beam brackets (C045) sit on the inner side of both aft sections, facing each other = right section correctly mirrored. Thruster kick-up mounts at both transoms; pivot bracket + TD-8120MG + orange arm on the inner side of both fore sections, arch post on the right fore. A few PETG strings still inside the aft compartments: cosmetic, clean before the water test. Next: C022/C045 frame with the beams, R2b tub float.",
       "seq": 34,
       "start": 1791771900000,
       "title": "Print hull_aft x2 in PETG (left, then right mirrored): 2 x ~7-8 h, tree supports under 2 bosses + the transom pad"
@@ -1614,9 +2095,9 @@
     {
       "label": "C023",
       "id": "t-r1b-drive",
-      "col": "today",
+      "col": "released",
       "created": 1791654240000,
-      "end": null,
+      "end": 1792735340000,
       "files": [
         {
           "note": "",
@@ -1633,13 +2114,13 @@
       ],
       "from": "claude",
       "hyp": "",
-      "media": "",
+      "media": "01_Loops/C023_2026-10-22_servo-pair (C023_01–31)",
       "note": "For R1b both cradle servos must move together, the right one mirrored. Task for Cursor (daytime, small): in firmware/bench pca9685 add `pair <chA> <chB> <deg> [deg_per_s]` — chB gets the mirrored pulse (us_B = 3000 − us_A around 1500), ramp default 20°/s, `dm` dead-man and `kill` work as for the other commands; host test for the mirror math; README + PROTOCOL updated. Channels: CH0/1 ESCs, CH2–5 BTS7960, CH6 buzzer, CH7–9 LEDs → use CH10/CH11, VERIFY in hardware/wiring/PINOUT.md. TD-8120MG: 500–2500 µs, 180°. Servo power from the Jesverty at 6.0 V, CC 3 A — NOT 12 V. First run with the linkages off the servos, then with the arms on and the U empty, then Pesho.",
       "order": 32,
-      "outcome": null,
-      "photo": "",
-      "rel": "R1b",
-      "result": "",
+      "outcome": "pass",
+      "photo": "C023_27",
+      "rel": "R-1024",
+      "result": "PASS 23.10 ~09:02. `pair` (d8d15a0) + `trim` (46882f5) on dev: both TD-8120MG move together mirrored, the empty U and Pesho lift from deployed (`pair 10 11 50`) to raised between the hulls (`130`) and back (C023_15 ★ empty, C023_27 ★ with Pesho, ~0.24 A lifting). The ~0.9 A 'holding' current with the empty U was NOT the servos fighting (trim ±100 µs had no effect; each servo alone drew 0.74–0.91 A): it was a stall just short of the target from friction/stiction in the linkage. Nudging the U by hand dropped BOTH to 0.015 A. Follow-up (mechanical, C019 linkage): free the pivots (nylocs just snug, joint must fall by its own weight), check the U width ≈121 vs 112 c-c with the caliper; firmware option: approach the target from one side / small final dither. FAILS 171–172 written (I2C pins one off; sheared arm screws). Full history: 22.10 ~14:40 Cursor on dev, pushed: d8d15a0 `pair` (PairMath.h + host tests, PROTOCOL §7, PINOUT PCA9685 channel table: CH10/CH11 = cradle servos, per rev B SPEC), plus a9484da T8 ladder 30k, e26865c task files, 1a25819 LINKS C042, 76cad67 ladder UART0. Reviewed by Claude: mirror + lock-step ramp + dm/KILL drop both OK. Bench gotchas: default window 1000–2000 µs = 45°–135° (wider needs `limit 500 2500`); the FIRST pair after boot / 0 / dead-man / KILL snaps with no ramp → with arms on, first command at the pose the arms are in. 22.10 18:20 breadboard sheet for Teddy: https://claude.ai/artifact/ATHXXMevkChCdt2wEZr7mY (DevKit across the two boards, EXT1 left; OE left open, the module has 10 k OE→GND; rocker C→GPIO14, KILL→GND, 10 k to 3V3 per 2b/PINOUT; hardware stop on the bench = Jesverty OUTPUT). 22.10 ~22:00 bench: flashed OK; monitor must be on the LEFT USB-C (/dev/cu.usbmodem101) because env pca9685 keeps CDC_ON_BOOT=1 (CH340 port shows nothing). First boot pca=MISSING, scan found nothing → SDA/SCL were on the wrong pins (Teddy: \"48 49\" instead of 48/47); moved → `scan` finds 0x40. KILL reads 1 in KILL (rocker wiring OK). First `pair 10 11 90` with the U in (22:26): servos at 1500/1500 but the two ARMS in different poses (left ~up, right ~horizontal) → U twisted, 0.53 A, Teddy hit KILL (C023_07). U out: 0.089 A at 90. 23.10 ~05:05 videos C023_11/12 (no U, 0.06–0.11 A): both arms move but far from in step, the far arm swings ~150° in < 2 s (snap after KILL/dead-man or a `ch` command), near arm ~30°; cause: arms clocked on the splines at different angles. 23.10 ~05:30: TWO arm-to-disc screws SHEARED (IMG_2358) after the twisted-U fight and the snap swing → screws replaced, arms re-clocked to the same pose. C023_13 (no U): both arms move together. C023_15 ★ (47 s): `pair` lifts the EMPTY U from deployed to raised and back, U level. 23.10 ~06:30 currents holding still (6.0 V): empty U `50` 0.94 A, `130` 1.103 A; Pesho `50` 0.015 A (U resting on the table, C023_26), `130` 0.251 A. C023_16–31 filed 06:15–06:34: whole frame on the hulls with electronics on the beams; C023_27 ★ full cycle with Pesho. Inbox dups IMG_2365/2366 → _to_delete/inbox-dups-2026-10-23. ~08:50 after T9 trim flashed: empty U `50` 0.898 A, `90` 0.826 A, `130` 1.127 A. ~08:55 trim sweep at `pair 10 11 90`, trim 11 −100/−50/0/+50/+100: 0.91 A at every value → not the servos fighting. Single servo with the empty U, other limp: `ch 10 1500` 0.91 A, `ch 11 1500` 0.74 A. ~09:02 a nudge by hand → both 0.015 A (stall short of target from friction). T9 also carried the PROTOCOL rocker-wiring fix (C→GPIO14, KILL→GND, OE open on the breadboard) — check it landed in 46882f5.",
       "seq": 23,
       "start": null,
       "title": "Cursor: bench pca9685 'pair' command — two TD-8120MG mirrored, slow ramp 45° → 215°"
@@ -1647,9 +2128,9 @@
     {
       "label": "C022",
       "id": "t-r1b-frame",
-      "col": "today",
+      "col": "released",
       "created": 1791654240000,
-      "end": null,
+      "end": 1792652831000,
       "files": [
         {
           "note": "right hull = mirrored along Y",
@@ -1665,10 +2146,10 @@
       "media": "C022_2026-10-11_r1b-frame",
       "note": "For the full U both hulls are needed. 1) Right hull_fore: Cursor, OpenSCAD -D part=\"hull_fore\" -D side=-1 → build/hull_fore_R.stl; print exactly like C008 (white PLA, 0.2, 4 walls, diagonal, tree supports under the 2 rim bosses only, ~6 h 13). Best slot: 11.10 after the C007 tub test. 2) 2 × arch_post: -D part=\"arch_post\" (same part both sides), black PLA, lying on its side. Inserts M3 in both hull_fore bosses at x 165. 3) Arch tube: 15 × 15 × 1 aluminium, cut 304 mm (same as the beams), M3 bolt through post + tube on each side (square tube in a square saddle, so the hulls cannot twist). Check: gap between the hulls 250 ±2 at the front and at x 200, hulls parallel. Photo from above with a tape measure across.",
       "order": 31,
-      "outcome": null,
-      "photo": "",
-      "rel": "R1b",
-      "result": "Step 1 started 11.10 15:45: right hull_fore printing, ETA ~22:00 (slicer ~6 h 13). It was mirrored in Creality Print (Mirror → Along Y axis) instead of exporting build/hull_fore_R.stl. That is the same geometry, because side = -1 in the CAD is mir() = a Y mirror. Same settings as C008: white PLA, 0.2, 4 walls, bottom 10, diagonal, tree supports under the 2 rim bosses, external spool. Step 1 DONE 12.10 ~05:00: right hull_fore printed, 6 h 17 min, 345.0 g (the left was 6 h 16 / 345.0). Photo of both: the rim bosses face each other across the gap, so the mirror is right. The white PLA spool is nearly empty after it (a thin layer left): the hull_aft pair must be PETG (as planned) or a new spool. Media: C022_01–13 + captions.md in iCloud 01_Loops/C022_2026-10-11_r1b-frame (★ 01 timelapse, 05 tree support growing inside the hull, 10 screen 6 h 17 / 345.0 g, 13 both hulls, bosses facing each other). Step 2 PRINTED 13.10: arch_post × 2 in black PLA, on one plate with the two pivot_brackets (C037: 5 h 45 min · 176.0 g for the plate); still to do in step 2: M3 inserts in both hull_fore bosses at x 165. Step 3 (arch tube) still open.",
+      "outcome": "pass",
+      "photo": "C022_16",
+      "rel": "R-1024",
+      "result": "Step 1 started 11.10 15:45: right hull_fore printing, ETA ~22:00 (slicer ~6 h 13). It was mirrored in Creality Print (Mirror → Along Y axis) instead of exporting build/hull_fore_R.stl. That is the same geometry, because side = -1 in the CAD is mir() = a Y mirror. Same settings as C008: white PLA, 0.2, 4 walls, bottom 10, diagonal, tree supports under the 2 rim bosses, external spool. Step 1 DONE 12.10 ~05:00: right hull_fore printed, 6 h 17 min, 345.0 g (the left was 6 h 16 / 345.0). Photo of both: the rim bosses face each other across the gap, so the mirror is right. The white PLA spool is nearly empty after it (a thin layer left): the hull_aft pair must be PETG (as planned) or a new spool. Media: C022_01–13 + captions.md in iCloud 01_Loops/C022_2026-10-11_r1b-frame (★ 01 timelapse, 05 tree support growing inside the hull, 10 screen 6 h 17 / 345.0 g, 13 both hulls, bosses facing each other). Step 2 PRINTED 13.10: arch_post × 2 in black PLA, on one plate with the two pivot_brackets (C037: 5 h 45 min · 176.0 g for the plate). Step 2 DONE 21.10–22.10: M3 inserts in both x 165 bosses, both arch posts bolted (C022_14 ★, 22.10 06:42, all mounts on both hulls). Step 3 DONE 22.10 ~10:00: arch tube 15 × 15 × 1 aluminium cut with a hacksaw (300 × 13 × 0.63 blade) in the Dremel vise (C022_15), seated in both arch post saddles. Gap check (C022_16 ★, two rulers across the gap: at the servos ~x 200 and at the aft beam brackets ~x 500): both read ≈ 25 cm between the inner walls, so 250 within the photo's resolution and the hulls are parallel. Exact mm not written down. Whole R1b frame now stands: both hulls (PETG aft + PLA fore), arch, both servos with orange arms on the inner side, 4 beam brackets ready for C045.",
       "seq": 22,
       "start": 1791722700000,
       "title": "R1b frame: right hull_fore (mirrored, white) + 2 × arch_post (black) + the arch tube"
@@ -1676,21 +2157,43 @@
     {
       "label": "C028",
       "id": "t-remote-wifi",
-      "col": "backlog",
+      "col": "released",
       "created": 1791654420000,
-      "end": null,
-      "files": [],
+      "end": 1792866000000,
+      "files": [
+        {
+          "note": "env `remote` (branch night/remote)",
+          "path": "firmware/bench/src/remote/main.cpp"
+        },
+        {
+          "note": "test protocol",
+          "path": "firmware/bench/src/remote/PROTOCOL.md"
+        },
+        {
+          "note": "mix + dead band 1580/1420",
+          "path": "firmware/bench/lib/benchcore/EscMath.h"
+        },
+        {
+          "note": "spec T12",
+          "path": "tasks/night/2026-10-23_T12_remote-wifi.md"
+        },
+        {
+          "note": "173 right thruster",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
       "from": "claude",
       "hyp": "",
-      "media": "",
+      "media": "01_Loops/C028_2026-10-23_remote-wifi (C028_01–18; ★04 SAFE kill, ★06 SAFE disconnect, ★08/09 thruster spins from the phone, ★10/18 whole robot floats, ★13/16 driven on one thruster)",
       "note": "For r2c 'swims on remote'. The DevKit makes its own WiFi (access point), the phone opens a small page: throttle + turn sliders (differential mix to ESC_L/ESC_R), a big STOP, telemetry line (v_bat, kill, leak, heading when the BNO055 is there). Heartbeat from the page every 200 ms; no heartbeat for 500 ms → SAFE (the T2 safety rule) → both ESCs 1500 µs. WiFi password only in the gitignored include/secrets.h (secrets.h.example in the repo), never in git or the chat. Claude writes the spec in tasks/night/ first; Teddy starts it when C025 has passed.",
+      "notes": "PARTIAL 24.10 21:00. Pass: phone → WiFi AP → WebSocket → ESC works in water; every SAFE path (stop, kill, disconnect, heartbeat) proven on the bench; the whole robot floats stable at 20 mm draft and moves on one thruster. Not done: two-thruster drive (right thruster faulty, FAILS 173, replacement ordered), range walk (PROTOCOL step 5), pool run for R2c, battery instead of the tether. Draft 20 mm vs C007's 249 cm² per section × 4 sections ≈ 2.0 kg displaced — a weighing of the robot as floated would confirm it (STATE says draft 42 at 4.7 kg with the ROB0154 chassis, not mounted yet). Firmware: env `remote` lives on branch night/remote, not merged into dev yet.",
       "order": 37,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2c",
-      "result": "",
+      "outcome": "partial",
+      "photo": "C028_10",
+      "rel": "R-1024",
+      "result": "23.10 Spec tasks/night/2026-10-23_T12_remote-wifi.md (T12, T7 was taken); Cursor built env `remote` (d2b0e05). Bench bug: ARM went straight to `SAFE heartbeat` (WebSocket callback stamps millis() after loop()'s now → unsigned age wraps) → fixed in Remote.h linkLost with signed age + test (working tree on night/remote, Cursor to commit). After fix, thrusters unpowered: ARM → ARMED, full thrust l/r 1650/1650, full turn 1350/1650, STOP → SAFE stop ✓, ARM+KILL → SAFE kill ✓, ARM+airplane mode → SAFE disconnect ✓. 23.10 22:23 at 12 V: ARMED 1650 but 0.010 A, no spin (box empty). 24.10 05:59: thruster L in the water box spins from the phone (C028_08/09). Open: right thruster (2nd S8050 on GPIO2, diagram https://claude.ai/artifact/8XEFb8KiG7UeGFuYBoEtAk), both-thruster bucket test, range walk (PROTOCOL step 5). 24.10 20:45–20:57 (C028_10–18), FIRST FLOAT OF THE WHOLE ROBOT: both hulls + beams + arch + arm + electronics tray in the bathtub, Pesho in the water, tethered (bench 12 V + USB). Floats stable and level, draft 20 mm, no water in the hulls after the test. Driven from the phone over WiFi: left thruster only (right one faulty, FAILS 173) at 1640 µs (slider ≈ 85/100), 0.58 A at 12 V (≈ 7 W) read on the supply during the run; one thruster pushes the robot and turns it.",
       "seq": 28,
-      "start": null,
+      "start": 1792774800000,
       "title": "Night task T7 (Cursor): drive on remote over WiFi — phone page with 2 sliders + big STOP"
     },
     {
@@ -1752,11 +2255,48 @@
       "title": "GitHub: PR for T1 (state machine) → CI green? → merge into dev"
     },
     {
+      "label": "C057",
+      "id": "t-rudder",
+      "col": "released",
+      "created": 1793278896000,
+      "end": 1793512320000,
+      "files": [
+        {
+          "note": "source: blade, hub (rudder_mount collar no longer used)",
+          "path": "cad/openscad/rudder.scad"
+        },
+        {
+          "note": "one-piece rudder support on the beam_leg, no collar",
+          "path": "cad/openscad/rudder_frame.scad"
+        },
+        {
+          "note": "print STLs",
+          "path": "build/rudder_frame.stl · rudder_blade.stl · rudder_hub.stl"
+        },
+        {
+          "note": "firmware env remote_rudder_hct (74HCT125)",
+          "path": "firmware/bench/src/remote/main.cpp"
+        }
+      ],
+      "from": "claude",
+      "hyp": "A collar clamped on the last 12 mm of the Cuifati duct carries a Ø5 stock with a NACA 0015 blade (50 × 75 mm, leading edge 40 mm aft of the rim, clear of the 34.7 mm tail cone) turned by an inverted MG90S above the water; ±100 on the phone turn slider = 1833 / 1167 µs ≈ ±30°, so the robot can steer with one thruster.",
+      "media": "C057_2026-10-29_rudder (01–03 first layers, ★04 plate, 05 wide, ★06 screen 3 h 09 min 103.0 g, ★07 timelapse; rudder_frame: ★08 timelapse, ★09 screen 2 h 27 min 104.0 g, 10–11 on the bed, ★12 off the bed, 13 parts laid out, 14–15 drilling the stock, ★16 assembled, ★17 whole robot with the box)",
+      "note": "29.10.2026, thread 'Пусни робота в басейна днес'. MG90S pocket 23.6 × 12.6 (body 23.14), stock_x 52.5. Blade global z −72..+3, servo ear plane z 60. Local time on media = UTC+2. The 4th part on the first plate is a second thruster_bracket. 29.10 evening: the collar would not fit on the duct → one-piece rudder_frame (plate between the beam_leg pad and the thruster_bracket, boom over the thruster, thruster 6 mm further aft, kick-up blocked). 30.10: frame printed, stock drilled, assembled (bolts with nuts through the pad); hub not yet seated on the horn at 11:44. Open: horn width and ±30° ends not measured. TO CLOSE: blade swings ±30° without touching the cone, servo centres on KILL (env remote_rudder_hct), then pool.",
+      "order": 1793278896000,
+      "outcome": "pass",
+      "photo": "C057_16",
+      "rel": "R-1101",
+      "result": "PRINTED 29.10: blade + hub + collar mount 3 h 09 min, 103.0 g; collar did not fit the duct → rudder_frame printed 29.10 21:21 local, 2 h 27 min, 104.0 g. Assembled on the table 30.10 11:44 (C057_16). Dry swing test not done yet. Calibrated 31.10 (loose GND wire fixed, wires glued). CLOSED 01.11: turned the robot under phone control in the lake run (C059_67 hard turn with wake).",
+      "seq": 57,
+      "start": 1793278896000,
+      "title": "rudder: steer the single thruster with an MG90S blade behind the duct"
+    },
+    {
       "label": "C042",
       "id": "t-thruster-fit",
-      "col": "today",
+      "col": "released",
       "created": 1792046400000,
-      "end": null,
+      "end": 1792658146000,
       "files": [
         {
           "note": "",
@@ -1773,13 +2313,13 @@
       ],
       "from": "claude",
       "hyp": "The Ø5 rod turns freely in lug–cheek–cheek–lug; the arm swings −32° deployed → +100° stowed by hand; the M3 lock pin goes through lug + cheek in the deployed hole; 4 × M4 hold the thruster on the arm plate with no gap.",
-      "media": "",
+      "media": "C042_2026-10-21_thruster-fit",
       "note": "C005 with the printed C041 parts (PETG). ORDER: (1) M4 depth: screw one stock M4 (28.4 long) into a thruster insert by hand and count turns / measure how far it goes; if it bottoms before ~10 mm the insert is blind → M4 × 12 from the DSM set (plate 5 + frame ~9.7). Never force a long screw into a blind insert: it cracks the thruster boss. (2) Thruster on the arm: 4 × M4 through the 50 × 30 plate, cross pattern, hand-tight. (3) Hinge: push the Ø5 rod (60 mm, 5 mm aluminium) through lug – cheek – cheek – lug. It must turn freely; if the 5.3 holes are tight, ream by twisting the rod with a drop of water, or run the 5 mm bit through each hole. R-clip (or a 2 mm pin) at both ends. (4) Lock pin: M3 × 20 (or the 3 mm rod) through lug + cheek at r 10 in the deployed hole (−32°); the stowed hole is +68°. Check both. (5) Bracket on the hull: 4 × ruthex M3 into the transom pad's blind holes (HS-03 at 220 °C, chamfer first, flush), then 4 × M3 × 10 through the 6.2 × 3 counterbores. The bracket plate must sit flat on the pad; if it rocks, find the high spot (brim remnant / elephant foot) and scrape. (6) Swing test by hand: deployed against the stop, kick up to +100°, back down; the duct must clear the hull bottom and the transom at every angle. Then the same on the other hull. Photos: screw depth with the caliper, hinge with the rod, deployed + stowed from the side (★), both hulls from behind.",
       "order": 50,
-      "outcome": null,
-      "photo": "",
-      "rel": "R2a",
-      "result": "",
+      "outcome": "pass",
+      "photo": "C042_12",
+      "rel": "R-1024",
+      "result": "Step 5 DONE 21.10 21:26–22:02 (C042_01–04, ★ 03, 04): 4 ruthex M3 in each transom pad (iron 220 °C), both thruster_brackets bolted with 4 × M3, mirrored pair. Part of the 24-insert round (8 transom + 8 beam boss + 4 arch post + 4 pivot). CHECK: C042_01 shows 8 holes on the pad (4 inserts + 4 open holes) while the CAD pad has 4 (40 × 40), and the inserts stand slightly proud, 2 visibly tilted → confirm the bracket plate does not rock. 22.10 10:33: Teddy checked, the bracket plates do not rock → tilted inserts left as they are. Step 1 (M4 depth) 22.10 ~10:55 (C042_05–06): stock M4 measures 25.09 mm under the head; screwed into a thruster insert by hand it stops with 19.92 mm sticking out → only ≈ 5.2 mm of thread depth: the insert is BLIND and shallow (frame 9.68 thick). With the 5 mm arm plate: M4 × 10 → ~5 mm engagement, right at the bottom; M4 × 12 would bottom out before clamping. Use M4 × 10 and check the plate clamps before the screw bottoms (if it spins, add a washer). To confirm with Teddy: the screw stopped by itself (bottomed), not just left there. Step 2 DONE 22.10 ~11:08: thrusters on the arms with 4 × M4 × 8 each (8 − 5 plate = ~3 mm in the brass ≈ 4 threads: fine for the dry fit and the swing; for the water test either M4 × 10 or a drop of blue threadlocker, and re-check for wobble after the first run). Step 3 DONE 22.10 ~11:16 (C042_08–09 ★): Ø5 aluminium rod through lug – cheek – cheek – lug, cheeks inside the lugs as designed; rod not yet cut to 60 / centred, no R-clips (dry fit only; 1.5 mm cross holes + bent paper clip or E-clip before the water). Steps 4 + 6 DONE on the FIRST hull 22.10 ~11:22 (C042_10 deployed ★, C042_11 kicked up ★): M3 lock pin goes in both holes, deployed the duct hangs ~40 mm below the hull bottom as in the CAD (hull on a cardboard spacer), kicked up the duct clears the transom and hull. SECOND hull DONE 22.10 ~11:35 (C042_12–13 ★★): both thrusters on both transoms, both kicked up and locked; the whole boat (2 hulls, arch, 2 beams, 2 servos with arms, 2 thrusters) on cardboard stands, ~610 long. CLOSED. Carried over to the water test (R2b): cut both Ø5 rods to 60 mm + 1.5 mm cross holes + clips; M4 × 10 or blue threadlocker; clean the strings; the loose M3 screws in the compartments out.",
       "seq": 42,
       "start": null,
       "title": "Fit the thruster mounts (C005): M4 depth check, Ø5 hinge rod, M3 lock pin, 4 inserts in the transom pad, swing by hand"
@@ -1953,6 +2493,127 @@
       "written": "2026-10-15"
     },
     {
+      "id": "t-bts-left",
+      "activity": "none",
+      "by": "claude",
+      "card": "t-bts-left",
+      "challenge": "Drive a 12 V track gearmotor from a 3.3 V ESP32-S3 through a cheap BTS7960 module whose input buffer was designed for 5 V logic, with a hardware stop that does not depend on firmware, and without the GPIO39 boot glitch (C015) ever reaching the motor. The bench protocol in the repo was written before the rev B decisions and still said VCC 5 V.",
+      "decision": "3V3 logic end to end (VCC and EN), EN shared with GPIO14 through the rocker. Result: clean ramp, exact dead-man, instant hardware stop, 0.34 A at 80 % with the track free.",
+      "horizon": "",
+      "impact": {
+        "fin": 0,
+        "note": "A necessary step for the shore phase (tracks); no impact on its own.",
+        "np": 1,
+        "sci": 0
+      },
+      "lesson": "A protocol written before the design decisions is a stale document: check the bench sheet against SPEC before wiring (VCC 5 V → 3V3). And reuse the safety node you already have instead of adding a second one.",
+      "options": [
+        {
+          "pick": false,
+          "src": "most IBT-2 tutorials (Arduino Uno)",
+          "what": "Module VCC at 5 V, EN tied high — fine for 5 V Arduinos; with 3.3 V PWM the 74HC244 input threshold (≈ 3.5 V at 5 V) is marginal"
+        },
+        {
+          "pick": true,
+          "src": "SPEC rev B J4/J5, FAILS 165",
+          "what": "Module VCC at 3V3 so the buffer's threshold (≈ 2.3 V) sits well below the 3.3 V PWM"
+        },
+        {
+          "pick": false,
+          "src": "common practice",
+          "what": "A level shifter (74AHCT125) on the four PWM lines — works, one more part per side"
+        },
+        {
+          "pick": true,
+          "src": "ours (C050 wiring)",
+          "what": "EN from the existing KILL rocker node: one wire, hardware stop + firmware sees the same node"
+        },
+        {
+          "pick": false,
+          "src": "ours, PROTOCOL.md v1",
+          "what": "EN on +5 V via the rocker — open question whether 5 V into a 3V3-powered HC244 exceeds its input limit"
+        }
+      ],
+      "path": {
+        "competitions": [],
+        "grants": [],
+        "uni": [
+          {
+            "school": "MIT",
+            "what": "2.678 Electronics for Mechanical Systems (motor drivers, H-bridges)"
+          },
+          {
+            "school": "Stanford",
+            "what": "ME 210 Introduction to Mechatronics"
+          }
+        ]
+      },
+      "seed": false,
+      "seq": 50,
+      "status": "draft",
+      "title": "Left track motor from the DevKit through a BTS7960 — 3.3 V logic into a 43 A H-bridge module",
+      "why": "Standard motor-driver bring-up: no research, patent or business angle. Its value is the measured numbers (currents vs duty) that C052 and the power budget need.",
+      "written": "2026-10-25"
+    },
+    {
+      "id": "t-mega-thruster",
+      "activity": "none",
+      "by": "claude",
+      "card": "t-mega-thruster",
+      "challenge": "The right thruster failed on 24.10 (FAILS 173) and the swap test on the ESP32 already pointed at the thruster, but both channels shared the same DevKit, the same S8050 open-collector stage design and inverted LEDC firmware. Before buying replacements Teddy wanted proof with a driver that shares nothing with the robot's electronics.",
+      "decision": "Mega pin 9 with the same supply, wires and bucket, swapping only the thruster. Left: 0.217 / 0.570 / 0.202 A at 1600 / 1650 / 1400 µs, within 5 % of C025. Right: no spin, ~0.9 s start loop at 1.1–2.1 A. The fault is inside the right thruster; replacements ordered the same day.",
+      "horizon": "",
+      "impact": {
+        "fin": 1,
+        "note": "Keeps the water rescue demo possible (both thrusters needed to steer); a clean evidence chain for the seller claim saves the cost of a wrong replacement.",
+        "np": 1,
+        "sci": 0
+      },
+      "lesson": "Isolate a suspect with a driver that shares nothing with the system (different MCU, different logic level, different firmware) and keep everything else identical; a known-good unit on the same setup is the control. Do not keep powering a stalled motor: the start pulses reach 2 A.",
+      "options": [
+        {
+          "pick": false,
+          "src": "FAILS 173, 24.10",
+          "what": "Trust the channel swap on the ESP32 (right thruster on the left channel) — strong evidence, but the same MCU, firmware and stage type"
+        },
+        {
+          "pick": false,
+          "src": "common practice (servo tester)",
+          "what": "A hand-held servo tester as the signal source — independent, but no logged µs and no ramp"
+        },
+        {
+          "pick": true,
+          "src": "ours (C055)",
+          "what": "Arduino Mega 2560 pin 9, 5 V push-pull, Servo library, logged CSV, ramp and soft limit — a third driver with no shared parts; the 5 V logic also removes the level shifter question"
+        },
+        {
+          "pick": false,
+          "src": "seller / manufacturer",
+          "what": "Open the potted thruster to measure the motor phases — not possible without destroying it"
+        }
+      ],
+      "path": {
+        "competitions": [],
+        "grants": [],
+        "uni": [
+          {
+            "school": "MIT",
+            "what": "2.678 Electronics for Mechanical Systems (motor drivers, debugging) — to be verified"
+          },
+          {
+            "school": "Stanford",
+            "what": "ME 210 Introduction to Mechatronics — to be verified"
+          }
+        ]
+      },
+      "seed": false,
+      "seq": 55,
+      "status": "draft",
+      "title": "Both thrusters on an Arduino Mega — separating a faulty thruster from a faulty drive channel",
+      "why": "Standard fault isolation; its value is the method and the numbers for the portfolio's 'what broke' story and the seller claim, not research or IP.",
+      "written": "2026-10-29"
+    },
+    {
       "id": "t-print-thruster-mounts",
       "activity": "publication",
       "by": "claude",
@@ -2031,6 +2692,66 @@
       "title": "Thruster kick-up mount — a passive hinge with a lock pin (C041 → C005)",
       "why": "Small but real: a measured study — kick-up angle vs forward thrust, grounding at three speeds, spring vs pin — is the kind of data amphibious-USV papers cite and nobody publishes for sub-1 m craft. Open source comes free with it (CAD + FAILS). Patent: no — outboard tilt and breakaway mounts are prior art. Business: a niche hobby market, not worth the time.",
       "written": "2026-10-15"
+    },
+    {
+      "id": "t-remote-wifi",
+      "activity": "open source",
+      "by": "claude",
+      "card": "t-remote-wifi",
+      "challenge": "Drive a 12 V thruster boat from a phone with no app, no internet and no extra radio, so that any lost link, closed page or KILL stops the thrusters within half a second. The first build went straight to SAFE on ARM (an unsigned time difference wrapped), and the ESC dead band meant small slider moves did nothing.",
+      "decision": "The phone page needs nothing but the board that is already in the boat, shows battery and link state back, and its fail-safe is the same rule as the rest of the firmware (T2 safety). A dead band map (slider 1 → 1580 µs) was added after C025 showed 1550 µs does not spin.",
+      "horizon": "by 30.12",
+      "impact": {
+        "fin": 0,
+        "note": "Makes safe water tests possible for a rescue demonstrator; indirect for people. No market, no new science.",
+        "np": 1,
+        "sci": 0
+      },
+      "lesson": "A fail-safe is only proven when each way of losing control is tested on its own (STOP, KILL, airplane mode, closed page), and time differences between two clocks are taken signed: an unsigned age turned 'just now' into 'lost 49 days ago'.",
+      "options": [
+        {
+          "pick": false,
+          "src": "hobby RC practice (2.4 GHz transmitter + receiver, PWM to the ESC)",
+          "what": "RC transmitter and receiver — proven range and failsafe, but one more box and no telemetry back to the phone"
+        },
+        {
+          "pick": false,
+          "src": "ArduPilot Rover / ArduBoat with a telemetry radio",
+          "what": "ArduPilot on a flight controller — full GCS, failsafes and logging, but a second board and far more than a 1:9 demonstrator needs"
+        },
+        {
+          "pick": false,
+          "src": "ESP-NOW / Bluetooth gamepad examples (Espressif docs, community)",
+          "what": "Bluetooth gamepad or ESP-NOW — low latency, but needs a paired controller or a second ESP32"
+        },
+        {
+          "pick": true,
+          "src": "ours (T12, C028); ESP32 SoftAP + WebSocket is a common Espressif pattern",
+          "what": "DevKit as its own WiFi access point, one page served from flash, WebSocket messages as the heartbeat, > 500 ms silence → both ESCs to 1500 µs and disarm"
+        }
+      ],
+      "path": {
+        "competitions": [
+          "RoboBoat (RoboNation) with a university team (suggestion, verify)"
+        ],
+        "grants": [],
+        "uni": [
+          {
+            "school": "MIT",
+            "what": "2.680 Unmanned Marine Vehicle Autonomy (suggestion, verify)"
+          },
+          {
+            "school": "Stanford",
+            "what": "ME 210 Introduction to Mechatronics (suggestion, verify)"
+          }
+        ]
+      },
+      "seed": false,
+      "seq": 28,
+      "status": "draft",
+      "title": "Phone remote over WiFi with a fail-safe, and the first float of the whole robot (C028)",
+      "why": "The failsafe page is a small, reusable piece for any student ESP32 boat; publishing it with the PROTOCOL is cheap. Not a research or patent topic: RC and ArduPilot failsafes are established practice.",
+      "written": "2026-10-24"
     }
   ]
 }
