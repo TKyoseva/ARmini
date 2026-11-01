@@ -42,3 +42,8 @@ Format: date · who · what I tried · what happened · what I change. Three lin
 - C025 right thruster: it only clicks, on either channel (FAILS 173). The left thruster on the right channel (GPIO2, row 13) spins with no clicking → GPIO2 stage OK, the right thruster (ESC or motor inside) is faulty → claim with the seller.
 - C028 first float of the whole robot (bathtub, tethered): stable, draft 20 mm, dry hulls; driven from the phone over WiFi on the left thruster only, 1640 µs · 0.58 A at 12 V. Partial (second thruster, range walk, pool still open).
 - Release R-1024 cut from Done (13 cards: C005, C006, C019, C020, C022, C023, C024, C025, C027, C028, C034, C042, C045): frame with beams, arch and arm; arm lifts Pesho; thruster from the DevKit and the phone; the robot floats and moves. Page: docs/releases/R-1024.md, tag r2026-10-24.
+
+## 2026-11-01 (Sun) · Teddy
+- C059 lake test at Pancharevo, 08:40–08:52, rain, fog, 7–9 °C, with dad: launched from the bank, floated level, drove and turned from the phone on the 3S LiPo and came back (C059_77, C059_91). Lift: one servo on CH13 moved the cradle in the water and above it; Pesho was left at home, so no pick-up. VBAT at the end: not recorded. Water in the box: none.
+- Release R-1101 cut from Done (10 cards: C029, C048, C050, C053, C054, C055, C056, C057, C058, C059): the robot drove in open water on battery with one thruster and a rudder. Page: docs/releases/R-1101.md, tag r2026-11-01.
+- MIT Maker Portfolio v1 (G1): 24 slides + video P03, iCloud 07_Portfolio.

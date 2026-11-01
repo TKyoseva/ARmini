@@ -2,14 +2,15 @@
 
 The current state on one page. Updated in the workshop chat after every decision. The truth is in the repository; this is the summary.
 
-**Date:** 2026-10-24 · **CAD:** v2.0 + measured TD-8120MG pocket, thruster pattern 35.0 × 15.9, cradle 112 · **Releases:** R1a cut 11.10 ✓ · R-1018 ✓ · R-1024 ✓ (24.10) · R2a criteria met (cut pending) · R2c half-way · R3a 26.10 · R3b 29.10 · R4 31.10 · submit 01.11
+**Date:** 2026-11-01 · **CAD:** v2.0 + beam_leg + rudder_frame (lake configuration: one thruster on the centreline, MG90S rudder) · **Releases:** R1a cut 11.10 ✓ · R-1018 ✓ · R-1024 ✓ (24.10) · R-1101 ✓ (01.11) · R2a ✓ · R2c met in open water (lake, 01.11) · R3a / R3b not met · G1 portfolio v1 due 01.11 (MIT Early Action)
 **Where things are:** decisions and files → workshop chat (Claude) · code and commits → Cursor (branch `dev`, night tasks `night/*`) · test cards → AR-Mini Board (export in `data/board/board.json`) · photos and video → iCloud `AR-Mini-Media/01_Loops/C###_…` · missing parts → `parts/needs.yaml` · v2 thrusters → `parts/watch.yaml`
 
 ## Closed cards
 | Card | Result | What it changed |
 |---|---|---|
+| **R-1101 (01.11), 10 cards** · see docs/releases/R-1101.md | **lake run at Pancharevo 01.11 (C059)**: launched from the bank, floated level, drove and turned from the phone and came back, on the 3S LiPo, FINAL 2 wiring in a food box, env `remote_pool` (74HCT125 → ESC, MG90S rudder, lift on PCA9685); beam_leg 123.0 g PETG (C056), rudder + rudder_frame (C057); LiPo 11.10 → 12.60 V, 1212 mAh (C058); right thruster faulty on a third driver (C055); left track from the DevKit, dead-man 2.000 s (C050); both thermal cameras give frames (C029, C048 partial); dry assembly with tracks (C053) | right thruster → replacement; lift single channel (FAILS 180) open; next: G2 measured numbers (thrust, runtime, thermal range) |
 | **R-1024 (24.10), 13 cards** · see docs/releases/R-1024.md | frame built: both hulls (PETG aft + PLA fore) on 2 beams at x 385 / 500, arch, arm, cradle; `pair` lifts Pesho at ~0.24 A (C019–C023, C034, C045); thruster mounts fitted, M4 × 12 (C005, C042); ESC input 5 V pulled up → S8050 shifter, inverted output (C006, C024); thruster from the DevKit: 1600 µs 0.22 A, 1650 µs 0.58 A, KILL 40 ms (C025); v_bat ±0.02 V (C027) | right thruster faulty (FAILS 173) → replacement; R2a met |
-| C028 phone remote + first float of the whole robot (24.10) · Partial | bathtub, tethered: stable, **draft 20 mm**, dry hulls; left thruster 1640 µs · 0.58 A at 12 V moves and turns it; SAFE on stop / kill / disconnect / heartbeat | env `remote` still only on `night/remote` → merge to dev; next: both thrusters, range walk, pool (R2c) |
+| C028 phone remote + first float of the whole robot (24.10) · Partial | bathtub, tethered: stable, **draft 20 mm**, dry hulls; left thruster 1640 µs · 0.58 A at 12 V moves and turns it; SAFE on stop / kill / disconnect / heartbeat | env `remote` merged to dev; pool step done in the lake (C059) |
 | C001 thruster measured (08.10) · Partial | duct Ø72.27 × 112 (box says 77), mounting face 47.10 above the axis, M4 pattern, 206 g, 4 wires | CAD v2.0: kick-up mount, nothing below the waterline (decision 0004) |
 | C002 thruster wires (08.10) · Pass | no shorts; red +, black −; yellow probably signal, white probably signal ground; ESC inside (listing: 50 Hz, 1500 µs stop) | next: test at 9 V with a 0.10 A limit (C006) |
 | C003 ROB0154 plate (09.10) · Fail | 151.82 × 134.8; slots 11.3 / 26.4 from the edges (≈114 apart); chassis 1175 g → draft 41.8 | CAD v2.0: ch_x 300, 3.4 × 7 slots in the power box |
@@ -30,23 +31,25 @@ The current state on one page. Updated in the workshop chat after every decision
 - ~~Thruster bolt pattern 35.0 × 15.9~~ → CONFIRMED C005 (M4 × 12 by hand).
 - Is the plate centred on the tracks (CAD: 74.1 from the front edge)? → C004. Length of the plate slots (drawn as 100).
 - ~~ESC: logic level and arming~~ → DONE C006/C025: input pulled up to 5 V, S8050 shifter, dead band ≈ 1450–1550 µs.
-- Right thruster faulty (FAILS 173): claim + replacement; both-thruster test after it arrives.
+- Right thruster faulty (FAILS 173, confirmed C055 on an Arduino Mega): claim + replacement; both-thruster test after it arrives.
+- Cradle lift drives only the higher PCA9685 channel (FAILS 180, OPEN): try a second PCA9685 or scope both PWM pins.
+- Thermal 110° orientation (FLIP_110) unverified; MLX90640 intermittent "not found" at boot (C029).
 - Robot mass as floated: draft 20 mm × ~996 cm² waterplane (C007, 4 sections) ≈ 2.0 kg → weigh to confirm.
 - ~~GPIO39–42 at boot~~ → DECIDED 11.10 (C015): 10 kΩ pull-down to GND on each; GPIO39 is weakly HIGH after boot, 39/40 in download mode (PINOUT.md item 4).
 - DevKit-Lipo pinout freeze → C030 (rows 25.40, EXT1/EXT2 anchors and GPIO38 confirmed 11.10) → PINOUT.md + `pins_devkit.h`.
 - Firmware `armini` Safety still reads the old ADC ladder (`Ladder.h`, `Safety.cpp`, `hal_devkit`) → separate KILL / LEAK pins (0005).
-- 10 mm submergence of the duct in waves → pool, R2c.
+- 10 mm submergence of the duct in waves → seen in the lake videos (C059_77, C059_91), not measured.
 - CAD fixes, not urgent: coupler rod boss flush (prints without supports); 45° gussets under the hull rim bosses (PETG hull without supports).
 
 ## Next cards
-| Card | What | Release |
+| Card | What | Release / goal |
 |---|---|---|
-| C021 · C030 · C032 · C047 | Pesho v3 floats · pinout freeze · carrier rev B · fixed camera mount (in Today) | R3a / R3b |
-| — | right thruster replacement → both thrusters from the phone, range walk, pool run | R2c |
-| C004 | assembled chassis: track → plate edge, M3 through the slots | R2b |
-| C026 · C031 | power chain on the bench · perfboard carrier | R2c |
-| C029 | MLX90640 sees Pesho at 37 °C from 1 m | R3a |
-| C013 · C016 · C033 | public-ready check (29–30.10) · parts agent first run · v2 carrier rev C (after 1.11) | — |
+| C047 · C049 | fixed camera mount on the arch · OV3660 live stream on the phone | G2 |
+| C051 · C052 | right track motor · both tracks drive the chassis on the floor | G2 |
+| C030 · C032 | pinout freeze · carrier rev B (order with Aisler) | G2 |
+| C021 | Pesho v3 floats head out, warm | G2 |
+| — | right thruster replacement → both thrusters; lift on two channels (FAILS 180); thrust, drag, runtime and thermal range measured in water | G2 (30.12) |
+| C013 · C016 · C033 | public-ready check · parts agent first run · v2 carrier rev C | G2 / G3 |
 
 ## Agents (Cursor background agents and tools)
 T1 state machine (merged) · T2 safety · T3 bench sketches · T4 parts agent (hourly workflow from `main`) · T5 release video (`tools/video/make.py`) · T6 thruster watch (`parts/watch.yaml`) → `tasks/night/`. Status: the pull requests on GitHub.
