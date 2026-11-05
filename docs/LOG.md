@@ -47,3 +47,6 @@ Format: date · who · what I tried · what happened · what I change. Three lin
 - C059 lake test at Pancharevo, 08:40–08:52, rain, fog, 7–9 °C, with dad: launched from the bank, floated level, drove and turned from the phone on the 3S LiPo and came back (C059_77, C059_91). Lift: one servo on CH13 moved the cradle in the water and above it; Pesho was left at home, so no pick-up. VBAT at the end: not recorded. Water in the box: none.
 - Release R-1101 cut from Done (10 cards: C029, C048, C050, C053, C054, C055, C056, C057, C058, C059): the robot drove in open water on battery with one thruster and a rudder. Page: docs/releases/R-1101.md, tag r2026-11-01.
 - MIT Maker Portfolio v1 (G1): 24 slides + video P03, iCloud 07_Portfolio.
+
+## 2026-11-05 (Thu) · Teddy
+- Git note: commit c57da3d ("bom: … 152 → 155 rows · C060") was created on 05.11 at 21:32, not on 04.11 as intended, and also carries the C072 BOM changes: rows 156–159 (EXP14 perfboard, 19 mm IP67 KILL button, battery disconnect switch, USB-C 90° adapter), PG7 glands 6 → 0 / Not needed, and the row 26 spec update. There is no separate `bom: … C072` commit; history left as is. The C072 plan, diagrams and logic tray followed in 2ae2e11 and 939a94b.
