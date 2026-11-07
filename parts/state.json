@@ -1,0 +1,158 @@
+{
+ "adapters": {
+  "3dcolour": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "",
+   "fails": 0,
+   "kind": "link",
+   "ok": true,
+   "state": "ok"
+  },
+  "amazon_de": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "",
+   "fails": 0,
+   "kind": "link",
+   "ok": true,
+   "state": "ok"
+  },
+  "bauhaus": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "",
+   "fails": 0,
+   "kind": "link",
+   "ok": true,
+   "state": "ok"
+  },
+  "comet": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "",
+   "fails": 0,
+   "kind": "html",
+   "ok": true,
+   "state": "ok"
+  },
+  "mouser": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "MOUSER_API_KEY not set",
+   "fails": 0,
+   "kind": "api",
+   "ok": null,
+   "state": "disabled"
+  },
+  "tme": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "TME_TOKEN / TME_SECRET not set",
+   "fails": 0,
+   "kind": "api",
+   "ok": null,
+   "state": "disabled"
+  },
+  "vikiwat": {
+   "at": "2026-11-07T16:48:46+00:00",
+   "error": "",
+   "fails": 0,
+   "kind": "html",
+   "ok": true,
+   "state": "ok"
+  }
+ },
+ "alerted": {
+  "RELEASE_AT_RISK:r2a": "2026-10-16"
+ },
+ "needs": {
+  "N001": {
+   "alerted": {
+    "OVERDUE": "2026-11-07"
+   },
+   "best": null,
+   "eta": null,
+   "offers": [],
+   "order_by": "2026-10-09",
+   "release": "r2a",
+   "release_date": "2026-10-16",
+   "slack_days": -29,
+   "status": "need"
+  }
+ },
+ "run_at": "2026-11-07T18:48:46+02:00",
+ "watch": {
+  "alerted": {
+   "WATCH_NEW:W005": "2026-10-11"
+  },
+  "discovered": {
+   "thruster_v2": [
+    {
+     "features": [],
+     "features_guessed": [],
+     "fit": "",
+     "id": "W005",
+     "kind": "",
+     "maker": "",
+     "name": "DISKDRIVE™ 50",
+     "offers": [
+      {
+       "checked": "2026-11-07",
+       "confidence": "high",
+       "currency": "USD",
+       "import": null,
+       "in_stock": true,
+       "note": "",
+       "price": 649.0,
+       "shop": "hydromea",
+       "url": "https://www.hydromea.com/product-page/diskdrive-50",
+       "vat_included": null
+      }
+     ],
+     "sources": [],
+     "spec": {},
+     "status": "unrated"
+    }
+   ]
+  },
+  "error": "",
+  "lists": {
+   "thruster_v2": {
+    "discovered_ids": [
+     "W005"
+    ],
+    "items": {
+     "W001": {
+      "currency": "USD",
+      "eur": null,
+      "in_stock": null,
+      "price": 649.0
+     },
+     "W002": {
+      "currency": "EUR",
+      "eur": 253.0,
+      "in_stock": true,
+      "price": 253.0
+     },
+     "W003": {
+      "currency": "EUR",
+      "eur": 439.9,
+      "in_stock": false,
+      "price": 439.9
+     },
+     "W004": {
+      "currency": "USD",
+      "eur": null,
+      "in_stock": null,
+      "price": 99.99
+     },
+     "W005": {
+      "currency": "USD",
+      "eur": null,
+      "in_stock": true,
+      "price": 649.0
+     }
+    },
+    "top": "W003"
+   }
+  },
+  "markdown": "## Watch · Thrusters for AR-Mini v2 (after 1 November)\n\nrobotshop_eu link-only (eu.robotshop.com HTTP 403 captcha (Just a moment) on /robots.txt, 2026-10-10; product JSON not fetched); bluerobotics link-only (robots.txt Disallow: /wp-json/ (fetched 2026-10-10); Store API not fetched); hydromea html; rc_terminal link-only (WAF challenge page instead of the product (fetched 2026-10-10); no JSON-LD); ebay_de link-only (stored price; eBay is not scraped); vxb link-only (stored price; link-only); notes: hydromea https://www.hydromea.com/category/diskdrive-50-products: page had no offer with this URL; stored price kept\n\nWatch requests this run: 4 (cap 20).\n\nRanked by wow, then thrust per gram at 12 V (null last), then lowest price in EUR (unknown last).\n\n| Rank | ID | Name | Wow (features) | Thrust @12 V | Current @12 V | Mass | Size | Best price (orig → EUR) | Stock | Checked | Fit |\n|---:|---|---|---|---|---|---|---|---|---|---|---|\n| 1 | W003 | [TFL B54270 jet drive, all-aluminium, 4-blade impeller d39](https://www.rc-terminal.de/TFL-Jetantrieb-B54270-Voll-Aluminium-fuer-RC-Rennboote-mit-4-Blatt-Alu-Impeller) | 5 (waterjet, steerable) | — | — | — | length 220 (130 inside the hull, ~90 outside) | 439.90 EUR → 439.90 EUR | no | stored | Needs a 110 x 55 intake in the hull bottom: breaks our rule 'no holes below the waterline', so a v2 hull would be designed around it. Racing-boat power, far more than we need. Story: the RNLI Shannon class uses twin Hamilton HJ364 waterjets instead of propellers, for manoeuvring alongside a casualty. |\n| 2 | W001 | [Hydromea DiskDrive 50](https://www.hydromea.com/category/diskdrive-50-products) | 3 (rim_driven) | 2.1 kgf | — | 175 g | 82 x 95 x 15 | 649.00 USD → ? | ? | stored | 15 mm thick: could lie flat against the transom or sit in a slot in the hull. Needs its own ESC. Swiss shop: customs + 20 % import VAT on arrival. |\n| 3 | W002 | [Blue Robotics T200](https://eu.robotshop.com/products/bluerobotics-t200-thruster-w-o-speed-controller) | 3 (published_data, rov_pedigree) | 3.71 kgf | 17 A | 344 g | d100 x 113 | 253.00 EUR → 253.00 EUR | yes | stored | d100 = the whole v1 hull width (100 mm). Two at 12 V draw 34 A, over our 30 A main fuse. Full curves published: our thrust rig can be checked against them. |\n| 4 | W004 | [ApisQueen U2 mini (with 45 A ESC)](https://vxb.com/products/u2-mini-underwater-thruster-12-to-16v-130w-brushle) | 0 | — | — | 286 g | — | 99.99 USD → ? + import VAT 20 % on arrival | ? | stored | Same size class as the Cuifati we have. Here as the baseline the others are compared against. |\n\n### Unrated (found by the agent)\n\n| ID | Name | Guessed features | Price | URL |\n|---|---|---|---|---|\n| W005 | [DISKDRIVE™ 50](https://www.hydromea.com/product-page/diskdrive-50) | — | 649.00 USD → ? | https://www.hydromea.com/product-page/diskdrive-50 |\n\n### Rejected\n\n- MHZ Jet 58 steerable jet drive ([https://www.mhz-powerboats.com/Jet-58-Lenkbar-Jetantrieb/1723-58](https://www.mhz-powerboats.com/Jet-58-Lenkbar-Jetantrieb/1723-58)) — EUR 549, 760 g, needs 4.5-6 kW and a boat of at least 1.30 m\n- Azimuth pod (off the shelf) ([https://www.printables.com/model/1631558-rc-tugboat-with-functional-azimuth-thrusters](https://www.printables.com/model/1631558-rc-tugboat-with-functional-azimuth-thrusters)) — no small ready-made unit found on 10.10; a 3D-printed design exists -> a v2 BUILD idea, not a purchase",
+  "ran_on": "2026-11-07",
+  "requests": 4
+ }
+}
