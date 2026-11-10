@@ -60,6 +60,8 @@ Header pin numbers are from the manual drawing (EXT1 pin 1 = 3V3 at the antenna 
 
 These are the 16 PWM outputs on the PCA9685 module. They are not ESP32 GPIO numbers: GPIO10 and GPIO11 in the table above are the optional BTS7960 current-sense pins.
 
+Channels are 0-based (CH0–CH15). On the box the module is mounted rotated 180°: CH0 is next to the wired I²C header, CH15 at the far end. Lift A = CH12, B = CH13 (C060).
+
 | CH | Function | Source |
 |---|---|---|
 | 0 | ESC_L | carrier rev A SPEC §5. On the DevKit bench and carrier rev B the ESC signal is GPIO1, not this output. |

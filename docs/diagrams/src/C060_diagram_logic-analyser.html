@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="bg"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C060 Logic analyser</title>
+<style>
+:root{--bg:#fafaf7;--fg:#1d1d1b;--mut:#6b6b66;--card:#fff;--bd:#e3e1da;--red:#d62828;--blk:#2b2926;--yel:#d99a00;--grn:#2f9e44;--blu:#1c7ed6;--pur:#8f5bd6;--pca:#1f5c99;--pin:#c9a227;--warn:#fde8e8;--ok:#e6f4ea}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 30px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px}
+svg{width:100%;height:auto;display:block} svg text{font-family:system-ui,-apple-system,sans-serif}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.box{border-radius:8px;padding:8px 12px;font-size:14px}
+.warn{background:var(--warn);border-left:4px solid var(--red)} .ok{background:var(--ok);border-left:4px solid var(--grn)}
+table{border-collapse:collapse;font-size:14px;width:100%} td,th{border:1px solid var(--bd);padding:3px 6px;text-align:left}
+</style></head><body><main>
+<h1>C060 · Логически анализатор на PCA9685 (CH12, CH13)</h1>
+<p class="sub">Анализаторът само слуша: 3 жици за сигналите + 1 за общата земя. Двата I²C проводника са по избор. 02.11.2026 · FAILS 180</p>
+<div class="card">
+<svg viewBox="0 0 1060 560" xmlns="http://www.w3.org/2000/svg">
+ <defs><marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><circle cx="4" cy="4" r="3" fill="#333"/></marker></defs>
+ <!-- Mac -->
+ <rect x="20" y="40" width="150" height="90" rx="8" fill="#e9e9e4" stroke="#999"/>
+ <text x="95" y="80" text-anchor="middle" font-size="17" font-weight="700">Mac</text>
+ <text x="95" y="102" text-anchor="middle" font-size="13" fill="#555">PulseView</text>
+ <!-- analyser -->
+ <rect x="20" y="200" width="150" height="300" rx="10" fill="#202020"/>
+ <text x="95" y="228" fill="#fff" text-anchor="middle" font-size="15" font-weight="700">Logic analyser</text>
+ <text x="95" y="246" fill="#bbb" text-anchor="middle" font-size="12">24 MHz · 8 CH (BOM 111)</text>
+ <line x1="95" y1="200" x2="95" y2="130" stroke="#555" stroke-width="5"/><text x="105" y="170" font-size="12" fill="#555">USB</text>
+ <g font-size="13" fill="#fff">
+  <circle cx="160" cy="280" r="6" fill="var(--pin)"/><text x="40" y="285">CH1 → D0</text>
+  <circle cx="160" cy="310" r="6" fill="var(--pin)"/><text x="40" y="315">CH2 → D1</text>
+  <circle cx="160" cy="340" r="6" fill="var(--pin)"/><text x="40" y="345">CH3 → D2</text>
+  <circle cx="160" cy="370" r="6" fill="var(--pin)"/><text x="40" y="375">CH4 → D3</text>
+  <circle cx="160" cy="400" r="6" fill="#777"/><text x="40" y="405" fill="#aaa">CH5–8 свободни</text>
+  <circle cx="160" cy="460" r="6" fill="var(--pin)"/><text x="40" y="465">GND</text>
+ </g>
+ <!-- PCA9685 -->
+ <rect x="380" y="150" width="470" height="330" rx="10" fill="var(--pca)"/>
+ <text x="620" y="400" fill="#fff" text-anchor="middle" font-size="22" font-weight="700">PCA9685</text>
+ <text x="620" y="422" fill="#cfe0f2" text-anchor="middle" font-size="13">0x40 · VCC 3V3 от DevKit · V+ 5 V от QIQIAZI</text>
+ <!-- logic header left -->
+ <g font-size="12" fill="#fff">
+  <text x="392" y="200">GND</text><circle cx="440" cy="196" r="5" fill="var(--pin)"/>
+  <text x="392" y="225">OE</text><circle cx="440" cy="221" r="5" fill="var(--pin)"/>
+  <text x="392" y="250">SCL</text><circle cx="440" cy="246" r="5" fill="var(--pin)"/>
+  <text x="392" y="275">SDA</text><circle cx="440" cy="271" r="5" fill="var(--pin)"/>
+  <text x="392" y="300">VCC</text><circle cx="440" cy="296" r="5" fill="var(--pin)"/>
+ </g>
+ <text x="392" y="318" font-size="11" fill="#cfe0f2">реда е по надписа на платката</text>
+ <!-- servo header columns top -->
+ <g font-size="11" fill="#fff">
+  <text x="500" y="168">0 … 11</text>
+  <rect x="490" y="176" width="150" height="70" rx="4" fill="#174a7c"/>
+  <text x="662" y="172" font-weight="700" fill="#ffd43b">12</text><text x="702" y="172" font-weight="700" fill="#ffd43b">13</text><text x="732" y="168">14</text><text x="772" y="168">15</text>
+  <text x="790" y="190" text-anchor="end" font-size="10"></text>
+ </g>
+ <g>
+  <!-- rows: PWM y=190, V+ y=212, GND y=234 ; columns 655 695 735 775 -->
+  <g fill="var(--pin)"><circle cx="655" cy="190" r="6"/><circle cx="695" cy="190" r="6"/><circle cx="735" cy="190" r="5" fill="#aaa"/><circle cx="775" cy="190" r="5" fill="#aaa"/>
+  <circle cx="655" cy="212" r="5"/><circle cx="695" cy="212" r="5"/><circle cx="735" cy="212" r="5" fill="#aaa"/><circle cx="775" cy="212" r="5" fill="#aaa"/>
+  <circle cx="655" cy="234" r="6"/><circle cx="695" cy="234" r="5"/><circle cx="735" cy="234" r="5" fill="#aaa"/><circle cx="775" cy="234" r="5" fill="#aaa"/></g>
+  <g font-size="11" fill="#fff"><text x="795" y="194">PWM</text><text x="795" y="216">V+</text><text x="795" y="238">GND</text></g>
+ </g>
+ <!-- wires -->
+ <path d="M166 280 C 300 280, 300 100, 655 100 L 655 184" fill="none" stroke="var(--yel)" stroke-width="4"/>
+ <path d="M166 310 C 320 310, 320 80, 695 80 L 695 184" fill="none" stroke="var(--grn)" stroke-width="4"/>
+ <path d="M166 460 C 330 460, 330 520, 860 520 L 860 260 L 655 260 L 655 240" fill="none" stroke="var(--blk)" stroke-width="4"/>
+ <path d="M166 340 C 280 340, 300 271, 434 271" fill="none" stroke="var(--blu)" stroke-width="3" stroke-dasharray="8 5"/>
+ <path d="M166 370 C 290 370, 300 246, 434 246" fill="none" stroke="var(--pur)" stroke-width="3" stroke-dasharray="8 5"/>
+ <g font-size="13">
+  <text x="645" y="140" text-anchor="end" fill="#9a6b00" font-weight="700">D0 → CH12 PWM (серво A)</text>
+  <text x="705" y="120" fill="var(--grn)" font-weight="700">D1 → CH13 PWM (серво B)</text>
+  <text x="560" y="540" font-weight="700">GND → GND пин на колона 12 (обща земя)</text>
+  <text x="180" y="398" fill="var(--blu)">D2 → SDA · по избор</text>
+  <text x="180" y="416" fill="var(--pur)">D3 → SCL · по избор</text>
+ </g>
+ <!-- servos -->
+ <rect x="900" y="150" width="140" height="70" rx="8" fill="#333"/><text x="970" y="180" fill="#fff" text-anchor="middle" font-size="14" font-weight="700">серво A</text><text x="970" y="200" fill="#bbb" text-anchor="middle" font-size="12">TD-8120MG · CH12</text>
+ <rect x="900" y="250" width="140" height="70" rx="8" fill="#333"/><text x="970" y="280" fill="#fff" text-anchor="middle" font-size="14" font-weight="700">серво B</text><text x="970" y="300" fill="#bbb" text-anchor="middle" font-size="12">TD-8120MG · CH13</text>
+ <text x="970" y="350" text-anchor="middle" font-size="12" fill="#555">Опит 1: извадени</text>
+ <text x="970" y="368" text-anchor="middle" font-size="12" fill="#555">Опит 2: включени,</text>
+ <text x="970" y="384" text-anchor="middle" font-size="12" fill="#555">анализаторът отзад в букса</text>
+</svg>
+</div>
+<div class="row">
+ <div class="box ok"><b>Как се хваща.</b> Опит 1 (серво извадени): женска Dupont жица направо на голия PWM пин. Опит 2 (серво включени): мъжки Dupont пин, пъхнат отзад в буксата на сервото до оранжевата жица, докато опре в метала.</div>
+ <div class="box warn"><b>Без 12 V и без V+.</b> Анализаторът е 0–5 V. Никоя жица не отива на V+ (средния ред) или на 12 V. ESC сигналът е изваден, тръстерът е без ток.</div>
+</div>
+<div class="card" style="margin-top:12px">
+<table><tr><th>Команда в монитора</th><th>D0 · CH12 (A)</th><th>D1 · CH13 (B)</th><th>Кадър</th></tr>
+<tr><td><code>lift 90</code></td><td>1500 µs</td><td>1500 µs</td><td rowspan="3">20.0 ms (50 Hz; 18–22 ms е ок, осцилаторът)</td></tr>
+<tr><td><code>lift 50</code></td><td>≈1056 µs</td><td>≈1944 µs</td></tr>
+<tr><td><code>lift 130</code></td><td>≈1944 µs</td><td>≈1056 µs</td></tr>
+<tr><td><code>lift off</code></td><td colspan="2">0 V постоянно, без импулси</td><td>—</td></tr></table>
+<p class="sub" style="margin:6px 0 0">По избор I²C (D2/D3, 4 MHz): при всяка промяна трябва да има запис към 0x40, регистър <b>0x36</b> (CH12) и <b>0x3A</b> (CH13), по 4 байта.</p>
+</div>
+</main></body></html>

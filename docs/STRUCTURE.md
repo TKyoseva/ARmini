@@ -43,6 +43,7 @@ ARmini/
 ├── hardware/
 │   ├── breadboard/           breadboard wiring sheets (+ src/ that draws them)
 │   ├── wiring/               PINOUT.md, wire colours, connectors
+│   ├── enclosure/            the two IP65 boxes: plan, glands, harnesses, trays (C072)
 │   └── datasheets/           links and notes
 │
 ├── parts/                    needs.yaml (what is missing, by release) — input of the parts agent

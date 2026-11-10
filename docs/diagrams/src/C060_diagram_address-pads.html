@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="bg"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C060 Address pads</title>
+<style>
+:root{--bg:#fafaf7;--fg:#1d1d1b;--mut:#6b6b66;--card:#fff;--bd:#e3e1da;--pca:#1f5c99;--pin:#c9a227;--red:#d62828;--grn:#2f9e44;--warn:#fde8e8;--ok:#e6f4ea}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 30px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:12px}
+svg{width:100%;height:auto;display:block} svg text{font-family:system-ui,-apple-system,sans-serif}
+table{border-collapse:collapse;font-size:15px;width:100%} td,th{border:1px solid var(--bd);padding:6px 8px;text-align:center}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.box{border-radius:8px;padding:8px 12px;font-size:14px}.ok{background:var(--ok);border-left:4px solid var(--grn)}.warn{background:var(--warn);border-left:4px solid var(--red)}
+</style></head><body><main>
+<h1>C060 · Адресните площадки на PCA9685</h1>
+<p class="sub">Модулът е обърнат на 180°, както е в кутията. scan намери 0x66 вместо 0x40 → три адресни пина четат 1. 02.11.2026</p>
+<div class="card">
+<svg viewBox="0 0 1060 600" xmlns="http://www.w3.org/2000/svg">
+ <!-- board -->
+ <rect x="30" y="40" width="620" height="300" rx="14" fill="var(--pca)"/>
+ <!-- servo headers top -->
+ <g>
+  <rect x="80" y="60" width="130" height="60" fill="#333"/><rect x="225" y="60" width="130" height="60" fill="#333"/><rect x="370" y="60" width="130" height="60" fill="#333"/><rect x="515" y="60" width="110" height="60" fill="#333"/>
+  <text x="145" y="135" fill="#fff" font-size="12" text-anchor="middle">CH15 … CH12</text>
+  <text x="290" y="135" fill="#fff" font-size="12" text-anchor="middle">CH11 … CH8</text>
+  <text x="435" y="135" fill="#fff" font-size="12" text-anchor="middle">CH7 … CH4</text>
+  <text x="570" y="135" fill="#fff" font-size="12" text-anchor="middle">CH3 … CH0</text>
+ </g>
+ <!-- left unpopulated header -->
+ <g fill="none" stroke="#ddd" stroke-width="2"><circle cx="55" cy="150" r="7"/><circle cx="55" cy="180" r="7"/><circle cx="55" cy="210" r="7"/><circle cx="55" cy="240" r="7"/><circle cx="55" cy="270" r="7"/><circle cx="55" cy="300" r="7"/></g>
+ <text x="70" y="330" fill="#cfe0f2" font-size="11">празни дупки</text>
+ <!-- right populated header -->
+ <g fill="var(--pin)"><rect x="628" y="145" width="14" height="14"/><rect x="628" y="175" width="14" height="14"/><rect x="628" y="205" width="14" height="14"/><rect x="628" y="235" width="14" height="14"/><rect x="628" y="265" width="14" height="14"/><rect x="628" y="295" width="14" height="14" fill="#111" stroke="#fff"/></g>
+ <g font-size="12" fill="#fff" text-anchor="end"><text x="620" y="157">V+</text><text x="620" y="187">VCC</text><text x="620" y="217">SDA</text><text x="620" y="247">SCL</text><text x="620" y="277">OE</text><text x="620" y="307" font-weight="700">GND</text></g>
+ <!-- chip -->
+ <rect x="330" y="160" width="60" height="110" fill="#222"/><text x="360" y="290" fill="#cfe0f2" font-size="11" text-anchor="middle">PCA9685</text>
+ <rect x="420" y="250" width="70" height="40" fill="#5a9" opacity=".8"/><text x="455" y="305" fill="#cfe0f2" font-size="11" text-anchor="middle">V+ клема</text>
+ <!-- address area highlight -->
+ <rect x="85" y="200" width="200" height="120" rx="6" fill="none" stroke="#ffd43b" stroke-width="3" stroke-dasharray="6 4"/>
+ <g fill="#bbb"><rect x="95" y="215" width="20" height="30"/><rect x="127" y="215" width="20" height="30"/><rect x="159" y="215" width="20" height="30"/><rect x="191" y="215" width="20" height="30"/><rect x="223" y="215" width="20" height="30"/><rect x="255" y="215" width="20" height="30"/></g>
+ <g fill="#e8e8e8"><rect x="95" y="265" width="20" height="18"/><rect x="95" y="287" width="20" height="18"/><rect x="127" y="265" width="20" height="18"/><rect x="127" y="287" width="20" height="18"/><rect x="159" y="265" width="20" height="18"/><rect x="159" y="287" width="20" height="18"/><rect x="191" y="265" width="20" height="18"/><rect x="191" y="287" width="20" height="18"/><rect x="223" y="265" width="20" height="18"/><rect x="223" y="287" width="20" height="18"/><rect x="255" y="265" width="20" height="18"/><rect x="255" y="287" width="20" height="18"/></g>
+ <text x="185" y="195" fill="#ffd43b" font-size="13" text-anchor="middle" font-weight="700">„I2C Address“ (надписът е наопаки)</text>
+ <!-- zoom lines -->
+ <line x1="285" y1="320" x2="700" y2="380" stroke="#999" stroke-dasharray="4 4"/><line x1="85" y1="320" x2="40" y2="380" stroke="#999" stroke-dasharray="4 4"/>
+ <!-- zoom -->
+ <rect x="30" y="380" width="1000" height="200" rx="12" fill="#f1f6fb" stroke="var(--pca)"/>
+ <text x="50" y="405" font-size="15" font-weight="700">Увеличено · брой ги отляво надясно 1 … 6</text>
+ <g font-size="14">
+  <g transform="translate(70,0)">
+   <g id="col">
+   </g>
+  </g>
+ </g>
+ <g>
+  <!-- six columns -->
+  <g transform="translate(90,420)"><rect x="0" y="0" width="40" height="50" fill="#bbb"/><text x="20" y="30" text-anchor="middle" font-size="11">10k</text><rect x="0" y="70" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><rect x="0" y="108" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><text x="20" y="160" text-anchor="middle" font-weight="700">1</text></g>
+  <g transform="translate(240,420)"><rect x="0" y="0" width="40" height="50" fill="#bbb"/><text x="20" y="30" text-anchor="middle" font-size="11">10k</text><rect x="0" y="70" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><rect x="0" y="108" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><text x="20" y="160" text-anchor="middle" font-weight="700">2</text></g>
+  <g transform="translate(390,420)"><rect x="0" y="0" width="40" height="50" fill="#bbb"/><text x="20" y="30" text-anchor="middle" font-size="11">10k</text><rect x="0" y="70" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><rect x="0" y="108" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><text x="20" y="160" text-anchor="middle" font-weight="700">3</text></g>
+  <g transform="translate(540,420)"><rect x="0" y="0" width="40" height="50" fill="#bbb"/><text x="20" y="30" text-anchor="middle" font-size="11">10k</text><rect x="0" y="70" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><rect x="0" y="108" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><text x="20" y="160" text-anchor="middle" font-weight="700">4</text></g>
+  <g transform="translate(690,420)"><rect x="0" y="0" width="40" height="50" fill="#bbb"/><text x="20" y="30" text-anchor="middle" font-size="11">10k</text><rect x="0" y="70" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><rect x="0" y="108" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><text x="20" y="160" text-anchor="middle" font-weight="700">5</text></g>
+  <g transform="translate(840,420)"><rect x="0" y="0" width="40" height="50" fill="#bbb"/><text x="20" y="30" text-anchor="middle" font-size="11">10k</text><rect x="0" y="70" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><rect x="0" y="108" width="40" height="30" fill="#e0b84c" stroke="#8a6d1b"/><text x="20" y="160" text-anchor="middle" font-weight="700">6</text></g>
+  <text x="140" y="508" font-size="12" fill="#555">горна площадка</text>
+  <text x="140" y="546" font-size="12" fill="#555">долна площадка</text>
+  <!-- probe -->
+  <line x1="110" y1="505" x2="560" y2="400" stroke="var(--red)" stroke-width="4"/><circle cx="110" cy="505" r="5" fill="var(--red)"/>
+  <text x="566" y="398" fill="var(--red)" font-size="13" font-weight="700">червена сонда → всяка площадка</text>
+  <text x="566" y="414" fill="#111" font-size="13">черна сонда → GND на десния конектор (долния пин)</text>
+ </g>
+</svg>
+</div>
+<div class="card">
+<table>
+<tr><th>Двойка</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+<tr><td>горна площадка, V</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>долна площадка, V</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</table>
+</div>
+<div class="row">
+ <div class="box ok"><b>Здрава двойка:</b> едната площадка ≈ 3.1 V (към VCC), другата 0 V (към чипа, дърпана към GND от 10k).</div>
+ <div class="box warn"><b>Виновна двойка:</b> и двете ≈ 3 V (мост, вода, мръсотия) или „чипната“ площадка между 0.5 и 3 V (прекъснат 10k). Очакваме три такива двойки (A1, A2, A5).</div>
+</div>
+<p class="sub" style="margin-top:12px">Без захранване: всеки от 6-те резистора над площадките трябва да мери ≈ 10 kΩ. „OL“ = прекъснат.</p>
+</main></body></html>
