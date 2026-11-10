@@ -3,7 +3,8 @@
 // Boss positions are read from Teddy's photos 05.11.2026, calibrated with the caliper
 // (63.80 mm between the two boss rows). Expect ±3 mm -> print the FIT template first.
 // part = "tray" | "fit"
-// layout = "carrier": one 100 x 80 board on the rev B hole grid 93 x 73 (perfboard now, rev B PCB later, same holes)
+// layout = "carrier": ONE 100 x 90 board = Elimex EXP-14 perfboard (BOM 156) on its 4 factory holes ≈ 76.0 x 90.1
+//                     (rev B PCB gets the same outline + holes later, so it drops onto the same standoffs)
 // layout = "split":   P1 + P2 + P4 perfboards and the standing PCA9685 wall (04.11 plan)
 part = "tray";
 layout = "carrier";
@@ -20,10 +21,12 @@ SLOT    = 3;             // ± slot length along Y for position tolerance
 FEET    = [[0, 60], [0, -60]];                        // plain feet resting on the floor
 RINGS   = [[-33.5, 53], [33.5, 53], [-33.5, -53], [33.5, -53]]; // floor knockouts: never open
 
-// ---- rev B carrier (SPEC.md §1): 100 x 80, 4 x M3 on 93 x 73, 3.5 mm from the edges ----
-CAR = [80, 100];          // X across (DevKit spans the 80 side: antenna -> starboard, USB-C -> port), Y along
-CAR_C = [0, 6];           // centre of the board on the plate
-CAR_GRID = [73, 93];
+// ---- carrier = EXP-14 100 x 90 (06.11): holes ≈ 7 mm from the long edges, 6.3 mm from the bow edge, 3.6 mm from the stern edge (MEASURE) ----
+CAR = [90, 100];          // X across (antenna -> starboard, USB-C -> port), Y along (bow = +Y)
+CAR_C = [0, 6];           // centre of the BOARD on the plate
+CAR_GRID = [76.0, 90.1];  // hole centre distances across x along (caliper 06.11: 76.02 / 91.19 jaw tips -> confirm with the FIT template)
+CAR_HOLE_SHIFT = [0, -1.35];   // hole-pattern centre vs board centre ((3.6 - 6.3) / 2 -> toward the stern)
+function car_hole(sx, sy) = [CAR_C[0] + CAR_HOLE_SHIFT[0] + sx * CAR_GRID[0] / 2, CAR_C[1] + CAR_HOLE_SHIFT[1] + sy * CAR_GRID[1] / 2];
 CAR_SO_H = 8; CAR_SO_D = 7.5; INSERT = 4.0;   // ruthex M3 insert (BOM 18), Ø4.0 x 5.7
 
 // ---- boards on the plate ----
@@ -98,7 +101,11 @@ module fit_template() {
         for (p = SCREW) translate([p[0], p[1], -1]) cylinder(d = 4, h = 3);
         for (p = RINGS) translate([p[0], p[1], -1]) cylinder(d = 26, h = 3);
         if (layout == "split") for (b = BOARDS) for (cx = [b[0] + INSET, b[0] + b[2] - INSET], cy = [b[1] + INSET, b[1] + b[3] - INSET]) translate([cx, cy, -1]) cylinder(d = 2, h = 3);
-        else for (sx = [-1, 1], sy = [-1, 1]) translate([CAR_C[0] + sx * CAR_GRID[0] / 2, CAR_C[1] + sy * CAR_GRID[1] / 2, -1]) cylinder(d = 3.2, h = 3);
+        else {
+            for (sx = [-1, 1], sy = [-1, 1]) translate([car_hole(sx, sy)[0], car_hole(sx, sy)[1], -1]) cylinder(d = 3.2, h = 3);
+            // 0.4 mm groove = outline of the EXP-14, to see the board footprint on the floor
+            translate([CAR_C[0], CAR_C[1], 0.4]) linear_extrude(1) difference() { square(CAR, center = true); square([CAR[0] - 1.2, CAR[1] - 1.2], center = true); }
+        }
         translate([0, -30, 0.4]) linear_extrude(1) text("FIT C072", size = 6, halign = "center");
         translate([0, 30, 0.4]) linear_extrude(1) text("BOW ^", size = 6, halign = "center");
         translate([0, 0, -1]) cylinder(d = 2, h = 3);   // centre pin
@@ -113,7 +120,7 @@ else {
 }
 module carrier_standoffs() {
     for (sx = [-1, 1], sy = [-1, 1])
-        translate([CAR_C[0] + sx * CAR_GRID[0] / 2, CAR_C[1] + sy * CAR_GRID[1] / 2, LIFT + T]) difference() {
+        translate([car_hole(sx, sy)[0], car_hole(sx, sy)[1], LIFT + T]) difference() {
             cylinder(d = CAR_SO_D, h = CAR_SO_H);
             translate([0, 0, CAR_SO_H - 6]) cylinder(d = INSERT, h = 7);
         }
