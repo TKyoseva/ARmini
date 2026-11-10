@@ -1,8 +1,8 @@
 # C072 · Electronics on perfboard in the two IP65 boxes
 
-rev 1 04.11.2026 · rev 2 05.11.2026 (boxes measured from ruler and caliper photos) · status: Backlog
+rev 1 04.11.2026 · rev 2 05.11.2026 (boxes measured from ruler and caliper photos) · rev 3 06.11.2026 (one EXP-14 logic board, measured; see the last section) · status: Backlog
 
-Drawings: `docs/diagrams/C072_diagram_boxes.png` (both boxes, top view) and `docs/diagrams/C072_diagram_perfboards.png` (P1, P2, P4, P5 top and bottom + netlist). Sources: `docs/diagrams/src/c072/` (`boards.py` checks that no hole carries two nets and every net is connected; `render_boards.py`, `render_boxes.py`). Tray: `cad/openscad/C072_logic_tray.scad`.
+Drawings: `docs/diagrams/C072_diagram_boxes.png` (both boxes, top view, rev 3), `docs/diagrams/C072_diagram_carrier_exp14.png` (the single logic board on the EXP-14, top and bottom + netlist, rev 3) and the superseded `docs/diagrams/C072_diagram_perfboards.png` (P1, P2, P4, P5). Sources: `docs/diagrams/src/c072/` (`boards.py` / `boards_c0.py` check that no hole carries two nets and every net is connected; `render_boards.py`, `render_c0.py`, `render_boxes.py`). Tray: `cad/openscad/C072_logic_tray.scad`.
 Base: FINAL 2 breadboard (31.10, 15 wire groups) + BNO055 (C066, 3V3) + leak probe (C068). The nets are the same as carrier rev B (`pcb/carrier-revB/SPEC.md`), so firmware `remote_pool` runs unchanged. Perfboard is the step between the breadboard (C031) and the PCB (C032).
 
 ## Summary
@@ -10,7 +10,7 @@ Base: FINAL 2 breadboard (31.10, 15 wire groups) + BNO055 (C066, 3V3) + leak pro
 - **Boxes:** use the two LANUCN IP65 boxes; print only the inner trays, the beam saddles and the probes. No printed boxes.
 - **POWER box 200 × 100 × 70 (BOM 155):** LiPo, 30 A fuse + XT60, S1, fuse block, both bucks (QIQIAZI and MZHOU), GND bus.
 - **LOGIC box 150 × 110 × 70 (BOM 26):** DevKit, 74HCT125, PCA9685, BNO055, leak probe. No inductors and no 12 V inside except the VBAT sense wire (≈ 100 µA), so the magnetometer stays clean.
-- **Logic board (05.11 decision):** ONE Elimex EXP14 double-sided perfboard (BOM 156) cut to 100 × 80 with 4 × Ø3.2 holes on 93 × 73 = the rev B outline. Parts go where the rev B 1:1 print puts them, so the rev B PCB later drops onto the same 4 standoffs. The older three-board layout (P1 50×70, P2 30×70, P4 30×70) stays in the drawings and in the tray's `layout = "split"`.
+- **Logic board (rev 3, 06.11):** ONE Elimex EXP-14 double-sided perfboard (BOM 156), measured ≈ 100 × 90 mm with 4 factory holes ≈ 76.0 × 90.1 mm. It is **not cut and not drilled**: the tray standoffs follow the factory holes and the rev B PCB takes the EXP-14 outline and holes later, so it drops onto the same 4 standoffs. Layout: `C072_diagram_carrier_exp14.png`. The older three-board layout (P1 50×70, P2 30×70, P4 30×70) stays in `C072_diagram_perfboards.png` and in the tray's `layout = "split"`.
 - **Glands: 6 × M20 × 1.5 that came with the boxes**, Ø20 hole with the supplied hole saw. PG7 is not needed (BOM 25 = 0). Unused positions are not drilled, so no blind plugs.
 - **Measured 05.11:** inner size at the rim power ≈ 94 × 192 mm, logic ≈ 106 × 146 mm (± 2 mm), base depth ≈ 55 mm + lid. Bosses on the floor of both boxes → the trays screw in, no silicone and no holes in the floor.
 
@@ -72,7 +72,20 @@ M20 rule: a gland seals only a **round** cable within the range printed on it (u
 
 - Bosses in the 150 box: two rows 63.80 mm apart (caliper), a pair 13 mm apart, singles at the long walls, a centre pin, 4 knockout rings in the floor (never opened). 200 box: 4 × 2 boss grid at 36.18 mm (caliper), winged bosses at the walls, 4 rings.
 - Plate 96 × 134 × 3 mm, lifted 12 mm above the floor (clears the rings), 4 × M3 × 20 (BOM 154) into the bosses at (±32, +23) and (±41, 0), slotted ± 3 mm because the positions come from photos.
-- `layout = "carrier"` (default): 4 standoffs 8 mm for ruthex M3 inserts (BOM 18) on 93 × 73, board centre (0, 6). `layout = "split"`: the old P1 / P2 / P4 standoffs + the standing PCA9685 wall.
+- `layout = "carrier"` (default): 4 standoffs 8 mm for ruthex M3 inserts (BOM 18) on the EXP-14 factory holes 76.0 × 90.1, shifted 1.35 mm toward the stern (hole insets ≈ 6.3 mm bow / 3.6 mm stern), board centre (0, 6). The FIT template also carries a 0.4 mm groove with the board outline. `layout = "split"`: the old P1 / P2 / P4 standoffs + the standing PCA9685 wall.
 - Print the FIT template first (`part = "fit"`, 0.8 mm, ≈ 10 min): the 4 Ø4 holes must sit over the bosses and the 4 large circles around the rings. Any offset → edit the measure block at the top of the SCAD.
 - STLs are generated from the SCAD; they go to `cad/stl/` only after the tray is printed and fits.
 - Power tray: waits for the fuse block, QIQIAZI and MZHOU sizes.
+
+## One board: Elimex EXP-14 (rev 3 · 06.11)
+
+Bought 06.11 (BOM 156). From the photos the board is **100 × 90 mm** (the shop says 86), green double-sided FR-4 with plated holes, 2.54 mm grid ≈ 30 × 36 pads plus a blank ≈ 11 mm strip along one long edge. The 4 factory holes are ≈ **76.0 × 90.1 mm** apart (caliper 76.02 / 91.19 with the jaw tips in the holes). They do not match the rev B grid (93 × 73) and new holes would overlap them, so the board is **not cut and not drilled**: the tray gets standoffs on the factory holes and carrier rev B (C032) takes the EXP-14 outline and holes later.
+
+Drawing: `docs/diagrams/C072_diagram_carrier_exp14.png` (top and bottom + netlist; sources `docs/diagrams/src/c072/boards_c0.py`, `render_c0.py`; 32 nets, machine-checked: no hole carries two nets, every net is one connected piece; 56 bare bridges, 25 insulated wires). Columns 1–30 port → starboard, rows 1–36 bow → stern (if the board has 37 rows the last one stays empty).
+- **Bow (rows 1–13):** PCA9685 on two female 1×6 (columns 4 and 26, rows 4–9); servo field and V+ terminal face the bow wall; V+ comes only through the terminal from the QIQIAZI buck, the V+ header pin stays unconnected. VBAT divider R1 100k / R2 30k / C1 100 nF next to J1 (column 2, rows 12–13), so 12 V stays in columns 2–4. J13 XIAO 5 V and J7 MLX90640 (I²C-1) on column 30.
+- **DevKit (rows 14 and 24):** EXT1 is the bow row (pin 1 = 3V3 at the antenna end), EXT2 the stern row (pin 1 = GND); pin n = column 31 − n. Antenna over the blank strip (starboard), USB-C to port → **90° adapter** (BOM 159). Under the DevKit only bottom-side wires.
+- **Stern (rows 25–36):** U6 74HCT125 in a socket (notch to port, pin 1 = column 4, row 30), R6 10k, C2 100 nF; J2 ESC on column 2 (rows 26–28); J3 rudder + C3 220 µF and J6 D45 (I²C-0) on column 30; BNO055 on female 1×6 + 1×4 (columns 18 / 25, rows 28–33, arrow to the bow); leak R3 10k / R4 4k7 + J9b / J9 and KILL R5 10k + J10 on row 35.
+- **Check before soldering:** on the DevKit, antenna to the right and USB-C to the left, the row toward the bow must be EXT1: its two pins nearest the antenna beep together (both 3V3); on EXT2 they do not (GND, TX). If it is the other way round the layout is re-routed (not mirrored: the DIP and the BNO055 have a handedness).
+- In the box (`C072_diagram_boxes.png` rev 3): board centred across (8 mm to the walls), 17 mm from the bow; L1 on the port wall ≈ 70 mm from the bow (the bundle fans out to the terminal, USB-C, J1, J2, J9b); L2 = lift + XIAO + MLX90640, L3 rudder, L4 D45. **The Ø19 KILL button goes in the lid over the free stern strip** (its body hangs ≈ 40 mm and cannot sit above the board).
+- Still to measure: outer size, hole Ø and hole centre distances (inside jaws minus Ø), or just print the FIT template.
+- Dropped: the three boards of the Circuit section, the 7 wires between P1 and P2, the standing PCA9685 wall (split layout only).

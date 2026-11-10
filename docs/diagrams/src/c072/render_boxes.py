@@ -98,23 +98,29 @@ def page():
         o.append(f'<circle cx="{X(pb,bx)}" cy="{Y(pb,by)}" r="{3*S}" fill="none" stroke="#00acc1" stroke-width="1.8" stroke-dasharray="3 2"/>')
     for bx, by in [(15, 14.2), (79, 14.2), (15, 177.8), (79, 177.8)]:
         o.append(f'<circle cx="{X(pb,bx)}" cy="{Y(pb,by)}" r="{11*S}" fill="none" stroke="#00acc1" stroke-width="2" stroke-dasharray="6 3"/>')
-    # ---------------- logic box contents (inner 102 x 142)
-    rect(lb, 20, 7, 66, 15, "#00695c", label="PCA9685 on the printed wall (part of the tray)", sub="lift CH12 / CH13 · servo pins up", tc="#fff", fs=10.5)
-    rect(lb, 18, 26, 70, 50, "#2e7d32", label="P1 · MCU board 50 × 70", sub="DevKit-Lipo on female headers|USB-C ←  · → antenna|VBAT · LEAK · KILL · I²C-1", tc="#fff")
-    holes(lb, 18, 26, 70, 50)
-    rect(lb, 18, 78, 70, 30, "#388e3c", label="P2 · I/O board 30 × 70", sub="74HCT125 · ESC · rudder · I²C-0 hub", tc="#fff")
-    holes(lb, 18, 78, 70, 30)
-    rect(lb, 18, 109.5, 70, 30, "#1565c0")
-    o.append(f'<text x="{X(lb,40)}" y="{Y(lb,121)}" font-size="12" fill="#fff" font-weight="700" text-anchor="middle">P4 · BNO055 plate</text><text x="{X(lb,40)}" y="{Y(lb,132)}" font-size="10" fill="#fff" text-anchor="middle">BOW ↑ · flat · far from V+</text>')
-    holes(lb, 18, 109.5, 70, 30)
-    rect(lb, 88, 36, 6, 30, "#ffcdd2", stroke="#e53935", dash="3 2", op=0.9)
-    o.append(f'<text x="{X(lb,97)}" y="{Y(lb,51)}" font-size="10" fill="#c62828" transform="rotate(90 {X(lb,97)} {Y(lb,51)})" text-anchor="middle">antenna · keep free</text>')
-    rect(lb, 3, 33, 14, 20, "none", stroke="#f28e00", dash="3 2")
-    o.append(f'<text x="{X(lb,10)}" y="{Y(lb,43)}" font-size="9" text-anchor="middle" fill="#e65100" transform="rotate(-90 {X(lb,10)} {Y(lb,43)})">USB-C plug</text>')
-    rect(lb, 2, 80, 14, 26, "none", stroke="#e53935", dash="4 3")
-    o.append(f'<text x="{X(lb,9)}" y="{Y(lb,93)}" font-size="9.5" fill="#c62828" font-weight="700" text-anchor="middle" transform="rotate(-90 {X(lb,9)} {Y(lb,93)})">KILL (lid)</text>')
-    rect(lb, 46, 109, 14, 8, "none", stroke="#e1bee7", dash="3 3")
-    o.append(f'<text x="{X(lb,70)}" y="{Y(lb,115)}" font-size="9" fill="#f3e5f5" text-anchor="middle" font-weight="700">P5 on floor</text>')
+    # ---------------- logic box contents (inner 106 x 146): ONE board, Elimex EXP-14 100 x 90, on 4 standoffs of the tray
+    BX, BY = 8, 17                       # board corner: centred across, 6 mm toward the bow (tray CAR_C = [0, 6])
+    rect(lb, BX, BY, 90, 100, "#2e7d32", stroke="#1b5e20")
+    for hx_, hy_ in [(7, 6.3), (83, 6.3), (7, 96.4), (83, 96.4)]:
+        o.append(f'<circle cx="{X(lb,BX+hx_)}" cy="{Y(lb,BY+hy_)}" r="{1.6*S}" fill="#fff" stroke="#c62828" stroke-width="2"/>')
+    o.append(f'<text x="{X(lb,BX+45)}" y="{Y(lb,BY+3.5)}" font-size="9.5" fill="#fff" text-anchor="middle" font-weight="700">EXP-14 100 × 90 · 4 × M3 on ≈ 76 × 90 (measure)</text>')
+    rect(lb, BX+23.5, BY+6.5, 43.7, 25.9, "#1565c0", label="PCA9685", sub="servo field + V+ terminal → bow|lift CH12 / CH13", tc="#fff", fs=10, op=0.9)
+    rect(lb, BX+23.75, BY+37.2, 55.9, 28, "#b71c1c", label="ESP32-S3-DevKit-LiPo", sub="EXT1 row to the bow|USB-C ←  · → antenna", tc="#fff", fs=10, op=0.9)
+    rect(lb, BX+79.6, BY+41, 6.4, 20, "#ffcdd2", stroke="#e53935", dash="3 2", op=0.9)
+    o.append(f'<text x="{X(lb,BX+86)}" y="{Y(lb,BY+51)}" font-size="8.5" fill="#c62828" transform="rotate(90 {X(lb,BX+86)} {Y(lb,BY+51)})" text-anchor="middle">antenna · keep free</text>')
+    rect(lb, BX+46.6, BY+67, 20.3, 26.7, "#0d47a1", label="BNO055", sub="arrow → bow", tc="#fff", fs=9.5, op=0.9)
+    rect(lb, BX+12, BY+71.5, 19, 9, "#333", label="U6", tc="#fff", fs=9, op=0.9)
+    for (ex, ey, t, rot_) in [(BX+3.5, BY+34.5, "J1 VBAT", -90), (BX+3.5, BY+71.5, "J2 ESC", -90),
+                              (BX+86.5, BY+14.5, "J13", 90), (BX+86.5, BY+29.5, "J7 MLX90640", 90),
+                              (BX+86.5, BY+71.5, "J3 rudder", 90), (BX+86.5, BY+83, "J6 D45", 90)]:
+        o.append(f'<text x="{X(lb,ex)}" y="{Y(lb,ey)}" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" transform="rotate({rot_} {X(lb,ex)} {Y(lb,ey)})">{t}</text>')
+    o.append(f'<text x="{X(lb,BX+22)}" y="{Y(lb,BY+96)}" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">J9b · J9 · J10 KILL</text>')
+    rect(lb, BX+12, BY+46.5, 11.5, 9, "none", stroke="#f28e00", dash="3 2")
+    o.append(f'<text x="{X(lb,BX+17.5)}" y="{Y(lb,BY+58)}" font-size="8" text-anchor="middle" fill="#ffe0b2" font-weight="700">USB-C 90°</text>')
+    o.append(f'<circle cx="{X(lb,53)}" cy="{Y(lb,134)}" r="{9.5*S}" fill="none" stroke="#e53935" stroke-width="2.5" stroke-dasharray="5 3"/>')
+    o.append(f'<text x="{X(lb,53)}" y="{Y(lb,132.5)}" font-size="9.5" fill="#c62828" font-weight="700" text-anchor="middle">KILL Ø19</text><text x="{X(lb,53)}" y="{Y(lb,137.5)}" font-size="8.5" fill="#c62828" text-anchor="middle">in the lid, over the free strip</text>')
+    rect(lb, 46, 121, 14, 7, "none", stroke="#e1bee7", dash="3 3")
+    o.append(f'<text x="{X(lb,74)}" y="{Y(lb,126)}" font-size="8.5" fill="#f3e5f5" text-anchor="middle" font-weight="700">P5 comb on the floor</text>')
     # floor features (photo + caliper 63.80 mm) and the tray screws
     for bx, by in [(21, 50), (85, 50), (12, 73), (94, 73)]:
         o.append(f'<circle cx="{X(lb,bx)}" cy="{Y(lb,by)}" r="{3.5*S}" fill="#00acc1" fill-opacity="0.35" stroke="#00838f" stroke-width="2.4"/>')
@@ -122,13 +128,13 @@ def page():
         o.append(f'<circle cx="{X(lb,bx)}" cy="{Y(lb,by)}" r="{3*S}" fill="none" stroke="#00acc1" stroke-width="1.8" stroke-dasharray="3 2"/>')
     for bx, by in [(19.5, 20), (86.5, 20), (19.5, 126), (86.5, 126)]:
         o.append(f'<circle cx="{X(lb,bx)}" cy="{Y(lb,by)}" r="{11*S}" fill="none" stroke="#00acc1" stroke-width="2" stroke-dasharray="6 3"/>')
-    gland(lb, "port", 100, "L1", "")
-    gland(lb, "starboard", 30, "L2", "lift A + B")
+    gland(lb, "port", 70, "L1", "")
+    gland(lb, "starboard", 30, "L2", "lift A + B · XIAO · MLX90640")
     gland(lb, "starboard", 73, "L3", "rudder MG90S")
-    gland(lb, "starboard", 116, "L4", "MLX90640 + XIAO + D45")
+    gland(lb, "starboard", 116, "L4", "MLX90642-D45")
     o.append(f'<text x="{X(lb,106 + 18)}" y="{Y(lb,150)}" font-size="10.5" fill="#777">starboard = the wall with the 3 knockout rings</text>')
     # crossing harness
-    for (py, ly_, txt, colr) in [(160, 100, "H1 + H2 in one round bundle", "#f28e00")]:
+    for (py, ly_, txt, colr) in [(160, 70, "H1 + H2 in one round bundle", "#f28e00")]:
         x1 = (PB["ox"] + PB["w"]) * S + GR * S - 10
         y1 = Y(PB, py)
         x2 = LB["ox"] * S - GR * S + 10
@@ -150,13 +156,13 @@ page()
 css = "body{font-family:Inter,Arial,sans-serif;margin:24px;background:#fff;color:#111;width:1500px}h1{font-size:24px;margin:0 0 4px}p{font-size:13.5px;max-width:1450px}table{border-collapse:collapse;font-size:12.5px}td,th{border-bottom:1px solid #ddd;padding:4px 8px;text-align:left;vertical-align:top}"
 glands = [("P1", "power", "stern", "thruster L lead: red/black → F1 / GND bus, yellow/white → harness", "round cable, check Ø is inside the printed range"),
           ("P2", "power", "starboard", "H1 + H2: QIQIAZI 5 V/GND (18 AWG), MZHOU USB pair, VBAT sense, power-box leak pair, ESC S/G", "one round bundle: 10 mm heat-shrink over the wires, filled with neutral silicone over 25 mm"),
-          ("L1", "logic", "port", "H1 + H2 arriving → PCA9685 V+, DevKit USB-C, P1 J1 / J9b, P2 J2", "same bundle"),
-          ("L2", "logic", "starboard (knockout)", "lift A + B (2 × TD-8120MG extensions) → PCA9685 CH12 / CH13", "6 wires, heat-shrink + silicone to round"),
-          ("L3", "logic", "starboard (knockout)", "rudder MG90S → P2 J3", "flat 3-wire: heat-shrink + silicone to ≥ 6 mm round"),
-          ("L4", "logic", "starboard (knockout)", "MLX90640 (4) → P1 J7 · XIAO 5 V/GND (2) → P2 J13 · MLX90642-D45 (4) → P2 J6", "10 wires, one bundle")]
+          ("L1", "logic", "port", "H1 + H2 arriving → PCA9685 V+ terminal, DevKit USB-C (90° adapter), J1 VBAT, J2 ESC, J9b leak — all on the EXP-14", "same bundle"),
+          ("L2", "logic", "starboard (knockout)", "lift A + B (2 × TD-8120MG extensions) → PCA9685 CH12 / CH13 · XIAO 5 V/GND (2) → J13 · MLX90640 (4) → J7", "12 wires, one bundle"),
+          ("L3", "logic", "starboard (knockout)", "rudder MG90S → J3", "flat 3-wire: heat-shrink + silicone to ≥ 6 mm round"),
+          ("L4", "logic", "starboard (knockout)", "MLX90642-D45 (4) → J6", "4 wires")]
 rows = "".join(f"<tr><td><b>{a}</b></td><td>{b}</td><td>{c}</td><td>{html.escape(d)}</td><td>{html.escape(e)}</td></tr>" for a, b, c, d, e in glands)
 doc = f"""<!doctype html><html><head><meta charset="utf-8"><title>AR-Mini C072 boxes</title><style>{css}</style></head><body>
-<h1>AR-Mini · C072 · electronics in two IP65 boxes (top view, rev 2 · 05.11.2026)</h1>
+<h1>AR-Mini · C072 · electronics in two IP65 boxes (top view, rev 3 · 06.11.2026 — logic = one EXP-14 board)</h1>
 <p>Power box (battery, fuses, both bucks — everything that is 12 V or carries amps) and logic box (no inductors, no 12 V except the 100 µA VBAT sense wire → the BNO055 magnetometer stays clean). Wiring = FINAL 2 (31.10) + BNO055 (C066) + leak (C068); boards = carrier rev B nets (C031 → C032).</p>
 {''.join(o)}
 <h2 style="font-size:17px">Glands: 6 × M20 from the box kits (no PG7 to buy)</h2>
