@@ -23,8 +23,12 @@
 // in that pose), then ramp at 20 °/s. They HOLD through every SAFE (heartbeat, STOP, disconnect, serial `0`) so the U
 // never drops into the water on a WiFi hiccup, and go OFF only on KILL (servos limp, the U settles deployed).
 //
-// CSV (serial, 10 Hz): t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms[,lift_deg]   (last_hb_ms = age, −1 = none yet;
-// lift_deg only with REMOTE_LIFT, −1 = pulses off)
+// Env `remote_pool` also builds with -DPOOL_GUARD (card C076, 18.11.2026): two automatic stops from lib/benchcore/PoolGuard.h
+// (rules shared with firmware/armini/lib/core/Safety): leak probe on GPIO7 below 2.60 V for 200 ms → SAFE "leak", latched
+// until power-off; VBAT below 10.50 V for 5 s → SAFE "lowbatt", ARM refused until VBAT > 10.80 V. Both follow the same SAFE
+// as STOP (thrust 1500, rudder centred, lift holds). Serial `lowbatt off` = bench without the battery chain, this boot only.
+// CSV (serial, 10 Hz): t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms[,lift_deg][,leak_v]   (last_hb_ms = age, −1 = none yet;
+// lift_deg only with REMOTE_LIFT, −1 = pulses off; leak_v only with POOL_GUARD)
 #include <Arduino.h>
 #include <WebServer.h>
 #include <WebSocketsServer.h>
@@ -53,6 +57,9 @@
 #include "Vbat.h"
 #ifdef REMOTE_LIFT
 #include "PairMath.h"
+#endif
+#ifdef POOL_GUARD
+#include "PoolGuard.h"
 #endif
 
 namespace {
@@ -117,6 +124,11 @@ const float kLiftTrimB = static_cast<float>(LIFT_TRIM_B_US);
 #define LIFT_JS ""
 #define LIFT_MSG ""
 #define LIFT_CSV ""
+#endif
+#ifdef POOL_GUARD
+#define GUARD_CSV ",leak_v"
+#else
+#define GUARD_CSV ""
 #endif
 
 const char kPage[] PROGMEM = R"HTML(<!doctype html><html><head><meta charset="utf-8">
@@ -196,6 +208,13 @@ int lastL = -1, lastR = -1;
 float vbat = 0.0f;
 const char* safeReason = "boot";
 uint32_t lastLoopMs = 0;
+#ifdef POOL_GUARD
+const uint32_t kGuardMs = 50;  // guard tick: VBAT + leak read every 50 ms (16 ADC samples each)
+bench::PoolGuard guard;
+bench::Periodic guardTick(kGuardMs);
+float leakV = -1.0f;           // GPIO7 in V, −1 = not read yet
+bool lowBattOff = false;       // serial `lowbatt off`: bench without the battery chain, this boot only
+#endif
 #ifdef REMOTE_LIFT
 Adafruit_PWMServoDriver pca(kPcaAddr, Wire);
 bench::Ramp liftRamp(kLiftDegPerS, 0.0f);  // the pair's shared degree
@@ -346,6 +365,15 @@ void onMessage(const char* text, uint32_t now) {
   }
   if (killIn.active()) return;  // KILL holds SAFE; messages keep the link alive but move nothing
   if (m.arm && !armed && !arming) {
+#ifdef POOL_GUARD
+    if (!guard.tryClear()) {
+      if (guard.stop() == bench::GuardStop::LEAK)
+        bench::msg("WARN arm refused: LEAK latched — lift the boat out, dry the box, power-cycle");
+      else
+        bench::msg("WARN arm refused: battery low (%.2f V, need > %.2f V) — charge or swap the pack", vbat, bench::kLowBattRearmV);
+      return;
+    }
+#endif
     if (m.t != 0 || m.r != 0) {
       bench::msg("WARN arm refused: sliders must be at 0/0 (t=%d r=%d)", m.t, m.r);
     } else {
@@ -420,6 +448,11 @@ void sendStatus() {
 void help() {
   bench::msg("remote: phone page at http://192.168.4.1 on WiFi \"%s\" (password in include/secrets.h)", AP_SSID);
   bench::msg("  serial: `?` this help, `0` SAFE now");
+#ifdef POOL_GUARD
+  bench::msg("  serial: `lowbatt off` low-battery stop off until reboot (bench only). guard: %s, leak %.2f V, vbat %.2f V%s",
+             guard.stop() == bench::GuardStop::NONE ? "ok" : bench::guardStopName(guard.stop()), leakV, vbat,
+             lowBattOff ? " (lowbatt OFF)" : "");
+#endif
 #ifdef REMOTE_LIFT
   bench::msg("  serial: `lift <%d..%d>` move the cradle pair (CH%d/CH%d) without the phone, `lift off` drop its pulses",
              kLiftDegLo, kLiftDegHi, kLiftChA, kLiftChB);
@@ -463,9 +496,12 @@ void setup() {
   killIn.begin();
   heartbeat.begin();
   pinMode(PIN_VBAT_ADC, INPUT);
+#ifdef POOL_GUARD
+  pinMode(PIN_LEAK, INPUT);
+#endif
   analogReadResolution(12);
   analogSetAttenuation(ADC_11db);
-  bench::begin("remote", "t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms" LIFT_CSV);
+  bench::begin("remote", "t_ms,l_us,r_us,armed,kill,vbat,clients,last_hb_ms" LIFT_CSV GUARD_CSV);
 #if defined(REMOTE_RUDDER) && defined(ESC_BUFFER)
   bench::msg("ESC_L GPIO%d via 74HCT125, NOT inverted = thrust · RUDDER GPIO%d via 74HCT125, 1167–1833 us · KILL GPIO%d",
              PIN_ESC_L, PIN_ESC_R, PIN_KILL);
@@ -518,6 +554,11 @@ void setup() {
   ws.onEvent(onWsEvent);
   bench::msg("both 1500 us, NOT armed. limit %.0f–%.0f us, ramp %.0f us/s, link timeout %lu ms. Type `?`.", kLoUs, kHiUs,
              kRampUsPerS, static_cast<unsigned long>(bench::kLinkTimeoutMs));
+#ifdef POOL_GUARD
+  bench::msg("GUARD leak GPIO%d < %.2f V for %lu ms -> SAFE leak (latched) · VBAT < %.2f V for %lu ms -> SAFE lowbatt (ARM again > %.2f V)",
+             PIN_LEAK, bench::kLeakWetBelowV, static_cast<unsigned long>(bench::kLeakHoldMs), bench::kLowBattTripV,
+             static_cast<unsigned long>(bench::kLowBattHoldMs), bench::kLowBattRearmV);
+#endif
   lastLoopMs = millis();
 }
 
@@ -535,11 +576,28 @@ void loop() {
 #ifdef REMOTE_LIFT
     else if (shell.is("lift")) liftCommand();
 #endif
+#ifdef POOL_GUARD
+    else if (shell.is("lowbatt") && strcmp(shell.arg(1), "off") == 0) {
+      lowBattOff = true;
+      bench::msg("WARN low-battery stop OFF until reboot (bench without the battery chain). The leak stop stays on.");
+    }
+#endif
     else bench::err(shell.arg(0));
   }
 
   if (killIn.risingKill() || (killIn.active() && (armed || arming))) goSafe("kill");
   if (hbSeen && bench::linkLost(lastHbMs, now)) goSafe("heartbeat");
+#ifdef POOL_GUARD
+  if (guardTick.due(now)) {
+    vbat = bench::vbatCorrected(readMv(PIN_VBAT_ADC) / 1000.0f, kDivGain, VBAT_GAIN, VBAT_OFFSET_V);
+    leakV = readMv(PIN_LEAK) / 1000.0f;
+    const float vForGuard = lowBattOff ? bench::kLowBattRearmV + 1.0f : vbat;
+    const bench::GuardStop g = guard.tick(leakV, vForGuard, now);
+    // Armed → SAFE now. Disarmed → only name the stop once (page + serial), so a serial `lift` still works.
+    const char* gName = bench::guardStopName(g);
+    if (g != bench::GuardStop::NONE && !killIn.active() && (armed || arming || strcmp(safeReason, gName) != 0)) goSafe(gName);
+  }
+#endif
 
   if (arming && static_cast<int32_t>(now - armDoneMs) >= 0) {
     arming = false;
@@ -561,7 +619,9 @@ void loop() {
   heartbeat.update(now);
 
   if (statusTick.due(now)) {
+#ifndef POOL_GUARD
     vbat = bench::vbatCorrected(readMv(PIN_VBAT_ADC) / 1000.0f, kDivGain, VBAT_GAIN, VBAT_OFFSET_V);
+#endif
     sendStatus();
   }
   if (csvTick.due(now)) {
@@ -571,6 +631,9 @@ void loop() {
     row.add(static_cast<unsigned long>(now)).add(lastL).add(lastR).add(armed).add(killIn.active()).add(vbat, 2).add(clients).add(age);
 #ifdef REMOTE_LIFT
     row.add(liftDeg());
+#endif
+#ifdef POOL_GUARD
+    row.add(leakV, 2);
 #endif
     Serial.println(row.c_str());
   }
