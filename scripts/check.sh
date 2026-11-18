@@ -33,9 +33,15 @@ if [ -n "$KICAD_CLI" ]; then
     "$KICAD_CLI" sch erc --severity-error --exit-code-violations -o "build/$(basename "$sch" .kicad_sch)_erc.rpt" "$sch" || { echo "ERC FAILED: $sch"; fail=1; }
   done
   for pcb in pcb/*/*.kicad_pcb; do [ -e "$pcb" ] || continue
-    "$KICAD_CLI" pcb drc --refill-zones --severity-error --exit-code-violations -o "build/$(basename "$pcb" .kicad_pcb)_drc.rpt" "$pcb" || { echo "DRC FAILED: $pcb"; fail=1; }
+    # a board with its own schematic is also checked against it (schematic parity, C080)
+    parity=""; [ -e "${pcb%.kicad_pcb}.kicad_sch" ] && parity="--schematic-parity"
+    "$KICAD_CLI" pcb drc --refill-zones $parity --severity-error --exit-code-violations -o "build/$(basename "$pcb" .kicad_pcb)_drc.rpt" "$pcb" || { echo "DRC FAILED: $pcb"; fail=1; }
   done
 else echo "skip: kicad-cli not installed"; fi
+# 4b. SPEC netlist vs copper, pin by pin (no KiCad needed; C080)
+for cmp in pcb/*/src/compare_nets.py; do [ -e "$cmp" ] || continue
+  python3 "$cmp" >/dev/null || { echo "NETLIST vs SPEC FAILED: $cmp (run it to see the differences)"; fail=1; }
+done
 
 # 5. firmware builds (every PlatformIO project under firmware/)
 #    firmware/armini: target build + host unit tests (native env, Unity).
