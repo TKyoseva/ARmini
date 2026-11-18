@@ -8,6 +8,7 @@ void runStateMachineTests();   // test_state_machine.cpp (T1)
 void runLadderTests();         // test_ladder.cpp (T2)
 void safetySetUp();
 void runSafetyTests();         // test_safety.cpp (T2)
+void runHeadingTests();        // test_heading.cpp (C077)
 
 void setUp() {
   stateMachineSetUp();
@@ -20,5 +21,6 @@ int main(int, char**) {
   runStateMachineTests();
   runLadderTests();
   runSafetyTests();
+  runHeadingTests();
   return UNITY_END();
 }
