@@ -1,0 +1,414 @@
+ERC report (2026-11-18T06:47:17, Encoding UTF8)
+Report includes: Errors, Warnings, Exclusions
+
+***** Sheet /
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 35.56 mm): Symbol BZ1 [BZ1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 35.56 mm): Symbol BZ1 [BZ1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 48.26 mm): Symbol C2 [C2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 48.26 mm): Symbol C2 [C2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 60.96 mm): Symbol C3 [C3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 60.96 mm): Symbol C3 [C3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 73.66 mm): Symbol C5 [C5]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 73.66 mm): Symbol C5 [C5]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 86.36 mm): Symbol H1 [H1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 86.36 mm): Symbol H1 [H1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 96.52 mm): Symbol H2 [H2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 96.52 mm): Symbol H2 [H2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 106.68 mm): Symbol H3 [H3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 106.68 mm): Symbol H3 [H3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 116.84 mm): Symbol H4 [H4]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 116.84 mm): Symbol H4 [H4]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 127.00 mm): Symbol J1 [J1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 127.00 mm): Symbol J1 [J1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 139.70 mm): Symbol J2 [J2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 139.70 mm): Symbol J2 [J2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 154.94 mm): Symbol J3 [J3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 154.94 mm): Symbol J3 [J3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 170.18 mm): Symbol J4 [J4]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 170.18 mm): Symbol J4 [J4]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 193.04 mm): Symbol J5 [J5]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 193.04 mm): Symbol J5 [J5]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 215.90 mm): Symbol J6 [J6]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 215.90 mm): Symbol J6 [J6]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 233.68 mm): Symbol J7 [J7]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 233.68 mm): Symbol J7 [J7]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 251.46 mm): Symbol J8 [J8]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 251.46 mm): Symbol J8 [J8]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 269.24 mm): Symbol J9 [J9]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 269.24 mm): Symbol J9 [J9]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 281.94 mm): Symbol J10 [J10]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 281.94 mm): Symbol J10 [J10]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 297.18 mm): Symbol J11 [J11]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 297.18 mm): Symbol J11 [J11]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 314.96 mm): Symbol JP1 [JP1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 314.96 mm): Symbol JP1 [JP1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 330.20 mm): Symbol JP2 [JP2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 330.20 mm): Symbol JP2 [JP2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 345.44 mm): Symbol JP3 [JP3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 345.44 mm): Symbol JP3 [JP3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(40.64 mm, 363.22 mm): Symbol JP4 [JP4]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(40.64 mm, 363.22 mm): Symbol JP4 [JP4]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 35.56 mm): Symbol LED1 [LED1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 35.56 mm): Symbol LED1 [LED1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 48.26 mm): Symbol LED2 [LED2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 48.26 mm): Symbol LED2 [LED2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 60.96 mm): Symbol LED3 [LED3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 60.96 mm): Symbol LED3 [LED3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 73.66 mm): Symbol Q2 [Q2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 73.66 mm): Symbol Q2 [Q2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 88.90 mm): Symbol Q3 [Q3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 88.90 mm): Symbol Q3 [Q3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 104.14 mm): Symbol R1 [R1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 104.14 mm): Symbol R1 [R1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 116.84 mm): Symbol R2 [R2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 116.84 mm): Symbol R2 [R2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 129.54 mm): Symbol R3 [R3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 129.54 mm): Symbol R3 [R3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 142.24 mm): Symbol R4 [R4]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 142.24 mm): Symbol R4 [R4]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 154.94 mm): Symbol R5 [R5]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 154.94 mm): Symbol R5 [R5]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 167.64 mm): Symbol R6 [R6]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 167.64 mm): Symbol R6 [R6]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 180.34 mm): Symbol R7 [R7]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 180.34 mm): Symbol R7 [R7]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 193.04 mm): Symbol R8 [R8]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 193.04 mm): Symbol R8 [R8]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 205.74 mm): Symbol R9 [R9]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 205.74 mm): Symbol R9 [R9]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 218.44 mm): Symbol R10 [R10]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 218.44 mm): Symbol R10 [R10]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 231.14 mm): Symbol R11 [R11]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 231.14 mm): Symbol R11 [R11]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 243.84 mm): Symbol R12 [R12]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 243.84 mm): Symbol R12 [R12]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 256.54 mm): Symbol R13 [R13]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 256.54 mm): Symbol R13 [R13]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 269.24 mm): Symbol R14 [R14]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 269.24 mm): Symbol R14 [R14]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 281.94 mm): Symbol R15 [R15]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 281.94 mm): Symbol R15 [R15]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 294.64 mm): Symbol R16 [R16]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 294.64 mm): Symbol R16 [R16]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 307.34 mm): Symbol R17 [R17]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 307.34 mm): Symbol R17 [R17]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 320.04 mm): Symbol R18 [R18]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 320.04 mm): Symbol R18 [R18]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 332.74 mm): Symbol R19 [R19]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 332.74 mm): Symbol R19 [R19]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 345.44 mm): Symbol R20 [R20]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 345.44 mm): Symbol R20 [R20]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 358.14 mm): Symbol R21 [R21]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 358.14 mm): Symbol R21 [R21]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(96.52 mm, 370.84 mm): Symbol R22 [R22]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(96.52 mm, 370.84 mm): Symbol R22 [R22]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 35.56 mm): Symbol R23 [R23]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 35.56 mm): Symbol R23 [R23]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 48.26 mm): Symbol R24 [R24]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 48.26 mm): Symbol R24 [R24]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 60.96 mm): Symbol R25 [R25]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 60.96 mm): Symbol R25 [R25]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 73.66 mm): Symbol TP1 [TP1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 73.66 mm): Symbol TP1 [TP1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 83.82 mm): Symbol TP2 [TP2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 83.82 mm): Symbol TP2 [TP2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 93.98 mm): Symbol TP3 [TP3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 93.98 mm): Symbol TP3 [TP3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 104.14 mm): Symbol TP4 [TP4]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 104.14 mm): Symbol TP4 [TP4]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 114.30 mm): Symbol TP5 [TP5]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 114.30 mm): Symbol TP5 [TP5]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 124.46 mm): Symbol TP6 [TP6]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 124.46 mm): Symbol TP6 [TP6]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 134.62 mm): Symbol TP7 [TP7]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 134.62 mm): Symbol TP7 [TP7]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 144.78 mm): Symbol TP8 [TP8]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 144.78 mm): Symbol TP8 [TP8]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 154.94 mm): Symbol U3 [U3]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 154.94 mm): Symbol U3 [U3]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 187.96 mm): Symbol U6 [U6]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 187.96 mm): Symbol U6 [U6]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 231.14 mm): Symbol U1_1 [U1_1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 231.14 mm): Symbol U1_1 [U1_1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 294.64 mm): Symbol U1_2 [U1_2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 294.64 mm): Symbol U1_2 [U1_2]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(152.40 mm, 358.14 mm): Symbol U2_1 [U2_1]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(152.40 mm, 358.14 mm): Symbol U2_1 [U2_1]
+[footprint_link_issues]: The current configuration does not include the footprint library 'AR-Mini'
+    ; warning
+    @(208.28 mm, 35.56 mm): Symbol U2_2 [U2_2]
+[lib_symbol_issues]: The current configuration does not include the symbol library 'armini'
+    ; warning
+    @(208.28 mm, 35.56 mm): Symbol U2_2 [U2_2]
+
+ ** ERC messages: 134  Errors 0  Warnings 134
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters
