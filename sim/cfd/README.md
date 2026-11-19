@@ -45,7 +45,7 @@ its pressure drag. So the 0.8 and 1.0 m/s rows are a LOWER bound for the bare hu
 ## Result in one paragraph (18.11.2026)
 
 Both hulls together: 0.05 N at 0.2 m/s, 0.42 N at 0.6 m/s, 1.13 N at 1.0 m/s (no waves, no appendages).
-More than half of it is pressure drag of the square transom, not friction. The catamaran equals twice one hull
+From 0.4 m/s up more than half of it is pressure drag of the square transom, not friction (55 to 62 %; 49 % at 0.2 m/s). The catamaran equals twice one hull
 within 1 %: at 350 mm the hulls do not disturb each other in this model. Mesh check at 0.6 m/s: 3 meshes,
 the two finest differ by 4.6 %, and the pressure part is still falling with refinement, so read the numbers as ±10 %.
 Six of the 12 runs met the residual targets; the other six (0.6 m/s catamaran and fine mesh, all at 0.8 and 1.0 m/s) stopped at

@@ -61,7 +61,10 @@ ARmini/
 │   ├── missions/             the simulation missions
 │   └── scripts/              Python that makes the plots from the CSVs
 │
-├── sim/                      the simulation from the paper (imported)
+├── sim/                      simulations, each with README + results/ (out/ is gitignored)
+│   ├── fea/                  static strength of beam_leg and thruster_bracket, Gmsh + CalculiX (C083)
+│   ├── heading/              heading-hold step response from firmware/armini/lib/core/Heading.h (C077)
+│   └── cfd/                  hull drag vs speed, OpenFOAM double-body (C085)
 ├── software/pi/              v2: ROS 2 packages, launch files
 │
 └── media/
