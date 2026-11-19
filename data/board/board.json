@@ -1,5 +1,5 @@
 {
-  "exported": "2026-11-01T08:56:54.334Z",
+  "exported": "2026-11-18T23:55:00.000Z",
   "prefix": "C",
   "goals": [
     {
@@ -995,7 +995,7 @@
       "from": "claude",
       "hyp": "With the DevKit OUT: no short between 5V, 3V3 and GND (meter), every connector pin beeps through to the header pin in the layout; with 5.0 V from the bench supply the 3V3 rail stays absent (it comes from the DevKit). With the DevKit IN: the `ladder` and `pca9685` bench envs run unchanged and `scan` finds 0x40 (and 0x28 / 0x33 when fitted).",
       "media": "",
-      "note": "After C030. 1) Claude draws the layout (perfboard grid, top view, every wire) from the frozen pinout. 2) Female 2.54 headers for EXT1/EXT2; JST-XH on the board edge for: I2C-0 (D45, BNO055, PCA9685), I2C-1 (MLX 110°), servo UART (Waveshare driver), ESC L/R, BTS L/R (+ IS if used), VBAT divider in, LEAK probe, KILL rocker, 5 V in from the MZHOU buck. 3) On the board: 100k/33k divider, 10k pull-up on KILL, 10k/4.7k for the leak probe, I2C pull-ups 4.7k (if the modules have none), pull-downs on GPIO39–42 if C015 says so. 4) Solder (sandwich method for the headers), continuity table filled in on paper, photo of both sides. 5) Power test as in the hypothesis. Logs with bench_log.py --card C031.",
+      "note": "After C030. 1) Claude draws the layout (perfboard grid, top view, every wire) from the frozen pinout. 2) Female 2.54 headers for EXT1/EXT2; JST-XH on the board edge for: I2C-0 (D45, BNO055, PCA9685), I2C-1 (MLX 110°), servo UART (Waveshare driver), ESC L/R, BTS L/R (+ IS if used), VBAT divider in, LEAK probe, KILL rocker, 5 V in from the MZHOU buck. 3) On the board: 100k/33k divider, 10k pull-up on KILL, 10k/4.7k for the leak probe, I2C pull-ups 4.7k (if the modules have none), pull-downs on GPIO39–42 if C015 says so. 4) Solder (sandwich method for the headers), continuity table filled in on paper, photo of both sides. 5) Power test as in the hypothesis. Logs with bench_log.py --card C031. UPDATE 04.11.2026: layout drawn and machine-checked as P1 MCU 50×70 + P2 I/O 30×70 (74HCT125, ESC, rudder, I²C-0 hub) + P4 BNO055 30×70, nets = FINAL 2 + C066 + leak (project files enclosure-1104/C072_diagram_perfboards.png). Built and boxed under C072.",
       "order": 40,
       "outcome": null,
       "photo": "",
@@ -1077,6 +1077,39 @@
       "seq": 32,
       "start": 1791735900000,
       "title": "Carrier rev B (DevKit-Lipo) → KiCad → DRC → 1:1 paper check → order 3 at Aisler"
+    },
+    {
+      "label": "C075",
+      "id": "t-arch-v5",
+      "col": "done",
+      "created": 1794965709460,
+      "end": 1794967300000,
+      "files": [
+        {
+          "note": "A3 poster, state 18.11",
+          "path": "docs/diagrams/AR-Mini_architecture_v5.png"
+        },
+        {
+          "note": "same, PDF",
+          "path": "docs/diagrams/AR-Mini_architecture_v5.pdf"
+        },
+        {
+          "note": "generator + check_tested() against the board export",
+          "path": "docs/diagrams/src/architecture_v5.py"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Architecture v4 and slide P03 list C051 (right track) and C047–C049 (camera head) under 'What is tested', but C051, C047 and C049 are still open. v5 changes them to 'C050 left track · C051 open' and 'C048 D45 sees 39.8 °C · C047/C049 open' and adds C060/C063/C072. Pass = every card named under 'tested' is closed pass/partial on the board (machine check against board.json), P03 jpg regenerated.",
+      "media": "07_Portfolio/P05_system-architecture.jpg (no loop folder: diagram only)",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 2 h.",
+      "order": 1794965709460,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "1dccf4c",
+      "result": "18.11.2026: architecture v5 generated. 'What is tested' = 11 closed cards (C023, C025, C027, C028 partial, C048 partial, C050, C055, C058, C059 partial, C060, C063), C047/C049/C051 moved to Open, lift = C060 pass, right thruster → C074, T200 = option not bought, leak probe = GPIO7 unread. check_tested() vs the live board: 11/11 OK; negative test with C051 added fails as expected. Portfolio slide is now P05 (P03 was its old number): regenerated from v5, old one in iCloud _to_delete/portfolio-1118/, captions.md P05 updated. Repo files written to the Mac working tree, UNCOMMITTED: Cursor prompt in project files arch-1118/CURSOR_PROMPT_C075.md.",
+      "seq": 75,
+      "start": 1794965800000,
+      "title": "Architecture v5 + slide P03: show C051, C047, C049 as open (fix the v4 'What is tested' error)"
     },
     {
       "label": "C035",
@@ -1213,6 +1246,72 @@
       "seq": 56,
       "start": 1793265153000,
       "title": "beam_leg: hang the working thruster on the centreline from the two beams"
+    },
+    {
+      "label": "C086",
+      "id": "t-blender-renders",
+      "col": "backlog",
+      "created": 1794965709471,
+      "end": null,
+      "files": [
+        {
+          "note": "scene + render script",
+          "path": "cad/3d/blender/"
+        },
+        {
+          "note": "source",
+          "path": "cad/printed/AR-Mini_printed_parts.step"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Portfolio v1 has photos but no clear explanation of the full search → approach → lift → return cycle that is not yet done in water. A short animation from the real CAD (STEP/3mf) explains it honestly as a plan, labelled 'animation, not a test'. Pass = 3 stills + 20–30 s MP4 at 1080p, every part from the repo CAD.",
+      "media": "C086_2026-11-18_blender-renders",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 6 h.",
+      "order": 1794965709471,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 86,
+      "start": null,
+      "title": "Blender: portfolio v2 renders + 20–30 s animation of the rescue cycle"
+    },
+    {
+      "label": "C066",
+      "id": "t-bno055-bench",
+      "col": "backlog",
+      "created": 1793781264665,
+      "end": null,
+      "files": [
+        {
+          "note": "env bno055, CSV 10 Hz, cal / status / xtal / scan",
+          "path": "firmware/bench/src/bno055/main.cpp"
+        },
+        {
+          "note": "to fix: GoTo → Adafruit #2472, Vin 3V3 only",
+          "path": "firmware/bench/src/bno055/PROTOCOL.md"
+        },
+        {
+          "note": "§4 U3 BNO055 footprint and Vin rule",
+          "path": "pcb/carrier-revB/SPEC.md"
+        },
+        {
+          "note": "163 BNO055 pin order / Vin 3V3",
+          "path": "docs/FAILS_AND_FIXES.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "The Adafruit BNO055 #2472 on I²C-0 (GPIO48/47) with Vin = 3V3 answers at 0x28 with self-test 0x0F, reads roll/pitch within ±2° flat, shows a 30° tilt in one column, and turns 90 ± 5° in heading once cal_mag ≥ 2; on the robot it shares I²C-0 with the PCA9685 (0x40/0x70) and the MLX90642 (0x66) without conflict, and the heading still turns 90 ± 5° in the box ≥ 20 mm from the bucks, LiPo, thruster and power wires. Pass = all of that + full offsets recorded. Partial = bench passes, heading on the robot outside ±5° (magnetic interference).",
+      "media": "C066_2026-11-04_bno055-heading (01 module both sides; 02 banner; 03 tilt + CSV; 04 offsets; 05 on the robot bus; 06 mounted in the box; diagram C066_diagram_bno055-wiring)",
+      "note": "04.11.2026, thread 'Провери какво липсва от концепцията' (concept gap: IMU bought, never wired). Firmware exists: env `bno055` (firmware/bench/src/bno055). A) alone on the DevKit, USB only: continuity, 4 wires (EXT1-1 3V3 → Vin, EXT1-22 GND, EXT2-16 SDA, EXT2-17 SCL; 3Vo, RST, PS0/PS1/INT/ADR open), banner + self-test, flat, tilt 30°, figure-8 calibration, `cal` offsets, 90° turn ×3, `xtal 1`, chip temperature. B) on the robot's I²C-0 rails (FINAL 2 group 10): scan 0x28 + 0x40 + 0x66 + 0x70, 90° turn. C) mounted flat in the box, BOW arrow forward, ≥ 20 mm from magnetic sources; 90° turn of the whole robot on battery, KILL on. Steps in Bulgarian: project files c066-1104/C066_steps.md. After: Cursor fixes PROTOCOL.md (GoTo → Adafruit #2472, Vin 3V3 only) and kExtCrystalDefault. Next card: C067 heading hold in water (after C065).",
+      "order": 1793781264665,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 66,
+      "start": null,
+      "title": "BNO055 IMU on I²C-0: first heading on the bench, then on the robot's shared bus"
     },
     {
       "label": "C052",
@@ -1377,6 +1476,47 @@
       "title": "Print + fit the fixed camera mount on the arch: 2 thermal cameras + XIAO Sense (OV3660)"
     },
     {
+      "label": "C085",
+      "id": "t-cfd-openfoam",
+      "col": "done",
+      "created": 1794965709470,
+      "end": 1795045900000,
+      "files": [
+        {
+          "note": "12 runs",
+          "path": "sim/cfd/run_all.sh"
+        },
+        {
+          "note": "case writer",
+          "path": "sim/cfd/make_case.py"
+        },
+        {
+          "note": "drag from the fields",
+          "path": "sim/cfd/forces.py"
+        },
+        {
+          "note": "table + mesh check; plots beside it",
+          "path": "sim/cfd/results/results.md"
+        },
+        {
+          "note": "inputs, model, limits",
+          "path": "sim/cfd/README.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "G2 asks for drag vs speed. A simulated curve first (OpenFOAM in the cloud, interFoam or a double-body simpleFoam run on the hull STL at the measured 2.5 kg draft) gives the number the G2 water test is compared to. Pass = drag at 5 speeds for one hull and the pair, mesh-independence check, wake picture; the comparison with measured speed and thrust after 27.11.",
+      "media": "C085_2026-11-18_cfd-openfoam",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 10 h.",
+      "order": 1794965709470,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "e44d0f1",
+      "result": "18.11.2026 (cloud run done; files in project files c085-1118/, NOT yet in the Mac working tree: Mac offline): OpenFOAM v1912, snappyHexMesh + simpleFoam k-omega SST, double-body (no waves), draft 23 mm at 2.5 kg, fresh water 20 °C, bare hulls. Catamaran drag: 0.051 N at 0.2 m/s, 0.193 at 0.4, 0.421 at 0.6, 0.733 at 0.8, 1.130 at 1.0 m/s. From 0.4 m/s up more than half is pressure drag of the square transom (55–62 %; 49 % at 0.2 m/s; at 0.6 m/s: 0.122 N pressure vs 0.087 N friction per hull); friction within 6 % of the ITTC-57 line. Catamaran = 2 × one hull within 1 % (no interference at 350 mm in this model). Mesh check at 0.6 m/s, 67k / 177k / 449k cells: 0.216 / 0.209 / 0.200 N per hull, finest two differ 4.6 %, pressure part still falling → read as ±10 %. Limits: no waves (Froude > 0.3 above 0.73 m/s, so 0.8 and 1.0 m/s are lower bounds), no thruster duct or rudder, fully turbulent, steady; 6 of 12 runs stopped at the 2000-iteration limit. Function objects crash in the Ubuntu package, drag integrated by forces.py. Comparison with measured thrust and speed after 27.11 (C061 + timed lake run).",
+      "seq": 85,
+      "start": 1795032600000,
+      "title": "CFD with OpenFOAM: hull drag vs speed 0.2–1.0 m/s, one hull and the catamaran"
+    },
+    {
       "label": "C020",
       "id": "t-cradle-bend",
       "col": "released",
@@ -1477,6 +1617,43 @@
       "title": "MLX90642-D45 on the XIAO: first heat map, and how far it sees Pesho"
     },
     {
+      "label": "C078",
+      "id": "t-docs-sync-1118",
+      "col": "backlog",
+      "created": 1794965709463,
+      "end": null,
+      "files": [
+        {
+          "note": "",
+          "path": "docs/STATE.md"
+        },
+        {
+          "note": "",
+          "path": "docs/FAILS_AND_FIXES.md"
+        },
+        {
+          "note": "",
+          "path": "media/LINKS.md"
+        },
+        {
+          "note": "",
+          "path": "data/board/board.json"
+        }
+      ],
+      "from": "claude",
+      "hyp": "STATE.md and board.json in project knowledge are from 01.11; C060, C063, C066, C072, C074 and FAILS 180 are missing or stale. Pass = STATE one page current to 18.11, every closed card has its FAILS line and LINKS row, data/board/board.json re-exported, project-knowledge copies refreshed.",
+      "media": "C078_2026-11-18_docs-sync-1118",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 2 h.",
+      "order": 1794965709463,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 78,
+      "start": null,
+      "title": "Docs sync: STATE, FAILS, LINKS and the board export match the repo after r2026-11-10"
+    },
+    {
       "label": "C053",
       "id": "t-dry-assembly",
       "col": "released",
@@ -1560,6 +1737,113 @@
       "title": "Fusion Static Stress on the Lenovo: arm_drive and pivot_bracket (6 vs 8 mm plate)"
     },
     {
+      "label": "C083",
+      "id": "t-fea-calculix",
+      "col": "done",
+      "created": 1794965709468,
+      "end": 1795032000000,
+      "files": [
+        {
+          "note": "mesh → solve → table + plots",
+          "path": "sim/fea/run_fea.py"
+        },
+        {
+          "note": "Gmsh geometry from beam_leg.scad",
+          "path": "sim/fea/beam_leg.geo"
+        },
+        {
+          "note": "Gmsh geometry from AR-Mini_v1.scad",
+          "path": "sim/fea/thruster_bracket.geo"
+        },
+        {
+          "note": "MPa per newton, SF, convergence",
+          "path": "sim/fea/results/results.md"
+        },
+        {
+          "note": "inputs, load path, limits",
+          "path": "sim/fea/README.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "beam_leg (C056) and thruster_bracket carry the thruster's thrust and torque on printed PETG. Mesh the SCAD/STEP in Gmsh, solve in CalculiX (cloud, Linux) with the datasheet thrust as load, report peak von Mises and safety factor vs PETG layer strength, and the deflection at the thruster. Pass = mesh-convergence check (2 mesh sizes within 10 %), stress plot, safety factor stated; load swapped for the C061 measured thrust after 27.11.",
+      "media": "C083_2026-11-18_fea-calculix",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 5 h.",
+      "order": 1794965709468,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "37655ac",
+      "result": "18.11.2026 (cloud run done, files in the Mac working tree UNCOMMITTED): Gmsh 4.12 + CalculiX 2.21, C3D10, 3 mesh sizes per part. Thrust is ASSUMED 20 N (no datasheet number; replace with C061). PETG printed: E 2100 MPa, yield 25 MPa (FAILS 35). beam_leg: peak 0.0746 MPa/N at the bracket bolt holes → 1.49 MPa, SF 16.8, deflection 0.046 mm, convergence 2.2 %. thruster_bracket: peak 0.155 MPa/N at the lug root → 3.09 MPa, SF 8.1, convergence 0.1 %. Governing: bearing of the M3 lock pin in the lugs (hand check) 0.200 MPa/N → 3.99 MPa, SF 6.3; SF 3 is reached at 42 N. Finding: the lock pin sits 10 mm from the hinge and the prop axis 79.1 mm below it, so the lock pin carries 7.9 × thrust; in the CAD the arm stop tab is 5 mm short of the bracket plate (to check on the printed parts). Limits: isotropic material, rigid pins, fixed faces, static only, no physical test yet.",
+      "seq": 83,
+      "start": 1795003800000,
+      "title": "FEA with CalculiX + Gmsh: beam_leg and thruster_bracket under thruster thrust (PETG)"
+    },
+    {
+      "label": "C087",
+      "id": "t-fusion-crosscheck",
+      "col": "backlog",
+      "created": 1794965709472,
+      "end": null,
+      "files": [
+        {
+          "note": "API script",
+          "path": "cad/fusion/"
+        },
+        {
+          "note": "comparison table",
+          "path": "sim/fea/"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Two independent solvers on the same part: Fusion Static Stress (Mac) on beam_leg with the same load and material as C083. Python API script in cad/fusion/ builds the part so the check is repeatable. Pass = peak stress within 15 % of CalculiX, or the difference explained.",
+      "media": "C087_2026-11-18_fusion-crosscheck",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 4 h.",
+      "order": 1794965709472,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 87,
+      "start": null,
+      "title": "Fusion: API scripts + Static Stress cross-check of the CalculiX result (C083)"
+    },
+    {
+      "label": "C077",
+      "id": "t-heading-sim",
+      "col": "done",
+      "created": 1794965709462,
+      "end": 1795045800000,
+      "files": [
+        {
+          "note": "controller + yaw model",
+          "path": "firmware/armini/lib/core/Heading.h"
+        },
+        {
+          "note": "10 host tests",
+          "path": "firmware/armini/test/test_core/test_heading.cpp"
+        },
+        {
+          "note": "step response from the real header",
+          "path": "sim/heading/run.py"
+        },
+        {
+          "note": "table + plot beside it",
+          "path": "sim/heading/results/results.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "A PI heading controller (error wrapped to ±180°, rudder 1167–1833 µs, anti-windup) holds a commanded heading on a simulated boat (first-order yaw rate model from the C059 lake video turn rate) within ±5° after 10 s with a 10° step and a constant disturbance. Behind -DHEADING_HOLD, off by default. Pass = native tests green, step-response plot. Water test stays C067, after C066 + C065.",
+      "media": "C077_2026-11-18_heading-sim",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 4 h.",
+      "order": 1794965709462,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "e1ab89f",
+      "result": "18.11.2026 PASS: pio test -e native on the Mac = 43 test cases, 43 succeeded (10 new heading tests); committed e1ab89f. Heading.h = PI controller (Kp 0.04, Ki 0.008, error wrapped to ±180°, anti-windup, NaN and stale samples ignored) + first-order yaw model. Step response from the real header (sim/heading/run.py): 10° step with a constant 5 °/s push, worst error 10 s after the step 0.61° nominal, 1.31° slow boat, 0.30° fast boat → criterion ±5° met. Finding: PI alone overshoots 5.4° (nominal) to 9.5° (slow boat); a gyro yaw-rate term would damp it (decide in C067). Boat model is ASSUMED (30 °/s at full rudder, tau 0.8 s), not taken from the C059 video. Not wired into any firmware env (no -DHEADING_HOLD yet): waits for C066.",
+      "seq": 77,
+      "start": 1795005000000,
+      "title": "Heading hold in simulation: PI controller on BNO055 yaw + first-order boat yaw model, native tests"
+    },
+    {
       "label": "C054",
       "id": "t-home-lab",
       "col": "released",
@@ -1578,6 +1862,39 @@
       "seq": 54,
       "start": 1793155836000,
       "title": "The home lab, 28.10 (record)"
+    },
+    {
+      "label": "C072",
+      "id": "t-ip65-perfboard",
+      "col": "backlog",
+      "created": 1793784141045,
+      "end": null,
+      "files": [
+        {
+          "note": "top view of both boxes, glands, trays (project files enclosure-1104/)",
+          "path": "docs/diagrams/C072_diagram_boxes.png"
+        },
+        {
+          "note": "P1/P2/P4/P5 top + bottom + netlists, machine-checked (src/boards.py)",
+          "path": "docs/diagrams/C072_diagram_perfboards.png"
+        },
+        {
+          "note": "same nets: perfboard = C031 step before C032",
+          "path": "pcb/carrier-revB/SPEC.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "With the FINAL 2 wiring moved to perfboards (P1 MCU 50×70, P2 I/O 30×70, P4 BNO055 30×70, two P5 leak combs) and split into a power box (LANUCN 200×100×70: LiPo, fuses, S1, QIQIAZI + MZHOU) and a logic box (150×110×70: DevKit, 74HCT125, PCA9685, BNO055), firmware remote_pool runs unchanged: I²C scan 0x40 + 0x70 + 0x28 + 0x66 (I²C-0) and 0x33 (I²C-1), ESC 1500 µs at 5 V, rudder centred, KILL works, lift CH12/CH13. Both boxes closed: 3 min shower from above + 10 min floating in the bathtub, paper towels inside stay dry; a drop on each leak comb pulls GPIO7 to 0. Pass = all of that + no loose wire after a pool run. Partial = works but a box leaks or a connector comes loose.",
+      "media": "C072_2026-11-04_ip65-perfboard (diagrams C072_diagram_boxes, C072_diagram_perfboards; 01 breadboard before; 02–05 P1/P2 top+bottom; 06 bench scan; 07–08 boxes open; 09 closed on the beams; 10–11 leak test)",
+      "note": "04.11.2026, thread 'Премести електрониката на перфоборд в здрави кутии' (concept gap #15 → C072). Decision: use the two LANUCN IP65 boxes, print only the inner trays, the PCA9685 wall bracket and the beam saddles (no printed boxes: PETG layer leaks, no gasket, 10–14 h). Logic box has no inductors and no 12 V except the VBAT sense wire → clean magnetometer for C066. 11 PG7 positions (8 used, 3 plugs) → BOM 25 to 12. Steps in Bulgarian: project files enclosure-1104/C072_plan.md. Step 0 = caliper the inner box sizes, pillars, perfboard holes, fuse block, both bucks, thruster lead Ø → Claude generates the trays (OpenSCAD). Then C068 adds LEAK → SAFE in firmware; C069 uses the reserved area on P2 for the hardware OE KILL.",
+      "order": 1793784141045,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 72,
+      "start": null,
+      "title": "Electronics off the breadboards: perfboards P1/P2/P4 (C031 nets) into the two IP65 boxes, then a leak test"
     },
     {
       "label": "C059",
@@ -1611,6 +1928,39 @@
       "seq": 59,
       "start": 1793455200000,
       "title": "Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery"
+    },
+    {
+      "label": "C060",
+      "id": "t-lift-two-ch",
+      "col": "done",
+      "created": 1793607300000,
+      "end": 1793630400000,
+      "files": [
+        {
+          "note": "FAILS 180 OPEN",
+          "path": "docs/FAILS_AND_FIXES.md"
+        },
+        {
+          "note": "env remote_pool, liftWrite / liftUpdate",
+          "path": "firmware/bench/src/remote/main.cpp"
+        },
+        {
+          "note": "`pair` (C023)",
+          "path": "firmware/bench/src/pca9685/PROTOCOL.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Splitting the fault in two: the C023 `pca9685` env (`pair`) moved both TD-8120MG on 22–23.10, so if `pair 12 13 <deg>` moves both now, the fault is in `remote_pool`; if only CH13 moves, it is the module or the wiring, and the spare Hailege PCA9685 moves both. Pass: on `remote_pool`, CH12 + CH13, both servos follow 50 → 130 → 50° three times in a row, current at the buck recorded.",
+      "media": "C060_2026-11-02_lift-two-channels (01 setup; 02–05 logic analyser on the PCA9685; 06–10 PulseView photos; ★11 module rotated 180°; 12 servos on the real CH12/CH13; ★13 MOV 14.7 s remote_pool lift with Pesho, both servos; diagrams logic-analyser + address-pads)",
+      "note": "02.11.2026, thread 'Планирай следващите карти след R-1101'. Robot on the table, Pesho off, thruster ESC unplugged. Steps: A) setup photo + V+ at the terminal; B) flash `pca9685`, `pair 12 13 90/50/130/50`, then the same on CH10/11 (C023 wiring); C) limp-or-holding check by hand on the servo that does not move; D) logic analyser (BOM 111) on the two PWM pins under `remote_pool` `lift 90`; E) only if B fails: spare Hailege PCA9685 (BOM 73). Ruled out on 31.10: firmware log, I2C 100 kHz, V+ 5.36 V, mechanics.",
+      "order": 1793607300000,
+      "outcome": "pass",
+      "photo": "C060_11",
+      "rel": "",
+      "result": "02.11.2026 PASS. Both TD-8120MG move together on remote_pool (CH12/CH13) from the phone and lift Pesho (C060_13). ROOT CAUSE of FAILS 180: the servo header columns were counted 1–16 on the module mounted rotated 180°, the channels are 0–15 → firmware CH12/CH13 = columns 13/14; on 31.10 the servos sat on real CH11/CH12, so only CH12 was driven ('the higher channel always wins'). Same symptom in env pca9685 `pair 12 13` before the move, both move after it. Side finds: the PCA9685 did not ACK (remote_pool `pca MISSING`) until a full power-off of USB + battery, then scan = 0x40 + an unknown 0x66; address pads A0–A5 all fine, VCC 3.1 V, SDA/SCL continuity OK. Logic analyser: PWM ≈1.5 ms / ≈19 ms frame at 90°; the I²C leads never caught traffic (clip contact, not pursued). Lesson: label PCA9685 columns with their real 0-based channel numbers on the module; after a 'missing' I²C device, power-cycle fully before debugging.",
+      "seq": 60,
+      "start": 1793607300000,
+      "title": "Cradle lift on two channels: find why only the higher PCA9685 channel drives a servo (FAILS 180)"
     },
     {
       "label": "C044",
@@ -1694,6 +2044,39 @@
       "seq": 14,
       "start": 1791566454625,
       "title": "Ask John Hood: may sim/ be public under MIT?"
+    },
+    {
+      "label": "C074",
+      "id": "t-new-right-thruster",
+      "col": "backlog",
+      "created": 1794297600000,
+      "end": null,
+      "files": [
+        {
+          "note": "row 161 replacement Cuifati, Delivered 09.11",
+          "path": "docs/bom/bom.csv"
+        },
+        {
+          "note": "173 defective right thruster (closed by this card if PASS)",
+          "path": "docs/FAILS_AND_FIXES.md"
+        },
+        {
+          "note": "env remote_pool, thruster on GPIO1 via 74HCT125 1A→1Y",
+          "path": "firmware/bench/src/remote/main.cpp"
+        }
+      ],
+      "from": "claude",
+      "hyp": "The replacement Cuifati 560 KV (arrived 09.11) driven by remote_pool on the thruster channel (GPIO1 → 74HCT125 1A→1Y → yellow, white → GND), 12.0 V bench supply with 2.5 A limit, in a bucket, arms at 1500 µs and draws 0.22 A ±10 % at 1600 µs and 0.58 A ±10 % at 1650 µs, like the left unit in C025/C055, with no ~1 s click loop (FAILS 173). Pass = both currents in range, spins forward and reverse, no C.C on the supply. Fail = the FAILS 173 pattern → seller claim before mounting.",
+      "media": "C074_2026-11-10_new-thruster-bench (01 box + thruster unboxed, no SN label; 02 bench wiring; 03 MOV first spin; 04–05 supply at 1600 / 1650 µs; 06 reverse)",
+      "note": "09.11.2026 the replacement Cuifati arrived (box photo IMG_3059; Teddy confirmed Cuifati 10.11). Unbox check: prop turns freely by hand, cable and duct undamaged, 4 wires red/black/yellow/white. Bench before mounting, remote_pool only (never remote_rudder with the HCT wiring). Ramp 1500 → 1600 → 1650, 10 s each, then 1400 reverse. Stop at once on the ~1 s click loop or supply C.C. After PASS: mount as the second thruster (two-thruster differential again, C061 thrust in the tub). Card number C074: C073 is reserved for the full rescue cycle.",
+      "order": 1794297600000,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 74,
+      "start": null,
+      "title": "Replacement right thruster: bench test on remote_pool before mounting"
     },
     {
       "label": "C012",
@@ -1863,6 +2246,97 @@
       "seq": 16,
       "start": null,
       "title": "Parts agent: real needs, Telegram bot, first run"
+    },
+    {
+      "label": "C076",
+      "id": "t-pool-auto-safe",
+      "col": "done",
+      "created": 1794965709461,
+      "end": 1794969292000,
+      "files": [
+        {
+          "note": "the two stops, over armini::Safety",
+          "path": "firmware/bench/lib/benchcore/PoolGuard.h"
+        },
+        {
+          "note": "10 host tests",
+          "path": "firmware/bench/test/test_benchcore/test_poolguard.cpp"
+        },
+        {
+          "note": "guard tick, ARM refusal, `lowbatt off`, CSV leak_v",
+          "path": "firmware/bench/src/remote/main.cpp"
+        },
+        {
+          "note": "-DPOOL_GUARD on remote_pool, lib_extra_dirs ../armini/lib",
+          "path": "firmware/bench/platformio.ini"
+        }
+      ],
+      "from": "claude",
+      "hyp": "remote_pool only displays vbat and never reads LEAK. Reusing firmware/armini/lib/core Safety + Ladder (already unit-tested) in the bench env gives: LEAK held ≥ 200 ms → SAFE 'leak' (latched until power cycle), VBAT ≤ 10.5 V for ≥ 5 s → SAFE 'lowbatt' with re-arm blocked until > 10.8 V; the page shows the reason. Pass on the Mac = pio test -e native green with new cases (debounce, hysteresis, latch), pio run -e remote_pool builds. Hardware check later inside C068 (probe in water) and C062 (run to 10.5 V).",
+      "media": "none (code only)",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 4 h.",
+      "order": 1794965709461,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "b4844cd",
+      "result": "PASS 18.11.2026 01:51Z on the Mac: `pio test -e native` and `pio run -e remote_pool` green (firmware.bin 795 696 B), committed b4844cd. Details: bench::PoolGuard (lib/benchcore/PoolGuard.h) wraps armini::Safety from lib/core, one rule set. LEAK: GPIO7 < 2.60 V for 200 ms → SAFE 'leak', latched until power-off. LOWBATT: VBAT < 10.50 V for 5 s → SAFE 'lowbatt', ARM refused until > 10.80 V; 0 V (no 12 V) also trips; serial `lowbatt off` for the bench, one boot. Built only with -DPOOL_GUARD (remote_pool); CSV gets leak_v. Cloud check: 46/46 host tests (36 old + 10 new) with g++ + a Unity shim, 3 mutations each caught; main.cpp syntax-checked in 4 flag combinations. NOT yet run: `pio test -e native` and `pio run -e remote_pool` (PlatformIO registry blocked from the cloud) → card passes when Teddy runs them (CURSOR_PROMPT in project files c076-1118/). Thresholds to verify: leak 2.60 V in C068 (water), 5 s sag hold in C062.",
+      "seq": 76,
+      "start": 1794967300000,
+      "title": "remote_pool: LEAK → SAFE and VBAT ≤ 10.5 V → SAFE, with native tests"
+    },
+    {
+      "label": "C079",
+      "id": "t-portfolio-v2-plan",
+      "col": "backlog",
+      "created": 1794965709464,
+      "end": null,
+      "files": [
+        {
+          "note": "new",
+          "path": "docs/portfolio/PORTFOLIO_V2_PLAN.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Portfolio v1 (P01–P25) shows the lake run but no measured thrust, runtime, drag or wet lift. v2 replaces the weakest slides with C061, C062, C064, C065, C070, C073 results and the C083/C085 simulations. Pass = a plan doc with slide-by-slide changes, a shot list per card and dates back-calculated from the verified RD deadline (to be looked up and dated).",
+      "media": "C079_2026-11-18_portfolio-v2-plan",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 3 h.",
+      "order": 1794965709464,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 79,
+      "start": null,
+      "title": "Portfolio v2 plan for G2: which slides get measured numbers, shot list 28.11–30.12, schedule back from the RD deadline"
+    },
+    {
+      "label": "C081",
+      "id": "t-power-tray-cradles",
+      "col": "backlog",
+      "created": 1794965709466,
+      "end": null,
+      "files": [
+        {
+          "note": "new",
+          "path": "cad/openscad/C072_power_tray.scad"
+        },
+        {
+          "note": "new",
+          "path": "cad/openscad/C072_box_cradle.scad"
+        }
+      ],
+      "from": "claude",
+      "hyp": "The power tray and the beam cradles wait on sizes (fuse block, QIQIAZI, MZHOU, beam section, box ear holes). A parametric SCAD with every unknown as a named variable at the top lets the parts print the day the numbers arrive. Pass = renders in check.sh, every placeholder listed with where to measure it; no STL until measured.",
+      "media": "C081_2026-11-18_power-tray-cradles",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 3 h.",
+      "order": 1794965709466,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 81,
+      "start": null,
+      "title": "OpenSCAD: power-box tray + beam cradles for both IP65 boxes, parametric with placeholder sizes"
     },
     {
       "label": "C011",
@@ -2155,6 +2629,35 @@
       "title": "R1b frame: right hull_fore (mirrored, white) + 2 × arch_post (black) + the arch tube"
     },
     {
+      "label": "C082",
+      "id": "t-release-1123",
+      "col": "backlog",
+      "created": 1794965709467,
+      "end": null,
+      "files": [
+        {
+          "note": "new release page",
+          "path": "docs/releases/"
+        },
+        {
+          "note": "",
+          "path": "docs/LOG.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Cut a release from the cards closed 18–23.11 (target C075, C076, C078, C080, C083): board entry, tag on dev, LOG line, PR dev → main that Teddy merges.",
+      "media": "C082_2026-11-18_release-1123",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 1 h.",
+      "order": 1794965709467,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 82,
+      "start": null,
+      "title": "Release ~23.11: the Mac-only cards that closed"
+    },
+    {
       "label": "C028",
       "id": "t-remote-wifi",
       "col": "released",
@@ -2195,6 +2698,76 @@
       "seq": 28,
       "start": 1792774800000,
       "title": "Night task T7 (Cursor): drive on remote over WiFi — phone page with 2 sliders + big STOP"
+    },
+    {
+      "label": "C084",
+      "id": "t-revB-exp14-outline",
+      "col": "backlog",
+      "created": 1794965709469,
+      "end": null,
+      "files": [
+        {
+          "note": "outline + holes",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB.kicad_pcb"
+        },
+        {
+          "note": "",
+          "path": "pcb/carrier-revB/SPEC.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Rev B (100 × 80) does not share the EXP-14 tray standoffs. Moving it to the EXP-14 outline and holes lets the PCB drop into the same C072 tray later. Pass = DRC 0 errors and a 1:1 PDF; NOT ordered until the EXP-14 holes are measured / the FIT template printed and real pins checked through a 1:1 print (copper rule).",
+      "media": "C084_2026-11-18_revB-exp14-outline",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 4 h.",
+      "order": 1794965709469,
+      "outcome": null,
+      "photo": "",
+      "rel": "",
+      "result": "",
+      "seq": 84,
+      "start": null,
+      "title": "Carrier rev B on the EXP-14 outline: 100 × 90 board, factory holes 76.0 × 90.1, DRC clean (no order)"
+    },
+    {
+      "label": "C080",
+      "id": "t-revB-schematic-erc",
+      "col": "done",
+      "created": 1794965709465,
+      "end": 1795002600000,
+      "files": [
+        {
+          "note": "schematic from SPEC",
+          "path": "pcb/carrier-revB/AR-Mini_carrier_revB.kicad_sch"
+        },
+        {
+          "note": "netlist from SPEC, cites §",
+          "path": "pcb/carrier-revB/src/spec_netlist.py"
+        },
+        {
+          "note": "SPEC vs copper pin by pin",
+          "path": "pcb/carrier-revB/src/compare_nets.py"
+        },
+        {
+          "note": "schematic generator",
+          "path": "pcb/carrier-revB/src/gen_sch.py"
+        },
+        {
+          "note": "JP4, IS pin fix, 18.11 line",
+          "path": "pcb/carrier-revB/SPEC.md"
+        }
+      ],
+      "from": "claude",
+      "hyp": "Rev B was generated by gen.py straight into the .kicad_pcb, so there is no .kicad_sch and check.sh never runs ERC. Drawing the schematic from SPEC.md (FINAL 2 values) and comparing its netlist with the PCB is the second independent route the copper rule asks for. Pass = ERC 0 errors, DRC 0 errors (KiCad 10 on the Mac, check.sh), schematic-vs-PCB netlist diff empty or every difference explained in FAILS.",
+      "media": "none (design files only)",
+      "note": "Mac-only card, 18–27.11.2026 (Teddy at IRONMAN, no lab). Plan: thread 'Планирай карти за Макбука до 27.11'. Claude does the work in the working tree / cloud; Teddy reviews and commits via Cursor (check.sh first). Estimate 6 h.",
+      "order": 1794965709465,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "46938a6, e7f6144",
+      "result": "18.11.2026 PASS (KiCad 10 on the Mac, --severity-all): ERC 0 errors (134 library-link warnings only); DRC with schematic parity 0 violations, 0 unconnected pads, 0 parity items (67 lib_footprint_issues only); compare_nets.py RESULT OK, 67 parts, 40 nets; check.sh OK. Netlist rewritten from SPEC.md (src/spec_netlist.py, every entry cites its §) and compared with the gen.py copper pin by pin. Found 2 SPEC errors, 0 copper errors: (1) JP4 1×4 CH6–CH9 header on the copper since 13.10, missing in SPEC → added to §5; (2) SPEC §3 said BTS IS on J4/J5 pin 6, §5 and the copper say pin 5 → typo fixed. Schematic generated from the SPEC netlist (src/gen_sch.py) with global labels; 37 no-connect pads named unconnected-(REF-PIN-PadN) on the board; refs U1A/U1B/U2A/U2B → U1_1/U1_2/U2_1/U2_2; R10 2k2 → 1k per SPEC §4; H1–H4 → AR-Mini:M3; no copper moved. check.sh now runs --schematic-parity and compare_nets. Three KiCad rounds were needed: round 1 = 203 parity warnings (local labels, unnamed NC pads); round 2 = the fixed schematic reached the Mac stale (Claude's copy error). Note: the SPEC netlist was typed after seeing the PCB pad list once; the content comes from SPEC, the net names follow the board's. Schematic not yet opened in the KiCad GUI (generated 20230121 file).",
+      "seq": 80,
+      "start": 1794969300000,
+      "title": "KiCad: schematic for carrier rev B + ERC + fresh DRC (second independent route to the netlist)"
     },
     {
       "label": "C033",
@@ -2253,6 +2826,26 @@
       "seq": 10,
       "start": 1791515002000,
       "title": "GitHub: PR for T1 (state machine) → CI green? → merge into dev"
+    },
+    {
+      "label": "C063",
+      "id": "t-robot-mass",
+      "col": "done",
+      "created": 1793780760000,
+      "end": 1793780760000,
+      "files": [],
+      "from": "claude",
+      "hyp": "The robot is about 2.0 kg, the estimate from the 20 mm draft in C028. Pass: total mass measured on a scale and recorded.",
+      "media": "",
+      "note": "04.11.2026, thread 'Планирай следващите карти след R-1101'. Plan was to hang the robot on the hanging scale. The configuration weighed (Pesho, battery, box lid) was not stated.",
+      "order": 1793780760000,
+      "outcome": "pass",
+      "photo": "",
+      "rel": "",
+      "result": "04.11.2026 PASS (measured). Mass = 2.5 kg, reported by Teddy. That is about 0.5 kg (≈25 %) more than the 2.0 kg estimate, which came from the C028 float test (28.10) before the beam_leg, rudder frame, food box, second thruster bracket and lift were added. The 2.0 kg estimate is outdated; use 2.5 kg from now on (thrust-to-weight, buoyancy margin with Pesho in C064). Configuration: WITH the battery, WITHOUT Pesho (Teddy, 04.11). With Pesho add his mass on top.",
+      "seq": 63,
+      "start": 1793780760000,
+      "title": "Weigh the whole robot"
     },
     {
       "label": "C057",
