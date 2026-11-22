@@ -1,0 +1,1 @@
+KIN pivot_x=200 shaft_z=105 arm_len=110 arm_gap=22 deploy_a=215 stow_a=45 draft=42 rudder_x=688.2 rudder_z=-38.135 coupler_y=56.02 cradle_L=220 duct_z=-38.135
