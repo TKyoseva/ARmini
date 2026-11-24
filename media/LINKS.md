@@ -47,11 +47,24 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C053 | 2026-10-28 | First dry assembly of the whole robot with the tracks (record) | — | C053_2026-10-28_dry-assembly |
 | C054 | 2026-10-28 | The home lab (record) | — | C054_2026-10-28_home-lab |
 | C055 | 2026-10-29 | Both thrusters on an Arduino Mega: FAILS 173 confirmed (right thruster faulty) | Pass | C055_2026-10-29_mega-thruster-test |
-| C056 | 2026-10-29 | beam_leg: working thruster on the centreline, hung from the two beams (printed 2 h 37 min, 123 g) | Open | C056_2026-10-29_beam-leg |
-| C057 | 2026-10-29 | rudder: NACA 0015 blade + MG90S; collar mount replaced by one-piece rudder_frame (2 h 27 min, 104 g), assembled 30.10 | Open | C057_2026-10-29_rudder |
+| C056 | 2026-10-29 | beam_leg: working thruster on the centreline, hung from the two beams (printed 2 h 37 min, 123 g) | Pass | C056_2026-10-29_beam-leg |
+| C057 | 2026-10-29 | rudder: NACA 0015 blade + MG90S; collar mount replaced by one-piece rudder_frame (2 h 27 min, 104 g), assembled 30.10 | Pass | C057_2026-10-29_rudder |
 | C058 | 2026-10-31 | Charging the 3S LiPo: balance charge 2.2 A in the safety bag (record) | Pass | C058_2026-10-31_battery-charging |
-| C059 | 2026-10-31 | Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery, bathtub test | Open | C059_2026-10-31_lake-test |
+| C059 | 2026-10-31 | Lake test at Pancharevo: FINAL 2 wiring in the box, remote_pool, first run on battery, bathtub test | Partial | C059_2026-10-31_lake-test |
 | C060 | 2026-11-02 | lift on two channels (FAILS 180 closed) | Pass | C060_2026-11-02_lift-two-channels |
+| C063 | 2026-11-04 | Robot mass on the scale: 2.5 kg with the battery, without Pesho (estimate was 2.0 kg) | Pass | — |
+| C066 | 2026-11-04 | BNO055 IMU: first heading on the bench, then on the robot's I²C-0 bus | Open | C066_2026-11-04_bno055-heading |
+| C072 | 2026-11-04 | Electronics off the breadboards into two IP65 boxes (one EXP-14 logic board) | Open | C072_2026-11-04_ip65-perfboard |
+| C074 | 2026-11-10 | Replacement right thruster: bench test on remote_pool before mounting | Open | — (folder when the test runs) |
+| C075 | 2026-11-18 | Architecture poster v5, tested list checked against the board | Pass | — (repo: docs/diagrams/AR-Mini_architecture_v5.png; slide 07_Portfolio/P05) |
+| C076 | 2026-11-18 | remote_pool stops on leak and on low battery (PoolGuard, host tests) | Pass | — (code only) |
+| C077 | 2026-11-18 | Heading hold in simulation: PI controller + simulated boat, 10 host tests | Pass | C077_2026-11-18_heading-sim |
+| C080 | 2026-11-18 | Carrier rev B schematic from SPEC, ERC + parity with the copper | Pass | — (design files only) |
+| C083 | 2026-11-18 | FEA of beam_leg and thruster_bracket under thrust (Gmsh + CalculiX) | Pass | C083_2026-11-18_fea-calculix |
+| C085 | 2026-11-18 | Hull drag vs speed with OpenFOAM, one hull and the catamaran | Pass | C085_2026-11-18_cfd-openfoam |
+| C078 | 2026-11-18 | Docs sync: STATE, FAILS 181–189, LINKS, board export after r2026-11-10 | Pass | — (docs only) |
+| C079 | 2026-11-19 | Portfolio v2 plan for G2: slide changes, shot list, schedule back from 30.12 | Pass | — (repo: docs/portfolio/PORTFOLIO_V2_PLAN.md) |
+| C086 | 2026-11-21 | Blender animation of the planned rescue cycle, 25 s 1080p + 3 stills (not a test) | Pass | C086_2026-11-18_blender-renders |
 
 ## History cards (CH##)
 

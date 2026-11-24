@@ -2,6 +2,7 @@
 
 **Date:** 2026-10-11, measured update 2026-10-13 · **Decision:** 0005 · **Cards:** C030 (pinout), C031 (perfboard, same nets), C032 (this board)
 **Status:** spec frozen for layout; two items are solder-jumper options so the order does not wait for them (§8).
+**18.11 update (C080):** the schematic `AR-Mini_carrier_revB.kicad_sch` is written from this file by `src/gen_sch.py` (netlist in `src/spec_netlist.py`, every entry cites its section) and compared with the copper pin by pin (`src/compare_nets.py`, `kicad-cli pcb drc --schematic-parity`): 67 parts, 40 nets, no difference after two SPEC fixes (JP4 added to §5, J4/J5 IS pin in §3). Header refs renamed U1A/U1B → U1_1/U1_2 and U2A/U2B → U2_1/U2_2 (KiCad reads a trailing letter as a unit) and R10 value 2k2 → 1k (the §4 datasheet note); copper unchanged.
 **13.10 update (C032, photos C032_01–18):** U2, U3 and U4 measured or identified; the 12 V front end is gone (the buck feeds the DevKit's USB-C); KILL on an SPDT rocker; J4/J5 carry VCC for the BTS7960 input buffer. Changes are marked **[13.10]**.
 
 Goal: one 2-layer THT board, 100 × 80 mm. The Olimex ESP32-S3-DevKit-Lipo plugs into two 1×22 female headers and stays
@@ -45,8 +46,8 @@ when the PCB arrives.
 | 40 | EXT2 8 | BTS_L_LPWM | J4 pin 2 | **R13 10 k to GND** |
 | 41 | EXT2 7 | BTS_R_RPWM | J5 pin 1 | **R14 10 k to GND** |
 | 42 | EXT2 6 | BTS_R_LPWM | J5 pin 2 | **R15 10 k to GND** |
-| 10 | EXT1 16 | BTS_IS_R | J5 pin 6 **[13.10]** | R16 10 k series + R17 10 k to GND (DNP until VERIFY 2 is measured) |
-| 11 | EXT1 17 | BTS_IS_L | J4 pin 6 **[13.10]** | R18 / R19 as above (DNP) |
+| 10 | EXT1 16 | BTS_IS_R | J5 pin 5 **[13.10; 18.11: was "pin 6", typo — §5 and the copper have IS on pin 5, GND on 6]** | R16 10 k series + R17 10 k to GND (DNP until VERIFY 2 is measured) |
+| 11 | EXT1 17 | BTS_IS_L | J4 pin 5 **[13.10; 18.11: was "pin 6", typo]** | R18 / R19 as above (DNP) |
 | 4 | EXT1 4 | VBAT_S | divider from J1 VBAT_SENSE **[13.10]** | R1 100 k / R2 33 k 1 %, C5 100 nF to GND (12.6 V → 3.13 V) |
 | 7 | EXT1 7 | LEAK | J9 | R20 10 k to 3V3; the probe pulls to GND through R21 4.7 k |
 | 14 | EXT1 20 | KILL | reads the EN node **[13.10]** | R22 10 k series from EN + R25 20 k to GND (4.6 V → 3.1 V RUN, 0 V KILL) |
@@ -83,6 +84,7 @@ GPIO 0/38 (button, LED), 35–37, 3/45/46, 19/20 (PSRAM, strapping, USB).
 | J10 | ROCKER | **[13.10] 3-pin:** 1 +5V, 2 EN, 3 GND | SPDT rocker, §6 |
 | J11 | IMU_EXT | 1 +3V3, 2 GND, 3 SDA0, 4 SCL0 | spare I2C-0 |
 | JP3 | PI_UART | 1×4 pin header: GND, PI_TX, PI_RX, +5V | v2, unpopulated |
+| JP4 | PCA_CH **[18.11, C080: on the copper since 13.10, missing here]** | 1×4 pin header: 1 CH6, 2 CH7, 3 CH8, 4 CH9 | jumper wires from the PCA9685 servo field (signal row) to the buzzer driver R11/Q3 and the LED resistors R7–R9 (§7) |
 
 ## 6. KILL path (hardware, no firmware in the loop) — **[13.10] SPDT version**
 The switch on the table is a black rocker with three 6.3 mm blades = **SPDT** (C032_16). No DPDT is needed:

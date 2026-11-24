@@ -32,11 +32,11 @@
 		(allow_soldermask_bridges_in_footprints no)
 		(tenting (front yes) (back yes))
 	)
-	(footprint "AR-Mini:U1A"
+	(footprint "AR-Mini:U1_1"
 		(layer "F.Cu")
 		(uuid "3e6c0a52-387c-4900-be37-6188c49fccf8")
 		(at 44.000 21.270)
-		(property "Reference" "U1A"
+		(property "Reference" "U1_1"
 			(at 0 -2.2 0)
 			(layer "F.SilkS")
 			(uuid "ca039e56-5d20-442b-8dea-652732ab66ef")
@@ -89,6 +89,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad3)")
 			(uuid "1b1d2439-5993-48d9-9a3e-71602d17a1ff")
 		)
 		(pad "4" thru_hole oval
@@ -106,6 +107,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad5)")
 			(uuid "c08595c8-7e49-4719-a337-d207e6e3b876")
 		)
 		(pad "6" thru_hole oval
@@ -114,6 +116,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad6)")
 			(uuid "00a41b24-3ae3-4e6d-800f-d24d4e8e563b")
 		)
 		(pad "7" thru_hole oval
@@ -176,6 +179,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad13)")
 			(uuid "170b6e4d-57f4-45a4-913b-367fa008948f")
 		)
 		(pad "14" thru_hole oval
@@ -184,6 +188,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad14)")
 			(uuid "77fd603e-5a54-401d-b41b-2e279d94f2ba")
 		)
 		(pad "15" thru_hole oval
@@ -219,6 +224,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad18)")
 			(uuid "7617aa45-402b-48ea-8141-b83781e4e73e")
 		)
 		(pad "19" thru_hole oval
@@ -227,6 +233,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_1-Pad19)")
 			(uuid "a102c0b6-2abe-4b6b-b361-b7903dcd63a9")
 		)
 		(pad "20" thru_hole oval
@@ -262,11 +269,11 @@
 			(stroke (width 0.05) (type default)) (fill no) (layer "F.CrtYd") (uuid "3925601a-3703-4430-aba5-c86dc293542b"))
 		(embedded_fonts no)
 	)
-	(footprint "AR-Mini:U1B"
+	(footprint "AR-Mini:U1_2"
 		(layer "F.Cu")
 		(uuid "75bd56ef-18bb-49db-8729-f99c0404eb2a")
 		(at 69.400 21.270)
-		(property "Reference" "U1B"
+		(property "Reference" "U1_2"
 			(at 0 -2.2 0)
 			(layer "F.SilkS")
 			(uuid "deb2703f-1aee-4e15-92b1-2d3f2be386aa")
@@ -310,6 +317,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad2)")
 			(uuid "683f7a83-d973-4d6f-937d-0223e55d306f")
 		)
 		(pad "3" thru_hole oval
@@ -318,6 +326,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad3)")
 			(uuid "63d35c61-e950-4481-9e7c-375f7b59a0d6")
 		)
 		(pad "4" thru_hole oval
@@ -380,6 +389,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad10)")
 			(uuid "affda689-17d3-4cf7-99b4-6e024c4a20c6")
 		)
 		(pad "11" thru_hole oval
@@ -388,6 +398,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad11)")
 			(uuid "bd675064-a764-4466-afef-04e7a69ca5ce")
 		)
 		(pad "12" thru_hole oval
@@ -396,6 +407,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad12)")
 			(uuid "6775d93b-5198-42e1-83e8-08def7358762")
 		)
 		(pad "13" thru_hole oval
@@ -404,6 +416,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad13)")
 			(uuid "fe91846f-b43d-4786-b15b-5b3eec725a84")
 		)
 		(pad "14" thru_hole oval
@@ -412,6 +425,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad14)")
 			(uuid "868de958-84e8-4bed-b782-b27d80bd2955")
 		)
 		(pad "15" thru_hole oval
@@ -420,6 +434,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad15)")
 			(uuid "88313bd9-5faa-4590-a437-83c320ecffcc")
 		)
 		(pad "16" thru_hole oval
@@ -446,6 +461,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad18)")
 			(uuid "a7ebb928-d64c-49f6-abe0-bdd944454021")
 		)
 		(pad "19" thru_hole oval
@@ -454,6 +470,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad19)")
 			(uuid "4f13aa85-1084-4935-a8eb-4474c03d37d3")
 		)
 		(pad "20" thru_hole oval
@@ -462,6 +479,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad20)")
 			(uuid "21f23fb1-bcf5-4b6a-9cfa-11e40d33166d")
 		)
 		(pad "21" thru_hole oval
@@ -470,6 +488,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U1_2-Pad21)")
 			(uuid "e297f976-917f-45fa-a775-3e15e1ebe69f")
 		)
 		(pad "22" thru_hole oval
@@ -487,11 +506,11 @@
 			(stroke (width 0.05) (type default)) (fill no) (layer "F.CrtYd") (uuid "2be5d25c-ce85-4558-9926-f4568225e0cb"))
 		(embedded_fonts no)
 	)
-	(footprint "AR-Mini:U2A"
+	(footprint "AR-Mini:U2_1"
 		(layer "F.Cu")
 		(uuid "c3b48860-a5c1-411d-987c-68aa73376e95")
 		(at 78.110 22.050)
-		(property "Reference" "U2A"
+		(property "Reference" "U2_1"
 			(at 16.0 2.3 0)
 			(layer "F.SilkS")
 			(uuid "d3060291-a58b-46b6-bebb-f4e309a0e468")
@@ -571,6 +590,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_1-V+-Pad6)")
 			(uuid "eda4b660-e941-4925-940c-91e213686b85")
 		)
 		(pad "" np_thru_hole circle
@@ -595,11 +615,11 @@
 			(stroke (width 0.05) (type default)) (fill no) (layer "F.CrtYd") (uuid "c51c74e6-ff47-4b39-bbb3-625ff7141d13"))
 		(embedded_fonts no)
 	)
-	(footprint "AR-Mini:U2B"
+	(footprint "AR-Mini:U2_2"
 		(layer "F.Cu")
 		(uuid "b794238d-cd8e-41b2-8ac4-6439a34e774e")
 		(at 78.110 77.930)
-		(property "Reference" "U2B"
+		(property "Reference" "U2_2"
 			(at 16.0 -2.3 0)
 			(layer "F.SilkS")
 			(uuid "217f1917-80c4-458a-a77f-809a2b3f7579")
@@ -634,6 +654,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_2-Pad1)")
 			(uuid "cd637b2e-d0d7-4992-8fed-0b4c4b2d8df2")
 		)
 		(pad "2" thru_hole oval
@@ -642,6 +663,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_2-Pad2)")
 			(uuid "8ea67c0d-b65f-4d0c-bef8-d739e3b39a53")
 		)
 		(pad "3" thru_hole oval
@@ -650,6 +672,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_2-Pad3)")
 			(uuid "d5a243de-67cc-4e1b-8f90-689547d46ad8")
 		)
 		(pad "4" thru_hole oval
@@ -658,6 +681,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_2-Pad4)")
 			(uuid "11728649-c33b-4243-b86a-02661ab6393a")
 		)
 		(pad "5" thru_hole oval
@@ -666,6 +690,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_2-Pad5)")
 			(uuid "50a05b82-8000-4c1f-a322-2939f85a0a85")
 		)
 		(pad "6" thru_hole oval
@@ -674,6 +699,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U2_2-Pad6)")
 			(uuid "da2a7e0e-61ba-4f61-9e6e-726dfd337c37")
 		)
 		(pad "" np_thru_hole circle
@@ -746,6 +772,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U3-3Vo-Pad2)")
 			(uuid "6a7aed9a-1421-4cc5-834f-adfa29ec7fb1")
 		)
 		(pad "3" thru_hole oval
@@ -781,6 +808,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U3-RST-Pad6)")
 			(uuid "3b87804c-2142-4091-a93a-1224b366ad81")
 		)
 		(pad "" np_thru_hole circle
@@ -825,6 +853,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U3-PS0-PadB1)")
 			(uuid "deb89b5b-191b-4d36-9e26-53dd274a4d34")
 		)
 		(pad "B2" thru_hole oval
@@ -833,6 +862,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U3-PS1-PadB2)")
 			(uuid "e84d767e-396c-4c2d-a6c0-3eb387915568")
 		)
 		(pad "B3" thru_hole oval
@@ -841,6 +871,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U3-INT-PadB3)")
 			(uuid "df7fbbdd-f5f3-4363-8e3b-0dd5cda6e8ca")
 		)
 		(pad "B4" thru_hole oval
@@ -849,6 +880,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U3-ADR-PadB4)")
 			(uuid "02487408-03c0-4574-a1a4-bdd29069308d")
 		)
 		(fp_rect (start 16.510 1.270) (end 19.050 11.430)
@@ -1071,6 +1103,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(J8-Pad4)")
 			(uuid "6c314155-eaad-4c37-a4eb-a10829a32c9c")
 		)
 		(fp_line (start -0.900 -1.300) (end 0.900 -1.300)
@@ -1896,6 +1929,7 @@
 			(drill 0.8)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U6-3Y-Pad8)")
 			(uuid "7117c461-e3ad-4bc0-b503-fdb9e0960b12")
 		)
 		(pad "9" thru_hole oval
@@ -1922,6 +1956,7 @@
 			(drill 0.8)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(U6-4Y-Pad11)")
 			(uuid "1e135f9a-2ac6-434b-9b0d-5af692aedf77")
 		)
 		(pad "12" thru_hole oval
@@ -2133,6 +2168,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(J2-Pad2)")
 			(uuid "e4974353-b3bb-43f3-87fa-c1f2b1a4ef84")
 		)
 		(pad "3" thru_hole oval
@@ -2198,6 +2234,7 @@
 			(drill 1.0)
 			(layers "*.Cu" "*.Mask")
 			(zone_connect 2)
+			(net "unconnected-(J3-Pad2)")
 			(uuid "5f5cb369-4ce2-43d7-a24c-04d0685f707f")
 		)
 		(pad "3" thru_hole oval
@@ -3693,7 +3730,7 @@
 			(uuid "2b937db9-1178-4b53-8c9b-6fd32c5a0f29")
 			(effects (font (size 1.0 1.0) (thickness 0.12)))
 		)
-		(property "Value" "2k2"
+		(property "Value" "1k"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4656,7 +4693,7 @@
 		(uuid "2243a398-c1df-4bb3-a42f-dcb1d7f48141")
 		(effects (font (size 0.8 0.8) (thickness 0.12)))
 	)
-	(gr_text "U2B mechanical only"
+	(gr_text "U2_2 mech. only"
 		(at 84.460 80.600 0)
 		(layer "F.SilkS")
 		(uuid "0ed3e474-769c-487b-a030-e885da5476f3")

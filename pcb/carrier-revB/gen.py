@@ -2,7 +2,9 @@
 """AR-Mini carrier rev B — KiCad board from SPEC.md (C032, measured update 13.10).
 
 Same method as the rev 0 breakout: one script writes the .kicad_pcb.
-No schematic (rev 0 had none). Open in KiCad 9 or 10, press B to fill the
+Schematic since 18.11.2026 (C080): src/gen_sch.py writes it from src/spec_netlist.py (the SPEC route);
+src/compare_nets.py and `kicad-cli pcb drc --schematic-parity` check the two agree. Header refs U1_1/U1_2 (DevKit
+EXT1/EXT2) and U2_1/U2_2 (PCA9685 rows) were U1A/U1B/U2A/U2B: KiCad reads a trailing letter as a unit. Open in KiCad 9 or 10, press B to fill the
 GND zone. Checks on this machine use KiCad 10.0.6 (kicad-cli).
 
   python3 pcb/carrier-revB/gen.py
@@ -234,8 +236,31 @@ def fp_rect(x0, y0, x1, y1, layer, w=0.05):
     )
 
 
+# Pads with no connection carry the net name KiCad gives a no-connect pin, unconnected-(REF[-PINNAME]-PadN), so the
+# board equals the schematic in `kicad-cli pcb drc --schematic-parity` (C080). Pin names as in src/gen_sch.py NAMES.
+# One pad per net: no copper, no routing, nothing changes on the board.
+NC_PIN_NAMES = {("U2_1", "6"): "V+", ("U3", "2"): "3Vo", ("U3", "6"): "RST", ("U3", "B1"): "PS0", ("U3", "B2"): "PS1",
+                ("U3", "B3"): "INT", ("U3", "B4"): "ADR", ("U6", "8"): "3Y", ("U6", "11"): "4Y"}
+
+
+def name_unconnected(ref, body):
+    parts = body.split("\t\t(pad ")
+    for i in range(1, len(parts)):
+        blk = parts[i]
+        end = blk.index("\n\t\t)")          # end of this pad
+        pad, rest = blk[:end], blk[end:]
+        num = pad[1:pad.index('"', 1)]
+        if num and " thru_hole " in pad.split("\n")[0] and "(net " not in pad:
+            pin = NC_PIN_NAMES.get((ref, num))
+            net = f"unconnected-({ref}-{pin}-Pad{num})" if pin else f"unconnected-({ref}-Pad{num})"
+            pad = pad.replace("(zone_connect 2)", f'(zone_connect 2)\n\t\t\t(net "{net}")', 1)
+        parts[i] = pad + rest
+    return "\t\t(pad ".join(parts)
+
+
 def footprint(name, ref, value, atx, aty, body, dnp=False, ref_at=(0, -2.2), smd=False):
     attr = ("smd" if smd else "through_hole") + (" dnp" if dnp else "")
+    body = name_unconnected(ref, body)
     return (
         f'\t(footprint "AR-Mini:{name}"\n'
         f'\t\t(layer "F.Cu")\n'
@@ -394,8 +419,8 @@ def ext_nets():
 def place_parts():
     e1, e2 = ext_nets()
     dev_body = (-1.27, -1.27, 1.27, 21 * HPITCH + 1.27)
-    header("U1A", "DevKit_EXT1", EXT1_X, PIN1_Y, 22, HPITCH, e1, tick="right", body=dev_body, zone="U1")
-    header("U1B", "DevKit_EXT2", EXT2_X, PIN1_Y, 22, HPITCH, e2, tick="left", body=dev_body, zone="U1")
+    header("U1_1", "DevKit_EXT1", EXT1_X, PIN1_Y, 22, HPITCH, e1, tick="right", body=dev_body, zone="U1")
+    header("U1_2", "DevKit_EXT2", EXT2_X, PIN1_Y, 22, HPITCH, e2, tick="left", body=dev_body, zone="U1")
 
     # ---- U2 PCA9685: two 1×6 rows along X + 4 × Ø3.0, V+ (pin 6) not connected (SPEC §4).
     # Pin order from the V+ terminal edge: GND, OE, SCL, SDA, VCC, V+. Pin 1 at small x.
@@ -403,7 +428,7 @@ def place_parts():
     u2_nets = ["GND", "OE", "SCL0", "SDA0", "+3V3", None]
     u2_sizes = {0: (1.4, 2.2), 5: (1.4, 2.2)}
     u2_holes = ((-U2_HOLE_DX / 2 + 2.5 * 2.54, 0, U2_HOLE_D), (U2_HOLE_DX / 2 + 2.5 * 2.54, 0, U2_HOLE_D))
-    for ref, yy, nets, ry in (("U2A", U2_ROW1_Y, u2_nets, 2.3), ("U2B", U2_ROW2_Y, [None] * 6, -2.3)):
+    for ref, yy, nets, ry in (("U2_1", U2_ROW1_Y, u2_nets, 2.3), ("U2_2", U2_ROW2_Y, [None] * 6, -2.3)):
         header(ref, "PCA9685_row", U2_PIN1_X, yy, 6, 2.54, nets, dx=1, dy=0, pad_sizes=u2_sizes,
                tick="top", holes=u2_holes, zone="U2", ref_at=(16.0, ry))
     # Module outline on silk. The Ø3.0 holes sit 1.55 from the short edges (r 1.5 → 0.05 from the
@@ -421,7 +446,7 @@ def place_parts():
     B.gr(silk_text("U2 PCA9685 · V+ terminal side <-", U2_CX, 8.5, 0.8))
     B.gr(silk_text("GND OE SCL SDA VCC V+", U2_CX, U2_ROW1_Y + 2.4, 0.8))
     B.gr(silk_text("GND OE SCL SDA VCC V+", U2_CX, U2_ROW2_Y - 2.4, 0.8))
-    B.gr(silk_text("U2B mechanical only", U2_CX, 60.6, 0.8))
+    B.gr(silk_text("U2_2 mech. only", U2_CX, 60.6, 0.8))
     B.gr(fab_text("U2 rows 55.88 apart, holes 55.88 x 19.05 (corrected 15.10, FAILS 152)", U2_CX, 12.0, 0.8))
     B.gr(fab_text("U2 pads 1/6 1.4 x 2.2, ring 0.2 (hole 3.175 mm away)", U2_CX, 14.0, 0.8))
 
@@ -561,7 +586,7 @@ def place_parts():
     B.gr(silk_text("R16-19 DNP", 61.2, 41.0, 0.8, 90))
     # Column B under U2, between the two U2 rows.
     col_b = [
-        ("R10", "2k2", "OE", "+3V3"),
+        ("R10", "1k", "OE", "+3V3"),   # 18.11 (C080): SPEC §4 datasheet note — 1 k, not 2k2 (OE HIGH 3.0 V vs VIH 2.31 V)
         ("R24", "10k", "EN", "Q2B"),
         ("R11", "1k", "CH6", "Q3B"),
         ("R7", "330", "CH7", "LED1_A"),

@@ -25,6 +25,8 @@ using bench::trimInRange;
 void setUp() {}
 void tearDown() {}
 
+void runPoolGuardTests();  // test_poolguard.cpp (C076)
+
 // ------------------------------------------------------------------ 1. Ramp
 static void test_ramp_never_exceeds_rate() {
   Ramp r(0.5f, 0.0f);
@@ -528,5 +530,6 @@ int main() {
   RUN_TEST(test_remote_link_timeout);
   RUN_TEST(test_remote_parse_message);
   RUN_TEST(test_vbat_corrected);
+  runPoolGuardTests();
   return UNITY_END();
 }
