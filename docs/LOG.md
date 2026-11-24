@@ -50,3 +50,8 @@ Format: date · who · what I tried · what happened · what I change. Three lin
 
 ## 2026-11-05 (Thu) · Teddy
 - Git note: commit c57da3d ("bom: … 152 → 155 rows · C060") was created on 05.11 at 21:32, not on 04.11 as intended, and also carries the C072 BOM changes: rows 156–159 (EXP14 perfboard, 19 mm IP67 KILL button, battery disconnect switch, USB-C 90° adapter), PG7 glands 6 → 0 / Not needed, and the row 26 spec update. There is no separate `bom: … C072` commit; history left as is. The C072 plan, diagrams and logic tray followed in 2ae2e11 and 939a94b.
+
+
+## 2026-11-23 (Mon) · Teddy
+- Release R-1123 cut from Done (11 cards: C060, C063, C075, C076, C077, C078, C079, C080, C083, C085, C086): the Mac-only week, every number AR-Mini can get without water, plus the two-channel lift and the robot mass. See docs/releases/R-1123.md.
+- PR #16 dev → main merged (983e9f4), tag `r2026-11-23`.
