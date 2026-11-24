@@ -62,6 +62,9 @@ Share links exist only where Teddy made one in Finder (C001–C003); the other f
 | C080 | 2026-11-18 | Carrier rev B schematic from SPEC, ERC + parity with the copper | Pass | — (design files only) |
 | C083 | 2026-11-18 | FEA of beam_leg and thruster_bracket under thrust (Gmsh + CalculiX) | Pass | C083_2026-11-18_fea-calculix |
 | C085 | 2026-11-18 | Hull drag vs speed with OpenFOAM, one hull and the catamaran | Pass | C085_2026-11-18_cfd-openfoam |
+| C078 | 2026-11-18 | Docs sync: STATE, FAILS 181–189, LINKS, board export after r2026-11-10 | Pass | — (docs only) |
+| C079 | 2026-11-19 | Portfolio v2 plan for G2: slide changes, shot list, schedule back from 30.12 | Pass | — (repo: docs/portfolio/PORTFOLIO_V2_PLAN.md) |
+| C086 | 2026-11-21 | Blender animation of the planned rescue cycle, 25 s 1080p + 3 stills (not a test) | Pass | C086_2026-11-18_blender-renders |
 
 ## History cards (CH##)
 
